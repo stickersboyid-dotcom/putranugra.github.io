@@ -124,6 +124,39 @@
         .content-block em { font-style: italic; font-weight: 300; }
         .content-block strong { font-weight: 500; }
 
+        /* ─── FLOW IMAGE ─────────────────────────── */
+        .flow-image {
+            margin: 28px 0;
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid var(--border);
+        }
+
+        .flow-image img {
+            width: 100%;
+            display: block;
+        }
+
+        .flow-image-caption {
+            font-size: 12px;
+            font-weight: 400;
+            color: var(--muted);
+            padding: 10px 14px;
+            border-top: 1px solid var(--border);
+        }
+
+        /* ─── HERO IMAGE (no border) ─────────────── */
+        .hero-image {
+            margin: 0 0 56px;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .hero-image img {
+            width: 100%;
+            display: block;
+        }
+
         /* ─── PRINCIPLE LIST ─────────────────────── */
         .principle-list {
             list-style: none;
@@ -199,6 +232,24 @@
             font-weight: 300;
             color: var(--muted);
             line-height: 1.6;
+        }
+
+        /* ─── PRODUCT LINK ───────────────────────── */
+        .product-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--accent);
+            text-decoration: none;
+            margin-top: 16px;
+            transition: gap 0.18s ease, opacity 0.15s ease;
+        }
+
+        .product-link:hover {
+            gap: 12px;
+            opacity: 0.8;
         }
 
         /* ─── LEARNING ───────────────────────────── */
@@ -298,6 +349,11 @@
             </div>
         </div>
 
+        <!-- HERO IMAGE — first launch design, above Context -->
+        <div class="hero-image fade-in">
+            <img src="Hangry_App_1st_Launch_Design.png" alt="Hangry App — first launch design">
+        </div>
+
         <hr class="divider">
 
         <!-- CONTEXT -->
@@ -344,6 +400,12 @@
             </div>
 
             <p>This served two purposes: it removed the hard wall that was shutting out most of Jakarta, and it let the brands speak for themselves, which was exactly what Hangry needed in its early phase.</p>
+
+            <!-- FLOW IMAGE -->
+            <div class="flow-image">
+                <img src="h-flow.png" alt="User flow — Near/Far location logic">
+                <p class="flow-image-caption">User flow — location check and how the app responds based on distance</p>
+            </div>
         </div>
 
         <!-- PUSHBACK -->
@@ -364,8 +426,25 @@
                 <div class="feedback-item">"Clean and simple, I immediately understood what Hangry was."</div>
             </div>
 
+            <!-- GOOGLE REVIEW IMAGE -->
+            <div class="flow-image">
+                <img src="h-google_review.png" alt="Early Google Play user reviews">
+                <p class="flow-image-caption">Early Google Play reviews post-launch</p>
+            </div>
+
             <p>For a product introducing behavior different from everything else in the market, that kind of feedback means one thing: users weren't confused by something new. That was the goal.</p>
             <p>Within a year of launch, Hangry grew from 3 to 40+ outlets and raised $13M in Series A, growing faster than almost any F&B startup in Indonesia at the time. A product that clearly communicates what it is, and doesn't block the people it's trying to reach, is part of how you get there.</p>
+
+            <!-- PLAYSTORE IMAGE -->
+            <div class="flow-image">
+                <img src="H-playstore.png" alt="Hangry App on Google Play Store">
+                <p class="flow-image-caption">Hangry App on Google Play Store — 4.9 stars, 100K+ downloads</p>
+            </div>
+
+            <!-- PRODUCT LINK -->
+            <a href="https://play.google.com/store/search?q=hangry&c=apps&hl=en" target="_blank" rel="noopener noreferrer" class="product-link">
+                Check the updated Hangry App →
+            </a>
         </div>
 
         <!-- LEARNING -->
