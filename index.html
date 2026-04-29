@@ -259,9 +259,90 @@
             list-style: none;
             display: flex;
             flex-direction: column;
+            gap: 12px;
         }
 
-        .case-item {
+        /* ─── CASE STUDY CARDS ───────────────────── */
+        .case-card {
+            display: block;
+            text-decoration: none;
+            border: 1px solid rgba(154, 154, 148, 0.2);
+            border-radius: 10px;
+            padding: 20px 22px;
+            transition: border-color 0.2s ease, background 0.2s ease;
+            position: relative;
+        }
+
+        .case-card:hover {
+            border-color: rgba(154, 154, 148, 0.45);
+            background: rgba(154, 154, 148, 0.04);
+        }
+
+        .case-card-meta {
+            font-size: 12px;
+            font-weight: 400;
+            color: var(--muted);
+            letter-spacing: 0.04em;
+            margin-bottom: 6px;
+        }
+
+        .case-card-title {
+            font-size: 15px;
+            font-weight: 500;
+            color: var(--text);
+            line-height: 1.45;
+            margin-bottom: 8px;
+            transition: color 0.15s ease;
+        }
+
+        .case-card:hover .case-card-title {
+            color: var(--accent);
+        }
+
+        .case-card-desc {
+            font-size: 14px;
+            font-weight: 400;
+            color: var(--muted);
+            line-height: 1.6;
+            margin-bottom: 14px;
+        }
+
+        .case-card-stat {
+            display: inline-block;
+            font-size: 12px;
+            font-weight: 500;
+            color: var(--accent);
+            background: rgba(58, 148, 48, 0.08);
+            border-radius: 4px;
+            padding: 3px 9px;
+        }
+
+        [data-theme="dark"] .case-card-stat {
+            background: rgba(91, 191, 80, 0.1);
+        }
+
+        .case-card-cta {
+            position: absolute;
+            right: 22px;
+            bottom: 20px;
+            font-size: 13px;
+            color: var(--muted);
+            transition: color 0.15s ease, transform 0.18s ease;
+        }
+
+        .case-card:hover .case-card-cta {
+            color: var(--accent);
+            transform: translateX(3px);
+        }
+
+        /* ─── WRITING LIST ───────────────────────── */
+        .writing-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .writing-item {
             display: flex;
             align-items: flex-start;
             gap: 10px;
@@ -276,11 +357,11 @@
             transition: transform 0.18s ease;
         }
 
-        .case-item:hover .arrow {
+        .writing-item:hover .arrow {
             transform: translateX(3px);
         }
 
-        .case-link {
+        .writing-link {
             font-size: 15px;
             font-weight: 400;
             line-height: 1.55;
@@ -289,7 +370,7 @@
             transition: color 0.15s ease;
         }
 
-        .case-link:hover {
+        .writing-link:hover {
             color: var(--accent);
             text-decoration: underline;
             text-underline-offset: 3px;
@@ -528,27 +609,44 @@
 
         <!-- WORK -->
         <section id="work" class="section">
-            <p class="section-lead">After 6 years of experience as a UI/UX Designer, here are some projects and what I learned along the way.</p>
+            <p class="section-lead">Selected work — projects and what I learned along the way.</p>
             <ul class="case-list">
-                <li class="case-item">
-                    <span class="arrow">→</span>
-                    <a href="https://open.substack.com/pub/nugrahaputra/p/why-are-user-not-joining-the-hangry?r=87lb4c&utm_campaign=post&utm_medium=web" target="_blank" rel="noopener noreferrer" class="case-link">Why Are User Not Joining the Hangry Loyalty Program? Is It Really About the Design and the Program Itself?</a>
+                <li>
+                    <a href="case-study-loyalty.html" class="case-card">
+                        <div class="case-card-meta">Hangry · 2021 · UX Research, Product Design, UX Writing</div>
+                        <div class="case-card-title">Loyalty Landing Page — Removing the Friction Nobody Had Questioned</div>
+                        <div class="case-card-desc">Registrations dropped 30% in a month. Everyone assumed it was the program design. It wasn't.</div>
+                        <span class="case-card-stat">↑ 76% new user registrations in 3 months</span>
+                        <span class="case-card-cta">Read →</span>
+                    </a>
                 </li>
-                <li class="case-item">
-                    <span class="arrow">→</span>
-                    <a href="https://open.substack.com/pub/nugrahaputra/p/what-does-hangry-actually-want-users?r=87lb4c&utm_campaign=post&utm_medium=web" target="_blank" rel="noopener noreferrer" class="case-link">What Does Hangry Actually Want Users to Feel? Does the Existing Design Saying That?</a>
+                <li>
+                    <a href="case-study-hangry-app.html" class="case-card">
+                        <div class="case-card-meta">Hangry · 2019 · Product Design, UX Strategy</div>
+                        <div class="case-card-title">Hangry App — Designing for a Business Model Nobody Had Seen Before</div>
+                        <div class="case-card-desc">One kitchen, multiple brands. The existing design made it look like neither — and blocked most users before they could even explore.</div>
+                        <span class="case-card-stat">3 → 40+ outlets within a year</span>
+                        <span class="case-card-cta">Read →</span>
+                    </a>
                 </li>
-                <li class="case-item">
+            </ul>
+        </section>
+
+        <!-- WRITING -->
+        <section id="writing" class="section">
+            <p class="section-lead">Writing — things I've been thinking about.</p>
+            <ul class="writing-list">
+                <li class="writing-item">
                     <span class="arrow">→</span>
-                    <a href="https://open.substack.com/pub/nugrahaputra/p/the-week-i-worked-in-a-restaurant?r=87lb4c&utm_campaign=post&utm_medium=web" target="_blank" rel="noopener noreferrer" class="case-link">The Week I Worked in a Restaurant Kitchen</a>
+                    <a href="https://open.substack.com/pub/nugrahaputra/p/the-week-i-worked-in-a-restaurant?r=87lb4c&utm_campaign=post&utm_medium=web" target="_blank" rel="noopener noreferrer" class="writing-link">The Week I Worked in a Restaurant Kitchen</a>
                 </li>
-                <li class="case-item">
+                <li class="writing-item">
                     <span class="arrow">→</span>
-                    <a href="https://open.substack.com/pub/nugrahaputra/p/the-insight-that-changed-how-i-see?r=87lb4c&utm_campaign=post&utm_medium=web" target="_blank" rel="noopener noreferrer" class="case-link">The Insight that Changed How I See Problem</a>
+                    <a href="https://open.substack.com/pub/nugrahaputra/p/the-insight-that-changed-how-i-see?r=87lb4c&utm_campaign=post&utm_medium=web" target="_blank" rel="noopener noreferrer" class="writing-link">The Insight that Changed How I See Problem</a>
                 </li>
-                <li class="case-item">
+                <li class="writing-item">
                     <span class="arrow">→</span>
-                    <a href="https://open.substack.com/pub/nugrahaputra/p/the-newest-person-with-the-loudest?r=87lb4c&utm_campaign=post&utm_medium=web" target="_blank" rel="noopener noreferrer" class="case-link">The Newest Person With the Loudest Question</a>
+                    <a href="https://open.substack.com/pub/nugrahaputra/p/the-newest-person-with-the-loudest?r=87lb4c&utm_campaign=post&utm_medium=web" target="_blank" rel="noopener noreferrer" class="writing-link">The Newest Person With the Loudest Question</a>
                 </li>
             </ul>
         </section>
