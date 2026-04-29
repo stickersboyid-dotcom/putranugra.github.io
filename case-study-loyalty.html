@@ -293,6 +293,39 @@
             .fade-in { transition: none; opacity: 1; transform: none; }
             .cursor { animation: none; }
         }
+
+        /* ─── LIGHTBOX ───────────────────────────── */
+        .lightbox {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.92);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 999;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.22s ease;
+            cursor: zoom-out;
+        }
+        .lightbox.open { opacity: 1; pointer-events: all; }
+        .lightbox img {
+            max-width: 90vw; max-height: 88vh;
+            object-fit: contain; border-radius: 6px;
+            transform: scale(0.96);
+            transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+            pointer-events: none;
+        }
+        .lightbox.open img { transform: scale(1); }
+        .lightbox-close {
+            position: absolute; top: 20px; right: 24px;
+            background: none; border: none;
+            color: rgba(255,255,255,0.6); font-size: 28px;
+            cursor: pointer; line-height: 1; padding: 4px;
+            transition: color 0.15s ease;
+        }
+        .lightbox-close:hover { color: #fff; }
+        .flow-image img, .hero-image img { cursor: zoom-in; }
     </style>
 </head>
 <body>
@@ -455,6 +488,13 @@
     </div>
 </main>
 
+<!-- LIGHTBOX -->
+<div class="lightbox" id="lightbox">
+    <button class="lightbox-close" id="lightboxClose" aria-label="Close">×</button>
+    <img id="lightboxImg" src="" alt="">
+</div>
+
+
 <div class="footer-divider"><div class="wrap"><hr></div></div>
 <footer>
     <div class="wrap">
@@ -490,6 +530,28 @@
     }, { threshold: 0.08 });
 
     document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+    // ── Lightbox
+    const lightbox = document.getElementById('lightbox');
+    const lightboxImg = document.getElementById('lightboxImg');
+
+    function closeLightbox() {
+        lightbox.classList.remove('open');
+        document.body.style.overflow = '';
+    }
+
+    document.querySelectorAll('.flow-image img, .hero-image img').forEach(img => {
+        img.addEventListener('click', () => {
+            lightboxImg.src = img.src;
+            lightboxImg.alt = img.alt;
+            lightbox.classList.add('open');
+            document.body.style.overflow = 'hidden';
+        });
+    });
+
+    document.getElementById('lightboxClose').addEventListener('click', closeLightbox);
+    lightbox.addEventListener('click', e => { if (e.target === lightbox) closeLightbox(); });
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbox(); });
 </script>
 
 </body>
