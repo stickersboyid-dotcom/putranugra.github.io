@@ -268,30 +268,66 @@
             text-decoration: none;
             border: 1px solid rgba(154, 154, 148, 0.2);
             border-radius: 10px;
-            padding: 20px 22px;
-            transition: border-color 0.2s ease, background 0.2s ease;
-            position: relative;
+            overflow: hidden;
+            transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
         }
 
         .case-card:hover {
-            border-color: rgba(154, 154, 148, 0.45);
-            background: rgba(154, 154, 148, 0.04);
+            border-color: rgba(154, 154, 148, 0.4);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.07);
+            transform: translateY(-2px);
         }
 
-        .case-card-meta {
+        [data-theme="dark"] .case-card:hover {
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .case-card-thumb {
+            width: 100%;
+            height: 200px;
+            overflow: hidden;
+            background: rgba(154, 154, 148, 0.06);
+        }
+
+        .case-card-thumb img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center top;
+            display: block;
+            transition: transform 0.4s ease;
+        }
+
+        .case-card:hover .case-card-thumb img {
+            transform: scale(1.03);
+        }
+
+        .case-card-body {
+            padding: 20px 22px 22px;
+        }
+
+        .case-card-outcome {
+            font-size: 28px;
+            font-weight: 500;
+            color: var(--accent);
+            letter-spacing: -0.02em;
+            line-height: 1.1;
+            margin-bottom: 2px;
+        }
+
+        .case-card-outcome-label {
             font-size: 12px;
             font-weight: 400;
             color: var(--muted);
-            letter-spacing: 0.04em;
-            margin-bottom: 6px;
+            margin-bottom: 14px;
         }
 
         .case-card-title {
-            font-size: 15px;
+            font-size: 14px;
             font-weight: 500;
             color: var(--text);
             line-height: 1.45;
-            margin-bottom: 8px;
+            margin-bottom: 4px;
             transition: color 0.15s ease;
         }
 
@@ -299,40 +335,34 @@
             color: var(--accent);
         }
 
+        .case-card-meta {
+            font-size: 11px;
+            font-weight: 400;
+            color: var(--muted);
+            letter-spacing: 0.03em;
+            margin-bottom: 12px;
+        }
+
         .case-card-desc {
-            font-size: 14px;
+            font-size: 13px;
             font-weight: 400;
             color: var(--muted);
             line-height: 1.6;
-            margin-bottom: 14px;
-        }
-
-        .case-card-stat {
-            display: inline-block;
-            font-size: 12px;
-            font-weight: 500;
-            color: var(--accent);
-            background: rgba(58, 148, 48, 0.08);
-            border-radius: 4px;
-            padding: 3px 9px;
-        }
-
-        [data-theme="dark"] .case-card-stat {
-            background: rgba(91, 191, 80, 0.1);
+            margin-bottom: 16px;
         }
 
         .case-card-cta {
-            position: absolute;
-            right: 22px;
-            bottom: 20px;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
             font-size: 13px;
-            color: var(--muted);
-            transition: color 0.15s ease, transform 0.18s ease;
+            font-weight: 500;
+            color: var(--accent);
+            transition: gap 0.18s ease;
         }
 
         .case-card:hover .case-card-cta {
-            color: var(--accent);
-            transform: translateX(3px);
+            gap: 8px;
         }
 
         /* ─── WRITING LIST ───────────────────────── */
@@ -613,20 +643,32 @@
             <ul class="case-list">
                 <li>
                     <a href="case-study-loyalty.html" class="case-card">
-                        <div class="case-card-meta">Hangry · 2021 · Product Design</div>
-                        <div class="case-card-title">Loyalty Landing Page: Removing the Friction Nobody Had Questioned</div>
-                        <div class="case-card-desc">Registrations dropped 30% in a month. Everyone assumed it was the program design. It wasn't.</div>
-                        <span class="case-card-stat">↑ 76% new user registrations in 3 months</span>
-                        <span class="case-card-cta">Read →</span>
+                        <div class="case-card-thumb">
+                            <img src="loyalty_landing_page-card.png" alt="Loyalty Landing Page">
+                        </div>
+                        <div class="case-card-body">
+                            <div class="case-card-outcome">+76%</div>
+                            <div class="case-card-outcome-label">new user registrations in 3 months</div>
+                            <div class="case-card-title">Loyalty Landing Page: Removing the Friction Nobody Had Questioned</div>
+                            <div class="case-card-meta">Hangry · 2021 · Product Design</div>
+                            <div class="case-card-desc">Everyone diagnosed the wrong problem.</div>
+                            <span class="case-card-cta">Read case study →</span>
+                        </div>
                     </a>
                 </li>
                 <li>
                     <a href="case-study-hangry-app.html" class="case-card">
-                        <div class="case-card-meta">Hangry · 2019 · Product Design, UX Strategy</div>
-                        <div class="case-card-title">Hangry App: Designing for a Business Model Nobody Had Seen Before</div>
-                        <div class="case-card-desc">One kitchen, multiple brands. The existing design made it look like neither and blocked most users before they could even explore.</div>
-                        <span class="case-card-stat">Growth 3 to 40+ outlets within a year</span>
-                        <span class="case-card-cta">Read →</span>
+                        <div class="case-card-thumb">
+                            <img src="Hangry_App_1st_Launch_Design.png" alt="Hangry App">
+                        </div>
+                        <div class="case-card-body">
+                            <div class="case-card-outcome">3 → 40+</div>
+                            <div class="case-card-outcome-label">outlets within one year of launch</div>
+                            <div class="case-card-title">Hangry App: Designing for a Business Model Nobody Had Seen Before</div>
+                            <div class="case-card-meta">Hangry · 2019 · Product Design, UX Strategy</div>
+                            <div class="case-card-desc">One kitchen, multiple brands. Most of Jakarta couldn't even get past the front door.</div>
+                            <span class="case-card-cta">Read case study →</span>
+                        </div>
                     </a>
                 </li>
             </ul>
