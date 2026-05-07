@@ -1,0 +1,659 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WhatsApp Login — Nugraha Eka Putra</title>
+    <meta name="description" content="A WhatsApp login case study — and what I learned using AI in design for the first time.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;1,300;1,400&display=swap" rel="stylesheet">
+    <script>
+        const t = localStorage.getItem('theme');
+        if (t) document.documentElement.setAttribute('data-theme', t);
+    </script>
+    <style>
+        :root {
+            --bg:      #FAFAF8;
+            --text:    #111110;
+            --muted:   #9A9A94;
+            --accent:  #3A9430;
+            --border:  rgba(154, 154, 148, 0.2);
+            --toggle:  rgba(0, 0, 0, 0.26);
+        }
+
+        [data-theme="dark"] {
+            --bg:      #0C0C0B;
+            --text:    #EEECEA;
+            --muted:   #55554E;
+            --accent:  #5BBF50;
+            --border:  rgba(85, 85, 78, 0.3);
+            --toggle:  rgba(255, 255, 255, 0.28);
+        }
+
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 16px;
+            font-weight: 400;
+            line-height: 1.75;
+            -webkit-font-smoothing: antialiased;
+            transition: background 0.22s ease, color 0.22s ease;
+        }
+
+        .wrap { max-width: 600px; margin: 0 auto; padding: 0 40px; }
+
+        nav { padding: 28px 0; }
+        nav .wrap { display: flex; justify-content: space-between; align-items: center; }
+
+        .logo {
+            font-size: 13px; font-weight: 500; letter-spacing: 0.06em;
+            color: var(--accent); text-decoration: none;
+        }
+
+        .cursor { display: inline-block; animation: blink 1.1s step-end infinite; }
+        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+
+        .toggle-btn {
+            display: flex; align-items: center; gap: 6px;
+            background: none; border: none; cursor: pointer;
+            font-family: inherit; font-size: 13px; font-weight: 400;
+            color: var(--toggle); padding: 0; transition: color 0.2s ease;
+        }
+        .toggle-btn:hover { color: var(--text); }
+
+        .back-link {
+            display: inline-flex; align-items: center; gap: 6px;
+            font-size: 13px; font-weight: 400; color: var(--muted);
+            text-decoration: none; margin-bottom: 48px; transition: color 0.15s ease;
+        }
+        .back-link:hover { color: var(--accent); }
+
+        /* ─── HERO ───────────────────────────────── */
+        .hero { margin-bottom: 56px; }
+
+        .hero-meta {
+            font-size: 12px; font-weight: 400; color: var(--muted);
+            letter-spacing: 0.05em; margin-bottom: 14px;
+        }
+
+        .hero-title {
+            font-size: 32px; font-weight: 500; line-height: 1.2;
+            letter-spacing: -0.02em; color: var(--text); margin-bottom: 18px;
+        }
+
+        .hero-sub {
+            font-size: 16px; font-weight: 300; font-style: italic;
+            color: var(--muted); line-height: 1.65; margin-bottom: 28px;
+        }
+
+        .stat-strip { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 0; }
+
+        .stat-box {
+            border: 1px solid var(--border); border-radius: 8px;
+            padding: 14px 18px; flex: 1; min-width: 120px;
+        }
+
+        .stat-num {
+            font-size: 20px; font-weight: 500; color: var(--accent);
+            line-height: 1.2; margin-bottom: 2px;
+        }
+
+        .stat-label { font-size: 12px; font-weight: 400; color: var(--muted); line-height: 1.4; }
+
+        .divider { border: none; border-top: 1px solid var(--border); margin: 44px 0; }
+
+        /* ─── CONTENT ────────────────────────────── */
+        .section-title {
+            font-size: 11px; font-weight: 500; letter-spacing: 0.1em;
+            text-transform: uppercase; color: var(--muted); margin-bottom: 16px;
+        }
+
+        .content-block { margin-bottom: 40px; }
+
+        .content-block p {
+            font-size: 16px; font-weight: 400; line-height: 1.8;
+            color: var(--text); margin-bottom: 16px;
+        }
+
+        .content-block p:last-child { margin-bottom: 0; }
+        .content-block em { font-style: italic; font-weight: 300; }
+        .content-block strong { font-weight: 500; }
+
+        /* ─── CALLOUT ────────────────────────────── */
+        .callout {
+            background: rgba(58, 148, 48, 0.06);
+            border: 1px solid rgba(58, 148, 48, 0.15);
+            border-radius: 8px;
+            padding: 18px 20px;
+            margin: 24px 0;
+        }
+
+        [data-theme="dark"] .callout {
+            background: rgba(91, 191, 80, 0.06);
+            border-color: rgba(91, 191, 80, 0.15);
+        }
+
+        .callout p {
+            font-size: 15px; font-weight: 400;
+            color: var(--text); line-height: 1.7; margin-bottom: 8px;
+        }
+
+        .callout p:last-child { margin-bottom: 0; }
+        .callout strong { font-weight: 500; color: var(--accent); }
+
+        /* ─── COMPARISON BLOCK ───────────────────── */
+        .comparison {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin: 24px 0;
+        }
+
+        .comparison-box {
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 16px 18px;
+        }
+
+        .comparison-box.before {
+            border-color: rgba(154, 154, 148, 0.3);
+        }
+
+        .comparison-box.after {
+            border-color: rgba(58, 148, 48, 0.25);
+            background: rgba(58, 148, 48, 0.04);
+        }
+
+        [data-theme="dark"] .comparison-box.after {
+            background: rgba(91, 191, 80, 0.05);
+        }
+
+        .comparison-label {
+            font-size: 10px;
+            font-weight: 500;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: var(--muted);
+            margin-bottom: 10px;
+        }
+
+        .comparison-box.after .comparison-label {
+            color: var(--accent);
+        }
+
+        .comparison-item {
+            font-size: 14px;
+            font-weight: 400;
+            color: var(--text);
+            line-height: 1.6;
+            padding: 6px 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .comparison-item:last-child { border-bottom: none; }
+
+        .comparison-time {
+            font-size: 22px;
+            font-weight: 500;
+            color: var(--accent);
+            margin-bottom: 4px;
+            line-height: 1.2;
+        }
+
+        .comparison-time.muted {
+            color: var(--muted);
+        }
+
+        /* ─── FLOW IMAGE ─────────────────────────── */
+        .flow-image {
+            margin: 28px 0;
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid var(--border);
+        }
+
+        .flow-image img {
+            width: 100%;
+            display: block;
+            cursor: zoom-in;
+        }
+
+        .flow-image-caption {
+            font-size: 12px;
+            font-weight: 400;
+            color: var(--muted);
+            padding: 10px 14px;
+            border-top: 1px solid var(--border);
+        }
+
+        /* ─── PROMPT GRID ────────────────────────── */
+        .prompt-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin: 24px 0;
+        }
+
+        .prompt-grid img {
+            width: 100%;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            display: block;
+            cursor: zoom-in;
+        }
+
+        /* ─── VIDEO ──────────────────────────────── */
+        .video-wrap {
+            margin: 24px 0 8px;
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid var(--border);
+        }
+
+        .video-wrap video {
+            width: 100%;
+            display: block;
+        }
+
+        .video-caption {
+            font-size: 12px;
+            font-weight: 400;
+            color: var(--muted);
+            padding: 10px 14px;
+            border-top: 1px solid var(--border);
+        }
+
+        /* ─── STEP LIST ──────────────────────────── */
+        .step-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin: 20px 0;
+        }
+
+        .step-item {
+            display: flex;
+            gap: 14px;
+            align-items: flex-start;
+        }
+
+        .step-num {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: var(--accent);
+            color: #fff;
+            font-size: 11px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+
+        .step-text {
+            font-size: 15px;
+            font-weight: 400;
+            color: var(--text);
+            line-height: 1.65;
+        }
+
+        /* ─── PRODUCT LINK ───────────────────────── */
+        .product-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--accent);
+            text-decoration: none;
+            margin-top: 16px;
+            transition: gap 0.18s ease, opacity 0.15s ease;
+        }
+
+        .product-link:hover { gap: 12px; opacity: 0.8; }
+
+        /* ─── LEARNING ───────────────────────────── */
+        .learning { border-top: 1px solid var(--border); padding-top: 32px; margin-top: 8px; }
+
+        .learning-quote {
+            font-size: 17px; font-weight: 300; font-style: italic;
+            color: var(--text); line-height: 1.7; margin-bottom: 16px;
+        }
+
+        /* ─── CASE NAV ───────────────────────────── */
+        .case-nav {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 32px 0; border-top: 1px solid var(--border);
+            margin-top: 56px; gap: 16px;
+        }
+
+        .case-nav a {
+            font-size: 14px; font-weight: 400; color: var(--muted);
+            text-decoration: none; transition: color 0.15s ease; flex: 1;
+        }
+
+        .case-nav a:hover { color: var(--accent); }
+        .case-nav .next { text-align: right; }
+
+        .case-nav-label {
+            font-size: 11px; letter-spacing: 0.06em; text-transform: uppercase;
+            color: var(--muted); display: block; margin-bottom: 4px; opacity: 0.6;
+        }
+
+        /* ─── FOOTER ─────────────────────────────── */
+        .footer-divider .wrap hr { border: none; border-top: 1px solid var(--muted); opacity: 0.2; }
+        footer { padding: 28px 0; }
+        footer .wrap { display: flex; justify-content: space-between; align-items: center; }
+        .footer-text { font-size: 12px; font-weight: 300; color: var(--muted); }
+        .footer-cv { font-size: 13px; font-weight: 400; color: var(--text); text-decoration: none; transition: color 0.15s ease; }
+        .footer-cv:hover { color: var(--accent); text-decoration: underline; text-underline-offset: 3px; }
+
+        /* ─── FADE IN ────────────────────────────── */
+        .fade-in {
+            opacity: 0; transform: translateY(10px);
+            transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1),
+                        transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .fade-in.visible { opacity: 1; transform: translateY(0); }
+
+        /* ─── RESPONSIVE ─────────────────────────── */
+        @media (max-width: 480px) {
+            .wrap { padding: 0 24px; }
+            .hero-title { font-size: 26px; }
+            .stat-box { min-width: 100px; }
+            .prompt-grid { grid-template-columns: 1fr; }
+            .comparison { grid-template-columns: 1fr; }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .fade-in { transition: none; opacity: 1; transform: none; }
+            .cursor { animation: none; }
+        }
+
+        /* ─── LIGHTBOX ───────────────────────────── */
+        .lightbox {
+            position: fixed; inset: 0;
+            background: rgba(0, 0, 0, 0.92);
+            display: flex; align-items: center; justify-content: center;
+            z-index: 999; opacity: 0; pointer-events: none;
+            transition: opacity 0.22s ease; cursor: zoom-out;
+        }
+        .lightbox.open { opacity: 1; pointer-events: all; }
+        .lightbox img {
+            max-width: 90vw; max-height: 88vh;
+            object-fit: contain; border-radius: 6px;
+            transform: scale(0.96);
+            transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+            pointer-events: none;
+        }
+        .lightbox.open img { transform: scale(1); }
+        .lightbox-close {
+            position: absolute; top: 20px; right: 24px;
+            background: none; border: none;
+            color: rgba(255,255,255,0.6); font-size: 28px;
+            cursor: pointer; line-height: 1; padding: 4px;
+            transition: color 0.15s ease;
+        }
+        .lightbox-close:hover { color: #fff; }
+    </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+    <div class="wrap">
+        <a href="index.html" class="logo">NEP<span class="cursor">_</span></a>
+        <button class="toggle-btn" onclick="toggleTheme()" aria-label="Toggle theme">
+            <span id="lbl">Dark Mode</span>
+            <span id="ico">🌙</span>
+        </button>
+    </div>
+</nav>
+
+<main>
+    <div class="wrap">
+
+        <a href="index.html" class="back-link fade-in">← Back</a>
+
+        <!-- HERO -->
+        <div class="hero fade-in">
+            <p class="hero-meta">HANGRY · 2023 · UX DESIGN · AI-ASSISTED PROTOTYPING</p>
+            <h1 class="hero-title">WhatsApp Login — Using AI in Design for the First Time</h1>
+            <p class="hero-sub">This case study is about a login method. But it's really about how AI changed my iteration process — and what I learned getting there.</p>
+
+            <div class="stat-strip">
+                <div class="stat-box">
+                    <div class="stat-num">1–2 days → hours</div>
+                    <div class="stat-label">Prototype iteration time with AI vs. manual</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-num">↓ Significant</div>
+                    <div class="stat-label">Drop in login-related CE complaints post-launch</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-num">Still live</div>
+                    <div class="stat-label">Feature running in Hangry App today</div>
+                </div>
+            </div>
+        </div>
+
+        <hr class="divider">
+
+        <!-- THE PROBLEM -->
+        <div class="content-block fade-in">
+            <p class="section-title">The Problem</p>
+            <p>Login complaints from users kept coming in to the CE team — OTP codes weren't arriving reliably. The app already had a PIN option, but most users skipped setup entirely. OTP became the default login method. When it failed, users were locked out.</p>
+            <p>The problem was two-sided: OTP was unreliable <em>and</em> expensive — every SMS trigger had a real cost. After benchmarking apps that had already moved away from OTP, WhatsApp-based login emerged as a viable alternative: lower cost, higher reliability, and universal penetration in Indonesia.</p>
+            <p>The flow itself is simple. User inputs phone number → taps button → redirected to WhatsApp → message is pre-filled, user just taps send → returns to app → already logged in. No code, no waiting, no PIN.</p>
+        </div>
+
+        <!-- THE OLD WAY -->
+        <div class="content-block fade-in">
+            <p class="section-title">How I Used to Work</p>
+            <p>Before this project, my prototyping process was entirely manual. For a new flow like WA Login, I'd need to build the interfaces from scratch in Figma first — every screen, every state — then connect them together into a working prototype. Then test. Then revise. Then rebuild.</p>
+
+            <div class="comparison">
+                <div class="comparison-box before">
+                    <div class="comparison-label">Manual Figma</div>
+                    <div class="comparison-time muted">1–2 days</div>
+                    <div class="comparison-item">Build all screens from scratch</div>
+                    <div class="comparison-item">Connect interactions manually</div>
+                    <div class="comparison-item">Test → revise → rebuild</div>
+                    <div class="comparison-item">Repeat for each iteration</div>
+                </div>
+                <div class="comparison-box after">
+                    <div class="comparison-label">With FigMake (AI)</div>
+                    <div class="comparison-time">A few hours</div>
+                    <div class="comparison-item">Wireframe the concept</div>
+                    <div class="comparison-item">AI generates prototype</div>
+                    <div class="comparison-item">Test → revise → regenerate</div>
+                    <div class="comparison-item">Same day iteration</div>
+                </div>
+            </div>
+
+            <p>That difference — 1 to 2 days down to a few hours — meant I could test earlier, fail faster, and get to the right answer sooner. And that "few hours" included time spent learning the tool from scratch.</p>
+        </div>
+
+        <!-- ENTER FIGMAKE -->
+        <div class="content-block fade-in">
+            <p class="section-title">Using AI for the First Time</p>
+            <p>I decided to use FigMake — Figma's AI prototyping feature — for this project. The idea was to skip the manual interface-building step and go from wireframe to testable prototype much faster.</p>
+            <p>What I didn't expect was how much the quality of the output depended on the quality of my prompt. My early prompts were vague. I described what I wanted to build without enough context — no mention of the specific user confusion I was trying to address, no detail about the edge cases, no clarity on the exact mental model I was designing for.</p>
+
+            <p>Here's what those early prompts looked like:</p>
+
+            <div class="prompt-grid">
+                <img src="prompt1.png" alt="FigMake prompt — early iteration 1">
+                <img src="prompt2.png" alt="FigMake prompt — early iteration 2">
+                <img src="prompt3.png" alt="FigMake prompt — early iteration 3">
+                <img src="prompt4.png" alt="FigMake prompt — early iteration 4">
+                <img src="prompt5.png" alt="FigMake prompt — early iteration 5">
+                <img src="prompt6.png" alt="FigMake prompt — early iteration 6">
+            </div>
+
+            <p>The outputs from these prompts were far from what I had imagined. As I learned to add more specific context — the user journey, the exact confusion I'd observed in testing, the precise copy I wanted — the results got progressively closer.</p>
+
+            <div class="callout">
+                <p><strong>The insight that changed how I prompted:</strong></p>
+                <p>A vague prompt is a vague brief. If I couldn't explain what I was building precisely enough for AI to understand it, I probably hadn't thought it through precisely enough myself. The prompting process forced me to be clearer about my own design intent.</p>
+            </div>
+        </div>
+
+        <!-- USER TESTING -->
+        <div class="content-block fade-in">
+            <p class="section-title">Testing — and Finding the Real Problem</p>
+            <p>With the first prototype ready, I tested it with colleagues outside the tech team — the same kind of users who'd be using the real feature.</p>
+            <p>A consistent pattern emerged: they'd send the WhatsApp message, then wait. They expected a reply from Hangry's admin number before they could log in. But there is no reply. The moment the message is sent, verification is already complete in the background. They just needed to go back to the app.</p>
+            <p>This was the real design problem — not the flow itself, but the gap between how users expected it to work and how it actually worked. That gap had to be closed through copy and instruction design.</p>
+        </div>
+
+        <!-- THE SOLUTION -->
+        <div class="content-block fade-in">
+            <p class="section-title">Iteration — and the Fix</p>
+            <p>I went back to FigMake with a much more specific prompt this time — including the exact mental model issue I'd uncovered and the specific copy I wanted to test. The new prototype came together in the same session.</p>
+            <p>The solution: a three-step instruction block with action-oriented copy that left no room for the wrong interpretation.</p>
+
+            <ul class="step-list">
+                <li class="step-item">
+                    <span class="step-num">1</span>
+                    <span class="step-text">Tap the button below — you'll be taken to WhatsApp automatically</span>
+                </li>
+                <li class="step-item">
+                    <span class="step-num">2</span>
+                    <span class="step-text">Send the message that's already been prepared for you</span>
+                </li>
+                <li class="step-item">
+                    <span class="step-num">3</span>
+                    <span class="step-text"><strong>Once the message is sent</strong>, return to Hangry App — verification is already complete</span>
+                </li>
+            </ul>
+
+            <p>Step 3 is where the work is. <em>"Once the message is sent"</em> — not "after you receive a reply." One phrase. But it cuts off the wrong expectation before it can form.</p>
+            <p>I tested the new prototype with the same colleagues. This time, they went through the flow without hesitation. They knew exactly what to do.</p>
+
+            <!-- PROTOTYPE VIDEO -->
+            <div class="video-wrap">
+                <video controls playsinline>
+                    <source src="WA_proto_figmake.mp4" type="video/mp4">
+                </video>
+                <p class="video-caption">FigMake prototype — final version used for user testing</p>
+            </div>
+
+            <!-- REAL PRODUCT SCREENSHOT -->
+            <div class="flow-image">
+                <img src="wa-login-screen.png" alt="WhatsApp Login — live in Hangry App">
+                <p class="flow-image-caption">The final design — live in Hangry App</p>
+            </div>
+
+            <a href="https://play.google.com/store/search?q=hangry&c=apps&hl=en" target="_blank" rel="noopener noreferrer" class="product-link">
+                Try it yourself — download Hangry App →
+            </a>
+        </div>
+
+        <!-- OUTCOME -->
+        <div class="content-block fade-in">
+            <p class="section-title">Outcome</p>
+            <p>After WA Login launched, login-related complaints to the CE team dropped significantly. The feature is still live in Hangry App today. From both a user and business perspective, it works — and the cost per verification is a fraction of what SMS OTP was costing.</p>
+        </div>
+
+        <!-- LEARNING -->
+        <div class="content-block fade-in">
+            <div class="learning">
+                <p class="section-title">What This Taught Me</p>
+                <p class="learning-quote">"The bottleneck in AI-assisted design isn't the tool. It's the clarity of your own thinking."</p>
+                <p>The more specific my prompts became, the better the outputs. But what I was really doing was forcing myself to think more clearly about what I was designing and why. AI didn't replace that thinking — it exposed where it was missing.</p>
+                <p>And on the design side: a new behavior doesn't just need to work correctly. It needs to be explained precisely. Users arrive with mental models from previous experiences. One phrase in the right place can be the difference between a flow that confuses and a flow that clicks.</p>
+                <p>This project was the starting point. Since then, AI has become a regular part of how I work as a designer — for research, ideation, and prototyping. Even this portfolio website was built with the help of Claude.</p>
+            </div>
+        </div>
+
+        <!-- CASE NAV -->
+        <div class="case-nav fade-in">
+            <a href="case-study-hangry-app.html">
+                <span class="case-nav-label">← Previous</span>
+                Hangry App
+            </a>
+            <a href="index.html" class="next">
+                <span class="case-nav-label">← Back</span>
+                All work
+            </a>
+        </div>
+
+    </div>
+</main>
+
+<!-- LIGHTBOX -->
+<div class="lightbox" id="lightbox">
+    <button class="lightbox-close" id="lightboxClose" aria-label="Close">×</button>
+    <img id="lightboxImg" src="" alt="">
+</div>
+
+<div class="footer-divider"><div class="wrap"><hr></div></div>
+<footer>
+    <div class="wrap">
+        <span class="footer-text">Nugraha Eka Putra © 2026</span>
+        <a href="cv-nugraha-putra.pdf" download class="footer-cv">Download CV ↗</a>
+    </div>
+</footer>
+
+<script>
+    (function () {
+        const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+        document.getElementById('lbl').textContent = isDark ? 'Light Mode' : 'Dark Mode';
+        document.getElementById('ico').textContent  = isDark ? '☀️' : '🌙';
+    })();
+
+    function toggleTheme() {
+        const html   = document.documentElement;
+        const isDark = html.getAttribute('data-theme') === 'dark';
+        const next   = isDark ? 'light' : 'dark';
+        html.setAttribute('data-theme', next);
+        localStorage.setItem('theme', next);
+        document.getElementById('lbl').textContent = isDark ? 'Dark Mode'  : 'Light Mode';
+        document.getElementById('ico').textContent  = isDark ? '🌙' : '☀️';
+    }
+
+    // Lightbox
+    const lightbox = document.getElementById('lightbox');
+    const lightboxImg = document.getElementById('lightboxImg');
+
+    function closeLightbox() {
+        lightbox.classList.remove('open');
+        document.body.style.overflow = '';
+    }
+
+    document.querySelectorAll('.flow-image img, .prompt-grid img').forEach(img => {
+        img.addEventListener('click', () => {
+            lightboxImg.src = img.src;
+            lightboxImg.alt = img.alt;
+            lightbox.classList.add('open');
+            document.body.style.overflow = 'hidden';
+        });
+    });
+
+    document.getElementById('lightboxClose').addEventListener('click', closeLightbox);
+    lightbox.addEventListener('click', e => { if (e.target === lightbox) closeLightbox(); });
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbox(); });
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry, i) => {
+            if (entry.isIntersecting) {
+                setTimeout(() => entry.target.classList.add('visible'), i * 60);
+                observer.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.08 });
+
+    document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+</script>
+
+</body>
+</html>
