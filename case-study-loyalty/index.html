@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Loyalty Landing Page — Nugraha Eka Putra</title>
+    <meta name="description" content="How removing one friction point grew loyalty program registrations by 76% in 3 months.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;1,300;1,400&display=swap" rel="stylesheet">
+    <script>
+        const t = localStorage.getItem('theme');
+        if (t) document.documentElement.setAttribute('data-theme', t);
+    </script>
+    <style>
+        :root {
+            --bg:      #FAFAF8;
+            --text:    #111110;
+            --muted:   #9A9A94;
+            --accent:  #3A9430;
+            --border:  rgba(154, 154, 148, 0.2);
+            --toggle:  rgba(0, 0, 0, 0.26);
+        }
+
+        [data-theme="dark"] {
+            --bg:      #0C0C0B;
+            --text:    #EEECEA;
+            --muted:   #55554E;
+            --accent:  #5BBF50;
+            --border:  rgba(85, 85, 78, 0.3);
+            --toggle:  rgba(255, 255, 255, 0.28);
+        }
+
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 16px;
+            font-weight: 400;
+            line-height: 1.75;
+            -webkit-font-smoothing: antialiased;
+            transition: background 0.22s ease, color 0.22s ease;
+        }
+
+        .wrap { max-width: 600px; margin: 0 auto; padding: 0 40px; }
+
+        nav { padding: 28px 0; }
+        nav .wrap { display: flex; justify-content: space-between; align-items: center; }
+
+        .logo {
+            font-size: 13px; font-weight: 500; letter-spacing: 0.06em;
+            color: var(--accent); text-decoration: none;
+        }
+
+        .cursor { display: inline-block; animation: blink 1.1s step-end infinite; }
+        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+
+        .toggle-btn {
+            display: flex; align-items: center; gap: 6px;
+            background: none; border: none; cursor: pointer;
+            font-family: inherit; font-size: 13px; font-weight: 400;
+            color: var(--toggle); padding: 0; transition: color 0.2s ease;
+        }
+        .toggle-btn:hover { color: var(--text); }
+
+        .back-link {
+            display: inline-flex; align-items: center; gap: 6px;
+            font-size: 13px; font-weight: 400; color: var(--muted);
+            text-decoration: none; margin-bottom: 48px; transition: color 0.15s ease;
+        }
+        .back-link:hover { color: var(--accent); }
+
+        /* ─── HERO ───────────────────────────────── */
+        .hero { margin-bottom: 56px; }
+
+        .hero-meta {
+            font-size: 12px; font-weight: 400; color: var(--muted);
+            letter-spacing: 0.05em; margin-bottom: 14px;
+        }
+
+        .hero-title {
+            font-size: 32px; font-weight: 500; line-height: 1.2;
+            letter-spacing: -0.02em; color: var(--text); margin-bottom: 18px;
+        }
+
+        .hero-sub {
+            font-size: 16px; font-weight: 300; font-style: italic;
+            color: var(--muted); line-height: 1.65; margin-bottom: 28px;
+        }
+
+        .stat-strip { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 0; }
+
+        .stat-box {
+            border: 1px solid var(--border); border-radius: 8px;
+            padding: 14px 18px; flex: 1; min-width: 120px;
+        }
+
+        .stat-num {
+            font-size: 22px; font-weight: 500; color: var(--accent);
+            line-height: 1.2; margin-bottom: 2px;
+        }
+
+        .stat-label { font-size: 12px; font-weight: 400; color: var(--muted); line-height: 1.4; }
+
+        .divider { border: none; border-top: 1px solid var(--border); margin: 44px 0; }
+
+        /* ─── CONTENT ────────────────────────────── */
+        .section-title {
+            font-size: 11px; font-weight: 500; letter-spacing: 0.1em;
+            text-transform: uppercase; color: var(--muted); margin-bottom: 16px;
+        }
+
+        .content-block { margin-bottom: 40px; }
+
+        .content-block p {
+            font-size: 16px; font-weight: 400; line-height: 1.8;
+            color: var(--text); margin-bottom: 16px;
+        }
+
+        .content-block p:last-child { margin-bottom: 0; }
+        .content-block em { font-style: italic; font-weight: 300; }
+
+        /* ─── QUOTE BLOCK ────────────────────────── */
+        .quote-block {
+            border-left: 2px solid var(--accent);
+            padding: 4px 0 4px 20px;
+            margin: 24px 0;
+        }
+
+        .quote-block p {
+            font-size: 15px; font-style: italic; font-weight: 300;
+            color: var(--muted); line-height: 1.7; margin-bottom: 10px;
+        }
+
+        .quote-block p:last-child { margin-bottom: 0; }
+
+        /* ─── CALLOUT ────────────────────────────── */
+        .callout {
+            background: rgba(58, 148, 48, 0.06);
+            border: 1px solid rgba(58, 148, 48, 0.15);
+            border-radius: 8px;
+            padding: 18px 20px;
+            margin: 24px 0;
+        }
+
+        [data-theme="dark"] .callout {
+            background: rgba(91, 191, 80, 0.06);
+            border-color: rgba(91, 191, 80, 0.15);
+        }
+
+        .callout p {
+            font-size: 15px; font-weight: 400;
+            color: var(--text); line-height: 1.7; margin-bottom: 0;
+        }
+
+        .callout strong { font-weight: 500; color: var(--accent); }
+
+        /* ─── USER FLOW IMAGE ────────────────────── */
+        .flow-image {
+            margin: 28px 0;
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid var(--border);
+        }
+
+        .flow-image img {
+            width: 100%;
+            display: block;
+        }
+
+        .flow-image-caption {
+            font-size: 12px;
+            font-weight: 400;
+            color: var(--muted);
+            padding: 10px 14px;
+            border-top: 1px solid var(--border);
+        }
+
+        /* ─── VIDEO EMBED ────────────────────────── */
+        .video-wrap {
+            margin: 24px 0 16px;
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid var(--border);
+            position: relative;
+            padding-top: 56.25%;
+        }
+
+        .video-wrap iframe {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            border: none;
+            display: block;
+        }
+
+        /* ─── FINAL PRODUCT LINK ─────────────────── */
+        .product-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--accent);
+            text-decoration: none;
+            margin-top: 4px;
+            transition: gap 0.18s ease, opacity 0.15s ease;
+        }
+
+        .product-link:hover {
+            gap: 12px;
+            opacity: 0.8;
+        }
+
+        /* ─── OUTCOME TABLE ──────────────────────── */
+        .outcome-table {
+            width: 100%; border-collapse: collapse;
+            margin: 20px 0; font-size: 14px;
+        }
+
+        .outcome-table th {
+            font-size: 11px; font-weight: 500; letter-spacing: 0.06em;
+            text-transform: uppercase; color: var(--muted);
+            text-align: left; padding: 0 0 10px 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .outcome-table td {
+            padding: 12px 0; border-bottom: 1px solid var(--border);
+            color: var(--text); line-height: 1.4;
+        }
+
+        .outcome-table td:not(:first-child) { text-align: right; }
+        .outcome-table th:not(:first-child) { text-align: right; }
+        .outcome-table .highlight { color: var(--accent); font-weight: 500; }
+        .outcome-table tr:last-child td { border-bottom: none; }
+
+        /* ─── LEARNING ───────────────────────────── */
+        .learning { border-top: 1px solid var(--border); padding-top: 32px; margin-top: 8px; }
+
+        .learning-quote {
+            font-size: 17px; font-weight: 300; font-style: italic;
+            color: var(--text); line-height: 1.7; margin-bottom: 16px;
+        }
+
+        /* ─── CASE NAV ───────────────────────────── */
+        .case-nav {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 32px 0; border-top: 1px solid var(--border);
+            margin-top: 56px; gap: 16px;
+        }
+
+        .case-nav a {
+            font-size: 14px; font-weight: 400; color: var(--muted);
+            text-decoration: none; transition: color 0.15s ease; flex: 1;
+        }
+
+        .case-nav a:hover { color: var(--accent); }
+        .case-nav .next { text-align: right; }
+
+        .case-nav-label {
+            font-size: 11px; letter-spacing: 0.06em; text-transform: uppercase;
+            color: var(--muted); display: block; margin-bottom: 4px; opacity: 0.6;
+        }
+
+        /* ─── FOOTER ─────────────────────────────── */
+        .footer-divider .wrap hr { border: none; border-top: 1px solid var(--muted); opacity: 0.2; }
+        footer { padding: 28px 0; }
+        footer .wrap { display: flex; justify-content: space-between; align-items: center; }
+        .footer-text { font-size: 12px; font-weight: 300; color: var(--muted); }
+        .footer-cv { font-size: 13px; font-weight: 400; color: var(--text); text-decoration: none; transition: color 0.15s ease; }
+        .footer-cv:hover { color: var(--accent); text-decoration: underline; text-underline-offset: 3px; }
+
+        /* ─── FADE IN ────────────────────────────── */
+        .fade-in {
+            opacity: 0; transform: translateY(10px);
+            transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1),
+                        transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .fade-in.visible { opacity: 1; transform: translateY(0); }
+
+        /* ─── RESPONSIVE ─────────────────────────── */
+        @media (max-width: 480px) {
+            .wrap { padding: 0 24px; }
+            .hero-title { font-size: 26px; }
+            .stat-box { min-width: 100px; }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .fade-in { transition: none; opacity: 1; transform: none; }
+            .cursor { animation: none; }
+        }
+
+        /* ─── LIGHTBOX ───────────────────────────── */
+        .lightbox {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.92);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 999;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.22s ease;
+            cursor: zoom-out;
+        }
+        .lightbox.open { opacity: 1; pointer-events: all; }
+        .lightbox img {
+            max-width: 90vw; max-height: 88vh;
+            object-fit: contain; border-radius: 6px;
+            transform: scale(0.96);
+            transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+            pointer-events: none;
+        }
+        .lightbox.open img { transform: scale(1); }
+        .lightbox-close {
+            position: absolute; top: 20px; right: 24px;
+            background: none; border: none;
+            color: rgba(255,255,255,0.6); font-size: 28px;
+            cursor: pointer; line-height: 1; padding: 4px;
+            transition: color 0.15s ease;
+        }
+        .lightbox-close:hover { color: #fff; }
+        .flow-image img, .hero-image img { cursor: zoom-in; }
+    </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+    <div class="wrap">
+        <a href="/" class="logo">NEP<span class="cursor">_</span></a>
+        <button class="toggle-btn" onclick="toggleTheme()" aria-label="Toggle theme">
+            <span id="lbl">Dark Mode</span>
+            <span id="ico">🌙</span>
+        </button>
+    </div>
+</nav>
+
+<main>
+    <div class="wrap">
+
+        <a href="/" class="back-link fade-in">← Back</a>
+
+        <!-- HERO -->
+        <div class="hero fade-in">
+            <p class="hero-meta">HANGRY · 2021 · PRODUCT DESIGN</p>
+            <h1 class="hero-title">Loyalty Landing Page: Removing the Friction Nobody Had Questioned</h1>
+            <p class="hero-sub">Registrations dropped 30% in a month. Everyone looked at the program. Nobody looked at the door.</p>
+
+            <div class="stat-strip">
+                <div class="stat-box">
+                    <div class="stat-num">+76%</div>
+                    <div class="stat-label">New registrations in 3 months post-launch</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-num">+124%</div>
+                    <div class="stat-label">Peak month growth (June vs May 2021)</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-num">8,852</div>
+                    <div class="stat-label">Additional users unlocked in 3 months</div>
+                </div>
+            </div>
+        </div>
+
+        <hr class="divider">
+
+        <!-- PROBLEM -->
+        <div class="content-block fade-in">
+            <p class="section-title">The Problem</p>
+            <p>In April 2021, new loyalty program registrations dropped 30% in a single month, from 4,217 to 2,916. The instinct was predictable.</p>
+            <p><em>Is the program attractive enough? Is the UI confusing? Are the benefits clear?</em></p>
+            <p>All reasonable assumptions. All wrong.</p>
+        </div>
+
+        <!-- RESEARCH -->
+        <div class="content-block fade-in">
+            <p class="section-title">What I Did First</p>
+            <p>Before touching anything, I coordinated with the Ops & Customer Experience team to reach customers who had bought Hangry food but never joined the program. I asked them two things directly: did they know the loyalty program existed, and if yes, why hadn't they joined?</p>
+            <p>The answers were consistent:</p>
+
+            <div class="quote-block">
+                <p>"I know about the points, but I'm too lazy to scan. I have to download the app first."</p>
+                <p>"I don't want another app. My phone storage is already full."</p>
+                <p>"I'd like to join, but I don't really know what the benefits are. If I have to download the app just to find out, I'm not interested."</p>
+            </div>
+
+            <p>The real barrier wasn't the program. It wasn't the benefits. It wasn't even awareness. It was a single friction point: <strong>the requirement to download the Hangry App just to participate.</strong></p>
+        </div>
+
+        <!-- DECISION -->
+        <div class="content-block fade-in">
+            <p class="section-title">The Decision</p>
+            <p>Once the real problem was clear, the direction followed naturally. Instead of redirecting users to the App Store when they scanned their receipt QR code, they'd land on a web page where they could:</p>
+
+            <div class="callout">
+                <p><strong>See the benefits</strong> → <strong>Register directly</strong> → <strong>Collect points</strong> — all without downloading anything.</p>
+            </div>
+
+            <p>One additional call worth noting: I designed this <strong>mobile-only</strong>. The trigger is scanning a receipt QR code, that happens on a phone. Designing desktop-first would've added a device-switching step that didn't need to exist.</p>
+
+            <!-- USER FLOW IMAGE -->
+            <div class="flow-image">
+                <img src="Frame_544.png" alt="Details flow — from QR scan to user getting points">
+                <p class="flow-image-caption">Details flow — from QR scan to user getting points</p>
+            </div>
+        </div>
+
+        <!-- PUSHBACK -->
+        <div class="content-block fade-in">
+            <p class="section-title">The Pushback</p>
+            <p>Stakeholders raised a legitimate concern: <em>"If users can collect points without the app, why would they ever download it?"</em></p>
+            <p>My answer was to design around that tension rather than ignore it. The landing page would always surface the app, but the app would offer more. Point redemption for merch and vouchers stayed app-only.</p>
+            <p>Landing page = entry point. App = the richer experience worth upgrading to.</p>
+        </div>
+
+        <!-- OUTCOME -->
+        <div class="content-block fade-in">
+            <p class="section-title">Outcome</p>
+
+            <table class="outcome-table">
+                <thead>
+                    <tr>
+                        <th>Period</th>
+                        <th>New Registrations</th>
+                        <th>Change</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Feb–Apr 2021 (before)</td>
+                        <td>11,624</td>
+                        <td>—</td>
+                    </tr>
+                    <tr>
+                        <td>May–Jul 2021 (after)</td>
+                        <td>20,476</td>
+                        <td class="highlight">+76%</td>
+                    </tr>
+                    <tr>
+                        <td>June 2021 (peak)</td>
+                        <td>—</td>
+                        <td class="highlight">+124% vs May</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <p>The program that was losing users month-over-month reversed course, not because the product changed, but because the barrier to entry was removed.</p>
+
+            <!-- PRODUCT IMAGE -->
+            <div class="flow-image">
+                <img src="loyalty_landing_page-card.png" alt="Loyalty Landing Page — final product">
+            </div>
+
+            <!-- FINAL PRODUCT LINK -->
+            <a href="https://poin.ishangry.com/" target="_blank" rel="noopener noreferrer" class="product-link">
+                Check the final product →
+            </a>
+        </div>
+
+        <!-- LEARNING -->
+        <div class="content-block fade-in">
+            <div class="learning">
+                <p class="section-title">What This Taught Me</p>
+                <p class="learning-quote">"The most dangerous assumptions aren't the ones that are clearly wrong. They're the ones that are reasonable."</p>
+                <p><em>"The UI is confusing."</em> <em>"The benefits aren't attractive."</em> Both pointed toward redesign. Both were wrong. The real problem had nothing to do with design at all. Finding it required asking the right people the right questions, not staring harder at the product.</p>
+                <p>Before deciding what to fix, make sure you understand what's actually broken.</p>
+            </div>
+        </div>
+
+        <!-- CASE NAV -->
+        <div class="case-nav fade-in">
+            <a href="/">
+                <span class="case-nav-label">← Back</span>
+                All work
+            </a>
+            <a href="/case-study-hangry-app" class="next">
+                <span class="case-nav-label">Next case →</span>
+                Hangry App
+            </a>
+        </div>
+
+    </div>
+</main>
+
+<!-- LIGHTBOX -->
+<div class="lightbox" id="lightbox">
+    <button class="lightbox-close" id="lightboxClose" aria-label="Close">×</button>
+    <img id="lightboxImg" src="" alt="">
+</div>
+
+
+<div class="footer-divider"><div class="wrap"><hr></div></div>
+<footer>
+    <div class="wrap">
+        <span class="footer-text">Nugraha Eka Putra © 2026</span>
+        <a href="cv-nugraha-putra.pdf" download class="footer-cv">Download CV ↗</a>
+    </div>
+</footer>
+
+<script>
+    (function () {
+        const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+        document.getElementById('lbl').textContent = isDark ? 'Light Mode' : 'Dark Mode';
+        document.getElementById('ico').textContent  = isDark ? '☀️' : '🌙';
+    })();
+
+    function toggleTheme() {
+        const html   = document.documentElement;
+        const isDark = html.getAttribute('data-theme') === 'dark';
+        const next   = isDark ? 'light' : 'dark';
+        html.setAttribute('data-theme', next);
+        localStorage.setItem('theme', next);
+        document.getElementById('lbl').textContent = isDark ? 'Dark Mode'  : 'Light Mode';
+        document.getElementById('ico').textContent  = isDark ? '🌙' : '☀️';
+    }
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry, i) => {
+            if (entry.isIntersecting) {
+                setTimeout(() => entry.target.classList.add('visible'), i * 60);
+                observer.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.08 });
+
+    document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+    // ── Lightbox
+    const lightbox = document.getElementById('lightbox');
+    const lightboxImg = document.getElementById('lightboxImg');
+
+    function closeLightbox() {
+        lightbox.classList.remove('open');
+        document.body.style.overflow = '';
+    }
+
+    document.querySelectorAll('.flow-image img, .hero-image img').forEach(img => {
+        img.addEventListener('click', () => {
+            lightboxImg.src = img.src;
+            lightboxImg.alt = img.alt;
+            lightbox.classList.add('open');
+            document.body.style.overflow = 'hidden';
+        });
+    });
+
+    document.getElementById('lightboxClose').addEventListener('click', closeLightbox);
+    lightbox.addEventListener('click', e => { if (e.target === lightbox) closeLightbox(); });
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbox(); });
+</script>
+
+</body>
+</html>
