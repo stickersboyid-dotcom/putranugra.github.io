@@ -208,8 +208,91 @@
 
         /* ─── VIDEO ──────────────────────────────── */
         .video-wrap { display: flex; flex-direction: column; gap: 8px; }
-        .video-wrap video { width: 100%; height: 245px; border-radius: 5px; display: block; object-fit: cover; }
+
+        .video-thumb {
+            width: 100%;
+            height: 245px;
+            border-radius: 5px;
+            background: #000;
+            position: relative;
+            cursor: pointer;
+            overflow: hidden;
+        }
+
+        .video-thumb video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            pointer-events: none;
+        }
+
+        .video-play-btn {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(0,0,0,0.35);
+            transition: background 0.15s ease;
+        }
+
+        .video-thumb:hover .video-play-btn { background: rgba(0,0,0,0.5); }
+
+        .video-play-btn svg {
+            width: 44px;
+            height: 44px;
+            color: rgba(255,255,255,0.9);
+            filter: drop-shadow(0 2px 8px rgba(0,0,0,0.4));
+        }
+
         .video-caption { font-size: 12px; font-weight: 400; color: var(--muted); line-height: 18px; text-align: center; }
+
+        /* ─── VIDEO LIGHTBOX ─────────────────────── */
+        .video-lightbox {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.88);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 998;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.22s ease;
+            cursor: zoom-out;
+        }
+
+        .video-lightbox.open { opacity: 1; pointer-events: all; }
+
+        .video-lightbox-inner {
+            width: min(80vw, 640px);
+            border-radius: 8px;
+            overflow: hidden;
+            transform: scale(0.95);
+            transition: transform 0.25s cubic-bezier(0.16,1,0.3,1);
+            cursor: default;
+        }
+
+        .video-lightbox.open .video-lightbox-inner { transform: scale(1); }
+
+        .video-lightbox-inner video {
+            width: 100%;
+            display: block;
+        }
+
+        .video-lightbox-close {
+            position: absolute;
+            top: 20px; right: 24px;
+            background: none; border: none;
+            color: rgba(255,255,255,0.6);
+            font-size: 28px;
+            cursor: pointer;
+            line-height: 1; padding: 4px;
+            transition: color 0.15s ease;
+        }
+
+        .video-lightbox-close:hover { color: #fff; }
 
         /* ─── STEP LIST ──────────────────────────── */
         .step-list { list-style: none; display: flex; flex-direction: column; gap: 10px; }
@@ -371,9 +454,17 @@
             <p>I rebuilt the prototype with FigMake using the revised prompt and copy, then tested it with the same colleagues. This time, they understood immediately.</p>
 
             <div class="video-wrap">
-                <video controls playsinline>
-                    <source src="/WA_proto_figmake.mp4" type="video/mp4">
-                </video>
+                <div class="video-thumb" id="videoThumb">
+                    <video muted playsinline preload="metadata" id="videoPreview">
+                        <source src="/WA_proto_figmake.mp4" type="video/mp4">
+                    </video>
+                    <div class="video-play-btn">
+                        <svg viewBox="0 0 24 24" fill="currentColor">
+                            <circle cx="12" cy="12" r="12" fill="rgba(0,0,0,0.01)"/>
+                            <path d="M9.5 7.5l7 4.5-7 4.5V7.5z"/>
+                        </svg>
+                    </div>
+                </div>
                 <p class="video-caption">FigMake prototype — final version used for user testing</p>
             </div>
 
@@ -422,6 +513,16 @@
 
     </div>
 </main>
+
+<!-- VIDEO LIGHTBOX -->
+<div class="video-lightbox" id="videoLightbox">
+    <button class="video-lightbox-close" id="videoLightboxClose" aria-label="Close video">×</button>
+    <div class="video-lightbox-inner">
+        <video controls playsinline id="videoFull">
+            <source src="/WA_proto_figmake.mp4" type="video/mp4">
+        </video>
+    </div>
+</div>
 
 <div class="lightbox" id="lightbox">
     <button class="lightbox-close" id="lightboxClose" aria-label="Close">×</button>
@@ -475,7 +576,28 @@
     });
     document.getElementById('lightboxClose').addEventListener('click', closeLightbox);
     lightbox.addEventListener('click', e => { if (e.target === lightbox) closeLightbox(); });
-    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbox(); });
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') { closeLightbox(); closeVideoLightbox(); } });
+
+    // ── Video lightbox
+    const videoLightbox = document.getElementById('videoLightbox');
+    const videoFull     = document.getElementById('videoFull');
+    const videoPreview  = document.getElementById('videoPreview');
+
+    function closeVideoLightbox() {
+        videoLightbox.classList.remove('open');
+        videoFull.pause();
+        document.body.style.overflow = '';
+    }
+
+    document.getElementById('videoThumb').addEventListener('click', () => {
+        videoLightbox.classList.add('open');
+        document.body.style.overflow = 'hidden';
+        videoFull.currentTime = 0;
+        videoFull.play();
+    });
+
+    document.getElementById('videoLightboxClose').addEventListener('click', closeVideoLightbox);
+    videoLightbox.addEventListener('click', e => { if (e.target === videoLightbox) closeVideoLightbox(); });
 </script>
 
 </body>
