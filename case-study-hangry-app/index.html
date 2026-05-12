@@ -20,7 +20,6 @@
             --quote-bg:#F5F5F5;
             --border:  #E5E5E5;
         }
-
         [data-theme="dark"] {
             --bg:      #141414;
             --text:    #737373;
@@ -28,10 +27,8 @@
             --quote-bg:#1E1E1E;
             --border:  #2A2A2A;
         }
-
         *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
         html { scroll-behavior: smooth; }
-
         body {
             background: var(--bg);
             color: var(--muted);
@@ -42,479 +39,144 @@
             -webkit-font-smoothing: antialiased;
             transition: background 0.2s ease, color 0.2s ease;
         }
-
-        .wrap {
-            max-width: 560px;
-            margin: 0 auto;
-            padding: 0 32px;
-        }
-
-        /* ─── NAV ────────────────────────────────── */
+        .wrap { max-width: 560px; margin: 0 auto; padding: 0 32px; }
         nav { padding: 68px 0 0; }
-
-        nav .wrap {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .back-link {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 14px;
-            font-weight: 400;
-            color: var(--muted);
-            text-decoration: none;
-            line-height: 20px;
-            transition: color 0.15s ease;
-        }
-
+        nav .wrap { display: flex; justify-content: space-between; align-items: center; }
+        .back-link { display: flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 400; color: var(--muted); text-decoration: none; line-height: 20px; transition: color 0.15s ease; }
         .back-link:hover { color: var(--text); }
         .back-link svg { flex-shrink: 0; }
-
-        .toggle-btn {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            background: none;
-            border: none;
-            cursor: pointer;
-            font-family: 'Inter', sans-serif;
-            font-size: 14px;
-            font-weight: 400;
-            color: var(--text);
-            padding: 0;
-            line-height: 20px;
-            transition: color 0.15s ease;
-        }
-
+        .toggle-btn { display: flex; align-items: center; gap: 10px; background: none; border: none; cursor: pointer; font-family: 'Inter', sans-serif; font-size: 14px; font-weight: 400; color: var(--text); padding: 0; line-height: 20px; transition: color 0.15s ease; }
         .toggle-btn:hover { color: var(--muted); }
         .toggle-btn svg { display: block; flex-shrink: 0; }
-
-        /* ─── HERO ───────────────────────────────── */
-        .hero {
-            padding-top: 40px;
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-        }
-
-        .hero-tag {
-            font-size: 14px;
-            font-weight: 400;
-            color: var(--muted);
-            line-height: 20px;
-            margin-bottom: 10px;
-        }
-
-        .hero-title {
-            font-size: 24px;
-            font-weight: 500;
-            color: var(--text);
-            line-height: 32px;
-        }
-
-        .hero-image {
-            width: 100%;
-            height: 245px;
-            border-radius: 5px;
-            object-fit: cover;
-            display: block;
-            cursor: zoom-in;
-        }
-
-        /* ─── CONTEXT TABLE ──────────────────────── */
-        .context-table {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-
-        .context-row {
-            display: flex;
-            align-items: flex-start;
-            gap: 20px;
-            font-size: 14px;
-            line-height: 20px;
-        }
-
-        .context-label {
-            font-weight: 400;
-            color: var(--muted);
-            min-width: 72px;
-            flex-shrink: 0;
-        }
-
-        .context-value {
-            font-weight: 500;
-            color: var(--text);
-        }
-
-        /* ─── DIVIDER ────────────────────────────── */
-        .divider {
-            border: none;
-            border-top: 1px solid var(--border);
-            margin-top: 20px;
-        }
-
-        /* ─── SECTIONS ───────────────────────────── */
-        .section {
-            padding-top: 40px;
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-        }
-
-        .section-label {
-            font-size: 14px;
-            font-weight: 500;
-            color: var(--text);
-            line-height: 20px;
-        }
-
-        .section p {
-            font-size: 14px;
-            font-weight: 400;
-            color: var(--muted);
-            line-height: 20px;
-        }
-
-        /* ─── ITALIC QUOTE ───────────────────────── */
-        .italic-text {
-            font-size: 15px;
-            font-style: italic;
-            font-weight: 400;
-            color: var(--muted);
-            line-height: 20px;
-            letter-spacing: -0.23px;
-        }
-
-        /* ─── ORDERED LIST ───────────────────────── */
-        .ordered-list {
-            padding-left: 20px;
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-        }
-
-        .ordered-list li {
-            font-size: 14px;
-            font-weight: 400;
-            color: var(--muted);
-            line-height: 20px;
-        }
-
-        /* ─── FIGURE ─────────────────────────────── */
-        .figure {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-        }
-
-        .figure img {
-            width: 100%;
-            height: 245px;
-            border-radius: 5px;
-            object-fit: cover;
-            display: block;
-            cursor: zoom-in;
-        }
-
-        .figure figcaption {
-            font-size: 12px;
-            font-weight: 400;
-            color: var(--muted);
-            line-height: 18px;
-            text-align: center;
-        }
-
-        /* ─── EXTERNAL LINK ──────────────────────── */
-        .ext-link {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 14px;
-            font-weight: 400;
-            color: var(--text);
-            text-decoration: none;
-            line-height: 20px;
-            transition: color 0.15s ease;
-        }
-
+        .hero { padding-top: 40px; display: flex; flex-direction: column; gap: 20px; }
+        .hero-tag { font-size: 14px; font-weight: 400; color: var(--muted); line-height: 20px; margin-bottom: 10px; }
+        .hero-title { font-size: 24px; font-weight: 500; color: var(--text); line-height: 32px; }
+        .hero-image { width: 100%; height: 245px; border-radius: 5px; object-fit: cover; display: block; cursor: zoom-in; }
+        .context-table { display: flex; flex-direction: column; gap: 10px; }
+        .context-row { display: flex; align-items: flex-start; gap: 20px; font-size: 14px; line-height: 20px; }
+        .context-label { font-weight: 400; color: var(--muted); min-width: 72px; flex-shrink: 0; }
+        .context-value { font-weight: 500; color: var(--text); }
+        .divider { border: none; border-top: 1px solid var(--border); margin-top: 20px; }
+        .section { padding-top: 40px; display: flex; flex-direction: column; gap: 20px; }
+        .section-label { font-size: 14px; font-weight: 500; color: var(--text); line-height: 20px; }
+        .section p { font-size: 14px; font-weight: 400; color: var(--muted); line-height: 20px; }
+        .italic-text { font-size: 15px; font-style: italic; font-weight: 400; color: var(--muted); line-height: 20px; letter-spacing: -0.23px; }
+        .ordered-list { padding-left: 20px; display: flex; flex-direction: column; gap: 12px; }
+        .ordered-list li { font-size: 14px; font-weight: 400; color: var(--muted); line-height: 20px; }
+        .figure { display: flex; flex-direction: column; gap: 8px; }
+        .figure img { width: 100%; height: 245px; border-radius: 5px; object-fit: cover; display: block; cursor: zoom-in; }
+        .figure figcaption { font-size: 12px; font-weight: 400; color: var(--muted); line-height: 18px; text-align: center; }
+        .ext-link { display: inline-flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 400; color: var(--text); text-decoration: none; line-height: 20px; transition: color 0.15s ease; }
         .ext-link:hover { color: var(--muted); }
         .ext-link svg { flex-shrink: 0; }
-
-        /* ─── FOOTER ─────────────────────────────── */
-        .footer-wrap {
-            padding-top: 40px;
-            padding-bottom: 60px;
-        }
-
-        .footer-divider {
-            border-top: 1px solid var(--border);
-            margin-bottom: 20px;
-        }
-
-        .footer-inner {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-
-        .social-links {
-            display: flex;
-            align-items: center;
-            gap: 20px;
-        }
-
-        .social-link {
-            font-size: 14px;
-            font-weight: 500;
-            color: var(--text);
-            text-decoration: none;
-            line-height: 20px;
-            transition: color 0.15s ease;
-        }
-
+        .footer-wrap { padding-top: 40px; padding-bottom: 60px; }
+        .footer-divider { border-top: 1px solid var(--border); margin-bottom: 20px; }
+        .footer-inner { display: flex; align-items: center; justify-content: space-between; }
+        .social-links { display: flex; align-items: center; gap: 20px; }
+        .social-link { font-size: 14px; font-weight: 500; color: var(--text); text-decoration: none; line-height: 20px; transition: color 0.15s ease; }
         .social-link:hover { color: var(--muted); }
-
-        .cv-link {
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            font-size: 14px;
-            font-weight: 400;
-            color: var(--text);
-            text-decoration: none;
-            line-height: 20px;
-            transition: color 0.15s ease;
-        }
-
+        .cv-link { display: inline-flex; align-items: center; gap: 10px; font-size: 14px; font-weight: 400; color: var(--text); text-decoration: none; line-height: 20px; transition: color 0.15s ease; }
         .cv-link:hover { color: var(--muted); }
         .cv-link svg { flex-shrink: 0; }
-
-        /* ─── LIGHTBOX ───────────────────────────── */
-        .lightbox {
-            position: fixed;
-            inset: 0;
-            background: rgba(0,0,0,0.92);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 999;
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.22s ease;
-            cursor: zoom-out;
-        }
-
+        .lightbox { position: fixed; inset: 0; background: rgba(0,0,0,0.92); display: flex; align-items: center; justify-content: center; z-index: 999; opacity: 0; pointer-events: none; transition: opacity 0.22s ease; cursor: zoom-out; }
         .lightbox.open { opacity: 1; pointer-events: all; }
-
-        .lightbox img {
-            max-width: 90vw;
-            max-height: 88vh;
-            object-fit: contain;
-            border-radius: 6px;
-            transform: scale(0.96);
-            transition: transform 0.25s cubic-bezier(0.16,1,0.3,1);
-            pointer-events: none;
-            cursor: default;
-        }
-
+        .lightbox img { max-width: 90vw; max-height: 88vh; object-fit: contain; border-radius: 6px; transform: scale(0.96); transition: transform 0.25s cubic-bezier(0.16,1,0.3,1); pointer-events: none; cursor: default; }
         .lightbox.open img { transform: scale(1); }
-
-        .lightbox-close {
-            position: absolute;
-            top: 20px; right: 24px;
-            background: none; border: none;
-            color: rgba(255,255,255,0.6);
-            font-size: 28px;
-            cursor: pointer;
-            line-height: 1; padding: 4px;
-            transition: color 0.15s ease;
-        }
-
+        .lightbox-close { position: absolute; top: 20px; right: 24px; background: none; border: none; color: rgba(255,255,255,0.6); font-size: 28px; cursor: pointer; line-height: 1; padding: 4px; transition: color 0.15s ease; }
         .lightbox-close:hover { color: #fff; }
-
-        /* ─── TOAST ──────────────────────────────── */
-        .toast {
-            position: fixed;
-            bottom: 28px;
-            left: 50%;
-            transform: translateX(-50%) translateY(6px);
-            background: var(--text);
-            color: var(--bg);
-            font-family: 'Inter', sans-serif;
-            font-size: 13px;
-            padding: 8px 16px;
-            border-radius: 6px;
-            opacity: 0;
-            transition: opacity 0.2s ease, transform 0.2s ease;
-            pointer-events: none;
-            white-space: nowrap;
-            z-index: 1000;
-        }
-
+        .toast { position: fixed; bottom: 28px; left: 50%; transform: translateX(-50%) translateY(6px); background: var(--text); color: var(--bg); font-family: 'Inter', sans-serif; font-size: 13px; padding: 8px 16px; border-radius: 6px; opacity: 0; transition: opacity 0.2s ease, transform 0.2s ease; pointer-events: none; white-space: nowrap; z-index: 1000; }
         .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
-
-        /* ─── RESPONSIVE ─────────────────────────── */
-        @media (max-width: 480px) {
-            .wrap { padding: 0 20px; }
-            nav { padding-top: 40px; }
-            .section { padding-top: 32px; }
-        }
-
-        @media (prefers-reduced-motion: reduce) {
-            * { transition: none !important; }
-        }
+        @media (max-width: 480px) { .wrap { padding: 0 20px; } nav { padding-top: 40px; } .section { padding-top: 32px; } }
+        @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
     </style>
 </head>
 <body>
-
-<!-- NAV -->
 <nav>
     <div class="wrap">
         <a href="/" class="back-link">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                <line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/>
-            </svg>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
             Back
         </a>
         <button class="toggle-btn" onclick="toggleTheme()" aria-label="Toggle theme">
             <span id="lbl">Dark Mode</span>
-            <svg id="iconMoon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
-            </svg>
-            <svg id="iconSun" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="display:none">
-                <circle cx="12" cy="12" r="5"/>
-                <line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/>
-                <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
-                <line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/>
-                <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
-            </svg>
+            <svg id="iconMoon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+            <svg id="iconSun" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="display:none"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
         </button>
     </div>
 </nav>
-
 <main>
     <div class="wrap">
-
-        <!-- HERO -->
         <div class="hero">
             <div>
                 <p class="hero-tag">Hangry · 2019</p>
                 <h1 class="hero-title">Before the Playbook Existed</h1>
             </div>
-
             <img src="/hero_image_hangry.png" alt="Hangry App first launch" class="hero-image">
-
             <div class="context-table">
-                <div class="context-row">
-                    <span class="context-label">Outcome:</span>
-                    <span class="context-value">4.9 stars, 100K+ downloads on Play Store</span>
-                </div>
-                <div class="context-row">
-                    <span class="context-label">Company:</span>
-                    <span class="context-value">Hangry Indonesia</span>
-                </div>
-                <div class="context-row">
-                    <span class="context-label">Product:</span>
-                    <span class="context-value">Hangry App (Discovery)</span>
-                </div>
-                <div class="context-row">
-                    <span class="context-label">Role:</span>
-                    <span class="context-value">Research, copy, design</span>
-                </div>
-                <div class="context-row">
-                    <span class="context-label">Team:</span>
-                    <span class="context-value">1 designer, 2 engineers</span>
-                </div>
+                <div class="context-row"><span class="context-label">Outcome:</span><span class="context-value">4.9 stars, 100K+ downloads on Play Store</span></div>
+                <div class="context-row"><span class="context-label">Company:</span><span class="context-value">Hangry Indonesia</span></div>
+                <div class="context-row"><span class="context-label">Product:</span><span class="context-value">Hangry App (Discovery)</span></div>
+                <div class="context-row"><span class="context-label">Role:</span><span class="context-value">Research, copy, design</span></div>
+                <div class="context-row"><span class="context-label">Team:</span><span class="context-value">1 designer, 2 engineers</span></div>
             </div>
-
             <hr class="divider">
         </div>
-
-        <!-- BACKGROUND -->
         <div class="section">
             <p class="section-label">BACKGROUND</p>
             <p>Hangry App is a cloud kitchen: one physical outlet, multiple brands. From a single location, users can order from all available brands at once. This is fundamentally different from conventional food apps where one outlet equals one brand, one type of menu.</p>
             <p>When I joined in 2019, Hangry had only 3 outlets and 3 brands, all in Jakarta. I was the only full-time designer. An existing design was already in place from a part-time designer.</p>
         </div>
-
-        <!-- RESEARCH & DISCOVERY -->
         <div class="section">
             <p class="section-label">RESEARCH & DISCOVERY</p>
             <p>Before touching a single screen, I spent time genuinely understanding what Hangry was — by talking with stakeholders and C-level (still possible at that time, given the small team size) to understand their growth plan, their unique selling points, and where they were heading.</p>
             <p>The picture became clear. Hangry's model was expansion by multiplication. Every new outlet meant multiple brands launching simultaneously. Brand exposure wasn't a nice-to-have; it was core to the product's value.</p>
         </div>
-
-        <!-- PROBLEM FRAMING -->
         <div class="section">
             <p class="section-label">PROBLEM FRAMING</p>
             <p>If we go back to what Hangry really is, I found something off from the existing design. I found two fundamental problems.</p>
             <p>The first was about identity. The existing design made the Hangry App discovery feel like one restaurant with a wide menu — the kind of place where you scroll through lots of options from a single kitchen. That's not what Hangry was. Hangry was multiple distinct brands sharing one location. Getting it wrong in the UI meant users would never truly understand what they were using.</p>
-
             <div class="figure">
                 <img src="/existing_discovery_flow.png" alt="Hangry App user discovery flow before release (old design)">
                 <figcaption>Hangry App user discovery flow before release (old design)</figcaption>
             </div>
-
             <p>The second was about access. Like most food apps in Indonesia at the time, the design used a location-first pattern. In the existing design, if the user was too far from an outlet, they were blocked entirely — they couldn't enter the app at all.</p>
             <p>For an app with hundreds of partners spread across a city, that might make sense. But for Hangry with only 3 outlets, it meant most of the Jakarta area couldn't get past the front door and had no chance to discover what Hangry's brands actually were.</p>
+            <p>The existing design had one clear symptom: users outside the delivery radius saw a dead end, not a brand. My proposal changed that single decision — instead of a wall, they'd see an outlet list with all brands browsable, just not purchasable. Same constraint, completely different experience.</p>
         </div>
-
-        <!-- DECISION & THINKING -->
         <div class="section">
             <p class="section-label">DECISION & THINKING</p>
             <p>There are 3 principles that shaped my proposal to change the existing design:</p>
-
             <ol class="ordered-list">
                 <li>More steps doesn't mean worse UX. What matters is making sure every step is the right one. Comfort comes from clarity, not from fewer taps.</li>
-                <li>This was the core of my thinking for this case: "We might miss a sales opportunity, but we didn't have to miss a brand awareness opportunity."
-                Not being able to order today doesn't mean not being able to order ever. If users can't buy anything, they have to be able to browse. A good product shouldn't block users because of that.</li>
+                <li>This was the core of my thinking for this case: "We might miss a sales opportunity, but we didn't have to miss a brand awareness opportunity." Not being able to order today doesn't mean not being able to order ever. If users can't buy anything, they have to be able to browse. A good product shouldn't block users because of that.</li>
                 <li>Design needs to account for where the product is now and where it's going. Hangry was in an early phase. My proposals had to work today and be adjustable as coverage grew, not become a burden later.</li>
             </ol>
-
             <p>Based on those principles, I proposed a flow different from the existing design. Instead of blocking users based on distance, the app still reads their location but then shows a list of available outlets. If every outlet was out of range, users could still enter and browse all the brands, see full menus. They just couldn't check out — and that was communicated clearly from the start.</p>
-
             <div class="figure">
                 <img src="/proposal_discovery_flow.png" alt="My proposal user discovery flow">
                 <figcaption>My proposal user discovery flow</figcaption>
             </div>
-
             <p>This proposal served two purposes. It removed the hard wall that was shutting out most of the Jakarta area, and it let the brands speak for themselves — which was exactly what Hangry needed in its early phase.</p>
-
             <p>I didn't change much from the existing design, only fixed the discovery flow (because at that time, we needed to release ASAP).</p>
-
             <div class="figure">
                 <img src="/ui_discovery.png" alt="UI discovery">
                 <figcaption>UI discovery</figcaption>
             </div>
         </div>
-
-        <!-- OUTCOME -->
         <div class="section">
             <p class="section-label">OUTCOME</p>
             <p>The first launch went well. Early Google Play reviews came in consistently: easy to use, smooth, clear choices, seamless from order to pick-up, etc.</p>
-
             <div class="figure">
                 <img src="/users_feedback.png" alt="Users feedback on the first launch">
                 <figcaption>Users feedback on the first launch</figcaption>
             </div>
-
             <p>After the first launch, the Hangry App kept being iterated and the design kept updating, but this experience remained the same.</p>
             <p>By the end of 2020, Hangry went from 3 outlets to over 40, growing faster than almost any F&B startup in Indonesia at the time. A product that clearly communicates what it is and doesn't block the people it's trying to reach is part of how you get there.</p>
-
             <a href="https://play.google.com/store/search?q=hangry&c=apps&hl=en" target="_blank" rel="noopener noreferrer" class="ext-link">
                 You can download and try the product here
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                    <line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/>
-                </svg>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
             </a>
         </div>
-
-        <!-- WHAT THIS TAUGHT ME -->
         <div class="section">
             <p class="section-label">WHAT THIS TAUGHT ME</p>
             <p>The obvious lesson was tactical: products in the same industry don't share the same user journey. Everything depends on how the business works and what constraints it has at that specific phase.</p>
@@ -524,8 +186,6 @@
             <p class="italic-text">"Given where this product is right now, what's the most honest and useful experience I can design?"</p>
             <p>That reframe changed how I approached every project after this one.</p>
         </div>
-
-        <!-- FOOTER -->
         <div class="footer-wrap">
             <div class="footer-divider"></div>
             <div class="footer-inner">
@@ -536,34 +196,26 @@
                 </div>
                 <a href="/cv-nugraha-putra.pdf" download class="cv-link" id="cvLink">
                     Download CV
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                        <line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/>
-                    </svg>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
                 </a>
             </div>
         </div>
-
     </div>
 </main>
-
-<!-- LIGHTBOX -->
 <div class="lightbox" id="lightbox">
     <button class="lightbox-close" id="lightboxClose" aria-label="Close">×</button>
     <img id="lightboxImg" src="" alt="">
 </div>
-
 <script>
     function updateThemeIcon(isDark) {
         document.getElementById('lbl').textContent = isDark ? 'Light Mode' : 'Dark Mode';
-        document.getElementById('iconMoon').style.display = isDark ? 'none'  : 'block';
+        document.getElementById('iconMoon').style.display = isDark ? 'none' : 'block';
         document.getElementById('iconSun').style.display  = isDark ? 'block' : 'none';
     }
-
     (function () {
         const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
         updateThemeIcon(isDark);
     })();
-
     function toggleTheme() {
         const html   = document.documentElement;
         const isDark = html.getAttribute('data-theme') === 'dark';
@@ -572,7 +224,6 @@
         localStorage.setItem('theme', next);
         updateThemeIcon(!isDark);
     }
-
     function showToast(msg) {
         document.querySelector('.toast')?.remove();
         const el = document.createElement('div');
@@ -582,25 +233,16 @@
         requestAnimationFrame(() => requestAnimationFrame(() => el.classList.add('show')));
         setTimeout(() => { el.classList.remove('show'); setTimeout(() => el.remove(), 250); }, 2000);
     }
-
     document.getElementById('emailLink').addEventListener('click', (e) => {
         e.preventDefault();
         navigator.clipboard?.writeText('stickersboy.id@gmail.com')
             .then(() => showToast('Email copied to clipboard'))
             .catch(() => window.location.href = 'mailto:stickersboy.id@gmail.com');
     });
-
     document.getElementById('cvLink').addEventListener('click', () => showToast('Downloading CV...'));
-
-    // Lightbox
     const lightbox    = document.getElementById('lightbox');
     const lightboxImg = document.getElementById('lightboxImg');
-
-    function closeLightbox() {
-        lightbox.classList.remove('open');
-        document.body.style.overflow = '';
-    }
-
+    function closeLightbox() { lightbox.classList.remove('open'); document.body.style.overflow = ''; }
     document.querySelectorAll('.figure img, .hero-image').forEach(img => {
         img.addEventListener('click', () => {
             lightboxImg.src = img.src;
@@ -609,11 +251,9 @@
             document.body.style.overflow = 'hidden';
         });
     });
-
     document.getElementById('lightboxClose').addEventListener('click', closeLightbox);
     lightbox.addEventListener('click', e => { if (e.target === lightbox) closeLightbox(); });
     document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbox(); });
 </script>
-
 </body>
 </html>
