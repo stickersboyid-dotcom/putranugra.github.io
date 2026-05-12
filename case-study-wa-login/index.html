@@ -79,19 +79,6 @@
             letter-spacing: -0.23px;
         }
 
-        /* ─── PROMPT GRID ────────────────────────── */
-        .prompt-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 8px;
-        }
-        .prompt-grid img {
-            width: 100%;
-            border-radius: 5px;
-            display: block;
-            cursor: zoom-in;
-            object-fit: cover;
-        }
 
         /* ─── FIGURE ─────────────────────────────── */
         .figure { display: flex; flex-direction: column; gap: 8px; }
@@ -100,7 +87,7 @@
 
         /* ─── VIDEO ──────────────────────────────── */
         .video-wrap { display: flex; flex-direction: column; gap: 8px; }
-        .video-wrap video { width: 100%; border-radius: 5px; display: block; }
+        .video-wrap video { width: 100%; height: 245px; border-radius: 5px; display: block; object-fit: cover; }
         .video-caption { font-size: 12px; font-weight: 400; color: var(--muted); line-height: 18px; text-align: center; }
 
         /* ─── STEP LIST ──────────────────────────── */
@@ -147,7 +134,7 @@
             .wrap { padding: 0 20px; }
             nav { padding-top: 40px; }
             .section { padding-top: 32px; }
-            .prompt-grid { grid-template-columns: 1fr; }
+
         }
         @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
     </style>
@@ -234,18 +221,14 @@
             <p>This was my first project using AI tools in a real design workflow — specifically FigMake, Figma's AI prototyping feature. The goal was to move from wireframe to testable prototype much faster than manual Figma work would allow. What typically took 1–2 days of building screens and connecting interactions manually now took a few hours — and that included time learning the tool from scratch.</p>
             <p>But the first prototype round revealed something important: my early prompts were too vague. I described what I wanted to build without enough context — no mention of the specific user confusion I was trying to address, no clarity on the mental model problem. The outputs were far from what I had in mind.</p>
 
-            <p>Here's what some of those early prompts looked like:</p>
-
-            <div class="prompt-grid">
-                <img src="/prompt1.png" alt="FigMake prompt 1">
-                <img src="/prompt2.png" alt="FigMake prompt 2">
-                <img src="/prompt3.png" alt="FigMake prompt 3">
-                <img src="/prompt4.png" alt="FigMake prompt 4">
-                <img src="/prompt5.png" alt="FigMake prompt 5">
-                <img src="/prompt6.png" alt="FigMake prompt 6">
+            <div class="figure">
+                <img src="/prompt.png" alt="FigMake prompts — early iterations">
+                <figcaption>Early FigMake prompts — still vague, still learning</figcaption>
             </div>
 
-            <p>As I added more specific context — the user journey, the exact confusion I'd observed, the precise copy I wanted — the outputs got progressively closer. The prompting process forced me to be clearer about my own design intent. A vague prompt is a vague brief.</p>
+            <div class="quote-box">A vague prompt is a vague brief. If I couldn't explain what I was building precisely enough for AI to understand it, I probably hadn't thought it through precisely enough myself.</div>
+
+            <p>As I added more specific context — the user journey, the exact confusion I'd observed, the precise copy I wanted — the outputs got progressively closer. The prompting process forced me to be clearer about my own design intent.</p>
             <p>After the first prototype and user testing, the main finding was clear: users needed explicit, action-oriented guidance. I designed a three-step instruction block with specific UX copy:</p>
 
             <ul class="step-list">
@@ -360,7 +343,7 @@
     const lightbox    = document.getElementById('lightbox');
     const lightboxImg = document.getElementById('lightboxImg');
     function closeLightbox() { lightbox.classList.remove('open'); document.body.style.overflow = ''; }
-    document.querySelectorAll('.figure img, .hero-image, .prompt-grid img').forEach(img => {
+    document.querySelectorAll('.figure img, .hero-image').forEach(img => {
         img.addEventListener('click', () => {
             lightboxImg.src = img.src;
             lightboxImg.alt = img.alt;
