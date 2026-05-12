@@ -370,7 +370,7 @@
         <!-- HERO -->
         <div class="hero">
             <div>
-                <p class="hero-tag">Hangry · 2023</p>
+                <p class="hero-tag">Hangry · 2025</p>
                 <h1 class="hero-title">What AI Taught Me About My Own Thinking</h1>
             </div>
 
@@ -405,30 +405,30 @@
         <!-- BACKGROUND -->
         <div class="section">
             <p class="section-label">BACKGROUND</p>
-            <p>Hangry App has two login methods: PIN and SMS OTP. PIN requires setup during registration — most users skipped it. OTP became the de facto login method. When it failed, users were locked out entirely.</p>
+            <p>Hangry App has two login methods: PIN and SMS OTP. PIN requires setup during registration, but most users skipped it. OTP became the de facto login method. When it failed, users were locked out entirely.</p>
             <p>Reports from the CE team kept coming in: users failing to receive their OTP code. For a food ordering app, a broken login is a lost order. The problem was real, consistent, and growing.</p>
         </div>
 
         <!-- RESEARCH & DISCOVERY -->
         <div class="section">
             <p class="section-label">RESEARCH & DISCOVERY</p>
-            <p>Before jumping to solutions, I did a benchmarking round — looking at other apps that had moved away from SMS OTP. One pattern kept appearing: WhatsApp-based login. Several apps had already made the switch, and the reasoning was clear. The cost per trigger was significantly lower than SMS, and WhatsApp penetration in Indonesia is near-universal.</p>
-            <p>After the team verified feasibility on cost and engineering, the direction was confirmed. The flow itself is deceptively simple: user inputs phone number → taps button → redirected to WhatsApp → message is pre-filled, user just taps send → returns to app → already logged in. No code to remember, no waiting for SMS.</p>
+            <p>Before jumping to solutions, I did a benchmarking round, looking at other apps that had moved away from SMS OTP. One pattern kept appearing: WhatsApp-based login. Several apps had already made the switch, and the reasoning was clear. The cost per trigger was significantly lower than SMS, and WhatsApp penetration in Indonesia is near-universal.</p>
+            <p>After my team verified feasibility on cost and engineering, the direction was confirmed. The flow itself is deceptively simple: user inputs phone number → taps button → redirected to WhatsApp → message is pre-filled, user just taps send → returns to app → already logged in. No code to remember, no waiting for SMS.</p>
         </div>
 
         <!-- PROBLEM FRAMING -->
         <div class="section">
             <p class="section-label">PROBLEM FRAMING</p>
-            <p>On paper, the flow was simple. But when I tested the concept informally with colleagues outside the tech team, a consistent pattern emerged: they'd send the WhatsApp message — then wait.</p>
+            <p>On paper, the flow was simple. But when I tested the concept informally with colleagues outside the tech team, a consistent pattern emerged: they'd send the WhatsApp message, then wait.</p>
             <p>They expected a reply from Hangry's admin number before they could log in. But there is no reply. The moment the message is sent, verification is already complete in the background. They just needed to go back to the app.</p>
-            <p>This was the real design problem — not the flow itself, but the gap between how users expected it to work and how it actually worked. A new behavior doesn't just need to work correctly. It needs to be explained precisely.</p>
+            <p>This was the real design problem, not the flow itself, but the gap between how users expected it to work and how it actually worked. A new behavior doesn't just need to work correctly. It needs to be explained precisely.</p>
         </div>
 
         <!-- DECISION & THINKING -->
         <div class="section">
             <p class="section-label">DECISION & THINKING</p>
-            <p>This was my first project using AI tools in a real design workflow — specifically FigMake, Figma's AI prototyping feature. The goal was to move from wireframe to testable prototype much faster than manual Figma work would allow. What typically took 1–2 days of building screens and connecting interactions manually now took a few hours — and that included time learning the tool from scratch.</p>
-            <p>But the first prototype round revealed something important: my early prompts were too vague. I described what I wanted to build without enough context — no mention of the specific user confusion I was trying to address, no clarity on the mental model problem. The outputs were far from what I had in mind.</p>
+            <p>This was my first project using AI tools in a real design workflow, specifically FigMake, Figma's AI feature. The goal was to move from wireframe to testable prototype much faster than manual Figma work would allow. What typically took 1–2 days of building screens and connecting interactions manually now took a few hours and that included time of me learning the tool from scratch.</p>
+            <p>But the first prototype round revealed something important: my early prompts were too vague. I described what I wanted to build without enough context, no mention of the specific user confusion I was trying to address, no clarity on the mental model problem. The outputs were far from what I had in mind.</p>
 
             <div class="figure">
                 <img src="/prompt.png" alt="FigMake prompts — early iterations">
@@ -437,7 +437,7 @@
 
             <div class="quote-box">A vague prompt is a vague brief. If I couldn't explain what I was building precisely enough for AI to understand it, I probably hadn't thought it through precisely enough myself.</div>
 
-            <p>As I added more specific context — the user journey, the exact confusion I'd observed, the precise copy I wanted — the outputs got progressively closer. The prompting process forced me to be clearer about my own design intent.</p>
+            <p>As I added more specific context, the user journey, the exact confusion I'd observed, the precise copy I wanted, the outputs got progressively closer. The prompting process forced me to be clearer about my own design intent.</p>
             <p>After the first prototype and user testing, the main finding was clear: users needed explicit, action-oriented guidance. I designed a three-step instruction block with specific UX copy:</p>
 
             <ul class="step-list">
@@ -455,7 +455,7 @@
                 </li>
             </ul>
 
-            <p>Step 3 is where the work is. "Once the message is sent" — not "after you receive a reply." One phrase. But it cuts off the wrong expectation before it can form.</p>
+            <p>Step 3 is where the work is. "Once the message is sent" not "after you receive a reply." One phrase. But it cuts off the wrong expectation before it can form.</p>
             <p>I rebuilt the prototype with FigMake using the revised prompt and copy, then tested it with the same colleagues. This time, they understood immediately.</p>
 
             <div class="video-wrap">
@@ -478,8 +478,8 @@
         <!-- OUTCOME -->
         <div class="section">
             <p class="section-label">OUTCOME</p>
-            <p>After WA Login launched, login-related complaints to the CE team dropped significantly. The feature is still live in Hangry App today — which means from both a user and business perspective, it works.</p>
-            <p>From a cost perspective, WhatsApp verification costs a fraction of SMS OTP per trigger. The reliability problem that caused the complaints in the first place was also resolved — WhatsApp delivery is far more consistent than SMS in Indonesia.</p>
+            <p>After WA Login launched, login-related complaints to the CE team dropped significantly. The feature is still live in Hangry App today, which means from both a user and business perspective, it works.</p>
+            <p>From a cost perspective, WhatsApp verification costs a fraction of SMS OTP per trigger. The reliability problem that caused the complaints in the first place was also resolved, WhatsApp delivery is far more consistent than SMS in Indonesia.</p>
 
             <div class="figure">
                 <img src="/wa_login_screen.png" alt="WhatsApp Login — final UI live in Hangry App">
@@ -495,7 +495,7 @@
         <!-- WHAT THIS TAUGHT ME -->
         <div class="section">
             <p class="section-label">WHAT THIS TAUGHT ME</p>
-            <p>The bottleneck in AI-assisted design isn't the tool — it's the clarity of your own thinking. The more specific my prompts became, the better the outputs. But what I was really doing was forcing myself to think more clearly about what I was designing and why. AI didn't replace that thinking. It exposed where it was missing.</p>
+            <p>The bottleneck in AI-assisted design isn't the tool, it's the clarity of your own thinking. The more specific my prompts became, the better the outputs. But what I was really doing was forcing myself to think more clearly about what I was designing and why. AI didn't replace that thinking. It exposed where it was missing.</p>
             <p>On the design side: a new behavior doesn't just need to be designed well. It needs to be explained precisely. Users arrive with mental models from previous experiences. One phrase in the right place can be the difference between a flow that confuses and a flow that clicks.</p>
             <p>Since this project, AI has become a regular part of how I work as a designer — for research, ideation, and prototyping. Even this portfolio website was built with the help of Claude.</p>
         </div>
