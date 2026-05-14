@@ -295,189 +295,147 @@
             <p>I designed this mobile-only too, because the trigger is scanning a purchase bill QR, which happens on a phone. Designing desktop-first would have added a device-switching step that didn't need to exist.</p>
         </div>
 
-        <!-- FINAL UI — PHONE MOCKUP -->
+        <!-- FINAL UI -->
         <div class="section">
             <div class="figure">
+
                 <style>
-                    /* ── STICKY MOCKUP LAYOUT ───────────────────────── */
-                    .aida-wrap {
-                        display: flex;
-                        gap: 32px;
-                        align-items: flex-start;
-                        position: relative;
-                    }
-                    /* Left: sticky label */
-                    .aida-label {
-                        position: sticky;
-                        top: 40px;
-                        width: 116px;
-                        flex-shrink: 0;
-                        height: 110px;
-                        overflow: hidden;
-                    }
-                    .aida-ticker {
-                        display: flex;
-                        flex-direction: column;
-                        transition: transform 0.4s cubic-bezier(0.4,0,0.2,1);
-                    }
-                    .aida-step {
-                        min-height: 110px;
-                        padding-bottom: 16px;
-                        flex-shrink: 0;
-                    }
-                    .aida-num {
-                        font-size: 9px; font-weight: 700;
-                        letter-spacing: 0.1em; text-transform: uppercase;
-                        color: var(--muted); margin-bottom: 4px;
-                    }
-                    .aida-title {
-                        font-size: 13px; font-weight: 600;
-                        color: var(--text); margin-bottom: 5px; line-height: 1.4;
-                    }
-                    .aida-desc {
-                        font-size: 11px; color: var(--muted); line-height: 1.5;
-                    }
+                /* Scrolling UI showcase — no phone frame */
+                .ui-showcase {
+                    position: relative;
+                    display: flex;
+                    align-items: flex-start;
+                    gap: 24px;
+                }
 
-                    /* Right: phone + scroll hint */
-                    .aida-phone-col {
-                        display: flex;
-                        flex-direction: column;
-                        align-items: center;
-                        gap: 12px;
-                        flex-shrink: 0;
-                    }
+                /* Label left — sticky */
+                .ui-label {
+                    position: sticky;
+                    top: 40vh;
+                    width: 116px;
+                    flex-shrink: 0;
+                    height: 110px;
+                    overflow: hidden;
+                    align-self: flex-start;
+                }
+                .ui-ticker {
+                    display: flex;
+                    flex-direction: column;
+                    transition: transform 0.4s cubic-bezier(0.4,0,0.2,1);
+                }
+                .ui-step { min-height: 110px; padding-bottom: 16px; flex-shrink: 0; }
+                .ui-step-num {
+                    font-size: 9px; font-weight: 700;
+                    letter-spacing: 0.1em; text-transform: uppercase;
+                    color: var(--muted); margin-bottom: 4px;
+                }
+                .ui-step-title {
+                    font-size: 13px; font-weight: 600;
+                    color: var(--text); margin-bottom: 5px; line-height: 1.4;
+                }
+                .ui-step-desc { font-size: 11px; color: var(--muted); line-height: 1.5; }
 
-                    /* Phone frame */
-                    .ph {
-                        width: 180px;
-                        background: #1C1C1E;
-                        border-radius: 38px;
-                        padding: 10px;
-                        box-shadow: 0 0 0 1px #3a3a3c, 0 20px 48px rgba(0,0,0,0.45);
-                        position: relative;
-                        overflow: hidden;
-                    }
-                    .ph::before {
-                        content: '';
-                        position: absolute;
-                        left: -3px; top: 70px;
-                        width: 3px; height: 26px;
-                        background: #3a3a3c;
-                        border-radius: 2px 0 0 2px;
-                        box-shadow: 0 36px 0 #3a3a3c;
-                    }
-                    .ph::after {
-                        content: '';
-                        position: absolute;
-                        right: -3px; top: 94px;
-                        width: 3px; height: 50px;
-                        background: #3a3a3c;
-                        border-radius: 0 2px 2px 0;
-                    }
-                    .ph-inner {
-                        width: 100%;
-                        border-radius: 30px;
-                        overflow: hidden;
-                        position: relative;
-                        background: #000;
-                    }
-                    .ph-notch {
-                        position: absolute;
-                        top: 8px; left: 50%;
-                        transform: translateX(-50%);
-                        width: 64px; height: 20px;
-                        background: #000;
-                        border-radius: 20px;
-                        z-index: 10;
-                        pointer-events: none;
-                    }
-                    /* The image — full height, no clip */
-                    .ph-img {
-                        width: 100%;
-                        display: block;
-                        pointer-events: none;
-                        user-select: none;
-                    }
+                /* Image container — clips the image, drives the scroll illusion */
+                .ui-img-wrap {
+                    flex: 1;
+                    position: relative;
+                    height: 400px;
+                    overflow: hidden;
+                    border-radius: 12px;
+                    background: #f5f5f5;
+                }
+                .ui-img-wrap img {
+                    width: 100%;
+                    display: block;
+                    position: absolute;
+                    top: 0; left: 0;
+                    will-change: transform;
+                    pointer-events: none;
+                    user-select: none;
+                }
 
-                    /* Scroll hint — rotated text on right side like reference */
-                    .aida-scroll-hint {
-                        writing-mode: vertical-rl;
-                        text-orientation: mixed;
-                        transform: rotate(180deg);
-                        font-size: 10px;
-                        color: var(--muted);
-                        letter-spacing: 0.08em;
-                        display: flex;
-                        align-items: center;
-                        gap: 6px;
-                        position: absolute;
-                        right: -28px;
-                        top: 50%;
-                        transform: translateY(-50%) rotate(180deg);
-                    }
+                /* Scroll hint — vertical text right side */
+                .ui-hint {
+                    position: sticky;
+                    top: 40vh;
+                    align-self: flex-start;
+                    writing-mode: vertical-rl;
+                    transform: rotate(180deg);
+                    font-size: 10px;
+                    color: var(--muted);
+                    letter-spacing: 0.06em;
+                    display: flex;
+                    align-items: center;
+                    gap: 6px;
+                    flex-shrink: 0;
+                }
                 </style>
 
-                <div class="aida-wrap" id="aidaWrap">
-                    <!-- Sticky label left -->
-                    <div class="aida-label">
-                        <div class="aida-ticker" id="aidaTicker">
-                            <div class="aida-step">
-                                <p class="aida-num">Step 1 of 4</p>
-                                <p class="aida-title">Getting Attention</p>
-                                <p class="aida-desc">Hook sentence, directly solving the problem based on user research</p>
+                <div class="ui-showcase" id="uiShowcase">
+                    <!-- Label left -->
+                    <div class="ui-label">
+                        <div class="ui-ticker" id="uiTicker">
+                            <div class="ui-step">
+                                <p class="ui-step-num">Step 1 of 4</p>
+                                <p class="ui-step-title">Getting Attention</p>
+                                <p class="ui-step-desc">Hook sentence, directly solving the problem based on user research</p>
                             </div>
-                            <div class="aida-step">
-                                <p class="aida-num">Step 2 of 4</p>
-                                <p class="aida-title">Building Interest</p>
-                                <p class="aida-desc">Explain the facts about the loyalty program benefits</p>
+                            <div class="ui-step">
+                                <p class="ui-step-num">Step 2 of 4</p>
+                                <p class="ui-step-title">Building Interest</p>
+                                <p class="ui-step-desc">Explain the facts about the loyalty program benefits</p>
                             </div>
-                            <div class="aida-step">
-                                <p class="aida-num">Step 3 of 4</p>
-                                <p class="aida-title">Getting Desire</p>
-                                <p class="aida-desc">Show how easy it is to earn points and tease the app's extra benefits</p>
+                            <div class="ui-step">
+                                <p class="ui-step-num">Step 3 of 4</p>
+                                <p class="ui-step-title">Getting Desire</p>
+                                <p class="ui-step-desc">Show how easy it is to earn points and tease the app's extra benefits</p>
                             </div>
-                            <div class="aida-step">
-                                <p class="aida-num">Step 4 of 4</p>
-                                <p class="aida-title">Do Action</p>
-                                <p class="aida-desc">Offer users to join the loyalty program, reinforcing every benefit shown above</p>
+                            <div class="ui-step">
+                                <p class="ui-step-num">Step 4 of 4</p>
+                                <p class="ui-step-title">Do Action</p>
+                                <p class="ui-step-desc">Offer users to join the loyalty program, reinforcing every benefit shown above</p>
                             </div>
                         </div>
                     </div>
 
-                    <!-- Phone col -->
-                    <div class="aida-phone-col" style="position:relative;">
-                        <div class="ph">
-                            <div class="ph-inner">
-                                <div class="ph-notch"></div>
-                                <img class="ph-img" id="phImg" src="../landing_page_loyalty_full.png" alt="Loyalty Landing Page UI">
-                            </div>
-                        </div>
-                        <!-- Scroll hint right side -->
-                        <div style="position:absolute;right:-24px;top:50%;transform:translateY(-50%);">
-                            <div style="writing-mode:vertical-rl;transform:rotate(180deg);font-size:10px;color:var(--muted);letter-spacing:0.06em;display:flex;align-items:center;gap:6px;">
-                                <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="transform:rotate(90deg)"><line x1="12" y1="5" x2="12" y2="19"/><polyline points="19 12 12 19 5 12"/></svg>
-                                Scroll to explore
-                            </div>
-                        </div>
+                    <!-- Image -->
+                    <div class="ui-img-wrap" id="uiImgWrap">
+                        <img id="uiImg" src="../landing_page_loyalty_full.png" alt="Loyalty Landing Page UI">
+                    </div>
+
+                    <!-- Scroll hint -->
+                    <div class="ui-hint">
+                        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><polyline points="19 12 12 19 5 12"/></svg>
+                        Scroll to explore
                     </div>
                 </div>
 
                 <script>
                 (function(){
-                    var wrap   = document.getElementById('aidaWrap');
-                    var ticker = document.getElementById('aidaTicker');
-                    var img    = document.getElementById('phImg');
-                    if (!wrap || !ticker || !img) return;
+                    var showcase = document.getElementById('uiShowcase');
+                    var wrap     = document.getElementById('uiImgWrap');
+                    var img      = document.getElementById('uiImg');
+                    var ticker   = document.getElementById('uiTicker');
+                    if (!showcase || !wrap || !img || !ticker) return;
 
-                    var STEP_H  = 110;
-                    var cur     = -1;
+                    var STEP_H = 110;
+                    var cur    = -1;
 
                     function update() {
-                        var rect    = wrap.getBoundingClientRect();
-                        var wrapH   = wrap.offsetHeight;
-                        var viewH   = window.innerHeight;
-                        // How far we've scrolled through the wrap (0 to 1)
-                        var progress = Math.max(0, Math.min(1, (-rect.top) / (wrapH - viewH * 0.5)));
+                        var wRect  = wrap.getBoundingClientRect();
+                        var imgH   = img.offsetHeight;
+                        var wrapH  = wrap.offsetHeight;
+                        var maxScroll = imgH - wrapH;
+
+                        // How far the top of wrap has scrolled past viewport top
+                        var scrolled = -wRect.top + window.innerHeight * 0.3;
+                        var progress = Math.max(0, Math.min(1, scrolled / (showcase.offsetHeight * 0.8)));
+
+                        // Move image up
+                        var translateY = -Math.round(progress * maxScroll);
+                        img.style.transform = 'translateY(' + translateY + 'px)';
+
+                        // Update label
                         var step = Math.min(3, Math.floor(progress * 4));
                         if (step !== cur) {
                             cur = step;
@@ -485,16 +443,16 @@
                         }
                     }
 
+                    img.addEventListener('load', update);
                     window.addEventListener('scroll', update, {passive: true});
                     update();
                 })();
                 </script>
 
-                <figcaption style="margin-top:12px;">Final UI — loyalty landing page</figcaption>
+                <figcaption style="margin-top:8px;">Final UI — loyalty landing page</figcaption>
             </div>
             <p>I applied the AIDA concept for this landing page. AIDA (Attention, Interest, Desire, Action) is a copywriting concept to increase the effectiveness of the landing page's goals — in this case, getting as many new user registrations as possible.</p>
         </div>
-
         <!-- PUSHBACK & CONCLUSION -->
         <div class="section">
             <p class="section-label">PUSHBACK & CONCLUSION</p>
