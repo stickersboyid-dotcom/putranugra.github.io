@@ -298,55 +298,155 @@
         <!-- FINAL UI — PHONE MOCKUP -->
         <div class="section">
             <div class="figure">
-                <div style="display:flex;align-items:flex-start;gap:28px;">
+                <style>
+                    .mockup-wrap { display: flex; align-items: flex-start; gap: 24px; }
+                    .mockup-label { width: 120px; flex-shrink: 0; margin-top: 56px; height: 110px; overflow: hidden; }
+                    .mockup-ticker { display: flex; flex-direction: column; transition: transform 0.45s cubic-bezier(0.4,0,0.2,1); }
+                    .mockup-step { width: 120px; flex-shrink: 0; min-height: 110px; padding-bottom: 16px; }
+                    .mockup-step-num { font-size: 9px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); margin-bottom: 4px; }
+                    .mockup-step-title { font-size: 13px; font-weight: 600; color: var(--text); margin-bottom: 5px; line-height: 1.4; }
+                    .mockup-step-desc { font-size: 11px; color: var(--muted); line-height: 1.5; }
 
-                    <!-- Left sliding label -->
-                    <div style="width:130px;flex-shrink:0;position:relative;height:114px;overflow:hidden;margin-top:60px;">
-                        <div id="lbTicker" style="display:flex;flex-direction:column;transition:transform 0.45s cubic-bezier(0.4,0,0.2,1);">
-                            <div style="width:130px;flex-shrink:0;padding-bottom:20px;min-height:114px;">
-                                <p style="font-size:9px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);margin-bottom:5px;">Step 1 of 4</p>
-                                <p style="font-size:13px;font-weight:600;color:var(--text);margin-bottom:6px;line-height:1.4;">Getting Attention</p>
-                                <p style="font-size:11px;color:var(--muted);line-height:1.6;">Hook sentence, directly solving the problem based on user research</p>
+                    .phone-outer { display: flex; flex-direction: column; align-items: center; gap: 10px; flex-shrink: 0; }
+                    .phone-shell {
+                        width: 184px;
+                        background: #1C1C1E;
+                        border-radius: 40px;
+                        padding: 10px;
+                        box-shadow: 0 0 0 1px #3a3a3c, 0 24px 48px rgba(0,0,0,0.5);
+                        position: relative;
+                    }
+                    /* Volume buttons */
+                    .phone-shell::before {
+                        content: '';
+                        position: absolute;
+                        left: -3px; top: 72px;
+                        width: 3px; height: 28px;
+                        background: #3a3a3c;
+                        border-radius: 2px 0 0 2px;
+                        box-shadow: 0 38px 0 #3a3a3c;
+                    }
+                    /* Power button */
+                    .phone-shell::after {
+                        content: '';
+                        position: absolute;
+                        right: -3px; top: 96px;
+                        width: 3px; height: 52px;
+                        background: #3a3a3c;
+                        border-radius: 0 2px 2px 0;
+                    }
+                    .phone-screen {
+                        width: 100%;
+                        height: 360px;
+                        background: #000;
+                        border-radius: 32px;
+                        overflow: hidden;
+                        position: relative;
+                        /* NO mask here — mask breaks overflow containment */
+                    }
+                    .phone-notch {
+                        position: absolute;
+                        top: 10px; left: 50%;
+                        transform: translateX(-50%);
+                        width: 72px; height: 22px;
+                        background: #000;
+                        border-radius: 20px;
+                        z-index: 20;
+                    }
+                    /* Fade overlays — separate elements so they don't affect scroll */
+                    .phone-fade-top {
+                        position: absolute;
+                        top: 0; left: 0; right: 0;
+                        height: 36px;
+                        background: linear-gradient(to bottom, #000, transparent);
+                        z-index: 10;
+                        pointer-events: none;
+                    }
+                    .phone-fade-bottom {
+                        position: absolute;
+                        bottom: 0; left: 0; right: 0;
+                        height: 36px;
+                        background: linear-gradient(to top, #000, transparent);
+                        z-index: 10;
+                        pointer-events: none;
+                    }
+                    .phone-scroll {
+                        position: absolute;
+                        inset: 0;
+                        overflow-y: scroll;
+                        overflow-x: hidden;
+                        -ms-overflow-style: none;
+                        scrollbar-width: none;
+                    }
+                    .phone-scroll::-webkit-scrollbar { display: none; }
+                    .phone-scroll img {
+                        width: 100%;
+                        display: block;
+                        pointer-events: none;
+                        user-select: none;
+                    }
+                    /* Scrollbar indicator */
+                    .phone-scrollbar {
+                        position: absolute;
+                        right: 4px; top: 20%; bottom: 20%;
+                        width: 2px;
+                        background: rgba(255,255,255,0.08);
+                        border-radius: 2px;
+                        z-index: 15;
+                    }
+                    .phone-scrollbar-thumb {
+                        position: absolute;
+                        top: 0; left: 0; right: 0;
+                        height: 28%;
+                        background: rgba(255,255,255,0.4);
+                        border-radius: 2px;
+                    }
+                    .phone-hint { display: flex; align-items: center; gap: 5px; font-size: 11px; color: var(--muted); }
+                </style>
+
+                <div class="mockup-wrap">
+                    <!-- Sliding label -->
+                    <div class="mockup-label">
+                        <div class="mockup-ticker" id="lbTicker">
+                            <div class="mockup-step">
+                                <p class="mockup-step-num">Step 1 of 4</p>
+                                <p class="mockup-step-title">Getting Attention</p>
+                                <p class="mockup-step-desc">Hook sentence, directly solving the problem based on user research</p>
                             </div>
-                            <div style="width:130px;flex-shrink:0;padding-bottom:20px;min-height:114px;">
-                                <p style="font-size:9px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);margin-bottom:5px;">Step 2 of 4</p>
-                                <p style="font-size:13px;font-weight:600;color:var(--text);margin-bottom:6px;line-height:1.4;">Building Interest</p>
-                                <p style="font-size:11px;color:var(--muted);line-height:1.6;">Explain the facts about the loyalty program benefits</p>
+                            <div class="mockup-step">
+                                <p class="mockup-step-num">Step 2 of 4</p>
+                                <p class="mockup-step-title">Building Interest</p>
+                                <p class="mockup-step-desc">Explain the facts about the loyalty program benefits</p>
                             </div>
-                            <div style="width:130px;flex-shrink:0;padding-bottom:20px;min-height:114px;">
-                                <p style="font-size:9px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);margin-bottom:5px;">Step 3 of 4</p>
-                                <p style="font-size:13px;font-weight:600;color:var(--text);margin-bottom:6px;line-height:1.4;">Getting Desire</p>
-                                <p style="font-size:11px;color:var(--muted);line-height:1.6;">Show how easy it is to earn points and tease the app's extra benefits</p>
+                            <div class="mockup-step">
+                                <p class="mockup-step-num">Step 3 of 4</p>
+                                <p class="mockup-step-title">Getting Desire</p>
+                                <p class="mockup-step-desc">Show how easy it is to earn points and tease the app's extra benefits</p>
                             </div>
-                            <div style="width:130px;flex-shrink:0;padding-bottom:20px;min-height:114px;">
-                                <p style="font-size:9px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);margin-bottom:5px;">Step 4 of 4</p>
-                                <p style="font-size:13px;font-weight:600;color:var(--text);margin-bottom:6px;line-height:1.4;">Do Action</p>
-                                <p style="font-size:11px;color:var(--muted);line-height:1.6;">Offer users to join the loyalty program, reinforcing every benefit shown above</p>
+                            <div class="mockup-step">
+                                <p class="mockup-step-num">Step 4 of 4</p>
+                                <p class="mockup-step-title">Do Action</p>
+                                <p class="mockup-step-desc">Offer users to join the loyalty program, reinforcing every benefit shown above</p>
                             </div>
                         </div>
                     </div>
 
-                    <!-- Phone mockup -->
-                    <div style="display:flex;flex-direction:column;align-items:center;gap:12px;flex-shrink:0;">
-                        <div style="width:200px;background:#1A1A1A;border-radius:34px;padding:8px;box-shadow:0 0 0 1px #2a2a2a,0 20px 60px rgba(0,0,0,0.4);position:relative;">
-                            <!-- Side buttons -->
-                            <div style="position:absolute;left:-3px;top:80px;width:3px;height:24px;background:#2a2a2a;border-radius:2px 0 0 2px;box-shadow:0 32px 0 #2a2a2a,0 64px 0 #2a2a2a;"></div>
-                            <div style="position:absolute;right:-3px;top:100px;width:3px;height:40px;background:#2a2a2a;border-radius:0 2px 2px 0;"></div>
-                            <!-- Screen: fixed height so phone doesn't grow with image -->
-                            <div style="width:100%;height:380px;background:#000;border-radius:27px;overflow:hidden;position:relative;">
-                                <!-- Dynamic island -->
-                                <div style="position:absolute;top:8px;left:50%;transform:translateX(-50%);width:60px;height:18px;background:#000;border-radius:20px;z-index:10;"></div>
-                                <!-- Scrollable screen content -->
-                                <div id="lbScreen" style="height:100%;overflow-y:scroll;overflow-x:hidden;scrollbar-width:none;-ms-overflow-style:none;-webkit-mask-image:linear-gradient(to bottom,transparent 0%,black 5%,black 95%,transparent 100%);mask-image:linear-gradient(to bottom,transparent 0%,black 5%,black 95%,transparent 100%);">
-                                    <img src="../landing_page_loyalty_full.png" alt="Loyalty Landing Page UI" style="width:100%;display:block;user-select:none;pointer-events:none;">
+                    <!-- Phone -->
+                    <div class="phone-outer">
+                        <div class="phone-shell">
+                            <div class="phone-screen">
+                                <div class="phone-notch"></div>
+                                <div class="phone-fade-top"></div>
+                                <div class="phone-fade-bottom"></div>
+                                <div class="phone-scroll" id="lbScreen">
+                                    <img src="../landing_page_loyalty_full.png" alt="Loyalty Landing Page UI">
                                 </div>
-                                <!-- Custom scrollbar -->
-                                <div style="position:absolute;right:5px;top:50%;transform:translateY(-50%);width:2px;height:44px;background:rgba(255,255,255,0.12);border-radius:2px;">
-                                    <div id="lbThumb" style="width:100%;background:rgba(255,255,255,0.5);border-radius:2px;height:25%;position:absolute;top:0;"></div>
+                                <div class="phone-scrollbar">
+                                    <div class="phone-scrollbar-thumb" id="lbThumb"></div>
                                 </div>
                             </div>
                         </div>
-                        <div style="display:flex;align-items:center;gap:5px;font-size:11px;color:var(--muted);">
+                        <div class="phone-hint">
                             <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><polyline points="19 12 12 19 5 12"/></svg>
                             Scroll to explore
                         </div>
