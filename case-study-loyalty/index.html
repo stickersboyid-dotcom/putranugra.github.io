@@ -302,27 +302,25 @@
                 .ui-outer { display:flex; flex-direction:column; gap:12px; }
                 .ui-wrap  { display:flex; align-items:center; justify-content:center; gap:24px; }
 
-                .ui-annot {
-                    width: 130px;
-                    flex-shrink: 0;
-                    align-self: center;
-                    height: 140px;
-                    overflow: hidden;
+                /* Card container — only active card visible */
+                .ui-annot { width: 130px; flex-shrink: 0; align-self: center; position: relative; }
+
+                .ui-card {
+                    background: var(--quote-bg);
+                    border-radius: 8px;
+                    padding: 14px;
+                    position: absolute;
+                    top: 0; left: 0; right: 0;
+                    opacity: 0;
+                    pointer-events: none;
+                    transition: opacity 0.35s ease;
                 }
-                .ui-ticker {
-                    display: flex;
-                    flex-direction: column;
-                    transition: transform 0.45s cubic-bezier(0.4,0,0.2,1);
+                .ui-card.is-active {
+                    opacity: 1;
+                    pointer-events: auto;
+                    position: relative;
                 }
-                .ui-step {
-                    height: 140px;
-                    min-height: 140px;
-                    flex-shrink: 0;
-                    display: flex;
-                    flex-direction: column;
-                    justify-content: flex-start;
-                }
-                .ui-step-num {
+                .ui-card-num {
                     font-family: 'Inter', sans-serif;
                     font-size: 10px;
                     font-weight: 400;
@@ -332,7 +330,7 @@
                     line-height: 16px;
                     margin: 0 0 4px 0;
                 }
-                .ui-step-title {
+                .ui-card-title {
                     font-family: 'Inter', sans-serif;
                     font-size: 14px;
                     font-weight: 600;
@@ -340,7 +338,7 @@
                     line-height: 20px;
                     margin: 0 0 6px 0;
                 }
-                .ui-step-desc {
+                .ui-card-desc {
                     font-family: 'Inter', sans-serif;
                     font-size: 11px;
                     font-weight: 400;
@@ -390,31 +388,31 @@
 
                 <div class="ui-outer">
                     <div class="ui-wrap">
-                        <div class="ui-annot">
-                            <div class="ui-ticker" id="uiTicker">
-                                <div class="ui-step">
-                                    <p class="ui-step-num">Step 1 of 4</p>
-                                    <p class="ui-step-title">Getting Attention</p>
-                                    <p class="ui-step-desc">Hook sentence, directly solving the problem based on user research</p>
-                                </div>
-                                <div class="ui-step">
-                                    <p class="ui-step-num">Step 2 of 4</p>
-                                    <p class="ui-step-title">Building Interest</p>
-                                    <p class="ui-step-desc">Explain the facts about the loyalty program benefits</p>
-                                </div>
-                                <div class="ui-step">
-                                    <p class="ui-step-num">Step 3 of 4</p>
-                                    <p class="ui-step-title">Getting Desire</p>
-                                    <p class="ui-step-desc">Show how easy it is to earn points and tease the app's extra benefits</p>
-                                </div>
-                                <div class="ui-step">
-                                    <p class="ui-step-num">Step 4 of 4</p>
-                                    <p class="ui-step-title">Do Action</p>
-                                    <p class="ui-step-desc">Offer users to join the loyalty program, reinforcing every benefit shown above</p>
-                                </div>
+                        <!-- Card labels -->
+                        <div class="ui-annot" id="uiAnnot">
+                            <div class="ui-card is-active" data-step="0">
+                                <p class="ui-card-num">Step 1 of 4</p>
+                                <p class="ui-card-title">Getting Attention</p>
+                                <p class="ui-card-desc">Hook sentence, directly solving the problem based on user research</p>
+                            </div>
+                            <div class="ui-card" data-step="1">
+                                <p class="ui-card-num">Step 2 of 4</p>
+                                <p class="ui-card-title">Building Interest</p>
+                                <p class="ui-card-desc">Explain the facts about the loyalty program benefits</p>
+                            </div>
+                            <div class="ui-card" data-step="2">
+                                <p class="ui-card-num">Step 3 of 4</p>
+                                <p class="ui-card-title">Getting Desire</p>
+                                <p class="ui-card-desc">Show how easy it is to earn points and tease the app's extra benefits</p>
+                            </div>
+                            <div class="ui-card" data-step="3">
+                                <p class="ui-card-num">Step 4 of 4</p>
+                                <p class="ui-card-title">Do Action</p>
+                                <p class="ui-card-desc">Offer users to join the loyalty program, reinforcing every benefit shown above</p>
                             </div>
                         </div>
 
+                        <!-- Image frame -->
                         <div class="ui-phone-wrap">
                             <div class="ui-phone" id="uiPhone">
                                 <img src="../landing_page_loyalty_full.png" alt="Loyalty Landing Page UI">
@@ -430,25 +428,19 @@
 
                 <script>
                 (function(){
-                    var phone  = document.getElementById('uiPhone');
-                    var hint   = document.getElementById('uiHint');
-                    var ticker = document.getElementById('uiTicker');
-                    if (!phone || !hint || !ticker) return;
+                    var phone = document.getElementById('uiPhone');
+                    var hint  = document.getElementById('uiHint');
+                    var cards = document.querySelectorAll('.ui-card');
+                    if (!phone || !cards.length) return;
 
-                    // STEP_H must match .ui-step min-height exactly
-                    var STEP_H = 140;
-
-                    // Image 6288px. Section positions:
-                    // Step 2: y=1400 → 22.3%
-                    // Step 3: y=3200 → 50.9%
-                    // Step 4: y=5100 → 81.1%
                     var TRIGGERS = [0, 0.223, 0.509, 0.811];
                     var cur = 0;
 
                     function setStep(s) {
                         if (s === cur) return;
                         cur = s;
-                        ticker.style.transform = 'translateY(-' + (s * STEP_H) + 'px)';
+                        cards.forEach(function(c) { c.classList.remove('is-active'); });
+                        cards[s].classList.add('is-active');
                     }
 
                     phone.addEventListener('scroll', function(){
