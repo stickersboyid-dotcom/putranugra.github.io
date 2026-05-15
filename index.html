@@ -203,6 +203,34 @@
             line-height: 20px;
         }
 
+        .ai-block {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .ai-block p {
+            font-size: 14px;
+            font-weight: 400;
+            color: var(--muted);
+            line-height: 20px;
+        }
+
+        .ai-link {
+            display: block;
+            font-size: 14px;
+            font-weight: 400;
+            color: var(--text);
+            text-decoration: underline;
+            text-decoration-color: rgba(115, 115, 115, 0.25);
+            text-underline-offset: 3px;
+            text-decoration-thickness: 1px;
+            line-height: 20px;
+            transition: color 0.15s ease, text-decoration-color 0.15s ease;
+        }
+
+        .ai-link:hover { color: var(--muted); text-decoration-color: rgba(115, 115, 115, 0.5); }
+
         .soon-row {
             display: flex;
             align-items: center;
@@ -377,9 +405,9 @@
         <!-- PERSONAL -->
         <div class="personal-block">
             <p>Outside of work, I'm playing &amp; listening to music 🎵 to refresh my head, reading some books 📕 especially Sherlock Holmes and another detective or mystery series, and playing some strategy games 🎮 such as Football Manager.</p>
-            <div class="soon-row">
-                <p>Lately, I'm experimenting and building something with AI</p>
-                <span class="tag-soon">Soon</span>
+            <div class="ai-block">
+                <p>Lately, I'm experimenting and building something with AI:</p>
+                <a href="https://putranugra.github.io/dna" target="_blank" rel="noopener noreferrer" class="ai-link">Try: Pop Culture DNA</a>
             </div>
         </div>
 
