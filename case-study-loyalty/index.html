@@ -299,72 +299,70 @@
         <div class="section">
             <div class="figure">
                 <style>
-                .ui-outer {
-                    display: flex;
-                    flex-direction: column;
-                    gap: 10px;
-                }
-                .ui-wrap {
-                    display: flex;
-                    align-items: center;
-                    gap: 20px;
-                }
+                .ui-outer { display:flex; flex-direction:column; gap:10px; }
 
-                /* Left label */
+                .ui-wrap { display:flex; align-items:center; gap:20px; }
+
+                /* Label left — ticker */
                 .ui-annot {
                     width: 110px;
                     flex-shrink: 0;
                     align-self: center;
+                    height: 100px;
                     overflow: hidden;
-                    height: 96px;
                 }
                 .ui-ticker {
                     display: flex;
                     flex-direction: column;
                     transition: transform 0.45s cubic-bezier(0.4,0,0.2,1);
                 }
-                .ui-step {
-                    min-height: 96px;
-                    flex-shrink: 0;
-                    padding-bottom: 12px;
-                }
+                .ui-step { min-height: 100px; flex-shrink: 0; }
+
+                /* Typography — match screenshot exactly */
                 .ui-step-num {
+                    font-family: 'Inter', sans-serif;
                     font-size: 9px;
-                    font-weight: 500;
-                    letter-spacing: 0.08em;
+                    font-weight: 400;
+                    letter-spacing: 0.1em;
                     text-transform: uppercase;
                     color: var(--muted);
-                    margin-bottom: 4px;
-                    font-family: 'Inter', sans-serif;
-                    line-height: 20px;
+                    line-height: 16px;
+                    margin-bottom: 3px;
                 }
                 .ui-step-title {
+                    font-family: 'Inter', sans-serif;
                     font-size: 14px;
                     font-weight: 500;
                     color: var(--text);
                     line-height: 20px;
                     margin-bottom: 4px;
-                    font-family: 'Inter', sans-serif;
                 }
                 .ui-step-desc {
-                    font-size: 12px;
-                    color: var(--muted);
-                    line-height: 18px;
                     font-family: 'Inter', sans-serif;
+                    font-size: 11px;
                     font-weight: 400;
+                    color: var(--muted);
+                    line-height: 16px;
                 }
 
-                /* Scrollable image frame — fixed height, consistent desktop+mobile */
-                .ui-phone {
+                /* Scrollable image — aspect-ratio driven so height is always proportional to width */
+                /* Target: show top 1100px of 720px-wide image → ratio = 1100/720 = 1.528 */
+                .ui-phone-wrap {
                     flex: 1;
-                    height: 380px;
+                    position: relative;
+                    border-radius: 12px;
+                    overflow: hidden;
+                    /* aspect-ratio makes height = width * 1.528, consistent on all devices */
+                    aspect-ratio: 720 / 1100;
+                }
+                .ui-phone {
+                    position: absolute;
+                    inset: 0;
                     overflow-y: scroll;
                     overflow-x: hidden;
-                    border-radius: 12px;
-                    background: var(--quote-bg);
                     scrollbar-width: none;
                     -ms-overflow-style: none;
-                    /* Critical: no max-height, no min-height, just height */
+                    background: var(--quote-bg);
                 }
                 .ui-phone::-webkit-scrollbar { display: none; }
                 .ui-phone img {
@@ -375,25 +373,24 @@
                     user-select: none;
                 }
 
-                /* Scroll hint — below the frame */
+                /* Scroll hint below, aligned to image */
                 .ui-hint {
                     display: flex;
                     align-items: center;
                     justify-content: center;
-                    gap: 6px;
+                    gap: 5px;
+                    font-family: 'Inter', sans-serif;
                     font-size: 11px;
                     color: var(--muted);
-                    font-family: 'Inter', sans-serif;
-                    transition: opacity 0.3s;
-                    /* left-offset to align with image frame, not label */
                     padding-left: 130px;
+                    transition: opacity 0.3s;
                 }
                 .ui-hint.is-hidden { opacity: 0; pointer-events: none; }
                 </style>
 
                 <div class="ui-outer">
                     <div class="ui-wrap">
-                        <!-- Ticker label left -->
+                        <!-- Ticker label -->
                         <div class="ui-annot">
                             <div class="ui-ticker" id="uiTicker">
                                 <div class="ui-step">
@@ -419,13 +416,15 @@
                             </div>
                         </div>
 
-                        <!-- Scrollable image -->
-                        <div class="ui-phone" id="uiPhone">
-                            <img src="../landing_page_loyalty_full.png" alt="Loyalty Landing Page UI">
+                        <!-- Image frame -->
+                        <div class="ui-phone-wrap">
+                            <div class="ui-phone" id="uiPhone">
+                                <img src="../landing_page_loyalty_full.png" alt="Loyalty Landing Page UI">
+                            </div>
                         </div>
                     </div>
 
-                    <!-- Scroll hint below -->
+                    <!-- Scroll hint -->
                     <div class="ui-hint" id="uiHint">
                         <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><polyline points="19 12 12 19 5 12"/></svg>
                         Scroll to explore
@@ -439,7 +438,7 @@
                     var ticker = document.getElementById('uiTicker');
                     if (!phone || !hint || !ticker) return;
 
-                    var STEP_H   = 96;
+                    var STEP_H   = 100;
                     var TRIGGERS = [0, 0.25, 0.55, 0.82];
                     var cur = 0;
 
@@ -453,9 +452,7 @@
                         var max = phone.scrollHeight - phone.clientHeight;
                         if (max <= 0) return;
                         var pct = phone.scrollTop / max;
-
                         hint.classList.toggle('is-hidden', phone.scrollTop > 10);
-
                         var step = 0;
                         for (var i = TRIGGERS.length - 1; i >= 0; i--) {
                             if (pct >= TRIGGERS[i]) { step = i; break; }
