@@ -306,7 +306,7 @@
                     width: 130px;
                     flex-shrink: 0;
                     align-self: center;
-                    height: 120px;
+                    height: 140px;
                     overflow: hidden;
                 }
                 .ui-ticker {
@@ -315,7 +315,8 @@
                     transition: transform 0.45s cubic-bezier(0.4,0,0.2,1);
                 }
                 .ui-step {
-                    min-height: 120px;
+                    height: 140px;
+                    min-height: 140px;
                     flex-shrink: 0;
                     display: flex;
                     flex-direction: column;
@@ -435,7 +436,7 @@
                     if (!phone || !hint || !ticker) return;
 
                     // STEP_H must match .ui-step min-height exactly
-                    var STEP_H = 120;
+                    var STEP_H = 140;
 
                     // Image 6288px. Section positions:
                     // Step 2: y=1400 → 22.3%
