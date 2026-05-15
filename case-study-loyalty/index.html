@@ -310,6 +310,23 @@
                     overflow: hidden;
                     position: relative;
                 }
+
+                @media (max-width: 480px) {
+                    .ui-wrap {
+                        flex-direction: column;
+                        align-items: center;
+                        gap: 16px;
+                    }
+                    .ui-annot {
+                        width: 100%;
+                    }
+                    .ui-phone-wrap {
+                        width: 100% !important;
+                    }
+                    .ui-hint {
+                        display: none !important;
+                    }
+                }
                 /* Track — holds all cards stacked, moves up on step change */
                 .ui-track {
                     display: flex;
