@@ -300,14 +300,21 @@
             <div class="figure">
                 <style>
                 .ui-outer { display:flex; flex-direction:column; gap:10px; }
-                .ui-wrap  { display:flex; align-items:center; gap:20px; }
 
-                /* Label */
+                /* Center the whole thing within content width */
+                .ui-wrap {
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    gap: 24px;
+                }
+
+                /* Label — fixed width, no flex grow */
                 .ui-annot {
-                    width: 110px;
+                    width: 100px;
                     flex-shrink: 0;
                     align-self: center;
-                    height: 88px;
+                    height: 84px;
                     overflow: hidden;
                 }
                 .ui-ticker {
@@ -315,7 +322,7 @@
                     flex-direction: column;
                     transition: transform 0.45s cubic-bezier(0.4,0,0.2,1);
                 }
-                .ui-step { min-height: 88px; flex-shrink: 0; }
+                .ui-step { min-height: 84px; flex-shrink: 0; }
 
                 .ui-step-num {
                     font-family: 'Inter', sans-serif;
@@ -343,13 +350,18 @@
                     line-height: 16px;
                 }
 
-                /* Image frame — show top 1400/6288 of image = ratio 720:1400 */
+                /* Image: fixed width 220px, height via aspect ratio
+                   Target: show top ~950px of 720px-wide image
+                   ratio = 950/720 = 1.319
+                   At 220px wide, rendered image = 220/720*6288 = 1920px tall
+                   container height = 220 * 950/720 = 290px */
                 .ui-phone-wrap {
-                    flex: 1;
+                    width: 220px;
+                    flex-shrink: 0;
                     position: relative;
                     border-radius: 12px;
                     overflow: hidden;
-                    aspect-ratio: 720 / 1400;
+                    aspect-ratio: 720 / 950;
                 }
                 .ui-phone {
                     position: absolute;
@@ -377,7 +389,6 @@
                     font-family: 'Inter', sans-serif;
                     font-size: 11px;
                     color: var(--muted);
-                    padding-left: 130px;
                     transition: opacity 0.3s;
                 }
                 .ui-hint.is-hidden { opacity: 0; pointer-events: none; }
@@ -430,13 +441,11 @@
                     var ticker = document.getElementById('uiTicker');
                     if (!phone || !hint || !ticker) return;
 
-                    var STEP_H = 88;
-
-                    // Image 720x6288. Sections (approx px from top of original image):
-                    // Step 1: 0 (default)
-                    // Step 2 "Poinmu, cashbackmu":  ~1400px → 1400/6288 = 0.223
-                    // Step 3 "Cukup dengan scan":   ~3200px → 3200/6288 = 0.509
-                    // Step 4 "Jadi, tunggu apa lagi?": ~5100px → 5100/6288 = 0.811
+                    var STEP_H = 84;
+                    // Triggers based on actual section positions in 6288px image:
+                    // Step 2 "Poinmu, cashbackmu"     ~y=1400 → 1400/6288 = 0.223
+                    // Step 3 "Cukup dengan scan"       ~y=3200 → 3200/6288 = 0.509
+                    // Step 4 "Jadi, tunggu apa lagi?"  ~y=5100 → 5100/6288 = 0.811
                     var TRIGGERS = [0, 0.223, 0.509, 0.811];
                     var cur = 0;
 
@@ -450,9 +459,7 @@
                         var max = phone.scrollHeight - phone.clientHeight;
                         if (max <= 0) return;
                         var pct = phone.scrollTop / max;
-
                         hint.classList.toggle('is-hidden', phone.scrollTop > 10);
-
                         var step = 0;
                         for (var i = TRIGGERS.length - 1; i >= 0; i--) {
                             if (pct >= TRIGGERS[i]) { step = i; break; }
