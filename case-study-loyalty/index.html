@@ -299,158 +299,164 @@
         <div class="section">
             <div class="figure">
                 <style>
-                .sc-wrap {
+                .ui-wrap {
                     display: flex;
-                    align-items: flex-start;
+                    align-items: center;
                     gap: 20px;
+                    position: relative;
                 }
-                /* Left label — sticky */
-                .sc-label {
-                    width: 116px;
+
+                /* Left label — fixed width, vertically centered, does NOT scroll */
+                .ui-annot {
+                    width: 120px;
                     flex-shrink: 0;
-                    position: sticky;
-                    top: 40vh;
-                    align-self: flex-start;
-                    height: 110px;
-                    overflow: hidden;
-                }
-                .sc-ticker {
                     display: flex;
                     flex-direction: column;
-                    transition: transform 0.4s cubic-bezier(0.4,0,0.2,1);
+                    justify-content: center;
+                    align-self: center;
                 }
-                .sc-step { min-height: 110px; flex-shrink: 0; padding-bottom: 16px; }
-                .sc-num {
+                .ui-annot-num {
                     font-size: 9px; font-weight: 700;
                     letter-spacing: 0.1em; text-transform: uppercase;
                     color: var(--muted); margin-bottom: 4px;
                     font-family: 'Inter', sans-serif;
+                    transition: opacity 0.3s ease;
                 }
-                .sc-title {
+                .ui-annot-title {
                     font-size: 13px; font-weight: 600;
                     color: var(--text); line-height: 1.4; margin-bottom: 5px;
                     font-family: 'Inter', sans-serif;
+                    transition: opacity 0.3s ease;
                 }
-                .sc-desc {
+                .ui-annot-desc {
                     font-size: 11px; color: var(--muted);
                     line-height: 1.5; font-family: 'Inter', sans-serif;
+                    transition: opacity 0.3s ease;
                 }
 
-                /* Center: image container — clips and reveals image on scroll */
-                .sc-img-clip {
+                /* Phone frame — scrollable inside */
+                .ui-phone {
                     flex: 1;
                     height: 420px;
-                    overflow: hidden;
-                    border-radius: 8px;
-                    position: relative;
+                    overflow-y: scroll;
+                    overflow-x: hidden;
+                    border-radius: 12px;
                     background: var(--quote-bg);
+                    scrollbar-width: none;
+                    -ms-overflow-style: none;
+                    position: relative;
                 }
-                .sc-img-clip img {
+                .ui-phone::-webkit-scrollbar { display: none; }
+                .ui-phone img {
                     width: 100%;
                     display: block;
-                    position: absolute;
-                    top: 0; left: 0;
-                    transform: translateY(0);
-                    will-change: transform;
                     pointer-events: none;
                     user-select: none;
                 }
 
-                /* Right: vertical scroll hint — sticky */
-                .sc-hint {
+                /* Right scroll hint — vertically centered, does NOT scroll */
+                .ui-hint {
                     flex-shrink: 0;
-                    position: sticky;
-                    top: 40vh;
-                    align-self: flex-start;
+                    align-self: center;
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    gap: 6px;
+                    transition: opacity 0.3s ease;
+                }
+                .ui-hint.is-hidden { opacity: 0; pointer-events: none; }
+                .ui-hint span {
                     writing-mode: vertical-rl;
                     transform: rotate(180deg);
                     font-size: 10px;
                     color: var(--muted);
                     letter-spacing: 0.06em;
                     font-family: 'Inter', sans-serif;
-                    display: flex;
-                    align-items: center;
-                    gap: 5px;
                 }
-                .sc-hint svg { transform: rotate(90deg); flex-shrink: 0; }
+                .ui-hint svg {
+                    transform: rotate(180deg);
+                    color: var(--muted);
+                }
                 </style>
 
-                <!-- Spacer div — tall enough to drive the scroll animation -->
-                <div style="position:relative;">
-                    <div class="sc-wrap" id="scWrap">
-                        <!-- Label left -->
-                        <div class="sc-label">
-                            <div class="sc-ticker" id="scTicker">
-                                <div class="sc-step">
-                                    <p class="sc-num">Step 1 of 4</p>
-                                    <p class="sc-title">Getting Attention</p>
-                                    <p class="sc-desc">Hook sentence, directly solving the problem based on user research</p>
-                                </div>
-                                <div class="sc-step">
-                                    <p class="sc-num">Step 2 of 4</p>
-                                    <p class="sc-title">Building Interest</p>
-                                    <p class="sc-desc">Explain the facts about the loyalty program benefits</p>
-                                </div>
-                                <div class="sc-step">
-                                    <p class="sc-num">Step 3 of 4</p>
-                                    <p class="sc-title">Getting Desire</p>
-                                    <p class="sc-desc">Show how easy it is to earn points and tease the app's extra benefits</p>
-                                </div>
-                                <div class="sc-step">
-                                    <p class="sc-num">Step 4 of 4</p>
-                                    <p class="sc-title">Do Action</p>
-                                    <p class="sc-desc">Offer users to join the loyalty program, reinforcing every benefit shown above</p>
-                                </div>
-                            </div>
-                        </div>
+                <div class="ui-wrap">
+                    <!-- Label left -->
+                    <div class="ui-annot" id="uiAnnot">
+                        <p class="ui-annot-num" id="uiNum">Step 1 of 4</p>
+                        <p class="ui-annot-title" id="uiTitle">Getting Attention</p>
+                        <p class="ui-annot-desc" id="uiDesc">Hook sentence, directly solving the problem based on user research</p>
+                    </div>
 
-                        <!-- Image clip -->
-                        <div class="sc-img-clip" id="scClip">
-                            <img id="scImg" src="../landing_page_loyalty_full.png" alt="Loyalty Landing Page UI">
-                        </div>
+                    <!-- Scrollable image frame -->
+                    <div class="ui-phone" id="uiPhone">
+                        <img src="../landing_page_loyalty_full.png" alt="Loyalty Landing Page UI" id="uiImg">
+                    </div>
 
-                        <!-- Scroll hint right -->
-                        <div class="sc-hint">
-                            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><polyline points="19 12 12 19 5 12"/></svg>
-                            Scroll to explore
-                        </div>
+                    <!-- Scroll hint right -->
+                    <div class="ui-hint" id="uiHint">
+                        <span>Scroll to explore</span>
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><line x1="12" y1="5" x2="12" y2="19"/><polyline points="19 12 12 19 5 12"/></svg>
                     </div>
                 </div>
 
                 <script>
                 (function(){
-                    var clip   = document.getElementById('scClip');
-                    var img    = document.getElementById('scImg');
-                    var ticker = document.getElementById('scTicker');
-                    if (!clip || !img || !ticker) return;
+                    var phone  = document.getElementById('uiPhone');
+                    var hint   = document.getElementById('uiHint');
+                    var num    = document.getElementById('uiNum');
+                    var title  = document.getElementById('uiTitle');
+                    var desc   = document.getElementById('uiDesc');
+                    if (!phone || !hint || !num || !title || !desc) return;
 
-                    var STEP_H = 110;
-                    var cur    = -1;
+                    var STEPS = [
+                        { num: 'Step 1 of 4', title: 'Getting Attention',  desc: 'Hook sentence, directly solving the problem based on user research' },
+                        { num: 'Step 2 of 4', title: 'Building Interest',   desc: 'Explain the facts about the loyalty program benefits' },
+                        { num: 'Step 3 of 4', title: 'Getting Desire',      desc: 'Show how easy it is to earn points and tease the app\'s extra benefits' },
+                        { num: 'Step 4 of 4', title: 'Do Action',           desc: 'Offer users to join the loyalty program, reinforcing every benefit shown above' }
+                    ];
 
-                    function run() {
-                        var imgH  = img.naturalHeight ? (img.offsetWidth / img.naturalWidth) * img.naturalHeight : img.offsetHeight;
-                        var clipH = clip.offsetHeight;
-                        var maxT  = Math.max(0, imgH - clipH);
+                    // Scroll positions (%) that trigger each step
+                    var TRIGGERS = [0, 0.25, 0.55, 0.82];
+                    var cur = -1;
 
-                        var rect     = clip.getBoundingClientRect();
-                        var viewH    = window.innerHeight;
-                        // Progress: 0 when clip top hits 70% viewport, 1 when clip bottom leaves 30%
-                        var entered  = viewH * 0.7 - rect.top;
-                        var total    = rect.height + viewH * 0.4;
-                        var progress = Math.max(0, Math.min(1, entered / total));
-
-                        img.style.transform = 'translateY(-' + Math.round(progress * maxT) + 'px)';
-
-                        var step = Math.min(3, Math.floor(progress * 4));
-                        if (step !== cur) {
-                            cur = step;
-                            ticker.style.transform = 'translateY(-' + (step * STEP_H) + 'px)';
-                        }
+                    function setStep(s) {
+                        if (s === cur) return;
+                        cur = s;
+                        num.style.opacity   = '0';
+                        title.style.opacity = '0';
+                        desc.style.opacity  = '0';
+                        setTimeout(function(){
+                            num.textContent   = STEPS[s].num;
+                            title.textContent = STEPS[s].title;
+                            desc.textContent  = STEPS[s].desc;
+                            num.style.opacity   = '1';
+                            title.style.opacity = '1';
+                            desc.style.opacity  = '1';
+                        }, 150);
                     }
 
-                    img.addEventListener('load', run);
-                    window.addEventListener('scroll', run, {passive: true});
-                    run();
+                    function onScroll() {
+                        var max = phone.scrollHeight - phone.clientHeight;
+                        if (max <= 0) return;
+                        var pct = phone.scrollTop / max;
+
+                        // Scroll hint
+                        if (phone.scrollTop > 10) {
+                            hint.classList.add('is-hidden');
+                        } else {
+                            hint.classList.remove('is-hidden');
+                        }
+
+                        // Step
+                        var step = 0;
+                        for (var i = TRIGGERS.length - 1; i >= 0; i--) {
+                            if (pct >= TRIGGERS[i]) { step = i; break; }
+                        }
+                        setStep(step);
+                    }
+
+                    phone.addEventListener('scroll', onScroll, {passive: true});
+                    setStep(0);
                 })();
                 </script>
 
