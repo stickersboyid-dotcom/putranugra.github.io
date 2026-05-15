@@ -316,13 +316,10 @@
                     .ui-annot { width: 90px; }
                     .ui-phone-wrap { width: 170px !important; }
                     .ui-hint {
-                        writing-mode: horizontal-tb !important;
-                        transform: none !important;
-                        justify-content: center;
-                        margin-top: 8px;
-                        align-self: center;
+                        writing-mode: vertical-rl !important;
+                        transform: rotate(180deg) !important;
                     }
-                    .ui-hint svg { transform: none !important; }
+                    .ui-step-num { white-space: nowrap; }
                 }
                 /* Track — holds all cards stacked, moves up on step change */
                 .ui-track {
@@ -396,14 +393,14 @@
                     font-size: 10px;
                     color: var(--muted);
                     writing-mode: vertical-rl;
-                    text-orientation: mixed;
                     transform: rotate(180deg);
                     transition: opacity 0.3s;
                     letter-spacing: 0.04em;
                     align-self: center;
                     flex-shrink: 0;
                 }
-                .ui-hint svg { transform: rotate(180deg); }
+                /* Arrow points down — after rotate(180deg) on parent, svg needs no extra rotation */
+                .ui-hint svg { flex-shrink: 0; }
                 .ui-hint.is-hidden { opacity:0; pointer-events:none; }
                 </style>
 
@@ -442,7 +439,7 @@
 
                         <div class="ui-hint" id="uiHint">
                             <span>Scroll to explore</span>
-                            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><polyline points="19 12 12 19 5 12"/></svg>
+                            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><polyline points="5 12 12 19 19 12"/></svg>
                         </div>
                     </div>
                 </div>
