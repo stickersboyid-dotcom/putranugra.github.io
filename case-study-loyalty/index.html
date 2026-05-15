@@ -213,83 +213,20 @@
         <!-- DECISION & THINKING -->
         <div class="section">
             <p class="section-label">DECISION & THINKING</p>
-            <p>"What if" users can participate in the loyalty program and discover it without downloading the Hangry App? Is that even possible?</p>
-            <p>I thought about a landing page, to contain all information about the loyalty program where users can directly collect points too. For this idea's feasibility, I discussed it with engineering to understand the technical possibility and effort.</p>
-            <p>After everything was clear from an engineering perspective, I created the user flow. Here it is:</p>
 
             <!-- EXISTING FLOW -->
             <div class="figure">
-                <div style="background:var(--quote-bg);border-radius:8px;padding:24px 20px;">
-                    <p style="font-size:13px;font-weight:500;color:var(--text);margin-bottom:2px;">Existing User Flow</p>
-                    <p style="font-size:11px;color:var(--muted);margin-bottom:24px;">Before the loyalty landing page existed</p>
-                    <p style="font-size:9px;font-weight:700;letter-spacing:0.09em;text-transform:uppercase;color:var(--muted);margin-bottom:12px;">WITH HANGRY APP</p>
-                    <div style="background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:12px 16px;font-size:13px;color:var(--text);text-align:center;">User open Hangry App</div>
-                    <div style="display:flex;justify-content:center;padding:6px 0;"><svg width="16" height="20" viewBox="0 0 16 20"><line x1="8" y1="0" x2="8" y2="13" stroke="#9CA3AF" stroke-width="1.5"/><path d="M3 9 L8 15 L13 9" fill="none" stroke="#9CA3AF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-                    <div style="background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:12px 16px;font-size:13px;color:var(--text);text-align:center;">Scan purchase bill (using Hangry App scan feature)</div>
-                    <div style="display:flex;justify-content:center;padding:6px 0;"><svg width="16" height="20" viewBox="0 0 16 20"><line x1="8" y1="0" x2="8" y2="13" stroke="#16A34A" stroke-width="1.5"/><path d="M3 9 L8 15 L13 9" fill="none" stroke="#16A34A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-                    <div style="background:#F0FDF4;border:1px solid #86EFAC;border-radius:8px;padding:12px 16px;font-size:13px;color:#16A34A;font-weight:500;display:flex;align-items:center;justify-content:space-between;"><span>Point collected + discover loyalty program</span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#16A34A" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
-                    <div style="border-top:1px solid var(--border);margin:24px 0;"></div>
-                    <p style="font-size:9px;font-weight:700;letter-spacing:0.09em;text-transform:uppercase;color:var(--muted);margin-bottom:12px;">WITHOUT HANGRY APP</p>
-                    <div style="background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:12px 16px;font-size:13px;color:var(--text);text-align:center;">User open phone camera/phone QR scanner</div>
-                    <div style="display:flex;justify-content:center;padding:6px 0;"><svg width="16" height="20" viewBox="0 0 16 20"><line x1="8" y1="0" x2="8" y2="13" stroke="#9CA3AF" stroke-width="1.5"/><path d="M3 9 L8 15 L13 9" fill="none" stroke="#9CA3AF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-                    <div style="background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:12px 16px;font-size:13px;color:var(--text);text-align:center;">Scan purchase bill (using phone camera/phone QR scanner)</div>
-                    <div style="display:flex;justify-content:center;padding:6px 0;"><svg width="16" height="20" viewBox="0 0 16 20"><line x1="8" y1="0" x2="8" y2="13" stroke="#9CA3AF" stroke-width="1.5"/><path d="M3 9 L8 15 L13 9" fill="none" stroke="#9CA3AF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-                    <div style="background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:12px 16px;font-size:13px;color:var(--text);text-align:center;">Have Hangry App...?</div>
-                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
-                        <div style="display:flex;flex-direction:column;align-items:center;">
-                            <div style="display:flex;justify-content:center;padding:6px 0;"><svg width="16" height="20" viewBox="0 0 16 20"><line x1="8" y1="0" x2="8" y2="13" stroke="#9CA3AF" stroke-width="1.5"/><path d="M3 9 L8 15 L13 9" fill="none" stroke="#9CA3AF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-                            <p style="font-size:9px;font-weight:700;letter-spacing:0.08em;color:#9CA3AF;margin-bottom:6px;text-align:center;">YES</p>
-                            <div style="background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:12px 16px;font-size:13px;color:var(--text);text-align:center;width:100%;">Open Hangry App + Scan QR bill</div>
-                            <div style="display:flex;justify-content:center;padding:6px 0;"><svg width="16" height="20" viewBox="0 0 16 20"><line x1="8" y1="0" x2="8" y2="13" stroke="#16A34A" stroke-width="1.5"/><path d="M3 9 L8 15 L13 9" fill="none" stroke="#16A34A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-                            <div style="background:#F0FDF4;border:1px solid #86EFAC;border-radius:8px;padding:12px 16px;font-size:13px;color:#16A34A;font-weight:500;display:flex;align-items:center;justify-content:space-between;width:100%;"><span>Point collected</span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#16A34A" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
-                        </div>
-                        <div style="display:flex;flex-direction:column;align-items:center;">
-                            <div style="display:flex;justify-content:center;padding:6px 0;"><svg width="16" height="20" viewBox="0 0 16 20"><line x1="8" y1="0" x2="8" y2="13" stroke="#9CA3AF" stroke-width="1.5"/><path d="M3 9 L8 15 L13 9" fill="none" stroke="#9CA3AF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-                            <p style="font-size:9px;font-weight:700;letter-spacing:0.08em;color:#9CA3AF;margin-bottom:6px;text-align:center;">NO</p>
-                            <div style="background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:12px 16px;font-size:13px;color:var(--text);text-align:center;width:100%;">Open Play Store/App Store to download</div>
-                            <div style="display:flex;justify-content:center;padding:6px 0;"><svg width="16" height="20" viewBox="0 0 16 20"><line x1="8" y1="0" x2="8" y2="13" stroke="#9CA3AF" stroke-width="1.5"/><path d="M3 9 L8 15 L13 9" fill="none" stroke="#9CA3AF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-                            <div style="background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:12px 16px;font-size:13px;color:var(--text);text-align:center;width:100%;">Follow "With Hangry App" path above</div>
-                        </div>
-                    </div>
-                </div>
+                <img src="../Existing_User_Flow.png" alt="Existing User Flow" style="width:100%;border-radius:12px;display:block;">
             </div>
+
+            <p>"What if" users can participate in the loyalty program and discover it without downloading the Hangry App? Is that even possible?</p>
+            <p>I thought about a landing page, to contain all information about the loyalty program where users can directly collect points too. For this idea's feasibility, I discussed it with engineering to understand the technical possibility and effort.</p>
 
             <!-- NEW FLOW -->
             <div class="figure">
-                <div style="background:var(--quote-bg);border-radius:8px;padding:24px 20px;">
-                    <p style="font-size:13px;font-weight:500;color:var(--text);margin-bottom:2px;">New User Flow</p>
-                    <p style="font-size:11px;color:var(--muted);margin-bottom:24px;">My proposal flow through loyalty landing page</p>
-                    <div style="background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:12px 16px;font-size:13px;color:var(--text);text-align:center;">User open phone camera/phone QR scanner</div>
-                    <div style="display:flex;justify-content:center;padding:6px 0;"><svg width="16" height="20" viewBox="0 0 16 20"><line x1="8" y1="0" x2="8" y2="13" stroke="#9CA3AF" stroke-width="1.5"/><path d="M3 9 L8 15 L13 9" fill="none" stroke="#9CA3AF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-                    <div style="background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:12px 16px;font-size:13px;color:var(--text);text-align:center;">Scan purchase bill (using phone camera/phone QR scanner)</div>
-                    <div style="display:flex;justify-content:center;padding:6px 0;"><svg width="16" height="20" viewBox="0 0 16 20"><line x1="8" y1="0" x2="8" y2="13" stroke="#9CA3AF" stroke-width="1.5"/><path d="M3 9 L8 15 L13 9" fill="none" stroke="#9CA3AF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-                    <div style="background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:12px 16px;font-size:13px;color:var(--text);text-align:center;">Redirected to loyalty landing page</div>
-                    <div style="display:flex;justify-content:center;padding:6px 0;"><svg width="16" height="20" viewBox="0 0 16 20"><line x1="8" y1="0" x2="8" y2="13" stroke="#9CA3AF" stroke-width="1.5"/><path d="M3 9 L8 15 L13 9" fill="none" stroke="#9CA3AF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-                    <div style="background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:12px 16px;font-size:13px;color:var(--text);text-align:center;">Already login/register...?</div>
-                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
-                        <div style="display:flex;flex-direction:column;align-items:center;">
-                            <div style="display:flex;justify-content:center;padding:6px 0;"><svg width="16" height="20" viewBox="0 0 16 20"><line x1="8" y1="0" x2="8" y2="13" stroke="#16A34A" stroke-width="1.5"/><path d="M3 9 L8 15 L13 9" fill="none" stroke="#16A34A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-                            <p style="font-size:9px;font-weight:700;letter-spacing:0.08em;color:#16A34A;margin-bottom:6px;text-align:center;">YES</p>
-                            <div style="background:#F0FDF4;border:1px solid #86EFAC;border-radius:8px;padding:12px 16px;font-size:13px;color:#16A34A;font-weight:500;display:flex;align-items:center;justify-content:space-between;width:100%;"><span>Point collected</span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#16A34A" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
-                        </div>
-                        <div style="display:flex;flex-direction:column;align-items:center;">
-                            <div style="display:flex;justify-content:center;padding:6px 0;"><svg width="16" height="20" viewBox="0 0 16 20"><line x1="8" y1="0" x2="8" y2="13" stroke="#9CA3AF" stroke-width="1.5"/><path d="M3 9 L8 15 L13 9" fill="none" stroke="#9CA3AF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-                            <p style="font-size:9px;font-weight:700;letter-spacing:0.08em;color:#9CA3AF;margin-bottom:6px;text-align:center;">NO</p>
-                            <div style="background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:12px 16px;font-size:13px;color:var(--text);text-align:center;width:100%;">User discover loyalty landing page</div>
-                            <div style="display:flex;justify-content:center;padding:6px 0;"><svg width="16" height="20" viewBox="0 0 16 20"><line x1="8" y1="0" x2="8" y2="13" stroke="#9CA3AF" stroke-width="1.5"/><path d="M3 9 L8 15 L13 9" fill="none" stroke="#9CA3AF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-                            <div style="background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:14px 16px;font-size:13px;color:var(--text);width:100%;line-height:1.6;">
-                                <p style="font-size:12px;color:var(--text);margin-bottom:8px;">In this landing page:</p>
-                                <ul style="list-style:disc;padding-left:16px;display:flex;flex-direction:column;gap:4px;font-size:12px;color:var(--muted);">
-                                    <li>User can learn about loyalty program</li>
-                                    <li>User can login/register to loyalty program</li>
-                                    <li>User can scan their purchase bill QR</li>
-                                    <li>User can download Hangry app</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <img src="../New_User_Flow.png" alt="New User Flow" style="width:100%;border-radius:12px;display:block;">
             </div>
+
 
             <p>Instead of redirecting users to the Play Store/App Store when they scanned their purchase bill QR, they'd land on a web page where they could see the benefits, register directly, collect points — all without downloading anything.</p>
             <p>I designed this mobile-only too, because the trigger is scanning a purchase bill QR, which happens on a phone. Designing desktop-first would have added a device-switching step that didn't need to exist.</p>
