@@ -1,0 +1,746 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pop Culture DNA</title>
+<link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Noto+Serif+JP:wght@700;900&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html,body{min-height:100vh;background:#050308;color:#EDE8DF;font-family:'Space Grotesk',sans-serif;-webkit-font-smoothing:antialiased;}
+body{display:flex;align-items:center;justify-content:center;min-height:100vh;padding:2rem 1rem;}
+.wrap{width:100%;max-width:420px;}
+
+/* noise overlay */
+body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:9999;opacity:.035;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)'/%3E%3C/svg%3E");}
+
+.screen{display:none}
+.screen.active{display:block;animation:fadein .35s ease both}
+@keyframes fadein{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+
+/* ── INTRO ── */
+.intro-frame{position:relative;overflow:hidden;margin-bottom:1.5rem;border:1px solid #1A1428;}
+.intro-frame::after{content:'';position:absolute;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 3px,rgba(0,0,0,.1) 3px,rgba(0,0,0,.1) 4px);pointer-events:none;z-index:3;}
+.intro-svg{width:100%;height:250px;display:block;}
+.intro-over{position:absolute;bottom:0;left:0;right:0;padding:1.5rem 1.5rem 1.25rem;z-index:4;background:linear-gradient(to top,rgba(5,3,8,.98) 50%,rgba(5,3,8,.5) 80%,transparent);}
+.intro-kicker{font-size:9px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:#C83020;margin-bottom:.3rem;display:flex;align-items:center;gap:7px;}
+.intro-kicker::before{content:'';width:16px;height:1.5px;background:#C83020;flex-shrink:0;}
+.intro-h{font-family:'Black Han Sans',sans-serif;font-size:clamp(2.8rem,11vw,4rem);line-height:.88;color:#EDE8DF;}
+.intro-h span{color:#C83020;}
+.intro-jp{font-family:'Noto Serif JP',serif;font-size:10px;color:#2E2838;margin-top:.3rem;letter-spacing:.1em;}
+.intro-desc{font-size:14px;color:#3A3445;line-height:1.7;margin-bottom:1.5rem;}
+.btn-go{display:flex;align-items:center;justify-content:space-between;width:100%;background:#C83020;color:#fff;border:none;padding:17px 22px;font-family:'Black Han Sans',sans-serif;font-size:1.4rem;letter-spacing:.03em;cursor:pointer;transition:opacity .15s,transform .12s;clip-path:polygon(0 0,calc(100% - 10px) 0,100% 10px,100% 100%,10px 100%,0 calc(100% - 10px));}
+.btn-go:hover{opacity:.88;transform:translateY(-1px);}
+.btn-go:active{transform:translateY(1px);}
+
+/* ── QUESTION ── */
+.q-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:.5rem;}
+.q-n{font-family:'Black Han Sans',sans-serif;font-size:2.8rem;color:#1A1428;line-height:1;}
+.q-badge{font-size:9px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;padding:4px 11px;color:#fff;clip-path:polygon(0 0,calc(100% - 5px) 0,100% 5px,100% 100%,5px 100%,0 calc(100% - 5px));}
+.film{background:#C83020}.music{background:#1A58A0}.gaming{background:#1A6040}
+.anime{background:#6020A0}.tv{background:#905010}.story{background:#333}
+.kpop{background:#A82060}.global{background:#105880}
+.prog{height:2px;background:#1A1428;margin-bottom:.4rem;position:relative;overflow:visible;}
+.prog-f{height:100%;background:#C83020;transition:width .4s cubic-bezier(.34,1.56,.64,1);position:relative;}
+.prog-f::after{content:'';position:absolute;right:-3px;top:-4px;width:10px;height:10px;border-radius:50%;background:#C83020;}
+.prog-meta{display:flex;justify-content:space-between;margin-bottom:1.75rem;}
+.pm{font-size:9px;font-weight:700;letter-spacing:.1em;color:#2A2438;}
+.q-lbl{font-family:'Black Han Sans',sans-serif;font-size:clamp(1.6rem,5.5vw,2rem);line-height:1.05;color:#EDE8DF;margin-bottom:1.5rem;}
+.choices{display:flex;flex-direction:column;gap:8px;margin-bottom:1rem;}
+.ch-btn{display:flex;align-items:center;gap:1rem;background:#0E0C18;border:1px solid #1A1428;padding:.95rem 1.1rem;cursor:pointer;transition:border-color .12s,background .12s,transform .1s;text-align:left;width:100%;clip-path:polygon(0 0,calc(100% - 7px) 0,100% 7px,100% 100%,7px 100%,0 calc(100% - 7px));}
+.ch-btn:hover{border-color:#C83020;background:#180C14;transform:translateX(4px);}
+.ch-btn.sel{border-color:#C83020;background:#180C14;}
+.ch-key{font-family:'Black Han Sans',sans-serif;font-size:1.6rem;color:#2A2438;line-height:1;flex-shrink:0;width:24px;transition:color .12s;}
+.ch-btn:hover .ch-key,.ch-btn.sel .ch-key{color:#C83020;}
+.ch-name{font-size:15px;font-weight:700;color:#EDE8DF;margin-bottom:2px;}
+.ch-sub{font-size:11px;color:#3A3448;}
+.ch-info{flex:1;}
+.ch-arr{font-size:.9rem;color:#2A2438;flex-shrink:0;transition:color .12s,transform .12s;}
+.ch-btn:hover .ch-arr,.ch-btn.sel .ch-arr{color:#C83020;transform:translateX(3px);}
+.skip-row{text-align:center;}
+.skip-btn{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#2A2438;background:none;border:none;cursor:pointer;padding:8px 12px;transition:color .12s;}
+.skip-btn:hover{color:#3A3448;}
+
+/* ── GENERATING ── */
+.gen-wrap{display:flex;flex-direction:column;align-items:center;text-align:center;padding:5rem 1rem;}
+.gen-hex{width:76px;height:76px;background:#C83020;clip-path:polygon(50% 0%,100% 25%,100% 75%,50% 100%,0% 75%,0% 25%);display:flex;align-items:center;justify-content:center;margin:0 auto 2rem;animation:pulse 1.5s ease infinite;}
+@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.08)}}
+.gen-hex span{font-family:'Noto Serif JP',serif;font-size:13px;color:#fff;font-weight:900;}
+.gen-t{font-family:'Black Han Sans',sans-serif;font-size:clamp(1.9rem,6.5vw,2.6rem);color:#EDE8DF;line-height:1.05;margin-bottom:.7rem;}
+.gen-s{font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#2A2438;}
+.gdots{display:inline-flex;gap:4px;margin-left:5px;}
+.gdot{width:3px;height:3px;border-radius:50%;background:#2A2438;animation:bl 1.2s ease infinite;}
+.gdot:nth-child(2){animation-delay:.2s}.gdot:nth-child(3){animation-delay:.4s}
+@keyframes bl{0%,100%{opacity:.2;transform:scale(.8)}50%{opacity:1;transform:scale(1.2)}}
+
+/* ── RESULT ── */
+@keyframes card-drop{
+  0%{opacity:0;transform:scale(.88) translateY(24px);}
+  65%{opacity:1;transform:scale(1.02) translateY(-6px);}
+  82%{transform:scale(.99) translateY(2px);}
+  100%{opacity:1;transform:scale(1) translateY(0);}
+}
+.card-reveal{animation:card-drop .75s cubic-bezier(.2,.8,.3,1) both;}
+
+/* THE CARD */
+.the-card{
+  position:relative;width:100%;
+  aspect-ratio:63/88;
+  overflow:hidden;
+  cursor:default;
+  will-change:transform;
+}
+.the-card::after{content:'';position:absolute;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 3px,rgba(0,0,0,.07) 3px,rgba(0,0,0,.07) 4px);pointer-events:none;z-index:30;}
+
+/* card layers */
+.card-bg{position:absolute;inset:0;}
+.card-bar-left{position:absolute;left:0;top:0;bottom:0;width:3px;z-index:10;}
+.card-kanji{position:absolute;top:-8px;left:-4px;font-family:'Noto Serif JP',serif;font-weight:900;line-height:1;user-select:none;}
+.card-top{position:absolute;top:0;left:0;right:0;height:22px;display:flex;align-items:center;justify-content:space-between;padding:0 8px 0 12px;z-index:15;border-bottom:1px solid;}
+.card-top-l{font-size:6px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;}
+.card-top-r{font-family:'Noto Serif JP',serif;font-size:6px;}
+.card-serial{position:absolute;top:26px;right:8px;text-align:right;z-index:15;}
+.card-serial-no{font-size:5px;font-weight:700;letter-spacing:.1em;display:block;}
+.card-serial-num{font-family:'Black Han Sans',sans-serif;font-size:16px;line-height:1;display:block;}
+.card-panel{position:absolute;background:rgba(0,0,0,.6);border:1px solid;padding:4px 6px;z-index:12;}
+.card-panel-lbl{font-size:5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;display:block;margin-bottom:2px;}
+.card-panel-val{font-size:7.5px;font-weight:700;display:block;}
+.card-pips{display:flex;gap:3px;}
+.card-pip{width:5px;height:5px;border-radius:50%;}
+.card-scan{position:absolute;left:0;right:0;height:1px;z-index:8;}
+.card-gloss{position:absolute;inset:0;pointer-events:none;z-index:20;transition:background .04s;}
+
+/* SSR beam */
+.card-beam{position:absolute;top:0;height:62%;z-index:4;pointer-events:none;}
+
+/* frame corners */
+.card-frame{position:absolute;inset:4px;border:1px solid;z-index:6;pointer-events:none;}
+.card-corner{position:absolute;width:11px;height:11px;z-index:7;}
+
+/* SSR badge */
+.card-ssr-badge{position:absolute;top:26px;left:10px;padding:2px 7px;font-size:7px;font-weight:700;letter-spacing:.1em;z-index:15;clip-path:polygon(0 0,calc(100% - 4px) 0,100% 4px,100% 100%,4px 100%,0 calc(100% - 4px));}
+.card-diamond{position:absolute;width:6px;height:6px;transform:rotate(45deg);z-index:7;}
+
+/* info zone */
+.card-info{position:absolute;bottom:0;left:0;right:0;z-index:15;}
+.card-accent-bar{padding:5px 8px 4px 12px;display:flex;align-items:center;justify-content:space-between;position:relative;overflow:hidden;}
+.card-accent-bar::before{content:'';position:absolute;inset:0;background:repeating-linear-gradient(-55deg,transparent,transparent 6px,rgba(0,0,0,.12) 6px,rgba(0,0,0,.12) 7px);}
+.card-accent-bar-l{font-size:6px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;position:relative;z-index:1;}
+.card-accent-bar-r{font-family:'Noto Serif JP',serif;font-size:9px;position:relative;z-index:1;}
+.card-name-panel{padding:7px 8px 6px 12px;}
+.card-archetype{font-family:'Black Han Sans',sans-serif;font-size:14px;line-height:.92;letter-spacing:-.3px;margin-bottom:3px;}
+.card-jp{font-family:'Noto Serif JP',serif;font-size:7px;letter-spacing:.05em;display:block;margin-bottom:4px;}
+.card-tags{display:flex;flex-wrap:wrap;gap:3px;margin-bottom:4px;}
+.card-tag{font-size:5.5px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;padding:1px 5px;border:1px solid;}
+.card-stats{display:grid;grid-template-columns:1fr 1fr 1fr;gap:3px;}
+.card-stat{padding:3px 4px;clip-path:polygon(0 0,calc(100% - 3px) 0,100% 3px,100% 100%,3px 100%,0 calc(100% - 3px));}
+.card-stat-l{font-size:5px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;display:block;margin-bottom:2px;}
+.card-stat-v{font-size:7px;font-weight:700;display:block;line-height:1.2;}
+
+/* below card sections */
+.below{display:flex;flex-direction:column;gap:8px;margin-top:10px;}
+.sec{background:#0A0814;border:1px solid #1A1428;overflow:hidden;}
+.sec-hd{background:rgba(255,255,255,.02);border-bottom:1px solid #1A1428;padding:5px 12px;display:flex;justify-content:space-between;}
+.sec-hd-t{font-size:9px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:#2A2438;}
+.sec-hd-j{font-family:'Noto Serif JP',serif;font-size:9px;color:#1A1428;}
+.sec-bd{padding:.85rem 1rem;}
+.rec-list{display:flex;flex-direction:column;}
+.rec-row{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid #1A1428;}
+.rec-row:last-child{border-bottom:none;padding-bottom:0;}
+.rec-n{font-family:'Black Han Sans',sans-serif;font-size:1.4rem;color:#1A1428;line-height:1;flex-shrink:0;width:26px;}
+.rec-t{font-size:13px;font-weight:700;color:#EDE8DF;}
+.contrast-t{font-size:13px;color:#3A3448;line-height:1.7;font-style:italic;border-left:2px solid #C83020;padding-left:.75rem;}
+
+.actions{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:1rem;}
+.btn-ghost{background:transparent;border:1px solid #1A1428;padding:13px;font-family:'Space Grotesk',sans-serif;font-size:13px;font-weight:700;color:#3A3448;cursor:pointer;transition:all .15s;}
+.btn-ghost:hover{border-color:#EDE8DF;color:#EDE8DF;}
+.btn-save{background:#C83020;border:1px solid #C83020;padding:13px;font-family:'Space Grotesk',sans-serif;font-size:13px;font-weight:700;color:#fff;cursor:pointer;transition:opacity .15s;clip-path:polygon(0 0,calc(100% - 7px) 0,100% 7px,100% 100%,7px 100%,0 calc(100% - 7px));}
+.btn-save:hover{opacity:.85;}
+
+/* rarity reveal flash */
+@keyframes rarity-flash{
+  0%{opacity:0}20%{opacity:1}80%{opacity:1}100%{opacity:0}
+}
+.rarity-reveal{
+  position:fixed;inset:0;display:flex;align-items:center;justify-content:center;
+  z-index:1000;pointer-events:none;
+  animation:rarity-flash 1.8s ease both;
+}
+.rarity-reveal-inner{
+  font-family:'Black Han Sans',sans-serif;
+  font-size:5rem;
+  letter-spacing:.1em;
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<!-- INTRO -->
+<div class="screen active" id="s-intro">
+  <div class="intro-frame">
+    <svg class="intro-svg" viewBox="0 0 420 250" xmlns="http://www.w3.org/2000/svg">
+      <rect width="420" height="250" fill="#050308"/>
+      <rect x="0" y="148" width="420" height="102" fill="#070510"/>
+      <rect x="10" y="118" width="36" height="132" fill="#0D0B18"/><rect x="18" y="96" width="17" height="154" fill="#0A0814"/>
+      <rect x="58" y="134" width="26" height="116" fill="#0E0C1A"/>
+      <rect x="96" y="108" width="44" height="142" fill="#0D0B18"/><rect x="104" y="88" width="13" height="162" fill="#0A0814"/>
+      <rect x="152" y="128" width="30" height="122" fill="#0E0C1A"/>
+      <rect x="194" y="114" width="40" height="136" fill="#0D0B18"/>
+      <rect x="248" y="138" width="26" height="112" fill="#0E0C1A"/>
+      <rect x="288" y="104" width="48" height="146" fill="#0D0B18"/><rect x="298" y="84" width="16" height="166" fill="#0A0814"/>
+      <rect x="350" y="120" width="34" height="130" fill="#0E0C1A"/>
+      <rect x="394" y="111" width="26" height="139" fill="#0D0B18"/>
+      <rect x="22" y="110" width="4" height="5" fill="#C83020" opacity=".6"/>
+      <rect x="29" y="102" width="3" height="4" fill="#C8960C" opacity=".5"/>
+      <rect x="62" y="144" width="4" height="5" fill="#00A89A" opacity=".45"/>
+      <rect x="108" y="124" width="4" height="5" fill="#C8960C" opacity=".55"/>
+      <rect x="198" y="124" width="4" height="5" fill="#00A89A" opacity=".5"/>
+      <rect x="294" y="116" width="4" height="5" fill="#C83020" opacity=".55"/>
+      <rect x="354" y="130" width="4" height="5" fill="#C8960C" opacity=".45"/>
+      <rect x="0" y="192" width="420" height="58" fill="#030208"/>
+      <line x1="0" y1="192" x2="420" y2="192" stroke="#0E0C18" stroke-width="1"/>
+      <line x1="35" y1="206" x2="168" y2="206" stroke="#C83020" stroke-width=".6" opacity=".22"/>
+      <line x1="248" y1="208" x2="376" y2="208" stroke="#00A89A" stroke-width=".6" opacity=".22"/>
+      <text x="268" y="198" font-family="serif" font-size="155" fill="#C83020" opacity=".025" font-weight="900">文</text>
+      <polygon points="0,72 50,0 70,0 0,102" fill="#C83020" opacity=".5"/>
+      <polygon points="0,72 50,0 55,0 0,82" fill="#C83020" opacity=".2"/>
+      <rect x="230" y="16" width="84" height="46" fill="#0E0C18" stroke="#1A1428" stroke-width="1"/>
+      <rect x="230" y="16" width="84" height="3" fill="#C83020"/>
+      <polygon points="304,16 314,16 314,26" fill="#050308"/>
+      <text x="235" y="28" font-family="'Space Grotesk',sans-serif" font-size="6" fill="#2A2438" letter-spacing="2">PROFILE TYPE</text>
+      <text x="235" y="42" font-family="'Black Han Sans',sans-serif" font-size="13" fill="#EDE8DF">UNKNOWN</text>
+      <text x="235" y="54" font-family="serif" font-size="7" fill="#1A1428">ポップカルチャー</text>
+      <rect x="114" y="10" width="55" height="31" fill="#0E0C18" stroke="#1A1428" stroke-width="1"/>
+      <rect x="114" y="10" width="55" height="3" fill="#C8960C"/>
+      <polygon points="159,10 169,10 169,20" fill="#050308"/>
+      <text x="119" y="22" font-family="'Space Grotesk',sans-serif" font-size="6" fill="#2A2438" letter-spacing="2">PICKS</text>
+      <text x="119" y="36" font-family="'Black Han Sans',sans-serif" font-size="14" fill="#C8960C">10</text>
+      <rect x="334" y="62" width="70" height="25" fill="#0E0C18" stroke="#1A1428" stroke-width="1"/>
+      <rect x="334" y="62" width="70" height="2" fill="#00A89A"/>
+      <polygon points="394,62 404,62 404,72" fill="#050308"/>
+      <text x="339" y="74" font-family="'Space Grotesk',sans-serif" font-size="6" fill="#2A2438" letter-spacing="2">AI ENGINE</text>
+      <text x="339" y="83" font-family="'Space Grotesk',sans-serif" font-size="8" fill="#00A89A" font-weight="700">ACTIVE</text>
+      <circle cx="72" cy="58" r="17" stroke="#C83020" stroke-width=".6" opacity=".35" fill="none"/>
+      <circle cx="72" cy="58" r="11" stroke="#C83020" stroke-width=".35" opacity=".2" fill="none"/>
+      <line x1="72" y1="36" x2="72" y2="46" stroke="#C83020" stroke-width=".7" opacity=".45"/>
+      <line x1="72" y1="70" x2="72" y2="80" stroke="#C83020" stroke-width=".7" opacity=".45"/>
+      <line x1="50" y1="58" x2="60" y2="58" stroke="#C83020" stroke-width=".7" opacity=".45"/>
+      <line x1="84" y1="58" x2="94" y2="58" stroke="#C83020" stroke-width=".7" opacity=".45"/>
+      <circle cx="72" cy="58" r="2" fill="#C83020" opacity=".55"/>
+      <defs><linearGradient id="hf" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#050308" stop-opacity="0"/><stop offset="50%" stop-color="#050308" stop-opacity=".6"/><stop offset="100%" stop-color="#050308" stop-opacity="1"/></linearGradient></defs>
+      <rect x="0" y="120" width="420" height="130" fill="url(#hf)"/>
+    </svg>
+    <div class="intro-over">
+      <div class="intro-kicker">Pop Culture Analysis</div>
+      <div class="intro-h">POP<br>CULTURE<br><span>DNA</span></div>
+      <div class="intro-jp">文化的DNA診断 · AI分析</div>
+    </div>
+  </div>
+  <p class="intro-desc">10 picks. Every session different. AI reads your taste and mints a collectible card — S, SR, or SSR rarity.</p>
+  <button class="btn-go" onclick="startQuiz()"><span>Start the test</span><span>→</span></button>
+</div>
+
+<!-- QUESTION -->
+<div class="screen" id="s-q">
+  <div class="q-row">
+    <div class="q-n" id="qn">01</div>
+    <div class="q-badge film" id="qb">Film</div>
+  </div>
+  <div class="prog"><div class="prog-f" id="pf" style="width:0%"></div></div>
+  <div class="prog-meta"><span class="pm" id="pm-l">Question 1 of 10</span><span class="pm" id="pm-r">0%</span></div>
+  <div class="q-lbl" id="ql">—</div>
+  <div class="choices" id="chs"></div>
+  <div class="skip-row"><button class="skip-btn" id="sk" onclick="doSkip()">↷ Don't know either — skip</button></div>
+</div>
+
+<!-- GENERATING -->
+<div class="screen" id="s-gen">
+  <div class="gen-wrap">
+    <div class="gen-hex"><span>DNA</span></div>
+    <div class="gen-t">Minting<br>your card…</div>
+    <div style="margin-top:.7rem">
+      <span class="gen-s" id="gs">Analyzing picks</span>
+      <span class="gdots"><span class="gdot"></span><span class="gdot"></span><span class="gdot"></span></span>
+    </div>
+  </div>
+</div>
+
+<!-- RESULT -->
+<div class="screen" id="s-result">
+  <div class="card-reveal">
+    <div class="the-card" id="the-card"></div>
+  </div>
+  <div class="below">
+    <div class="sec">
+      <div class="sec-hd"><span class="sec-hd-t">You'd probably love</span><span class="sec-hd-j">おすすめ</span></div>
+      <div class="sec-bd"><div class="rec-list" id="recs"></div></div>
+    </div>
+    <div class="sec">
+      <div class="sec-hd"><span class="sec-hd-t">What you can't stand</span><span class="sec-hd-j">苦手なもの</span></div>
+      <div class="sec-bd"><div class="contrast-t" id="contrast"></div></div>
+    </div>
+  </div>
+  <div class="actions">
+    <button class="btn-ghost" onclick="resetQuiz()">↺ Try again</button>
+    <button class="btn-save" id="save-btn" onclick="saveCard()">↓ Save card</button>
+  </div>
+</div>
+
+</div><!-- /wrap -->
+
+<!-- off-screen save card -->
+<div id="save-root" style="position:fixed;left:-9999px;top:0;"></div>
+
+<script>
+/* ══════════════════════════════
+   DATA
+══════════════════════════════ */
+
+const ARCHETYPES = [
+  { id:'contrarian', name:'The Quiet Contrarian', jp:'孤独な反骨者', kanji:'魂', color:'#C83020', colorDark:'#8A1010', cm:'rgba(200,48,32,', label:'Contrarian', tags:['cerebral','solitary','anti-mainstream'] },
+  { id:'maximalist', name:'The Hopeful Maximalist', jp:'希望の極大主義者', kanji:'星', color:'#7030A0', colorDark:'#3A1060', cm:'rgba(112,48,160,', label:'Maximalist', tags:['optimistic','big feelings','crowd-pleasing'] },
+  { id:'drifter',    name:'The Neon Drifter',       jp:'ネオンの流浪者',  kanji:'夜', color:'#00A89A', colorDark:'#005A52', cm:'rgba(0,168,154,',  label:'Drifter',    tags:['eclectic','spontaneous','genre-fluid'] },
+  { id:'aesthete',   name:'The Patient Aesthete',   jp:'忍耐の審美家',   kanji:'道', color:'#1A6870', colorDark:'#0A3038', cm:'rgba(26,104,112,', label:'Aesthete',   tags:['curated','intentional','slow-burn'] },
+  { id:'chaos',      name:'The Chaos Architect',    jp:'混沌の建築家',   kanji:'炎', color:'#D4601A', colorDark:'#7A2808', cm:'rgba(212,96,26,',  label:'Architect',  tags:['intense','genre-defying','unpredictable'] },
+  { id:'romantic',   name:'The Eternal Romantic',   jp:'永遠のロマンチスト', kanji:'花', color:'#C03070', colorDark:'#681040', cm:'rgba(192,48,112,', label:'Romantic', tags:['emotional','tender','narrative-driven'] },
+  { id:'observer',   name:'The Silent Observer',    jp:'沈黙の観察者',   kanji:'影', color:'#1A5AA0', colorDark:'#0A2850', cm:'rgba(26,90,160,',  label:'Observer',   tags:['analytical','lone wolf','introspective'] },
+  { id:'exile',      name:'The Comfort Zone Exile', jp:'安心地帯の亡命者', kanji:'風', color:'#1A7040', colorDark:'#0A3020', cm:'rgba(26,112,64,',  label:'Exile',     tags:['nostalgic','cozy','warm but complex'] },
+];
+
+// Rarity probability: S=55%, SR=35%, SSR=10%
+const RARITY_WEIGHTS = { S:55, SR:35, SSR:10 };
+
+function rollRarity(){
+  const r = Math.random()*100;
+  if(r < 10) return 'SSR';
+  if(r < 45) return 'SR';
+  return 'S';
+}
+
+/* tier visual config */
+const TIER = {
+  S:{
+    label:'S', pipCount:3,
+    bgBase: c=>`#050308`,
+    border: c=>`1px solid ${c.cm}.1)`,
+    barLeft: c=>`linear-gradient(to bottom,${c.cm}.55),${c.colorDark} 65%,transparent)`,
+    k1Size:'102px', k1Color: c=>`${c.cm}.055)`, k1Stroke:'none',
+    k2Size:'102px', k2Color:'transparent', k2Stroke: c=>`1px ${c.cm}.28)`,
+    k3:false,
+    topBg: c=>`rgba(0,0,0,.92)`, topBorder: c=>`${c.cm}.07)`,
+    topL: c=>`${c.cm}.28)`, topR: c=>`${c.cm}.16)`,
+    serNoC: c=>`${c.cm}.18)`, serNumC: c=>`${c.cm}.28)`,
+    panBorder: c=>`${c.cm}.1)`, panLbl: c=>`${c.cm}.28)`, panVal: c=>`${c.cm}.48)`,
+    pipActive: c=>c.color,
+    scanC: c=>`linear-gradient(to right,transparent,${c.cm}.14),transparent)`, scanTop:'96px',
+    barBg: c=>`#07050C`, barL: c=>`${c.cm}.55)`, barR: c=>`${c.cm}.18)`,
+    panelBg: c=>`#050308`, panelBorderTop: c=>`${c.cm}.14)`,
+    nameC:'rgba(237,232,223,.7)', jpC: c=>`${c.cm}.32)`,
+    tagBorder: c=>`${c.cm}.1)`, tagC: c=>`${c.cm}.28)`,
+    statBg: c=>`${c.cm}.03)`, statBorder: c=>`${c.cm}.08)`,
+    statLbl: c=>`${c.cm}.22)`, statVal: c=>`${c.cm}.42)`,
+    extras: null,
+  },
+  SR:{
+    label:'SR', pipCount:4,
+    bgBase: c=>`#07060E`,
+    border: c=>`1.5px solid rgba(154,160,175,.2)`,
+    barLeft: c=>`linear-gradient(to bottom,#C8CDD8,${c.color} 45%,#9AA0B0)`,
+    k1Size:'106px', k1Color: c=>`${c.cm}.07)`, k1Stroke:'none',
+    k2Size:'106px', k2Color:'transparent', k2Stroke: c=>`1px rgba(180,188,205,.38)`,
+    k3Size:'104px', k3Color:'transparent', k3Stroke: c=>`c=>.4px ${c.cm}.55)`,
+    k3:true,
+    topBg: c=>`rgba(4,4,10,.92)`, topBorder: c=>`rgba(154,160,175,.08)`,
+    topL: c=>`rgba(154,160,175,.42)`, topR: c=>`rgba(154,160,175,.22)`,
+    serNoC: c=>`rgba(154,160,175,.28)`, serNumC: c=>`rgba(180,188,205,.48)`,
+    panBorder: c=>`rgba(154,160,175,.14)`, panLbl: c=>`rgba(154,160,175,.38)`, panVal: c=>c.color,
+    pipActive: c=>c.color,
+    scanC: c=>`linear-gradient(to right,transparent,${c.cm}.28),rgba(154,160,175,.18),transparent)`, scanTop:'102px',
+    barBg: c=>`linear-gradient(135deg,#12121C,${c.cm}.14) 50%,#12121C)`,
+    barL: c=>c.color, barR: c=>`rgba(180,188,205,.22)`,
+    panelBg: c=>`#060510`, panelBorderTop: c=>`${c.cm}.22)`,
+    nameC:'#E8EEF8', jpC: c=>c.color,
+    tagBorder: c=>`rgba(154,160,175,.18)`, tagC: c=>`${c.cm}.6)`,
+    statBg: c=>`rgba(154,160,175,.04)`, statBorder: c=>`rgba(154,160,175,.12)`,
+    statLbl: c=>`rgba(154,160,175,.35)`, statVal: c=>c.color,
+    extras:'sr',
+  },
+  SSR:{
+    label:'SSR', pipCount:5,
+    bgBase: c=>`#070500`,
+    border: c=>`1.5px solid rgba(200,150,12,.28)`,
+    barLeft: c=>`linear-gradient(to bottom,#F0C030,${c.color} 40%,#C8960C 72%,#F0C030)`,
+    k1Size:'110px', k1Color: c=>`${c.cm}.09)`, k1Stroke:'none',
+    k2Size:'110px', k2Color:'transparent', k2Stroke: c=>`1.2px ${c.cm}.48)`,
+    k3Size:'108px', k3Color:'transparent', k3Stroke: c=>`c=>.4px rgba(240,192,48,.72)`,
+    k3:true,
+    topBg: c=>`rgba(4,3,0,.94)`, topBorder: c=>`rgba(200,150,12,.1)`,
+    topL: c=>`rgba(200,150,12,.48)`, topR: c=>`rgba(200,150,12,.28)`,
+    serNoC: c=>`rgba(200,150,12,.32)`, serNumC: c=>`rgba(200,150,12,.58)`,
+    panBorder: c=>`rgba(200,150,12,.16)`, panLbl: c=>`rgba(200,150,12,.42)`, panVal: c=>`rgba(240,192,48,.78)`,
+    pipActive: c=>'#F0C030',
+    scanC: c=>`linear-gradient(to right,transparent,rgba(200,150,12,.28),transparent)`, scanTop:'108px',
+    barBg: c=>`linear-gradient(135deg,#8A6008,${c.color},#C8960C)`,
+    barL: c=>'rgba(8,6,0,.82)', barR: c=>'rgba(8,6,0,.28)',
+    panelBg: c=>`#070500`, panelBorderTop: c=>`rgba(200,150,12,.28)`,
+    nameC:'#F5EDD0', jpC: c=>`rgba(200,150,12,.82)`,
+    tagBorder: c=>`rgba(200,150,12,.22)`, tagC: c=>`rgba(240,192,48,.52)`,
+    statBg: c=>`rgba(200,150,12,.05)`, statBorder: c=>`rgba(200,150,12,.14)`,
+    statLbl: c=>`rgba(200,150,12,.48)`, statVal: c=>`rgba(240,192,48,.72)`,
+    extras:'ssr',
+  }
+};
+
+const POOL=[
+  {cat:"film",  l:"Marvel vs DC",                              a:{n:"Marvel",           v:["fun","optimistic","crowd-pleasing"]},    b:{n:"DC",                v:["dark","gritty","brooding"]}},
+  {cat:"film",  l:"A24 films vs Hollywood blockbusters",       a:{n:"A24 films",        v:["arthouse","auteur","uncomfortable"]},    b:{n:"Blockbusters",      v:["spectacle","escapist","safe"]}},
+  {cat:"film",  l:"Nolan vs Villeneuve",                       a:{n:"Nolan",            v:["cerebral","ambitious","time-bending"]},  b:{n:"Villeneuve",        v:["atmospheric","patient","meditative"]}},
+  {cat:"film",  l:"Studio Ghibli vs Pixar",                    a:{n:"Studio Ghibli",    v:["melancholic","quiet","magical"]},        b:{n:"Pixar",             v:["heartwarming","uplifting","family"]}},
+  {cat:"film",  l:"Korean cinema vs Hollywood",                a:{n:"Korean cinema",    v:["intense","layered","unexpected"]},       b:{n:"Hollywood",         v:["polished","mainstream","accessible"]}},
+  {cat:"film",  l:"Horror vs Romance",                         a:{n:"Horror",           v:["visceral","tension","primal"]},          b:{n:"Romance",           v:["emotional","tender","hopeful"]}},
+  {cat:"music", l:"Hip-hop vs Indie",                          a:{n:"Hip-hop",          v:["confident","lyrical","urban"]},          b:{n:"Indie",             v:["introspective","lo-fi","raw"]}},
+  {cat:"music", l:"Full album vs Shuffle",                     a:{n:"Full album",       v:["intentional","curated","patient"]},      b:{n:"Shuffle",           v:["spontaneous","mood-driven","casual"]}},
+  {cat:"music", l:"K-pop vs J-pop",                            a:{n:"K-pop",            v:["polished","high-energy","global"]},      b:{n:"J-pop",             v:["eclectic","quirky","experimental"]}},
+  {cat:"music", l:"Rock vs Electronic",                        a:{n:"Rock",             v:["raw","live-energy","classic"]},          b:{n:"Electronic",        v:["textural","atmospheric","future"]}},
+  {cat:"music", l:"Lyrics first vs Melody first",              a:{n:"Lyrics first",     v:["analytical","literary","meaning"]},      b:{n:"Melody first",      v:["emotional","vibe-driven","instinct"]}},
+  {cat:"gaming",l:"Open world vs Linear story",                a:{n:"Open world",       v:["exploratory","free","sandbox"]},         b:{n:"Linear story",      v:["narrative","intentional","focused"]}},
+  {cat:"gaming",l:"Cozy games vs Hardcore games",              a:{n:"Cozy games",       v:["calm","low-stakes","gentle"]},           b:{n:"Hardcore games",    v:["competitive","mastery","intense"]}},
+  {cat:"gaming",l:"Solo campaign vs Multiplayer",              a:{n:"Solo",             v:["story","introspective","personal"]},     b:{n:"Multiplayer",       v:["social","competitive","chaotic"]}},
+  {cat:"gaming",l:"JRPG vs Western RPG",                       a:{n:"JRPG",             v:["narrative","anime","dramatic"]},         b:{n:"Western RPG",       v:["sandbox","freedom","realistic"]}},
+  {cat:"gaming",l:"Retro pixel art vs Photorealistic",         a:{n:"Retro pixel",      v:["nostalgic","charming","lo-fi"]},         b:{n:"Photorealistic",    v:["immersive","cinematic","modern"]}},
+  {cat:"anime", l:"Attack on Titan vs One Piece",              a:{n:"Attack on Titan",  v:["intense","dark","morally grey"]},        b:{n:"One Piece",         v:["adventurous","hopeful","friendship"]}},
+  {cat:"anime", l:"Shonen vs Seinen",                          a:{n:"Shonen",           v:["hype","friendship","optimistic"]},       b:{n:"Seinen",            v:["mature","complex","dark"]}},
+  {cat:"anime", l:"Demon Slayer vs Jujutsu Kaisen",            a:{n:"Demon Slayer",     v:["emotional","beautiful","traditional"]},  b:{n:"Jujutsu Kaisen",   v:["cool","tactical","brutal"]}},
+  {cat:"anime", l:"Anime vs Western animation",                a:{n:"Anime",            v:["emotional","dramatic","stylized"]},      b:{n:"Western animation", v:["witty","subversive","satirical"]}},
+  {cat:"tv",    l:"Breaking Bad vs Stranger Things",           a:{n:"Breaking Bad",     v:["meticulous","dark","slow-burn"]},        b:{n:"Stranger Things",   v:["nostalgic","fun","ensemble"]}},
+  {cat:"tv",    l:"Binge all at once vs One ep a week",        a:{n:"Binge",            v:["impatient","immersive","obsessive"]},    b:{n:"One per week",      v:["patient","social","old-school"]}},
+  {cat:"story", l:"Endings that destroy you vs Endings that leave you thinking", a:{n:"Destroy you",v:["emotional","cathartic","devastating"]},b:{n:"Leave you thinking",v:["ambiguous","intellectual","open-ended"]}},
+  {cat:"story", l:"Villain you understand vs Hero you doubt",  a:{n:"Villain you understand",v:["nuanced","moral grey","empathetic"]},b:{n:"Hero you doubt",  v:["deconstructive","uncomfortable","layered"]}},
+  {cat:"kpop",  l:"K-drama vs Thai drama",                     a:{n:"K-drama",          v:["polished","emotional","romantic"]},      b:{n:"Thai drama",        v:["intense","passionate","niche"]}},
+  {cat:"kpop",  l:"Boy group vs Girl group",                   a:{n:"Boy group",        v:["hype","performance","intense"]},         b:{n:"Girl group",        v:["concept","fashion","aesthetic"]}},
+  {cat:"global",l:"Subtitles vs Dubbed",                       a:{n:"Subtitles",        v:["purist","focused","authentic"]},         b:{n:"Dubbed",            v:["convenient","relaxed","casual"]}},
+  {cat:"global",l:"Niche discovery vs Popular things",         a:{n:"Niche first",      v:["hipster","curious","independent"]},      b:{n:"Popular things",    v:["social","communal","mainstream"]}},
+  {cat:"global",l:"Watching alone vs With people",             a:{n:"Alone",            v:["focused","immersive","introvert"]},      b:{n:"With people",       v:["social","shared","extrovert"]}},
+];
+
+/* ══════════════════════════════
+   SESSION STATE
+══════════════════════════════ */
+let sessionQ=[],idx=0,answers=[],advancing=false;
+let currentArchetype=null,currentRarity=null,currentSerial=0;
+let currentResult=null;
+
+function shuffle(a){a=[...a];for(let i=a.length-1;i>0;i--){const j=0|Math.random()*(i+1);[a[i],a[j]]=[a[j],a[i]];}return a;}
+
+function show(id){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  const el=document.getElementById(id);
+  el.classList.add('active');el.style.animation='none';el.offsetHeight;el.style.animation='';
+}
+
+function startQuiz(){
+  sessionQ=shuffle(POOL).slice(0,10);
+  idx=0;answers=[];
+  show('s-q');renderQ();
+}
+
+function renderQ(){
+  advancing=false;
+  const q=sessionQ[idx];
+  const pct=Math.round((idx/sessionQ.length)*100);
+  document.getElementById('qn').textContent=String(idx+1).padStart(2,'0');
+  const b=document.getElementById('qb');
+  b.textContent=q.cat.charAt(0).toUpperCase()+q.cat.slice(1);
+  b.className='q-badge '+q.cat;
+  document.getElementById('pf').style.width=pct+'%';
+  document.getElementById('pm-l').textContent=`Question ${idx+1} of ${sessionQ.length}`;
+  document.getElementById('pm-r').textContent=pct+'%';
+  document.getElementById('ql').textContent=q.l;
+  document.getElementById('chs').innerHTML=`
+    <button class="ch-btn" id="ca" onclick="doPick('a')">
+      <div class="ch-key">A</div><div class="ch-info"><div class="ch-name">${q.a.n}</div><div class="ch-sub">${q.a.v.slice(0,2).join(' · ')}</div></div><div class="ch-arr">→</div>
+    </button>
+    <button class="ch-btn" id="cb" onclick="doPick('b')">
+      <div class="ch-key">B</div><div class="ch-info"><div class="ch-name">${q.b.n}</div><div class="ch-sub">${q.b.v.slice(0,2).join(' · ')}</div></div><div class="ch-arr">→</div>
+    </button>`;
+  document.getElementById('sk').style.display='block';
+}
+
+function doPick(s){
+  if(advancing)return;advancing=true;
+  const q=sessionQ[idx];const ch=s==='a'?q.a:q.b;
+  answers.push({question:q.l,category:q.cat,chose:ch.n,vibe:ch.v});
+  document.getElementById('c'+s).classList.add('sel');
+  document.getElementById('ca').disabled=true;document.getElementById('cb').disabled=true;
+  document.getElementById('sk').style.display='none';
+  setTimeout(next,360);
+}
+
+function doSkip(){
+  if(advancing)return;advancing=true;
+  answers.push({question:sessionQ[idx].l,category:sessionQ[idx].cat,chose:null,vibe:[],skipped:true});
+  document.getElementById('sk').style.display='none';
+  setTimeout(next,180);
+}
+
+function next(){idx++;if(idx>=sessionQ.length)genDNA();else renderQ();}
+
+/* ══════════════════════════════
+   AI CALL
+══════════════════════════════ */
+async function genDNA(){
+  show('s-gen');
+  const msgs=['Analyzing picks','Matching archetype','Rolling rarity','Minting your card'];
+  let mi=0;const gEl=document.getElementById('gs');
+  const iv=setInterval(()=>{mi=(mi+1)%msgs.length;gEl.textContent=msgs[mi];},1600);
+
+  const answered=answers.filter(a=>!a.skipped);
+  const skipped=answers.filter(a=>a.skipped).map(a=>a.question);
+
+  const archetypeList = ARCHETYPES.map(a=>`- ${a.id}: ${a.name} (${a.tags.join(', ')})`).join('\n');
+
+  // Gemini API — free tier, no proxy needed
+  const GEMINI_KEY = 'AIzaSyBNt0Nu1FOL1nRahISo6bVoOKHIJvtT6P0';
+  const prompt = `You are a sharp cultural analyst. Based on pop culture picks, assign one archetype and generate card content.
+
+Fixed archetypes:
+${archetypeList}
+
+User picks: ${JSON.stringify(answered)}
+Skipped: ${JSON.stringify(skipped)}
+
+Output ONLY a raw JSON object. No markdown, no backticks. Start with { end with }:
+{
+  "archetype_id": "pick best match from the ids above",
+  "summary": "2-3 punchy sentences. Second-person. Name 2+ actual choices. Find the real pattern. Opinionated.",
+  "categories": {"film":"max 5 words","music":"max 5 words","gaming":"max 5 words"},
+  "recommendations": ["Title 1","Title 2","Title 3"],
+  "contrast": "1 sentence about what they probably hate. Specific and slightly roast-y."
+}`;
+
+  try{
+    const resp=await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${GEMINI_KEY}`,{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({
+        contents:[{parts:[{text:prompt}]}],
+        generationConfig:{temperature:.9,maxOutputTokens:1024}
+      })
+    });
+    clearInterval(iv);
+    if(!resp.ok){const e=await resp.text();throw new Error(`Gemini ${resp.status}: ${e.slice(0,100)}`);}
+    const data=await resp.json();
+    const raw=(data.candidates?.[0]?.content?.parts?.[0]?.text||'').trim().replace(/^```json\s*/i,'').replace(/^```/,'').replace(/```$/,'').trim();
+    const m=raw.match(/\{[\s\S]*\}/);
+    if(!m) throw new Error('No JSON in response');
+    const r=JSON.parse(m[0]);
+    if(!r.archetype_id||!r.summary||!r.categories||!r.recommendations||!r.contrast) throw new Error('Missing fields');
+
+    const arch=ARCHETYPES.find(a=>a.id===r.archetype_id)||ARCHETYPES[0];
+    const rarity=rollRarity();
+    const serial=Math.floor(Math.random()*999)+1;
+
+    currentArchetype=arch;currentRarity=rarity;currentSerial=serial;currentResult=r;
+
+    renderCard(arch,rarity,serial,r);
+  }catch(e){
+    clearInterval(iv);
+    console.error(e);
+    document.getElementById('gs').textContent='Error: '+e.message.slice(0,60);
+    const btn=document.createElement('button');
+    btn.textContent='↺ Retry';btn.className='btn-go';btn.style.cssText='margin-top:1.5rem;max-width:180px;';
+    btn.onclick=()=>{btn.remove();genDNA();};
+    document.querySelector('.gen-wrap').appendChild(btn);
+  }
+}
+
+/* ══════════════════════════════
+   CARD RENDERER
+══════════════════════════════ */
+function pip(filled,color){
+  return `<div class="card-pip" style="background:${filled?color:'rgba(255,255,255,.08)'}"></div>`;
+}
+
+function buildCardHTML(arch, rarityKey, serial, result, scale=1){
+  const t=TIER[rarityKey];
+  const c=arch;
+  const pips=Array.from({length:5},(_,i)=>pip(i<t.pipCount,t.pipActive(c))).join('');
+
+  /* kanji layers */
+  const k1=`<div class="card-kanji" style="font-size:${t.k1Size};color:${t.k1Color(c)};${t.k1Stroke!=='none'?`-webkit-text-stroke:${t.k1Stroke};`:''}z-index:2">${c.kanji}</div>`;
+  const k2=`<div class="card-kanji" style="font-size:${t.k2Size};color:${t.k2Color};-webkit-text-stroke:${t.k2Stroke(c)};z-index:3;top:-5px;left:-2px">${c.kanji}</div>`;
+  const k3=t.k3?`<div class="card-kanji" style="font-size:${t.k3Size};color:${t.k3Color};-webkit-text-stroke:.4px ${rarityKey==='SR'?`${c.cm}.55)`:rarityKey==='SSR'?'rgba(240,192,48,.72)':'transparent'};z-index:4;top:-7px;left:-5px">${c.kanji}</div>`:'';
+
+  /* SR extras */
+  const srExtra = rarityKey==='SR' ? `
+    <div class="card-frame" style="border-color:rgba(154,160,175,.12)">
+      <div style="position:absolute;top:-1px;left:-1px;width:11px;height:11px;border-top:1.5px solid ${c.color};border-left:1.5px solid ${c.color}"></div>
+      <div style="position:absolute;top:-1px;right:-1px;width:11px;height:11px;border-top:1.5px solid ${c.color};border-right:1.5px solid ${c.color}"></div>
+    </div>
+    <div style="position:absolute;bottom:0;left:0;width:11px;height:11px;border-bottom:1.5px solid rgba(154,160,175,.3);border-left:1.5px solid rgba(154,160,175,.3);z-index:6"></div>
+    <div style="position:absolute;bottom:0;right:0;width:11px;height:11px;border-bottom:1.5px solid rgba(154,160,175,.3);border-right:1.5px solid rgba(154,160,175,.3);z-index:6"></div>
+  `:'' ;
+
+  /* SSR extras */
+  const ssrExtra = rarityKey==='SSR' ? `
+    <div class="card-beam" style="left:18%;width:28%;background:linear-gradient(to bottom,rgba(240,192,48,.07),transparent)"></div>
+    <div class="card-beam" style="left:56%;width:14%;background:linear-gradient(to bottom,rgba(240,192,48,.04),transparent)"></div>
+    <div class="card-ssr-badge" style="background:linear-gradient(135deg,#C8960C,#F0C030);color:#080600">SSR</div>
+    <div class="card-diamond" style="top:3px;left:3px;background:rgba(240,192,48,.5)"></div>
+    <div class="card-diamond" style="top:3px;right:3px;background:rgba(240,192,48,.5)"></div>
+    <div class="card-frame" style="border-color:rgba(200,150,12,.14)">
+      <div style="position:absolute;top:-1px;left:-1px;width:11px;height:11px;border-top:1.5px solid rgba(240,192,48,.65);border-left:1.5px solid rgba(240,192,48,.65)"></div>
+      <div style="position:absolute;top:-1px;right:-1px;width:11px;height:11px;border-top:1.5px solid rgba(240,192,48,.65);border-right:1.5px solid rgba(240,192,48,.65)"></div>
+    </div>
+    <div style="position:absolute;bottom:0;left:0;width:11px;height:11px;border-bottom:1.5px solid rgba(240,192,48,.65);border-left:1.5px solid rgba(240,192,48,.65);z-index:6"></div>
+    <div style="position:absolute;bottom:0;right:0;width:11px;height:11px;border-bottom:1.5px solid rgba(240,192,48,.65);border-right:1.5px solid rgba(240,192,48,.65);z-index:6"></div>
+  `:'';
+
+  const statLabels=['film','music','gaming'];
+  const stats=Object.values(result.categories);
+
+  return `
+    <div class="card-bg" style="background:${t.bgBase(c)}"></div>
+    <div class="card-bar-left" style="background:${t.barLeft(c)}"></div>
+    ${k1}${k2}${k3}
+    ${srExtra}${ssrExtra}
+    <div class="card-gloss" id="card-gloss"></div>
+    <div class="card-top" style="background:${t.topBg(c)};border-bottom-color:${t.topBorder(c)}">
+      <span class="card-top-l" style="color:${t.topL(c)}">POP DNA · ${rarityKey}</span>
+      <span class="card-top-r" style="color:${t.topR(c)}">文化診断</span>
+    </div>
+    <div class="card-serial">
+      <span class="card-serial-no" style="color:${t.serNoC(c)}">CARD NO.</span>
+      <span class="card-serial-num" style="color:${t.serNumC(c)}">${String(serial).padStart(3,'0')}</span>
+    </div>
+    <div class="card-panel" style="top:${rarityKey==='SSR'?'38px':'28px'};left:10px;width:64px;border-color:${t.panBorder(c)}">
+      <span class="card-panel-lbl" style="color:${t.panLbl(c)}">Rarity</span>
+      <div class="card-pips">${pips}</div>
+    </div>
+    <div class="card-panel" style="top:${rarityKey==='SSR'?'72px':'62px'};left:10px;width:72px;border-color:${t.panBorder(c)}">
+      <span class="card-panel-lbl" style="color:${t.panLbl(c)}">Archetype Class</span>
+      <span class="card-panel-val" style="color:${t.panVal(c)}">${c.label}</span>
+    </div>
+    <div class="card-scan" style="top:${t.scanTop};background:${t.scanC(c)}"></div>
+    <div class="card-info">
+      <div class="card-accent-bar" style="background:${t.barBg(c)}">
+        <span class="card-accent-bar-l" style="color:${t.barL(c)}">Cultural Archetype</span>
+        <span class="card-accent-bar-r" style="color:${t.barR(c)}">${c.kanji}</span>
+      </div>
+      <div class="card-name-panel" style="background:${t.panelBg(c)};border-top:1px solid ${t.panelBorderTop(c)}">
+        <div class="card-archetype" style="color:${t.nameC}">${c.name}</div>
+        <span class="card-jp" style="color:${t.jpC(c)}">${c.jp} · ${serial.toString().padStart(3,'0')}</span>
+        <div class="card-tags">${c.tags.map(tag=>`<div class="card-tag" style="border-color:${t.tagBorder(c)};color:${t.tagC(c)}">${tag}</div>`).join('')}</div>
+        <div class="card-stats">${stats.map((s,i)=>`
+          <div class="card-stat" style="background:${t.statBg(c)};border-color:${t.statBorder(c)}">
+            <span class="card-stat-l" style="color:${t.statLbl(c)}">${statLabels[i]||''}</span>
+            <span class="card-stat-v" style="color:${t.statVal(c)}">${s}</span>
+          </div>`).join('')}
+        </div>
+      </div>
+    </div>`;
+}
+
+function renderCard(arch, rarityKey, serial, result){
+  const cardEl=document.getElementById('the-card');
+  cardEl.style.border=TIER[rarityKey].border(arch);
+
+  /* rarity flash reveal */
+  const flashColors={S:'rgba(154,160,175,.7)',SR:arch.color,SSR:'#F0C030'};
+  const flash=document.createElement('div');
+  flash.className='rarity-reveal';
+  flash.innerHTML=`<div class="rarity-reveal-inner" style="color:${flashColors[rarityKey]};text-shadow:0 0 40px ${flashColors[rarityKey]}">${rarityKey}</div>`;
+  document.body.appendChild(flash);
+  setTimeout(()=>flash.remove(),1900);
+
+  show('s-result');
+
+  requestAnimationFrame(()=>{
+    const W=cardEl.offsetWidth||380;
+    cardEl.innerHTML=buildCardHTML(arch,rarityKey,serial,result);
+
+    /* tilt */
+    cardEl.addEventListener('mousemove',e=>{
+      const r=cardEl.getBoundingClientRect();
+      const x=(e.clientX-r.left)/r.width*2-1;
+      const y=(e.clientY-r.top)/r.height*2-1;
+      cardEl.style.transform=`perspective(900px) rotateX(${-y*11}deg) rotateY(${x*11}deg) scale(1.02)`;
+      cardEl.style.boxShadow=`${-x*16}px ${y*16}px 45px rgba(0,0,0,.85)`;
+      const gloss=document.getElementById('card-gloss');
+      if(gloss) gloss.style.background=`radial-gradient(circle at ${((x+1)/2*100).toFixed(1)}% ${((y+1)/2*100).toFixed(1)}%,rgba(255,255,255,.07) 0%,transparent 60%)`;
+    });
+    cardEl.addEventListener('mouseleave',()=>{
+      cardEl.style.transform='';cardEl.style.boxShadow='';
+      const gloss=document.getElementById('card-gloss');
+      if(gloss) gloss.style.background='transparent';
+    });
+  });
+
+  /* below card */
+  document.getElementById('recs').innerHTML=result.recommendations.map((r,i)=>`
+    <div class="rec-row"><span class="rec-n">0${i+1}</span><span class="rec-t">${r}</span></div>`).join('');
+  document.getElementById('contrast').textContent=result.contrast;
+
+  /* build save card */
+  buildSaveCard(arch,rarityKey,serial,result);
+}
+
+/* ══════════════════════════════
+   SAVE CARD
+══════════════════════════════ */
+function buildSaveCard(arch, rarityKey, serial, result){
+  const t=TIER[rarityKey];
+  const c=arch;
+  const W=400;
+
+  // inline all fonts as data since html2canvas can't load google fonts at runtime
+  const inner=buildCardHTML(arch,rarityKey,serial,result);
+
+  document.getElementById('save-root').innerHTML=`
+    <div id="save-card" style="
+      position:relative;width:${W}px;aspect-ratio:63/88;
+      overflow:hidden;background:${t.bgBase(c)};
+      border:${t.border(c)};
+      font-family:'Space Grotesk',sans-serif;
+    ">
+      ${inner}
+      <div style="position:absolute;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 3px,rgba(0,0,0,.07) 3px,rgba(0,0,0,.07) 4px);pointer-events:none;z-index:30;"></div>
+    </div>`;
+}
+
+async function saveCard(){
+  const btn=document.getElementById('save-btn');
+  btn.textContent='Saving…';btn.style.opacity='.6';btn.disabled=true;
+
+  const card=document.getElementById('save-card');
+  if(!card){btn.textContent='↓ Save card';btn.style.opacity='';btn.disabled=false;return;}
+
+  try{
+    const canvas=await html2canvas(card,{
+      backgroundColor:TIER[currentRarity].bgBase(currentArchetype).replace('rgba','rgb').replace(/,[^,)]+\)$/,')'),
+      scale:2,useCORS:true,logging:false,width:400,windowWidth:420,
+      onclone:(doc)=>{
+        // ensure fonts load in clone
+        const link=doc.createElement('link');
+        link.rel='stylesheet';
+        link.href='https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Noto+Serif+JP:wght@700;900&family=Space+Grotesk:wght@700&display=swap';
+        doc.head.appendChild(link);
+      }
+    });
+    const a=document.createElement('a');
+    a.download=`pop-culture-dna-${currentArchetype.id}-${currentRarity}-${currentSerial}.png`;
+    a.href=canvas.toDataURL('image/png');
+    a.click();
+  }catch(e){
+    alert('Could not save. Try a manual screenshot.');
+  }finally{
+    btn.textContent='↓ Save card';btn.style.opacity='';btn.disabled=false;
+  }
+}
+
+function resetQuiz(){idx=0;answers=[];show('s-intro');}
+</script>
+</body>
+</html>
