@@ -302,24 +302,27 @@
                 .ui-outer { display:flex; flex-direction:column; gap:12px; }
                 .ui-wrap  { display:flex; align-items:center; justify-content:center; gap:24px; }
 
-                .ui-annot { width:130px; flex-shrink:0; align-self:center; position:relative; }
-
+                /* Clip window — hides cards outside */
+                .ui-annot {
+                    width: 130px;
+                    flex-shrink: 0;
+                    align-self: center;
+                    overflow: hidden;
+                    position: relative;
+                }
+                /* Track — holds all cards stacked, moves up on step change */
+                .ui-track {
+                    display: flex;
+                    flex-direction: column;
+                    gap: 8px;
+                    transition: transform 0.45s cubic-bezier(0.4,0,0.2,1);
+                    will-change: transform;
+                }
                 .ui-step {
                     background: var(--quote-bg);
                     border-radius: 8px;
                     padding: 14px;
-                    position: absolute;
-                    top: 0; left: 0; right: 0;
-                    opacity: 0;
-                    transform: translateY(12px);
-                    transition: opacity 0.35s ease, transform 0.35s ease;
-                    pointer-events: none;
-                }
-                .ui-step.is-active {
-                    opacity: 1;
-                    transform: translateY(0);
-                    position: relative;
-                    pointer-events: auto;
+                    flex-shrink: 0;
                 }
                 .ui-step-num {
                     font-family: 'Inter', sans-serif;
@@ -371,35 +374,37 @@
                 .ui-phone img { width:100%; height:auto; display:block; pointer-events:none; user-select:none; }
 
                 .ui-hint {
-                    display: flex; align-items: center; justify-content: center; gap: 5px;
-                    font-family: 'Inter', sans-serif; font-size: 11px; color: var(--muted);
-                    transition: opacity 0.3s;
+                    display:flex; align-items:center; justify-content:center; gap:5px;
+                    font-family:'Inter',sans-serif; font-size:11px; color:var(--muted);
+                    transition:opacity 0.3s;
                 }
                 .ui-hint.is-hidden { opacity:0; pointer-events:none; }
                 </style>
 
                 <div class="ui-outer">
                     <div class="ui-wrap">
-                        <div class="ui-annot">
-                            <div class="ui-step is-active" data-step="0">
-                                <span class="ui-step-num">Step 1 of 4</span>
-                                <span class="ui-step-title">Getting Attention</span>
-                                <span class="ui-step-desc">Hook sentence, directly solving the problem based on user research</span>
-                            </div>
-                            <div class="ui-step" data-step="1">
-                                <span class="ui-step-num">Step 2 of 4</span>
-                                <span class="ui-step-title">Building Interest</span>
-                                <span class="ui-step-desc">Explain the facts about the loyalty program benefits</span>
-                            </div>
-                            <div class="ui-step" data-step="2">
-                                <span class="ui-step-num">Step 3 of 4</span>
-                                <span class="ui-step-title">Getting Desire</span>
-                                <span class="ui-step-desc">Show how easy it is to earn points and tease the app's extra benefits</span>
-                            </div>
-                            <div class="ui-step" data-step="3">
-                                <span class="ui-step-num">Step 4 of 4</span>
-                                <span class="ui-step-title">Do Action</span>
-                                <span class="ui-step-desc">Offer users to join the loyalty program, reinforcing every benefit shown above</span>
+                        <div class="ui-annot" id="uiAnnot">
+                            <div class="ui-track" id="uiTrack">
+                                <div class="ui-step">
+                                    <span class="ui-step-num">Step 1 of 4</span>
+                                    <span class="ui-step-title">Getting Attention</span>
+                                    <span class="ui-step-desc">Hook sentence, directly solving the problem based on user research</span>
+                                </div>
+                                <div class="ui-step">
+                                    <span class="ui-step-num">Step 2 of 4</span>
+                                    <span class="ui-step-title">Building Interest</span>
+                                    <span class="ui-step-desc">Explain the facts about the loyalty program benefits</span>
+                                </div>
+                                <div class="ui-step">
+                                    <span class="ui-step-num">Step 3 of 4</span>
+                                    <span class="ui-step-title">Getting Desire</span>
+                                    <span class="ui-step-desc">Show how easy it is to earn points and tease the app's extra benefits</span>
+                                </div>
+                                <div class="ui-step">
+                                    <span class="ui-step-num">Step 4 of 4</span>
+                                    <span class="ui-step-title">Do Action</span>
+                                    <span class="ui-step-desc">Offer users to join the loyalty program, reinforcing every benefit shown above</span>
+                                </div>
                             </div>
                         </div>
 
@@ -418,20 +423,41 @@
 
                 <script>
                 (function(){
-                    var phone = document.getElementById('uiPhone');
-                    var hint  = document.getElementById('uiHint');
-                    var steps = document.querySelectorAll('.ui-step');
-                    if (!phone || !steps.length) return;
+                    var phone  = document.getElementById('uiPhone');
+                    var hint   = document.getElementById('uiHint');
+                    var annot  = document.getElementById('uiAnnot');
+                    var track  = document.getElementById('uiTrack');
+                    var steps  = track.querySelectorAll('.ui-step');
+                    if (!phone || !track || !steps.length) return;
 
                     var TRIGGERS = [0, 0.223, 0.509, 0.811];
                     var cur = 0;
+                    var GAP = 8; // matches gap:8px in .ui-track
+
+                    // Set annot height = height of first card so clip window is correct
+                    function setAnnotHeight(idx) {
+                        annot.style.height = steps[idx].offsetHeight + 'px';
+                    }
+
+                    function getOffsetTop(idx) {
+                        // Sum heights of all cards + gaps before this index
+                        var offset = 0;
+                        for (var i = 0; i < idx; i++) {
+                            offset += steps[i].offsetHeight + GAP;
+                        }
+                        return offset;
+                    }
 
                     function setStep(s) {
                         if (s === cur) return;
                         cur = s;
-                        steps.forEach(function(el) { el.classList.remove('is-active'); });
-                        steps[s].classList.add('is-active');
+                        var offset = getOffsetTop(s);
+                        track.style.transform = 'translateY(-' + offset + 'px)';
+                        setAnnotHeight(s);
                     }
+
+                    // Init
+                    setAnnotHeight(0);
 
                     phone.addEventListener('scroll', function(){
                         var max = phone.scrollHeight - phone.clientHeight;
@@ -444,6 +470,14 @@
                         }
                         setStep(step);
                     }, {passive: true});
+
+                    window.addEventListener('resize', function(){
+                        setAnnotHeight(cur);
+                        var offset = getOffsetTop(cur);
+                        track.style.transition = 'none';
+                        track.style.transform = 'translateY(-' + offset + 'px)';
+                        setTimeout(function(){ track.style.transition = ''; }, 50);
+                    });
                 })();
                 </script>
 
