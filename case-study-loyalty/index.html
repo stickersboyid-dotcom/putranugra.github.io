@@ -319,7 +319,7 @@
                     will-change: transform;
                 }
                 .ui-step {
-                    background: var(--quote-bg);
+                    background: transparent;
                     border-radius: 8px;
                     padding: 14px;
                     flex-shrink: 0;
@@ -374,10 +374,22 @@
                 .ui-phone img { width:100%; height:auto; display:block; pointer-events:none; user-select:none; }
 
                 .ui-hint {
-                    display:flex; align-items:center; justify-content:center; gap:5px;
-                    font-family:'Inter',sans-serif; font-size:11px; color:var(--muted);
-                    transition:opacity 0.3s;
+                    position: absolute;
+                    right: -28px;
+                    top: 50%;
+                    transform: translateY(-50%);
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    gap: 6px;
+                    font-family: 'Inter', sans-serif;
+                    font-size: 10px;
+                    color: var(--muted);
+                    writing-mode: vertical-rl;
+                    transition: opacity 0.3s;
+                    letter-spacing: 0.04em;
                 }
+                .ui-hint svg { transform: rotate(90deg); }
                 .ui-hint.is-hidden { opacity:0; pointer-events:none; }
                 </style>
 
@@ -408,16 +420,15 @@
                             </div>
                         </div>
 
-                        <div class="ui-phone-wrap">
+                        <div class="ui-phone-wrap" style="position:relative;">
                             <div class="ui-phone" id="uiPhone">
                                 <img src="../landing_page_loyalty_full.png" alt="Loyalty Landing Page UI">
                             </div>
+                            <div class="ui-hint" id="uiHint">
+                                <span>Scroll to explore</span>
+                                <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><polyline points="19 12 12 19 5 12"/></svg>
+                            </div>
                         </div>
-                    </div>
-
-                    <div class="ui-hint" id="uiHint">
-                        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><polyline points="19 12 12 19 5 12"/></svg>
-                        Scroll to explore
                     </div>
                 </div>
 
