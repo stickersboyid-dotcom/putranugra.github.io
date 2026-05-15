@@ -299,22 +299,15 @@
         <div class="section">
             <div class="figure">
                 <style>
-                .ui-outer { display:flex; flex-direction:column; gap:10px; }
+                .ui-outer { display:flex; flex-direction:column; gap:12px; }
+                .ui-wrap  { display:flex; align-items:center; justify-content:center; gap:24px; }
 
-                /* Center the whole thing within content width */
-                .ui-wrap {
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
-                    gap: 24px;
-                }
-
-                /* Label — fixed width, no flex grow */
+                /* Label — exact match screenshot 2 */
                 .ui-annot {
-                    width: 100px;
+                    width: 130px;
                     flex-shrink: 0;
                     align-self: center;
-                    height: 84px;
+                    height: 100px;
                     overflow: hidden;
                 }
                 .ui-ticker {
@@ -322,25 +315,26 @@
                     flex-direction: column;
                     transition: transform 0.45s cubic-bezier(0.4,0,0.2,1);
                 }
-                .ui-step { min-height: 84px; flex-shrink: 0; }
+                .ui-step { min-height: 100px; flex-shrink: 0; }
 
+                /* Typography — match screenshot 2 exactly */
                 .ui-step-num {
                     font-family: 'Inter', sans-serif;
-                    font-size: 9px;
+                    font-size: 10px;
                     font-weight: 400;
-                    letter-spacing: 0.08em;
+                    letter-spacing: 0.06em;
                     text-transform: uppercase;
                     color: var(--muted);
-                    line-height: 14px;
-                    margin-bottom: 4px;
+                    line-height: 16px;
+                    margin-bottom: 2px;
                 }
                 .ui-step-title {
                     font-family: 'Inter', sans-serif;
-                    font-size: 13px;
+                    font-size: 14px;
                     font-weight: 600;
                     color: var(--text);
-                    line-height: 18px;
-                    margin-bottom: 4px;
+                    line-height: 20px;
+                    margin-bottom: 6px;
                 }
                 .ui-step-desc {
                     font-family: 'Inter', sans-serif;
@@ -350,18 +344,15 @@
                     line-height: 16px;
                 }
 
-                /* Image: fixed width 220px, height via aspect ratio
-                   Target: show top ~950px of 720px-wide image
-                   ratio = 950/720 = 1.319
-                   At 220px wide, rendered image = 220/720*6288 = 1920px tall
-                   container height = 220 * 950/720 = 290px */
+                /* Image container */
                 .ui-phone-wrap {
-                    width: 220px;
+                    width: 240px;
                     flex-shrink: 0;
                     position: relative;
                     border-radius: 12px;
                     overflow: hidden;
-                    aspect-ratio: 720 / 950;
+                    /* 720:1380 = show from top of image down to "Punya struk Hangry?" */
+                    aspect-ratio: 720 / 1380;
                 }
                 .ui-phone {
                     position: absolute;
@@ -396,6 +387,7 @@
 
                 <div class="ui-outer">
                     <div class="ui-wrap">
+                        <!-- Ticker label -->
                         <div class="ui-annot">
                             <div class="ui-ticker" id="uiTicker">
                                 <div class="ui-step">
@@ -421,6 +413,7 @@
                             </div>
                         </div>
 
+                        <!-- Image frame -->
                         <div class="ui-phone-wrap">
                             <div class="ui-phone" id="uiPhone">
                                 <img src="../landing_page_loyalty_full.png" alt="Loyalty Landing Page UI">
@@ -441,11 +434,11 @@
                     var ticker = document.getElementById('uiTicker');
                     if (!phone || !hint || !ticker) return;
 
-                    var STEP_H = 84;
-                    // Triggers based on actual section positions in 6288px image:
-                    // Step 2 "Poinmu, cashbackmu"     ~y=1400 → 1400/6288 = 0.223
-                    // Step 3 "Cukup dengan scan"       ~y=3200 → 3200/6288 = 0.509
-                    // Step 4 "Jadi, tunggu apa lagi?"  ~y=5100 → 5100/6288 = 0.811
+                    var STEP_H = 100;
+                    // Based on 6288px image height:
+                    // Step 2 "Poinmu, cashbackmu"     ~y=1400 → 22.3%
+                    // Step 3 "Cukup dengan scan"       ~y=3200 → 50.9%
+                    // Step 4 "Jadi, tunggu apa lagi?"  ~y=5100 → 81.1%
                     var TRIGGERS = [0, 0.223, 0.509, 0.811];
                     var cur = 0;
 
