@@ -306,7 +306,7 @@
                     width: 130px;
                     flex-shrink: 0;
                     align-self: center;
-                    height: 100px;
+                    height: 120px;
                     overflow: hidden;
                 }
                 .ui-ticker {
@@ -314,8 +314,13 @@
                     flex-direction: column;
                     transition: transform 0.45s cubic-bezier(0.4,0,0.2,1);
                 }
-                .ui-step { min-height: 100px; flex-shrink: 0; }
-
+                .ui-step {
+                    min-height: 120px;
+                    flex-shrink: 0;
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: flex-start;
+                }
                 .ui-step-num {
                     font-family: 'Inter', sans-serif;
                     font-size: 10px;
@@ -324,7 +329,7 @@
                     text-transform: uppercase;
                     color: var(--muted);
                     line-height: 16px;
-                    margin-bottom: 2px;
+                    margin: 0 0 4px 0;
                 }
                 .ui-step-title {
                     font-family: 'Inter', sans-serif;
@@ -332,7 +337,7 @@
                     font-weight: 600;
                     color: var(--text);
                     line-height: 20px;
-                    margin-bottom: 6px;
+                    margin: 0 0 6px 0;
                 }
                 .ui-step-desc {
                     font-family: 'Inter', sans-serif;
@@ -340,9 +345,9 @@
                     font-weight: 400;
                     color: var(--muted);
                     line-height: 16px;
+                    margin: 0;
                 }
 
-                /* 720:1500 = figma 750px height x2 */
                 .ui-phone-wrap {
                     width: 240px;
                     flex-shrink: 0;
@@ -429,11 +434,13 @@
                     var ticker = document.getElementById('uiTicker');
                     if (!phone || !hint || !ticker) return;
 
-                    var STEP_H = 100;
-                    // Image 6288px tall. Sections:
-                    // Step 2 "Poinmu, cashbackmu"      ~y=1400 → 22.3%
-                    // Step 3 "Cukup dengan scan"        ~y=3200 → 50.9%
-                    // Step 4 "Jadi, tunggu apa lagi?"   ~y=5100 → 81.1%
+                    // STEP_H must match .ui-step min-height exactly
+                    var STEP_H = 120;
+
+                    // Image 6288px. Section positions:
+                    // Step 2: y=1400 → 22.3%
+                    // Step 3: y=3200 → 50.9%
+                    // Step 4: y=5100 → 81.1%
                     var TRIGGERS = [0, 0.223, 0.509, 0.811];
                     var cur = 0;
 
