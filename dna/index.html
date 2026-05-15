@@ -521,7 +521,7 @@ Output ONLY a raw JSON object. No markdown, no backticks. Start with { end with 
 }`;
 
   try{
-    const response = await puter.ai.chat(prompt, {model: 'gemini-2.0-flash'});
+    const response = await puter.ai.chat(prompt, {model: 'gemini-2.5-flash'});
     clearInterval(iv);
     const raw = (typeof response === 'string' ? response : response?.message?.content || response?.text || '').trim().replace(/^```json\s*/i,'').replace(/^```/,'').replace(/```$/,'').trim();
     const m=raw.match(/\{[\s\S]*\}/);
