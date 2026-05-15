@@ -300,15 +300,14 @@
             <div class="figure">
                 <style>
                 .ui-outer { display:flex; flex-direction:column; gap:10px; }
+                .ui-wrap  { display:flex; align-items:center; gap:20px; }
 
-                .ui-wrap { display:flex; align-items:center; gap:20px; }
-
-                /* Label left — ticker */
+                /* Label */
                 .ui-annot {
                     width: 110px;
                     flex-shrink: 0;
                     align-self: center;
-                    height: 100px;
+                    height: 88px;
                     overflow: hidden;
                 }
                 .ui-ticker {
@@ -316,25 +315,24 @@
                     flex-direction: column;
                     transition: transform 0.45s cubic-bezier(0.4,0,0.2,1);
                 }
-                .ui-step { min-height: 100px; flex-shrink: 0; }
+                .ui-step { min-height: 88px; flex-shrink: 0; }
 
-                /* Typography — match screenshot exactly */
                 .ui-step-num {
                     font-family: 'Inter', sans-serif;
                     font-size: 9px;
                     font-weight: 400;
-                    letter-spacing: 0.1em;
+                    letter-spacing: 0.08em;
                     text-transform: uppercase;
                     color: var(--muted);
-                    line-height: 16px;
-                    margin-bottom: 3px;
+                    line-height: 14px;
+                    margin-bottom: 4px;
                 }
                 .ui-step-title {
                     font-family: 'Inter', sans-serif;
-                    font-size: 14px;
-                    font-weight: 500;
+                    font-size: 13px;
+                    font-weight: 600;
                     color: var(--text);
-                    line-height: 20px;
+                    line-height: 18px;
                     margin-bottom: 4px;
                 }
                 .ui-step-desc {
@@ -345,15 +343,13 @@
                     line-height: 16px;
                 }
 
-                /* Scrollable image — aspect-ratio driven so height is always proportional to width */
-                /* Target: show top 1100px of 720px-wide image → ratio = 1100/720 = 1.528 */
+                /* Image frame — show top 1400/6288 of image = ratio 720:1400 */
                 .ui-phone-wrap {
                     flex: 1;
                     position: relative;
                     border-radius: 12px;
                     overflow: hidden;
-                    /* aspect-ratio makes height = width * 1.528, consistent on all devices */
-                    aspect-ratio: 720 / 1100;
+                    aspect-ratio: 720 / 1400;
                 }
                 .ui-phone {
                     position: absolute;
@@ -373,7 +369,6 @@
                     user-select: none;
                 }
 
-                /* Scroll hint below, aligned to image */
                 .ui-hint {
                     display: flex;
                     align-items: center;
@@ -390,7 +385,6 @@
 
                 <div class="ui-outer">
                     <div class="ui-wrap">
-                        <!-- Ticker label -->
                         <div class="ui-annot">
                             <div class="ui-ticker" id="uiTicker">
                                 <div class="ui-step">
@@ -416,7 +410,6 @@
                             </div>
                         </div>
 
-                        <!-- Image frame -->
                         <div class="ui-phone-wrap">
                             <div class="ui-phone" id="uiPhone">
                                 <img src="../landing_page_loyalty_full.png" alt="Loyalty Landing Page UI">
@@ -424,7 +417,6 @@
                         </div>
                     </div>
 
-                    <!-- Scroll hint -->
                     <div class="ui-hint" id="uiHint">
                         <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><polyline points="19 12 12 19 5 12"/></svg>
                         Scroll to explore
@@ -438,8 +430,14 @@
                     var ticker = document.getElementById('uiTicker');
                     if (!phone || !hint || !ticker) return;
 
-                    var STEP_H   = 100;
-                    var TRIGGERS = [0, 0.25, 0.55, 0.82];
+                    var STEP_H = 88;
+
+                    // Image 720x6288. Sections (approx px from top of original image):
+                    // Step 1: 0 (default)
+                    // Step 2 "Poinmu, cashbackmu":  ~1400px → 1400/6288 = 0.223
+                    // Step 3 "Cukup dengan scan":   ~3200px → 3200/6288 = 0.509
+                    // Step 4 "Jadi, tunggu apa lagi?": ~5100px → 5100/6288 = 0.811
+                    var TRIGGERS = [0, 0.223, 0.509, 0.811];
                     var cur = 0;
 
                     function setStep(s) {
@@ -452,7 +450,9 @@
                         var max = phone.scrollHeight - phone.clientHeight;
                         if (max <= 0) return;
                         var pct = phone.scrollTop / max;
+
                         hint.classList.toggle('is-hidden', phone.scrollTop > 10);
+
                         var step = 0;
                         for (var i = TRIGGERS.length - 1; i >= 0; i--) {
                             if (pct >= TRIGGERS[i]) { step = i; break; }
