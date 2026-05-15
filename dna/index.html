@@ -1,40 +1,689 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sorry.....</title>
-    <style>
-        body {
-            text-align: center;
-            padding: 100px;
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
-            color: #333;
-        }
-        h1 {
-            font-size: 50px;
-            margin-bottom: 10px;
-        }
-        p {
-            font-size: 20px;
-            color: #666;
-        }
-        .container {
-            background: white;
-            padding: 50px;
-            border-radius: 10px;
-            display: inline-block;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pop Culture DNA</title>
+<link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Noto+Serif+JP:wght@700;900&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html,body{min-height:100vh;background:#0A0A0A;color:#EDE8DF;font-family:'Space Grotesk',sans-serif;-webkit-font-smoothing:antialiased;}
+body{display:flex;align-items:center;justify-content:center;min-height:100vh;padding:2rem 1rem;}
+.wrap{width:100%;max-width:440px;}
+
+/* noise */
+body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:9999;opacity:.04;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)'/%3E%3C/svg%3E");}
+
+.screen{display:none}
+.screen.active{display:block;animation:show .3s ease both}
+@keyframes show{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+
+/* ─────────────────────────────
+   INTRO
+───────────────────────────── */
+.intro-poster{
+  position:relative;
+  overflow:hidden;
+  margin-bottom:1.5rem;
+  background:#0E0C18;
+  border:1px solid #1C1828;
+}
+.intro-poster-art{width:100%;height:260px;display:block;}
+.intro-poster-overlay{
+  position:absolute;bottom:0;left:0;right:0;
+  padding:1.75rem 1.5rem 1.25rem;
+  background:linear-gradient(to top,rgba(10,10,10,.98) 50%,rgba(10,10,10,.5) 80%,transparent);
+  z-index:2;
+}
+.intro-kicker{
+  font-size:9px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;
+  color:#C83020;margin-bottom:.35rem;
+  display:flex;align-items:center;gap:8px;
+}
+.intro-kicker::before{content:'';width:18px;height:1.5px;background:#C83020;flex-shrink:0;}
+.intro-title{
+  font-family:'Black Han Sans',sans-serif;
+  font-size:clamp(3rem,12vw,4.5rem);
+  line-height:.88;color:#EDE8DF;
+}
+.intro-title span{color:#C83020;}
+.intro-sub{
+  font-family:'Noto Serif JP',serif;
+  font-size:10px;color:#2E2838;
+  margin-top:.35rem;letter-spacing:.1em;
+}
+.intro-desc{font-size:14px;color:#3A3445;line-height:1.7;margin-bottom:1.5rem;}
+.btn-start{
+  display:flex;align-items:center;justify-content:space-between;
+  width:100%;background:#C83020;color:#fff;border:none;
+  padding:17px 22px;font-family:'Black Han Sans',sans-serif;
+  font-size:1.4rem;letter-spacing:.03em;cursor:pointer;
+  transition:opacity .15s,transform .12s;
+  clip-path:polygon(0 0,calc(100% - 10px) 0,100% 10px,100% 100%,10px 100%,0 calc(100% - 10px));
+}
+.btn-start:hover{opacity:.88;transform:translateY(-1px);}
+.btn-start:active{transform:translateY(1px);}
+
+/* ─────────────────────────────
+   QUESTION
+───────────────────────────── */
+.q-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:.5rem;}
+.q-num{font-family:'Black Han Sans',sans-serif;font-size:3rem;color:#1C1828;line-height:1;}
+.q-cat{
+  font-size:9px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;
+  padding:4px 11px;color:#fff;
+  clip-path:polygon(0 0,calc(100% - 5px) 0,100% 5px,100% 100%,5px 100%,0 calc(100% - 5px));
+}
+.cat-film{background:#C83020}.cat-music{background:#1A58A0}.cat-gaming{background:#1A6040}
+.cat-anime{background:#6020A0}.cat-tv{background:#905010}.cat-story{background:#2E2E2E}
+.cat-kpop{background:#A82060}.cat-global{background:#105880}
+
+.prog-track{height:2px;background:#1C1828;margin-bottom:.4rem;overflow:visible;position:relative;}
+.prog-fill{height:100%;background:#C83020;transition:width .4s cubic-bezier(.34,1.56,.64,1);position:relative;}
+.prog-fill::after{content:'';position:absolute;right:-3px;top:-4px;width:10px;height:10px;border-radius:50%;background:#C83020;}
+.prog-meta{display:flex;justify-content:space-between;margin-bottom:1.75rem;}
+.pm{font-size:9px;font-weight:700;letter-spacing:.1em;color:#2A2438;}
+
+.q-label{
+  font-family:'Black Han Sans',sans-serif;
+  font-size:clamp(1.7rem,5.5vw,2.1rem);
+  line-height:1.05;color:#EDE8DF;margin-bottom:1.5rem;
+}
+
+.choices{display:flex;flex-direction:column;gap:8px;margin-bottom:1rem;}
+.choice{
+  display:flex;align-items:center;gap:1rem;
+  background:#0E0C18;border:1px solid #1C1828;
+  padding:1rem 1.1rem;cursor:pointer;
+  transition:border-color .12s,background .12s,transform .1s;
+  text-align:left;width:100%;
+  clip-path:polygon(0 0,calc(100% - 7px) 0,100% 7px,100% 100%,7px 100%,0 calc(100% - 7px));
+}
+.choice:hover{border-color:#C83020;background:#180C14;transform:translateX(4px);}
+.choice.picked{border-color:#C83020;background:#180C14;}
+.choice-key{
+  font-family:'Black Han Sans',sans-serif;font-size:1.6rem;
+  color:#1C1828;line-height:1;flex-shrink:0;width:24px;
+  transition:color .12s;
+}
+.choice:hover .choice-key,.choice.picked .choice-key{color:#C83020;}
+.choice-name{font-size:15px;font-weight:700;color:#EDE8DF;margin-bottom:2px;}
+.choice-hint{font-size:11px;color:#3A3448;}
+.choice-info{flex:1;}
+.choice-arr{font-size:.9rem;color:#1C1828;flex-shrink:0;transition:color .12s,transform .12s;}
+.choice:hover .choice-arr,.choice.picked .choice-arr{color:#C83020;transform:translateX(3px);}
+
+.skip-row{text-align:center;}
+.skip-btn{
+  font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
+  color:#1C1828;background:none;border:none;cursor:pointer;
+  padding:8px 12px;transition:color .12s;
+}
+.skip-btn:hover{color:#3A3448;}
+
+/* ─────────────────────────────
+   RESULT
+───────────────────────────── */
+@keyframes result-in{
+  0%{opacity:0;transform:translateY(16px)}
+  100%{opacity:1;transform:translateY(0)}
+}
+.result-wrap{animation:result-in .5s ease both;}
+
+/* hero block */
+.result-hero{
+  position:relative;overflow:hidden;
+  background:#0E0C18;
+  border:1px solid;
+  margin-bottom:10px;
+  padding:0;
+}
+
+.result-hero-art{
+  position:relative;
+  height:220px;
+  overflow:hidden;
+}
+
+.result-hero-art svg{
+  position:absolute;inset:0;width:100%;height:100%;
+}
+
+/* scanlines on hero */
+.result-hero-art::after{
+  content:'';position:absolute;inset:0;
+  background:repeating-linear-gradient(0deg,transparent,transparent 3px,rgba(0,0,0,.08) 3px,rgba(0,0,0,.08) 4px);
+  pointer-events:none;z-index:3;
+}
+
+.result-hero-text{
+  position:absolute;bottom:0;left:0;right:0;
+  padding:1.25rem 1.25rem 1rem;
+  background:linear-gradient(to top,rgba(14,12,24,.98) 50%,rgba(14,12,24,.6) 75%,transparent);
+  z-index:4;
+}
+
+.result-archetype-label{
+  font-size:8px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;
+  display:flex;align-items:center;gap:6px;margin-bottom:.3rem;
+}
+.result-archetype-label::before{content:'';width:12px;height:1px;flex-shrink:0;}
+
+.result-archetype{
+  font-family:'Black Han Sans',sans-serif;
+  font-size:clamp(1.8rem,7vw,2.6rem);
+  line-height:.92;color:#EDE8DF;
+  margin-bottom:.3rem;
+}
+
+.result-jp{
+  font-family:'Noto Serif JP',serif;
+  font-size:10px;letter-spacing:.08em;
+}
+
+/* red kremlin bar */
+.result-bar{
+  padding:6px 14px;
+  display:flex;align-items:center;justify-content:space-between;
+  position:relative;overflow:hidden;
+}
+.result-bar::before{
+  content:'';position:absolute;inset:0;
+  background:repeating-linear-gradient(-55deg,transparent,transparent 7px,rgba(0,0,0,.1) 7px,rgba(0,0,0,.1) 8px);
+}
+.result-bar-l{font-size:8px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;position:relative;z-index:1;}
+.result-bar-r{font-family:'Noto Serif JP',serif;font-size:9px;position:relative;z-index:1;}
+
+/* summary block */
+.result-summary-block{
+  background:#0A0A0A;border:1px solid #1C1828;
+  padding:1.1rem 1.1rem 1rem;margin-bottom:10px;
+  border-left:3px solid;
+}
+.result-summary{font-size:14px;color:rgba(237,232,223,.65);line-height:1.75;}
+
+/* stats row */
+.result-stats{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:8px;
+  margin-bottom:10px;
+}
+.stat-block{
+  background:#0E0C18;border:1px solid #1C1828;
+  padding:12px 10px;text-align:center;
+  clip-path:polygon(0 0,calc(100% - 5px) 0,100% 5px,100% 100%,5px 100%,0 calc(100% - 5px));
+}
+.stat-icon{font-size:1.2rem;display:block;margin-bottom:5px;}
+.stat-label{font-size:8px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#2A2438;display:block;margin-bottom:3px;}
+.stat-val{font-size:11px;font-weight:700;color:#EDE8DF;display:block;line-height:1.3;}
+
+/* tags */
+.result-tags{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px;}
+.result-tag{
+  font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
+  padding:4px 10px;border:1px solid;
+}
+
+/* recs + contrast */
+.result-section{background:#0E0C18;border:1px solid #1C1828;overflow:hidden;margin-bottom:8px;}
+.result-sec-hd{
+  padding:5px 12px;display:flex;justify-content:space-between;align-items:center;
+  border-bottom:1px solid #1C1828;background:rgba(255,255,255,.02);
+}
+.result-sec-hd-t{font-size:9px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:#2A2438;}
+.result-sec-hd-j{font-family:'Noto Serif JP',serif;font-size:9px;color:#1C1828;}
+.result-sec-bd{padding:.85rem 1rem;}
+
+.rec-list{display:flex;flex-direction:column;}
+.rec-row{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid #1C1828;}
+.rec-row:last-child{border-bottom:none;padding-bottom:0;}
+.rec-n{font-family:'Black Han Sans',sans-serif;font-size:1.3rem;color:#1C1828;line-height:1;flex-shrink:0;width:24px;}
+.rec-t{font-size:13px;font-weight:700;color:#EDE8DF;}
+
+.contrast-text{
+  font-size:13px;color:#3A3448;line-height:1.7;font-style:italic;
+  border-left:2px solid #C83020;padding-left:.75rem;
+}
+
+.result-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px;}
+.btn-ghost{
+  background:transparent;border:1px solid #1C1828;padding:13px;
+  font-family:'Space Grotesk',sans-serif;font-size:13px;font-weight:700;
+  color:#3A3448;cursor:pointer;transition:all .15s;
+}
+.btn-ghost:hover{border-color:#EDE8DF;color:#EDE8DF;}
+.btn-retry{
+  background:#C83020;border:1px solid #C83020;padding:13px;
+  font-family:'Space Grotesk',sans-serif;font-size:13px;font-weight:700;
+  color:#fff;cursor:pointer;transition:opacity .15s;
+  clip-path:polygon(0 0,calc(100% - 7px) 0,100% 7px,100% 100%,7px 100%,0 calc(100% - 7px));
+}
+.btn-retry:hover{opacity:.85;}
+</style>
 </head>
 <body>
-    <div class="container">
-        <h1>🛠️</h1>
-        <h1>Under Maintenance</h1>
-        <p>Lagi dibenerin dulu ya, maaf....</p>
-        <p>Nanti bakal balik...</p>
+<div class="wrap">
+
+<!-- INTRO -->
+<div class="screen active" id="s-intro">
+  <div class="intro-poster">
+    <svg class="intro-poster-art" viewBox="0 0 440 260" xmlns="http://www.w3.org/2000/svg">
+      <rect width="440" height="260" fill="#080610"/>
+      <!-- city silhouette -->
+      <rect x="0" y="155" width="440" height="105" fill="#0A0818"/>
+      <rect x="10" y="122" width="35" height="138" fill="#0D0B1A"/><rect x="18" y="98" width="16" height="162" fill="#0A0814"/>
+      <rect x="56" y="138" width="25" height="122" fill="#0E0C1C"/>
+      <rect x="92" y="110" width="42" height="150" fill="#0D0B1A"/><rect x="100" y="90" width="12" height="170" fill="#0A0814"/>
+      <rect x="148" y="130" width="28" height="130" fill="#0E0C1C"/>
+      <rect x="190" y="116" width="38" height="144" fill="#0D0B1A"/>
+      <rect x="245" y="140" width="25" height="120" fill="#0E0C1C"/>
+      <rect x="282" y="106" width="46" height="154" fill="#0D0B1A"/><rect x="292" y="86" width="15" height="174" fill="#0A0814"/>
+      <rect x="344" y="122" width="32" height="138" fill="#0E0C1C"/>
+      <rect x="388" y="112" width="52" height="148" fill="#0D0B1A"/>
+      <!-- neon windows -->
+      <rect x="20" y="114" width="4" height="5" fill="#C83020" opacity=".6"/>
+      <rect x="60" y="148" width="3" height="4" fill="#00A89A" opacity=".5"/>
+      <rect x="104" y="126" width="4" height="5" fill="#C8960C" opacity=".55"/>
+      <rect x="196" y="126" width="4" height="5" fill="#00A89A" opacity=".5"/>
+      <rect x="290" y="118" width="4" height="5" fill="#C83020" opacity=".55"/>
+      <rect x="348" y="132" width="4" height="5" fill="#C8960C" opacity=".45"/>
+      <!-- ground -->
+      <rect x="0" y="195" width="440" height="65" fill="#060410"/>
+      <line x1="0" y1="195" x2="440" y2="195" stroke="#12101E" stroke-width="1"/>
+      <line x1="35" y1="210" x2="165" y2="210" stroke="#C83020" stroke-width=".6" opacity=".2"/>
+      <line x1="248" y1="212" x2="375" y2="212" stroke="#00A89A" stroke-width=".6" opacity=".2"/>
+      <!-- big kanji bg -->
+      <text x="265" y="202" font-family="serif" font-size="160" fill="#C83020" opacity=".025" font-weight="900">文</text>
+      <!-- red slash accent -->
+      <polygon points="0,70 48,0 68,0 0,100" fill="#C83020" opacity=".5"/>
+      <polygon points="0,70 48,0 53,0 0,80" fill="#C83020" opacity=".2"/>
+      <!-- ZZZ panels -->
+      <rect x="228" y="14" width="82" height="44" fill="#0E0C18" stroke="#1C1828" stroke-width="1"/>
+      <rect x="228" y="14" width="82" height="3" fill="#C83020"/>
+      <polygon points="300,14 310,14 310,24" fill="#080610"/>
+      <text x="233" y="26" font-family="sans-serif" font-size="6" fill="#2A2438" letter-spacing="2">PROFILE TYPE</text>
+      <text x="233" y="40" font-family="sans-serif" font-size="13" font-weight="900" fill="#EDE8DF">UNKNOWN</text>
+      <text x="233" y="51" font-family="serif" font-size="7" fill="#1A1428">ポップカルチャー</text>
+      <rect x="112" y="10" width="54" height="30" fill="#0E0C18" stroke="#1C1828" stroke-width="1"/>
+      <rect x="112" y="10" width="54" height="3" fill="#C8960C"/>
+      <text x="117" y="22" font-family="sans-serif" font-size="6" fill="#2A2438" letter-spacing="2">PICKS</text>
+      <text x="117" y="34" font-family="sans-serif" font-size="14" font-weight="900" fill="#C8960C">10</text>
+      <!-- crosshair -->
+      <circle cx="70" cy="56" r="16" stroke="#C83020" stroke-width=".6" opacity=".35" fill="none"/>
+      <circle cx="70" cy="56" r="10" stroke="#C83020" stroke-width=".35" opacity=".2" fill="none"/>
+      <line x1="70" y1="35" x2="70" y2="44" stroke="#C83020" stroke-width=".7" opacity=".45"/>
+      <line x1="70" y1="68" x2="70" y2="77" stroke="#C83020" stroke-width=".7" opacity=".45"/>
+      <line x1="49" y1="56" x2="58" y2="56" stroke="#C83020" stroke-width=".7" opacity=".45"/>
+      <line x1="82" y1="56" x2="91" y2="56" stroke="#C83020" stroke-width=".7" opacity=".45"/>
+      <circle cx="70" cy="56" r="2" fill="#C83020" opacity=".55"/>
+      <defs>
+        <linearGradient id="fade" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#080610" stop-opacity="0"/>
+          <stop offset="52%" stop-color="#080610" stop-opacity=".65"/>
+          <stop offset="100%" stop-color="#080610" stop-opacity="1"/>
+        </linearGradient>
+      </defs>
+      <rect x="0" y="118" width="440" height="142" fill="url(#fade)"/>
+    </svg>
+    <div class="intro-poster-overlay">
+      <div class="intro-kicker">Pop Culture Analysis</div>
+      <div class="intro-title">POP<br>CULTURE<br><span>DNA</span></div>
+      <div class="intro-sub">文化的DNA診断</div>
     </div>
+  </div>
+  <p class="intro-desc">10 this-or-that picks. Every session reshuffled. Find out what kind of cultural creature you really are.</p>
+  <button class="btn-start" onclick="startQuiz()"><span>Start the test</span><span>→</span></button>
+</div>
+
+<!-- QUESTION -->
+<div class="screen" id="s-q">
+  <div class="q-header">
+    <div class="q-num" id="qn">01</div>
+    <div class="q-cat cat-film" id="qcat">Film</div>
+  </div>
+  <div class="prog-track"><div class="prog-fill" id="pfill" style="width:0%"></div></div>
+  <div class="prog-meta"><span class="pm" id="pm-l">1 of 10</span><span class="pm" id="pm-r">0%</span></div>
+  <div class="q-label" id="qlabel">—</div>
+  <div class="choices" id="choices"></div>
+  <div class="skip-row"><button class="skip-btn" id="skipbtn" onclick="doSkip()">↷ Don't know either — skip</button></div>
+</div>
+
+<!-- RESULT -->
+<div class="screen" id="s-result">
+  <div class="result-wrap" id="result-wrap"></div>
+</div>
+
+</div>
+<script>
+/* ─── ARCHETYPES ─── */
+const ARCHETYPES=[
+  {
+    id:'contrarian',name:'The Quiet Contrarian',jp:'孤独な反骨者',kanji:'魂',
+    color:'#C83020',colorMid:'rgba(200,48,32,',
+    tags:['cerebral','solitary','anti-mainstream'],
+    summary:"You don't follow the crowd — you quietly observe it, then walk the other way. Depth over hype, always. The kind of person who finishes a full album before anyone asks you to shuffle.",
+    cats:{film:'Arthouse, slow burn',music:'Full album devotee',gaming:'Solo narrative'},
+    recs:['Parasite','Disco Elysium','Kendrick Lamar — To Pimp a Butterfly'],
+    contrast:"Anything loud, shallow, and made to be forgotten in 48 hours makes you quietly furious."
+  },
+  {
+    id:'maximalist',name:'The Hopeful Maximalist',jp:'希望の極大主義者',kanji:'星',
+    color:'#7030A0',colorMid:'rgba(112,48,160,',
+    tags:['optimistic','big feelings','crowd-pleasing'],
+    summary:"You want it all — big emotions, big spectacle, big stakes. You're not here for subtlety, you're here to feel something enormous. The playlist is shuffled, the world is open, and the stakes are always high.",
+    cats:{film:'Epic and crowd-pleasing',music:'Shuffle, vibe-driven',gaming:'Open world explorer'},
+    recs:['Your Name (Makoto Shinkai)','Final Fantasy X','BTS — Map of the Soul: 7'],
+    contrast:"Cold, detached minimalism that mistakes silence for intelligence makes you want to leave the room."
+  },
+  {
+    id:'drifter',name:'The Neon Drifter',jp:'ネオンの流浪者',kanji:'夜',
+    color:'#00A89A',colorMid:'rgba(0,168,154,',
+    tags:['eclectic','spontaneous','genre-fluid'],
+    summary:"You move between genres, moods, and worlds without committing to any. One week it's jazz, next week it's hyperpop. You're not lost — you're exploring, and you're fine with never arriving.",
+    cats:{film:'Genre-fluid, unexpected',music:'Eclectic, playlist-driven',gaming:'Sandbox, freeform'},
+    recs:['Everything Everywhere All at Once','Hades','Frank Ocean — Blonde'],
+    contrast:"Anything that boxes itself in with a single label — genre, style, identity — bores you immediately."
+  },
+  {
+    id:'aesthete',name:'The Patient Aesthete',jp:'忍耐の審美家',kanji:'道',
+    color:'#1A6870',colorMid:'rgba(26,104,112,',
+    tags:['curated','intentional','slow-burn'],
+    summary:"You are deliberate in everything you consume. Albums front to back. Films chosen, not stumbled upon. You have strong opinions about pacing and you're rarely wrong.",
+    cats:{film:'Curated, patient',music:'Full album, intentional',gaming:'Linear, story-first'},
+    recs:['Blade Runner 2049','Journey (game)','Sufjan Stevens — Carrie & Lowell'],
+    contrast:"Anything rushed, bloated, or clearly made without care makes you close the tab immediately."
+  },
+  {
+    id:'chaos',name:'The Chaos Architect',jp:'混沌の建築家',kanji:'炎',
+    color:'#D4601A',colorMid:'rgba(212,96,26,',
+    tags:['intense','genre-defying','unpredictable'],
+    summary:"You gravitate toward the uncomfortable, the unpredictable, the things that don't wrap up neatly. Safe entertainment feels like an insult. You want your media to challenge, disturb, surprise.",
+    cats:{film:'Visceral, genre-defying',music:'Live energy, raw',gaming:'Hardcore, punishing'},
+    recs:['Oldboy','Elden Ring','Death Grips — The Money Store'],
+    contrast:"Plot armor, guaranteed happy endings, and anything designed to make everyone comfortable leaves you cold."
+  },
+  {
+    id:'romantic',name:'The Eternal Romantic',jp:'永遠のロマンチスト',kanji:'花',
+    color:'#C03070',colorMid:'rgba(192,48,112,',
+    tags:['emotional','tender','narrative-driven'],
+    summary:"You feel things deeply and you're not ashamed of it. Stories that destroy you emotionally are the ones you return to. Melody matters, connection matters, and you know the difference between sentiment and sentimentality.",
+    cats:{film:'Emotional, tender',music:'Melody-first, feeling',gaming:'Narrative, character-driven'},
+    recs:['Clannad','Spirited Away','Lana Del Rey — Norman Fucking Rockwell'],
+    contrast:"Anything emotionally cold, irony-poisoned, or too cool to care makes you deeply uninterested."
+  },
+  {
+    id:'observer',name:'The Silent Observer',jp:'沈黙の観察者',kanji:'影',
+    color:'#1A5AA0',colorMid:'rgba(26,90,160,',
+    tags:['analytical','lone wolf','introspective'],
+    summary:"You watch more than you participate. You analyse, notice, remember. The films you love reward attention. The music you choose has something to say. You'd rather go deep on one thing than wide on everything.",
+    cats:{film:'Cerebral, layered',music:'Lyrics-first, analytical',gaming:'Solo, introspective'},
+    recs:['Arrival','Disco Elysium','Radiohead — OK Computer'],
+    contrast:"Surface-level entertainment that flatters the audience without asking anything of them wastes your time."
+  },
+  {
+    id:'exile',name:'The Comfort Zone Exile',jp:'安心地帯の亡命者',kanji:'風',
+    color:'#1A7040',colorMid:'rgba(26,112,64,',
+    tags:['nostalgic','cozy','warm but complex'],
+    summary:"You live at the intersection of nostalgia and sincerity. The things you love feel warm and specific, like they were made just for you. You're not afraid of cozy — but there's always something bittersweet underneath.",
+    cats:{film:'Warm, Ghibli-adjacent',music:'Full album, comforting',gaming:'Cozy, low-stakes'},
+    recs:['My Neighbor Totoro','Stardew Valley','Phoebe Bridgers — Punisher'],
+    contrast:"Cynical, nihilistic content that mistakes misery for depth makes you want to go outside and touch grass."
+  }
+];
+
+/* ─── SCORING ─── */
+const VM={'arthouse':{contrarian:3,aesthete:3,observer:2},'auteur':{contrarian:2,aesthete:3,observer:2},'uncomfortable':{contrarian:2,chaos:3},'spectacle':{maximalist:3},'escapist':{maximalist:2,exile:2},'melancholic':{exile:3,romantic:2},'quiet':{aesthete:2,observer:2,exile:2},'magical':{exile:2,maximalist:2},'heartwarming':{romantic:3,maximalist:2},'uplifting':{maximalist:2,romantic:2},'family':{romantic:2,exile:2},'intense':{chaos:3,contrarian:2},'layered':{observer:3,contrarian:2},'unexpected':{drifter:3,chaos:2},'visceral':{chaos:3},'tension':{chaos:2,observer:2},'primal':{chaos:3},'emotional':{romantic:3,maximalist:2},'tender':{romantic:3,exile:2},'hopeful':{romantic:2,maximalist:2},'intentional':{aesthete:3,contrarian:2},'curated':{aesthete:3,contrarian:2},'patient':{aesthete:3,observer:2},'spontaneous':{drifter:3,maximalist:2},'mood-driven':{drifter:2,romantic:2},'casual':{maximalist:2,exile:2},'confident':{maximalist:2,chaos:2},'lyrical':{contrarian:2,observer:3},'analytical':{observer:3,contrarian:2},'literary':{observer:3,contrarian:2},'meaning':{observer:2,contrarian:2},'vibe-driven':{drifter:3,romantic:2},'instinct':{romantic:2,drifter:2},'raw':{chaos:3,contrarian:2},'live-energy':{chaos:3,maximalist:2},'classic':{exile:2,aesthete:2},'exploratory':{maximalist:2,drifter:3},'free':{drifter:3,maximalist:2},'sandbox':{drifter:2,maximalist:2},'narrative':{aesthete:2,romantic:2,observer:2},'focused':{aesthete:3,observer:2},'calm':{exile:3,aesthete:2},'low-stakes':{exile:3},'gentle':{exile:3,romantic:2},'competitive':{chaos:2,maximalist:2},'mastery':{chaos:3},'story':{romantic:2,observer:2,aesthete:2},'introspective':{observer:3,contrarian:2},'personal':{observer:2,exile:2},'dark':{contrarian:2,chaos:2},'morally grey':{contrarian:3,observer:2},'adventurous':{maximalist:3,drifter:2},'friendship':{maximalist:2,romantic:2},'hype':{maximalist:3},'optimistic':{maximalist:2,romantic:2},'mature':{contrarian:2,observer:2},'complex':{observer:3,contrarian:2},'cathartic':{romantic:3,chaos:2},'devastating':{romantic:3,contrarian:2},'ambiguous':{observer:3,contrarian:2},'intellectual':{observer:3,contrarian:2},'open-ended':{observer:2,contrarian:2},'nuanced':{observer:3,contrarian:2},'empathetic':{romantic:3,exile:2},'nostalgic':{exile:3},'fun':{maximalist:2},'polished':{aesthete:2,maximalist:2},'eclectic':{drifter:3},'experimental':{drifter:3,chaos:2},'quirky':{drifter:2},'atmospheric':{aesthete:2,observer:2},'immersive':{aesthete:2,maximalist:2},'beautiful':{romantic:2,aesthete:2},'traditional':{exile:2,aesthete:2},'hipster':{contrarian:3,drifter:2},'curious':{drifter:3,observer:2},'independent':{contrarian:3},'introvert':{observer:3,contrarian:2},'dramatic':{romantic:2,maximalist:2},'lo-fi':{exile:2,contrarian:2},'cinematic':{aesthete:2,observer:2},'slow-burn':{aesthete:3,contrarian:2},'meticulous':{aesthete:3,observer:2},'high-energy':{maximalist:3,chaos:2},'purist':{contrarian:3,aesthete:2},'authentic':{contrarian:2,aesthete:2},'passionate':{romantic:3}};
+
+function score(answers){
+  const s={};ARCHETYPES.forEach(a=>s[a.id]=0);
+  answers.filter(a=>!a.skipped).forEach(a=>{
+    a.vibe.forEach(v=>{const w=VM[v.toLowerCase()];if(w)Object.entries(w).forEach(([id,n])=>{if(s[id]!==undefined)s[id]+=n;});});
+  });
+  return s;
+}
+
+/* ─── POOL ─── */
+const POOL=[
+  {cat:'film', l:'Marvel vs DC',                              a:{n:'Marvel',          v:['fun','optimistic','crowd-pleasing']},   b:{n:'DC',               v:['dark','gritty','brooding']}},
+  {cat:'film', l:'A24 films vs Hollywood blockbusters',       a:{n:'A24 films',       v:['arthouse','auteur','uncomfortable']},   b:{n:'Blockbusters',     v:['spectacle','escapist','safe']}},
+  {cat:'film', l:'Nolan vs Villeneuve',                       a:{n:'Nolan',           v:['cerebral','ambitious','time-bending']}, b:{n:'Villeneuve',       v:['atmospheric','patient','meditative']}},
+  {cat:'film', l:'Studio Ghibli vs Pixar',                    a:{n:'Studio Ghibli',   v:['melancholic','quiet','magical']},       b:{n:'Pixar',            v:['heartwarming','uplifting','family']}},
+  {cat:'film', l:'Korean cinema vs Hollywood',                a:{n:'Korean cinema',   v:['intense','layered','unexpected']},      b:{n:'Hollywood',        v:['polished','mainstream','accessible']}},
+  {cat:'film', l:'Horror vs Romance',                         a:{n:'Horror',          v:['visceral','tension','primal']},         b:{n:'Romance',          v:['emotional','tender','hopeful']}},
+  {cat:'music',l:'Hip-hop vs Indie',                          a:{n:'Hip-hop',         v:['confident','lyrical','urban']},         b:{n:'Indie',            v:['introspective','lo-fi','raw']}},
+  {cat:'music',l:'Full album vs Shuffle',                     a:{n:'Full album',      v:['intentional','curated','patient']},     b:{n:'Shuffle',          v:['spontaneous','mood-driven','casual']}},
+  {cat:'music',l:'K-pop vs J-pop',                            a:{n:'K-pop',           v:['polished','high-energy','global']},     b:{n:'J-pop',            v:['eclectic','quirky','experimental']}},
+  {cat:'music',l:'Rock vs Electronic',                        a:{n:'Rock',            v:['raw','live-energy','classic']},         b:{n:'Electronic',       v:['textural','atmospheric','future']}},
+  {cat:'music',l:'Lyrics first vs Melody first',              a:{n:'Lyrics first',    v:['analytical','literary','meaning']},     b:{n:'Melody first',     v:['emotional','vibe-driven','instinct']}},
+  {cat:'gaming',l:'Open world vs Linear story',               a:{n:'Open world',      v:['exploratory','free','sandbox']},        b:{n:'Linear story',     v:['narrative','intentional','focused']}},
+  {cat:'gaming',l:'Cozy games vs Hardcore games',             a:{n:'Cozy games',      v:['calm','low-stakes','gentle']},          b:{n:'Hardcore games',   v:['competitive','mastery','intense']}},
+  {cat:'gaming',l:'Solo campaign vs Multiplayer',             a:{n:'Solo',            v:['story','introspective','personal']},    b:{n:'Multiplayer',      v:['social','competitive','chaotic']}},
+  {cat:'gaming',l:'JRPG vs Western RPG',                      a:{n:'JRPG',            v:['narrative','anime','dramatic']},        b:{n:'Western RPG',      v:['sandbox','freedom','realistic']}},
+  {cat:'gaming',l:'Retro pixel art vs Photorealistic',        a:{n:'Retro pixel',     v:['nostalgic','charming','lo-fi']},        b:{n:'Photorealistic',   v:['immersive','cinematic','modern']}},
+  {cat:'anime', l:'Attack on Titan vs One Piece',             a:{n:'Attack on Titan', v:['intense','dark','morally grey']},       b:{n:'One Piece',        v:['adventurous','hopeful','friendship']}},
+  {cat:'anime', l:'Shonen vs Seinen',                         a:{n:'Shonen',          v:['hype','friendship','optimistic']},      b:{n:'Seinen',           v:['mature','complex','dark']}},
+  {cat:'anime', l:'Demon Slayer vs Jujutsu Kaisen',           a:{n:'Demon Slayer',    v:['emotional','beautiful','traditional']}, b:{n:'Jujutsu Kaisen',  v:['cool','tactical','brutal']}},
+  {cat:'anime', l:'Anime vs Western animation',               a:{n:'Anime',           v:['emotional','dramatic','stylized']},     b:{n:'Western animation',v:['witty','subversive','satirical']}},
+  {cat:'tv',   l:'Breaking Bad vs Stranger Things',           a:{n:'Breaking Bad',    v:['meticulous','dark','slow-burn']},       b:{n:'Stranger Things',  v:['nostalgic','fun','ensemble']}},
+  {cat:'tv',   l:'Binge all at once vs One ep a week',        a:{n:'Binge',           v:['impatient','immersive','obsessive']},   b:{n:'One per week',     v:['patient','social','old-school']}},
+  {cat:'story',l:'Endings that destroy you vs Leave you thinking',a:{n:'Destroy you',v:['emotional','cathartic','devastating']}, b:{n:'Leave you thinking',v:['ambiguous','intellectual','open-ended']}},
+  {cat:'story',l:'Villain you understand vs Hero you doubt',  a:{n:'Villain you understand',v:['nuanced','morally grey','empathetic']},b:{n:'Hero you doubt',v:['deconstructive','uncomfortable','layered']}},
+  {cat:'kpop', l:'K-drama vs Thai drama',                     a:{n:'K-drama',         v:['polished','emotional','romantic']},     b:{n:'Thai drama',       v:['intense','passionate','niche']}},
+  {cat:'global',l:'Subtitles vs Dubbed',                      a:{n:'Subtitles',       v:['purist','focused','authentic']},        b:{n:'Dubbed',           v:['convenient','relaxed','casual']}},
+  {cat:'global',l:'Niche discovery vs Popular things',        a:{n:'Niche first',     v:['hipster','curious','independent']},     b:{n:'Popular things',   v:['social','communal','mainstream']}},
+  {cat:'global',l:'Watching alone vs With people',            a:{n:'Alone',           v:['focused','immersive','introvert']},     b:{n:'With people',      v:['social','shared','extrovert']}},
+];
+
+/* ─── SESSION ─── */
+let sessionQ=[],idx=0,answers=[],advancing=false;
+
+function shuffle(a){a=[...a];for(let i=a.length-1;i>0;i--){const j=0|Math.random()*(i+1);[a[i],a[j]]=[a[j],a[i]];}return a;}
+
+function show(id){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  const el=document.getElementById(id);
+  el.classList.add('active');el.style.animation='none';el.offsetHeight;el.style.animation='';
+}
+
+function startQuiz(){
+  sessionQ=shuffle(POOL).slice(0,10);
+  idx=0;answers=[];
+  show('s-q');renderQ();
+}
+
+function renderQ(){
+  advancing=false;
+  const q=sessionQ[idx];
+  const pct=Math.round((idx/sessionQ.length)*100);
+  document.getElementById('qn').textContent=String(idx+1).padStart(2,'0');
+  const cb=document.getElementById('qcat');
+  cb.textContent=q.cat.charAt(0).toUpperCase()+q.cat.slice(1);
+  cb.className='q-cat cat-'+q.cat;
+  document.getElementById('pfill').style.width=pct+'%';
+  document.getElementById('pm-l').textContent=`${idx+1} of ${sessionQ.length}`;
+  document.getElementById('pm-r').textContent=pct+'%';
+  document.getElementById('qlabel').textContent=q.l;
+  document.getElementById('choices').innerHTML=`
+    <button class="choice" id="ca" onclick="doPick('a')">
+      <div class="choice-key">A</div>
+      <div class="choice-info"><div class="choice-name">${q.a.n}</div><div class="choice-hint">${q.a.v.slice(0,2).join(' · ')}</div></div>
+      <div class="choice-arr">→</div>
+    </button>
+    <button class="choice" id="cb" onclick="doPick('b')">
+      <div class="choice-key">B</div>
+      <div class="choice-info"><div class="choice-name">${q.b.n}</div><div class="choice-hint">${q.b.v.slice(0,2).join(' · ')}</div></div>
+      <div class="choice-arr">→</div>
+    </button>`;
+  document.getElementById('skipbtn').style.display='block';
+}
+
+function doPick(s){
+  if(advancing)return;advancing=true;
+  const q=sessionQ[idx];const ch=s==='a'?q.a:q.b;
+  answers.push({question:q.l,category:q.cat,chose:ch.n,vibe:ch.v});
+  document.getElementById('c'+s).classList.add('picked');
+  document.getElementById('ca').disabled=true;document.getElementById('cb').disabled=true;
+  document.getElementById('skipbtn').style.display='none';
+  setTimeout(next,360);
+}
+
+function doSkip(){
+  if(advancing)return;advancing=true;
+  const q=sessionQ[idx];
+  answers.push({question:q.l,category:q.cat,chose:null,vibe:[],skipped:true});
+  document.getElementById('skipbtn').style.display='none';
+  setTimeout(next,180);
+}
+
+function next(){idx++;if(idx>=sessionQ.length)showResult();else renderQ();}
+
+/* ─── RESULT SVG ART ─── */
+function heroSVG(arch){
+  const c=arch.color,cm=arch.colorMid,k=arch.kanji;
+  const W=440,H=220;
+  // diagonal lines
+  const diag=Array.from({length:26},(_,i)=>`<line x1="${i*18}" y1="0" x2="${i*18-H*.55}" y2="${H}" stroke="${c}" stroke-width=".5" opacity=".07"/>`).join('');
+  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${W} ${H}" width="100%" height="100%" preserveAspectRatio="xMidYMid slice">
+    <rect width="${W}" height="${H}" fill="#0A0818"/>
+    ${diag}
+    <!-- large kanji — hero element -->
+    <text x="${W/2}" y="${H*.58}" text-anchor="middle" dominant-baseline="middle"
+      font-family="serif" font-size="${H*1.1}" font-weight="900"
+      fill="${c}" fill-opacity=".07"
+      stroke="${c}" stroke-width="1.2" paint-order="stroke">${k}</text>
+    <!-- second offset kanji for depth -->
+    <text x="${W/2+5}" y="${H*.58+5}" text-anchor="middle" dominant-baseline="middle"
+      font-family="serif" font-size="${H*1.1}" font-weight="900"
+      fill="none" stroke="${c}" stroke-width=".5" opacity=".2">${k}</text>
+    <!-- scan lines -->
+    <line x1="0" y1="${H*.3}" x2="${W}" y2="${H*.3}" stroke="${c}" stroke-width=".8" opacity=".12"/>
+    <line x1="0" y1="${H*.65}" x2="${W}" y2="${H*.65}" stroke="${c}" stroke-width=".4" opacity=".07"/>
+    <!-- corner marks top -->
+    <path d="M10,24 L10,8 L26,8" fill="none" stroke="${c}" stroke-width="1.2" opacity=".55"/>
+    <path d="${W-26},8 L${W-10},8 L${W-10},24" fill="none" stroke="${c}" stroke-width="1.2" opacity=".55"/>
+    <!-- accent diagonal top-left -->
+    <polygon points="0,0 ${W*.16},0 0,${H*.22}" fill="${c}" opacity=".07"/>
+    <polygon points="0,0 ${W*.08},0 0,${H*.12}" fill="${c}" opacity=".12"/>
+    <!-- ZZZ style data panel top-right -->
+    <rect x="${W-88}" y="10" width="78" height="32" fill="rgba(0,0,0,.5)" stroke="${c}" stroke-opacity=".2" stroke-width="1"/>
+    <rect x="${W-88}" y="10" width="78" height="2.5" fill="${c}" opacity=".7"/>
+    <text x="${W-85}" y="22" font-family="sans-serif" font-size="6" fill="${c}" fill-opacity=".5" letter-spacing="1.5">ANALYSIS</text>
+    <text x="${W-85}" y="35" font-family="sans-serif" font-size="10" font-weight="700" fill="${c}" opacity=".8">${arch.id.toUpperCase()}</text>
+    <!-- bottom fade -->
+    <defs>
+      <linearGradient id="hfade" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="#0A0818" stop-opacity="0"/>
+        <stop offset="55%" stop-color="#0A0818" stop-opacity=".7"/>
+        <stop offset="100%" stop-color="#0A0818" stop-opacity="1"/>
+      </linearGradient>
+    </defs>
+    <rect x="0" y="${H*.35}" width="${W}" height="${H*.65}" fill="url(#hfade)"/>
+  </svg>`;
+}
+
+/* ─── SHOW RESULT ─── */
+function showResult(){
+  const scores=score(answers);
+  const sorted=Object.entries(scores).sort((a,b)=>b[1]-a[1]);
+  const top=sorted[0][1];
+  const matches=sorted.filter(([,s])=>s===top).map(([id])=>id);
+  const aid=matches[Math.floor(Math.random()*matches.length)];
+  const arch=ARCHETYPES.find(a=>a.id===aid)||ARCHETYPES[0];
+  const c=arch.color,cm=arch.colorMid;
+  const statIcons={film:'🎬',music:'🎵',gaming:'🎮'};
+
+  const html=`
+    <!-- HERO BLOCK -->
+    <div class="result-hero" style="border-color:${cm}.2)">
+      <div class="result-hero-art">${heroSVG(arch)}</div>
+      <div class="result-hero-text">
+        <div class="result-archetype-label" style="color:${c};--lc:${c}">
+          <span style="background:${c};width:12px;height:1px;display:inline-block;flex-shrink:0"></span>
+          Cultural Archetype
+        </div>
+        <div class="result-archetype">${arch.name}</div>
+        <div class="result-jp" style="color:${cm}.45)">${arch.jp}</div>
+      </div>
+      <div class="result-bar" style="background:${c}">
+        <span class="result-bar-l" style="color:rgba(255,255,255,.8)">Pop Culture DNA</span>
+        <span class="result-bar-r" style="color:rgba(255,255,255,.3)">${arch.kanji}</span>
+      </div>
+    </div>
+
+    <!-- SUMMARY -->
+    <div class="result-summary-block" style="border-left-color:${c};border-color:${cm}.18)">
+      <div class="result-summary">${arch.summary}</div>
+    </div>
+
+    <!-- STATS -->
+    <div class="result-stats">
+      ${Object.entries(arch.cats).map(([k,v])=>`
+      <div class="stat-block" style="border-color:${cm}.15)">
+        <span class="stat-icon">${statIcons[k]||'✦'}</span>
+        <span class="stat-label" style="color:${cm}.4)">${k}</span>
+        <span class="stat-val">${v}</span>
+      </div>`).join('')}
+    </div>
+
+    <!-- TAGS -->
+    <div class="result-tags">
+      ${arch.tags.map((tag,i)=>{
+        const tagColors=[c,`${cm}.15)`,`${cm}.1)`];
+        const textColors=['#fff',c,`${cm}.6)`];
+        const bgs=[c,'transparent','transparent'];
+        return `<div class="result-tag" style="background:${bgs[i]};border-color:${i===0?c:cm}.2)};color:${textColors[i]}">${tag}</div>`;
+      }).join('')}
+    </div>
+
+    <!-- RECS -->
+    <div class="result-section" style="border-color:${cm}.15)">
+      <div class="result-sec-hd" style="border-bottom-color:${cm}.12)">
+        <span class="result-sec-hd-t" style="color:${cm}.5)">You'd probably love</span>
+        <span class="result-sec-hd-j" style="color:${cm}.25)">おすすめ</span>
+      </div>
+      <div class="result-sec-bd">
+        <div class="rec-list">
+          ${arch.recs.map((r,i)=>`
+          <div class="rec-row" style="border-bottom-color:${cm}.12)">
+            <span class="rec-n" style="color:${cm}.3)">0${i+1}</span>
+            <span class="rec-t">${r}</span>
+          </div>`).join('')}
+        </div>
+      </div>
+    </div>
+
+    <!-- CONTRAST -->
+    <div class="result-section" style="border-color:${cm}.15)">
+      <div class="result-sec-hd" style="border-bottom-color:${cm}.12)">
+        <span class="result-sec-hd-t" style="color:${cm}.5)">What you can't stand</span>
+        <span class="result-sec-hd-j" style="color:${cm}.25)">苦手なもの</span>
+      </div>
+      <div class="result-sec-bd">
+        <div class="contrast-text" style="border-left-color:${c}">${arch.contrast}</div>
+      </div>
+    </div>
+
+    <!-- ACTIONS -->
+    <div class="result-actions">
+      <button class="btn-ghost" onclick="resetQuiz()">↺ Try again</button>
+      <button class="btn-retry" style="background:${c};border-color:${c}" onclick="shareResult('${arch.id}')">↗ Share</button>
+    </div>`;
+
+  document.getElementById('result-wrap').innerHTML=html;
+  show('s-result');
+}
+
+function shareResult(archetypeId){
+  const url=window.location.href.split('?')[0];
+  const arch=ARCHETYPES.find(a=>a.id===archetypeId);
+  const text=`I got "${arch.name}" on Pop Culture DNA — ${arch.jp} — take the test at ${url}`;
+  if(navigator.share){
+    navigator.share({title:'Pop Culture DNA',text,url}).catch(()=>{});
+  } else {
+    navigator.clipboard.writeText(text).then(()=>alert('Copied to clipboard!')).catch(()=>alert(text));
+  }
+}
+
+function resetQuiz(){idx=0;answers=[];show('s-intro');}
+</script>
 </body>
 </html>
