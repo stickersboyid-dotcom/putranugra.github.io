@@ -302,25 +302,26 @@
                 .ui-outer { display:flex; flex-direction:column; gap:12px; }
                 .ui-wrap  { display:flex; align-items:center; justify-content:center; gap:24px; }
 
-                /* Card container — only active card visible */
-                .ui-annot { width: 130px; flex-shrink: 0; align-self: center; position: relative; }
+                .ui-annot { width:130px; flex-shrink:0; align-self:center; position:relative; }
 
-                .ui-card {
+                .ui-step {
                     background: var(--quote-bg);
                     border-radius: 8px;
                     padding: 14px;
                     position: absolute;
                     top: 0; left: 0; right: 0;
                     opacity: 0;
+                    transform: translateY(12px);
+                    transition: opacity 0.35s ease, transform 0.35s ease;
                     pointer-events: none;
-                    transition: opacity 0.35s ease;
                 }
-                .ui-card.is-active {
+                .ui-step.is-active {
                     opacity: 1;
-                    pointer-events: auto;
+                    transform: translateY(0);
                     position: relative;
+                    pointer-events: auto;
                 }
-                .ui-card-num {
+                .ui-step-num {
                     font-family: 'Inter', sans-serif;
                     font-size: 10px;
                     font-weight: 400;
@@ -329,22 +330,25 @@
                     color: var(--muted);
                     line-height: 16px;
                     margin: 0 0 4px 0;
+                    display: block;
                 }
-                .ui-card-title {
+                .ui-step-title {
                     font-family: 'Inter', sans-serif;
                     font-size: 14px;
                     font-weight: 600;
                     color: var(--text);
                     line-height: 20px;
-                    margin: 0 0 6px 0;
+                    margin: 0 0 5px 0;
+                    display: block;
                 }
-                .ui-card-desc {
+                .ui-step-desc {
                     font-family: 'Inter', sans-serif;
                     font-size: 11px;
                     font-weight: 400;
                     color: var(--muted);
                     line-height: 16px;
                     margin: 0;
+                    display: block;
                 }
 
                 .ui-phone-wrap {
@@ -362,57 +366,43 @@
                     overflow-x: hidden;
                     scrollbar-width: none;
                     -ms-overflow-style: none;
-                    background: var(--quote-bg);
                 }
                 .ui-phone::-webkit-scrollbar { display: none; }
-                .ui-phone img {
-                    width: 100%;
-                    height: auto;
-                    display: block;
-                    pointer-events: none;
-                    user-select: none;
-                }
+                .ui-phone img { width:100%; height:auto; display:block; pointer-events:none; user-select:none; }
 
                 .ui-hint {
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
-                    gap: 5px;
-                    font-family: 'Inter', sans-serif;
-                    font-size: 11px;
-                    color: var(--muted);
+                    display: flex; align-items: center; justify-content: center; gap: 5px;
+                    font-family: 'Inter', sans-serif; font-size: 11px; color: var(--muted);
                     transition: opacity 0.3s;
                 }
-                .ui-hint.is-hidden { opacity: 0; pointer-events: none; }
+                .ui-hint.is-hidden { opacity:0; pointer-events:none; }
                 </style>
 
                 <div class="ui-outer">
                     <div class="ui-wrap">
-                        <!-- Card labels -->
-                        <div class="ui-annot" id="uiAnnot">
-                            <div class="ui-card is-active" data-step="0">
-                                <p class="ui-card-num">Step 1 of 4</p>
-                                <p class="ui-card-title">Getting Attention</p>
-                                <p class="ui-card-desc">Hook sentence, directly solving the problem based on user research</p>
+                        <div class="ui-annot">
+                            <div class="ui-step is-active" data-step="0">
+                                <span class="ui-step-num">Step 1 of 4</span>
+                                <span class="ui-step-title">Getting Attention</span>
+                                <span class="ui-step-desc">Hook sentence, directly solving the problem based on user research</span>
                             </div>
-                            <div class="ui-card" data-step="1">
-                                <p class="ui-card-num">Step 2 of 4</p>
-                                <p class="ui-card-title">Building Interest</p>
-                                <p class="ui-card-desc">Explain the facts about the loyalty program benefits</p>
+                            <div class="ui-step" data-step="1">
+                                <span class="ui-step-num">Step 2 of 4</span>
+                                <span class="ui-step-title">Building Interest</span>
+                                <span class="ui-step-desc">Explain the facts about the loyalty program benefits</span>
                             </div>
-                            <div class="ui-card" data-step="2">
-                                <p class="ui-card-num">Step 3 of 4</p>
-                                <p class="ui-card-title">Getting Desire</p>
-                                <p class="ui-card-desc">Show how easy it is to earn points and tease the app's extra benefits</p>
+                            <div class="ui-step" data-step="2">
+                                <span class="ui-step-num">Step 3 of 4</span>
+                                <span class="ui-step-title">Getting Desire</span>
+                                <span class="ui-step-desc">Show how easy it is to earn points and tease the app's extra benefits</span>
                             </div>
-                            <div class="ui-card" data-step="3">
-                                <p class="ui-card-num">Step 4 of 4</p>
-                                <p class="ui-card-title">Do Action</p>
-                                <p class="ui-card-desc">Offer users to join the loyalty program, reinforcing every benefit shown above</p>
+                            <div class="ui-step" data-step="3">
+                                <span class="ui-step-num">Step 4 of 4</span>
+                                <span class="ui-step-title">Do Action</span>
+                                <span class="ui-step-desc">Offer users to join the loyalty program, reinforcing every benefit shown above</span>
                             </div>
                         </div>
 
-                        <!-- Image frame -->
                         <div class="ui-phone-wrap">
                             <div class="ui-phone" id="uiPhone">
                                 <img src="../landing_page_loyalty_full.png" alt="Loyalty Landing Page UI">
@@ -430,8 +420,8 @@
                 (function(){
                     var phone = document.getElementById('uiPhone');
                     var hint  = document.getElementById('uiHint');
-                    var cards = document.querySelectorAll('.ui-card');
-                    if (!phone || !cards.length) return;
+                    var steps = document.querySelectorAll('.ui-step');
+                    if (!phone || !steps.length) return;
 
                     var TRIGGERS = [0, 0.223, 0.509, 0.811];
                     var cur = 0;
@@ -439,15 +429,15 @@
                     function setStep(s) {
                         if (s === cur) return;
                         cur = s;
-                        cards.forEach(function(c) { c.classList.remove('is-active'); });
-                        cards[s].classList.add('is-active');
+                        steps.forEach(function(el) { el.classList.remove('is-active'); });
+                        steps[s].classList.add('is-active');
                     }
 
                     phone.addEventListener('scroll', function(){
                         var max = phone.scrollHeight - phone.clientHeight;
                         if (max <= 0) return;
                         var pct = phone.scrollTop / max;
-                        hint.classList.toggle('is-hidden', phone.scrollTop > 10);
+                        if (hint) hint.classList.toggle('is-hidden', phone.scrollTop > 10);
                         var step = 0;
                         for (var i = TRIGGERS.length - 1; i >= 0; i--) {
                             if (pct >= TRIGGERS[i]) { step = i; break; }
