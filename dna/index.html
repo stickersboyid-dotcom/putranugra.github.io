@@ -6,6 +6,7 @@
 <title>Pop Culture DNA</title>
 <link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Noto+Serif+JP:wght@700;900&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://js.puter.com/v2/"></script>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html,body{min-height:100vh;background:#050308;color:#EDE8DF;font-family:'Space Grotesk',sans-serif;-webkit-font-smoothing:antialiased;}
@@ -501,8 +502,7 @@ async function genDNA(){
 
   const archetypeList = ARCHETYPES.map(a=>`- ${a.id}: ${a.name} (${a.tags.join(', ')})`).join('\n');
 
-  // Gemini API — free tier, no proxy needed
-  const GEMINI_KEY = 'AIzaSyBNt0Nu1FOL1nRahISo6bVoOKHIJvtT6P0';
+  // Puter.js — free Gemini access, no API key needed
   const prompt = `You are a sharp cultural analyst. Based on pop culture picks, assign one archetype and generate card content.
 
 Fixed archetypes:
@@ -521,20 +521,11 @@ Output ONLY a raw JSON object. No markdown, no backticks. Start with { end with 
 }`;
 
   try{
-    const resp=await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${GEMINI_KEY}`,{
-      method:'POST',
-      headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({
-        contents:[{parts:[{text:prompt}]}],
-        generationConfig:{temperature:.9,maxOutputTokens:1024}
-      })
-    });
+    const response = await puter.ai.chat(prompt, {model: 'gemini-2.0-flash'});
     clearInterval(iv);
-    if(!resp.ok){const e=await resp.text();throw new Error(`Gemini ${resp.status}: ${e.slice(0,100)}`);}
-    const data=await resp.json();
-    const raw=(data.candidates?.[0]?.content?.parts?.[0]?.text||'').trim().replace(/^```json\s*/i,'').replace(/^```/,'').replace(/```$/,'').trim();
+    const raw = (typeof response === 'string' ? response : response?.message?.content || response?.text || '').trim().replace(/^```json\s*/i,'').replace(/^```/,'').replace(/```$/,'').trim();
     const m=raw.match(/\{[\s\S]*\}/);
-    if(!m) throw new Error('No JSON in response');
+    if(!m) throw new Error('No JSON in response: ' + raw.slice(0,100));
     const r=JSON.parse(m[0]);
     if(!r.archetype_id||!r.summary||!r.categories||!r.recommendations||!r.contrast) throw new Error('Missing fields');
 
