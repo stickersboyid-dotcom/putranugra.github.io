@@ -316,8 +316,8 @@
                     .ui-annot { width: 90px; }
                     .ui-phone-wrap { width: 170px !important; }
                     .ui-hint {
-                        writing-mode: vertical-rl !important;
-                        transform: rotate(180deg) !important;
+                        flex-direction: row !important;
+                        writing-mode: horizontal-tb !important;
                     }
                     .ui-step-num { white-space: nowrap; }
                 }
@@ -388,19 +388,25 @@
                     display: flex;
                     flex-direction: column;
                     align-items: center;
-                    gap: 6px;
+                    gap: 4px;
                     font-family: 'Inter', sans-serif;
                     font-size: 10px;
                     color: var(--muted);
-                    writing-mode: vertical-rl;
-                    transform: rotate(180deg);
                     transition: opacity 0.3s;
-                    letter-spacing: 0.04em;
                     align-self: center;
                     flex-shrink: 0;
                 }
-                /* Arrow points down — after rotate(180deg) on parent, svg needs no extra rotation */
-                .ui-hint svg { flex-shrink: 0; }
+                .ui-hint span {
+                    writing-mode: vertical-rl;
+                    text-orientation: mixed;
+                    letter-spacing: 0.06em;
+                }
+                .ui-hint svg { display: block; }
+                @media (max-width: 480px) {
+                    .ui-hint { flex-direction: row; }
+                    .ui-hint span { writing-mode: horizontal-tb; letter-spacing: 0; }
+                    .ui-hint svg { transform: none; }
+                }
                 .ui-hint.is-hidden { opacity:0; pointer-events:none; }
                 </style>
 
