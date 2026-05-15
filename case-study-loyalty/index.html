@@ -299,133 +299,173 @@
         <div class="section">
             <div class="figure">
                 <style>
+                .ui-outer {
+                    display: flex;
+                    flex-direction: column;
+                    gap: 10px;
+                }
                 .ui-wrap {
                     display: flex;
                     align-items: center;
                     gap: 20px;
                 }
+
+                /* Left label */
                 .ui-annot {
                     width: 110px;
                     flex-shrink: 0;
                     align-self: center;
+                    overflow: hidden;
+                    height: 96px;
                 }
-                .ui-annot-num {
-                    font-size: 9px; font-weight: 700;
-                    letter-spacing: 0.1em; text-transform: uppercase;
-                    color: var(--muted); margin-bottom: 4px;
+                .ui-ticker {
+                    display: flex;
+                    flex-direction: column;
+                    transition: transform 0.45s cubic-bezier(0.4,0,0.2,1);
                 }
-                .ui-annot-title {
-                    font-size: 13px; font-weight: 600;
-                    color: var(--text); line-height: 1.4; margin-bottom: 5px;
+                .ui-step {
+                    min-height: 96px;
+                    flex-shrink: 0;
+                    padding-bottom: 12px;
                 }
-                .ui-annot-desc {
-                    font-size: 11px; color: var(--muted); line-height: 1.5;
+                .ui-step-num {
+                    font-size: 9px;
+                    font-weight: 500;
+                    letter-spacing: 0.08em;
+                    text-transform: uppercase;
+                    color: var(--muted);
+                    margin-bottom: 4px;
+                    font-family: 'Inter', sans-serif;
+                    line-height: 20px;
                 }
-                /* Container: fixed height, scrollable */
+                .ui-step-title {
+                    font-size: 14px;
+                    font-weight: 500;
+                    color: var(--text);
+                    line-height: 20px;
+                    margin-bottom: 4px;
+                    font-family: 'Inter', sans-serif;
+                }
+                .ui-step-desc {
+                    font-size: 12px;
+                    color: var(--muted);
+                    line-height: 18px;
+                    font-family: 'Inter', sans-serif;
+                    font-weight: 400;
+                }
+
+                /* Scrollable image frame — fixed height, consistent desktop+mobile */
                 .ui-phone {
                     flex: 1;
-                    height: 500px;
+                    height: 380px;
                     overflow-y: scroll;
                     overflow-x: hidden;
                     border-radius: 12px;
                     background: var(--quote-bg);
                     scrollbar-width: none;
                     -ms-overflow-style: none;
-                    /* NO overflow:hidden — that kills scroll */
+                    /* Critical: no max-height, no min-height, just height */
                 }
                 .ui-phone::-webkit-scrollbar { display: none; }
                 .ui-phone img {
                     width: 100%;
-                    display: block;
-                    /* height auto — let image be its natural proportional height */
                     height: auto;
+                    display: block;
                     pointer-events: none;
                     user-select: none;
                 }
+
+                /* Scroll hint — below the frame */
                 .ui-hint {
-                    flex-shrink: 0;
-                    align-self: center;
                     display: flex;
-                    flex-direction: column;
                     align-items: center;
+                    justify-content: center;
                     gap: 6px;
+                    font-size: 11px;
+                    color: var(--muted);
+                    font-family: 'Inter', sans-serif;
                     transition: opacity 0.3s;
+                    /* left-offset to align with image frame, not label */
+                    padding-left: 130px;
                 }
                 .ui-hint.is-hidden { opacity: 0; pointer-events: none; }
-                .ui-hint span {
-                    writing-mode: vertical-rl;
-                    transform: rotate(180deg);
-                    font-size: 10px;
-                    color: var(--muted);
-                    letter-spacing: 0.06em;
-                }
-                .ui-hint svg { transform: rotate(180deg); color: var(--muted); }
                 </style>
 
-                <div class="ui-wrap">
-                    <div class="ui-annot">
-                        <p class="ui-annot-num" id="uiNum">Step 1 of 4</p>
-                        <p class="ui-annot-title" id="uiTitle">Getting Attention</p>
-                        <p class="ui-annot-desc" id="uiDesc">Hook sentence, directly solving the problem based on user research</p>
+                <div class="ui-outer">
+                    <div class="ui-wrap">
+                        <!-- Ticker label left -->
+                        <div class="ui-annot">
+                            <div class="ui-ticker" id="uiTicker">
+                                <div class="ui-step">
+                                    <p class="ui-step-num">Step 1 of 4</p>
+                                    <p class="ui-step-title">Getting Attention</p>
+                                    <p class="ui-step-desc">Hook sentence, directly solving the problem based on user research</p>
+                                </div>
+                                <div class="ui-step">
+                                    <p class="ui-step-num">Step 2 of 4</p>
+                                    <p class="ui-step-title">Building Interest</p>
+                                    <p class="ui-step-desc">Explain the facts about the loyalty program benefits</p>
+                                </div>
+                                <div class="ui-step">
+                                    <p class="ui-step-num">Step 3 of 4</p>
+                                    <p class="ui-step-title">Getting Desire</p>
+                                    <p class="ui-step-desc">Show how easy it is to earn points and tease the app's extra benefits</p>
+                                </div>
+                                <div class="ui-step">
+                                    <p class="ui-step-num">Step 4 of 4</p>
+                                    <p class="ui-step-title">Do Action</p>
+                                    <p class="ui-step-desc">Offer users to join the loyalty program, reinforcing every benefit shown above</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Scrollable image -->
+                        <div class="ui-phone" id="uiPhone">
+                            <img src="../landing_page_loyalty_full.png" alt="Loyalty Landing Page UI">
+                        </div>
                     </div>
 
-                    <div class="ui-phone" id="uiPhone">
-                        <img src="../landing_page_loyalty_full.png" alt="Loyalty Landing Page UI">
-                    </div>
-
+                    <!-- Scroll hint below -->
                     <div class="ui-hint" id="uiHint">
-                        <span>Scroll to explore</span>
-                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><line x1="12" y1="5" x2="12" y2="19"/><polyline points="19 12 12 19 5 12"/></svg>
+                        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><polyline points="19 12 12 19 5 12"/></svg>
+                        Scroll to explore
                     </div>
                 </div>
 
                 <script>
                 (function(){
-                    var phone = document.getElementById('uiPhone');
-                    var hint  = document.getElementById('uiHint');
-                    var num   = document.getElementById('uiNum');
-                    var title = document.getElementById('uiTitle');
-                    var desc  = document.getElementById('uiDesc');
-                    if (!phone) return;
+                    var phone  = document.getElementById('uiPhone');
+                    var hint   = document.getElementById('uiHint');
+                    var ticker = document.getElementById('uiTicker');
+                    if (!phone || !hint || !ticker) return;
 
-                    var STEPS = [
-                        { num: 'Step 1 of 4', title: 'Getting Attention',  desc: 'Hook sentence, directly solving the problem based on user research' },
-                        { num: 'Step 2 of 4', title: 'Building Interest',   desc: 'Explain the facts about the loyalty program benefits' },
-                        { num: 'Step 3 of 4', title: 'Getting Desire',      desc: 'Show how easy it is to earn points and tease the app\'s extra benefits' },
-                        { num: 'Step 4 of 4', title: 'Do Action',           desc: 'Offer users to join the loyalty program, reinforcing every benefit shown above' }
-                    ];
+                    var STEP_H   = 96;
                     var TRIGGERS = [0, 0.25, 0.55, 0.82];
-                    var cur = -1;
+                    var cur = 0;
 
                     function setStep(s) {
                         if (s === cur) return;
                         cur = s;
-                        num.style.opacity = title.style.opacity = desc.style.opacity = '0';
-                        setTimeout(function(){
-                            num.textContent   = STEPS[s].num;
-                            title.textContent = STEPS[s].title;
-                            desc.textContent  = STEPS[s].desc;
-                            num.style.opacity = title.style.opacity = desc.style.opacity = '1';
-                        }, 150);
+                        ticker.style.transform = 'translateY(-' + (s * STEP_H) + 'px)';
                     }
 
                     phone.addEventListener('scroll', function(){
                         var max = phone.scrollHeight - phone.clientHeight;
                         if (max <= 0) return;
                         var pct = phone.scrollTop / max;
+
                         hint.classList.toggle('is-hidden', phone.scrollTop > 10);
+
                         var step = 0;
-                        for (var i = TRIGGERS.length-1; i >= 0; i--) {
+                        for (var i = TRIGGERS.length - 1; i >= 0; i--) {
                             if (pct >= TRIGGERS[i]) { step = i; break; }
                         }
                         setStep(step);
                     }, {passive: true});
-
-                    setStep(0);
                 })();
                 </script>
 
-                <figcaption style="margin-top:8px;">Final UI — loyalty landing page</figcaption>
+                <figcaption style="margin-top:4px;">Final UI — loyalty landing page</figcaption>
             </div>
             <p>I applied the AIDA concept for this landing page. AIDA (Attention, Interest, Desire, Action) is a copywriting concept to increase the effectiveness of the landing page's goals — in this case, getting as many new user registrations as possible.</p>
         </div>
