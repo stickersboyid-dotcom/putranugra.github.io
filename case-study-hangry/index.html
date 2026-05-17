@@ -1,0 +1,890 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Before the Playbook Existed — Nugraha Eka Putra</title>
+    <meta name="description" content="Designing the Hangry App when no playbook existed — a cloud kitchen with multiple brands, one outlet.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+    <script>
+        const t = localStorage.getItem('theme');
+        if (t) document.documentElement.setAttribute('data-theme', t);
+    </script>
+    <style>
+        :root {
+            --bg:      #FFFFFF;
+            --text:    #737373;
+            --muted:   #A3A3A3;
+            --quote-bg:#F5F5F5;
+            --border:  #E5E5E5;
+        }
+
+        [data-theme="dark"] {
+            --bg:      #141414;
+            --text:    #737373;
+            --muted:   #525252;
+            --quote-bg:#1E1E1E;
+            --border:  #2A2A2A;
+        }
+
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+
+        body {
+            background: var(--bg);
+            color: var(--muted);
+            font-family: 'Inter', sans-serif;
+            font-size: 14px;
+            font-weight: 400;
+            line-height: 20px;
+            -webkit-font-smoothing: antialiased;
+            transition: background 0.2s ease, color 0.2s ease;
+        }
+
+        .wrap {
+            max-width: 560px;
+            margin: 0 auto;
+            padding: 0 32px;
+        }
+
+        /* ─── NAV ────────────────────────────────── */
+        nav { padding: 68px 0 0; }
+
+        nav .wrap {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .back-link {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+            font-weight: 400;
+            color: var(--muted);
+            text-decoration: none;
+            line-height: 20px;
+            transition: color 0.15s ease;
+        }
+
+        .back-link:hover { color: var(--text); }
+        .back-link svg { flex-shrink: 0; }
+
+        .toggle-btn {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-family: 'Inter', sans-serif;
+            font-size: 14px;
+            font-weight: 400;
+            color: var(--text);
+            padding: 0;
+            line-height: 20px;
+            transition: color 0.15s ease;
+        }
+
+        .toggle-btn:hover { color: var(--muted); }
+        .toggle-btn svg { display: block; flex-shrink: 0; }
+
+        /* ─── HERO ───────────────────────────────── */
+        .hero {
+            padding-top: 40px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .hero-tag {
+            font-size: 14px;
+            font-weight: 400;
+            color: var(--muted);
+            line-height: 20px;
+            margin-bottom: 10px;
+        }
+
+        .hero-title {
+            font-size: 24px;
+            font-weight: 500;
+            color: var(--text);
+            line-height: 32px;
+        }
+
+        .hero-image {
+            width: 100%;
+            height: 245px;
+            border-radius: 5px;
+            object-fit: cover;
+            display: block;
+            cursor: zoom-in;
+        }
+
+        /* ─── CONTEXT TABLE ──────────────────────── */
+        .context-table {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .context-row {
+            display: flex;
+            align-items: flex-start;
+            gap: 20px;
+            font-size: 14px;
+            line-height: 20px;
+        }
+
+        .context-label {
+            font-weight: 400;
+            color: var(--muted);
+            min-width: 72px;
+            flex-shrink: 0;
+        }
+
+        .context-value {
+            font-weight: 500;
+            color: var(--text);
+        }
+
+        /* ─── DIVIDER ────────────────────────────── */
+        .divider {
+            border: none;
+            border-top: 1px solid var(--border);
+            margin-top: 20px;
+        }
+
+        /* ─── SECTIONS ───────────────────────────── */
+        .section {
+            padding-top: 40px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .section-label {
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--text);
+            line-height: 20px;
+        }
+
+        .section p {
+            font-size: 14px;
+            font-weight: 400;
+            color: var(--muted);
+            line-height: 20px;
+        }
+
+        /* ─── ITALIC QUOTE ───────────────────────── */
+        .italic-text {
+            font-size: 15px;
+            font-style: italic;
+            font-weight: 400;
+            color: var(--muted);
+            line-height: 20px;
+            letter-spacing: -0.23px;
+        }
+
+        /* ─── ORDERED LIST ───────────────────────── */
+        .ordered-list {
+            padding-left: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .ordered-list li {
+            font-size: 14px;
+            font-weight: 400;
+            color: var(--muted);
+            line-height: 20px;
+        }
+
+        /* ─── FIGURE ─────────────────────────────── */
+        .figure {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .figure img {
+            width: 100%;
+            height: 245px;
+            border-radius: 5px;
+            object-fit: cover;
+            display: block;
+            cursor: zoom-in;
+        }
+
+        .figure figcaption {
+            font-size: 12px;
+            font-weight: 400;
+            color: var(--muted);
+            line-height: 18px;
+            text-align: center;
+        }
+
+        /* ─── EXTERNAL LINK ──────────────────────── */
+        .ext-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+            font-weight: 400;
+            color: var(--text);
+            text-decoration: none;
+            line-height: 20px;
+            transition: color 0.15s ease;
+        }
+
+        .ext-link:hover { color: var(--muted); }
+        .ext-link svg { flex-shrink: 0; }
+
+        /* ─── FOOTER ─────────────────────────────── */
+        .footer-wrap {
+            padding-top: 40px;
+            padding-bottom: 60px;
+        }
+
+        .footer-divider {
+            border-top: 1px solid var(--border);
+            margin-bottom: 20px;
+        }
+
+        .footer-inner {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .social-links {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .social-link {
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--text);
+            text-decoration: none;
+            line-height: 20px;
+            transition: color 0.15s ease;
+        }
+
+        .social-link:hover { color: var(--muted); }
+
+        .cv-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 14px;
+            font-weight: 400;
+            color: var(--text);
+            text-decoration: none;
+            line-height: 20px;
+            transition: color 0.15s ease;
+        }
+
+        .cv-link:hover { color: var(--muted); }
+        .cv-link svg { flex-shrink: 0; }
+
+        /* ─── LIGHTBOX ───────────────────────────── */
+        .lightbox {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.92);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 999;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.22s ease;
+            cursor: zoom-out;
+        }
+
+        .lightbox.open { opacity: 1; pointer-events: all; }
+
+        .lightbox img {
+            max-width: 90vw;
+            max-height: 88vh;
+            object-fit: contain;
+            border-radius: 6px;
+            transform: scale(0.96);
+            transition: transform 0.25s cubic-bezier(0.16,1,0.3,1);
+            pointer-events: none;
+            cursor: default;
+        }
+
+        .lightbox.open img { transform: scale(1); }
+
+        .lightbox-close {
+            position: absolute;
+            top: 20px; right: 24px;
+            background: none; border: none;
+            color: rgba(255,255,255,0.6);
+            font-size: 28px;
+            cursor: pointer;
+            line-height: 1; padding: 4px;
+            transition: color 0.15s ease;
+        }
+
+        .lightbox-close:hover { color: #fff; }
+
+        /* ─── TOAST ──────────────────────────────── */
+        .toast {
+            position: fixed;
+            bottom: 28px;
+            left: 50%;
+            transform: translateX(-50%) translateY(6px);
+            background: var(--text);
+            color: var(--bg);
+            font-family: 'Inter', sans-serif;
+            font-size: 13px;
+            padding: 8px 16px;
+            border-radius: 6px;
+            opacity: 0;
+            transition: opacity 0.2s ease, transform 0.2s ease;
+            pointer-events: none;
+            white-space: nowrap;
+            z-index: 1000;
+        }
+
+        .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+        /* ─── RESPONSIVE ─────────────────────────── */
+        @media (max-width: 480px) {
+            .wrap { padding: 0 20px; }
+            nav { padding-top: 40px; }
+            .section { padding-top: 32px; }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            * { transition: none !important; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+    <div class="wrap">
+        <a href="/" class="back-link">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/>
+            </svg>
+            Back
+        </a>
+        <button class="toggle-btn" onclick="toggleTheme()" aria-label="Toggle theme">
+            <span id="lbl">Dark Mode</span>
+            <svg id="iconMoon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+            </svg>
+            <svg id="iconSun" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="display:none">
+                <circle cx="12" cy="12" r="5"/>
+                <line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/>
+                <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+                <line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/>
+                <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+            </svg>
+        </button>
+    </div>
+</nav>
+
+<main>
+    <div class="wrap">
+
+        <!-- HERO -->
+        <div class="hero">
+            <div>
+                <p class="hero-tag">Hangry · 2019</p>
+                <h1 class="hero-title">Before the Playbook Existed</h1>
+            </div>
+
+            <img src="/hero_image_hangry.png" alt="Hangry App first launch" class="hero-image">
+
+            <div class="context-table">
+                <div class="context-row">
+                    <span class="context-label">Outcome:</span>
+                    <span class="context-value">4.9 stars, 100K+ downloads on Play Store</span>
+                </div>
+                <div class="context-row">
+                    <span class="context-label">Company:</span>
+                    <span class="context-value">Hangry Indonesia</span>
+                </div>
+                <div class="context-row">
+                    <span class="context-label">Product:</span>
+                    <span class="context-value">Hangry App (Discovery)</span>
+                </div>
+                <div class="context-row">
+                    <span class="context-label">Role:</span>
+                    <span class="context-value">Research, copy, design</span>
+                </div>
+                <div class="context-row">
+                    <span class="context-label">Team:</span>
+                    <span class="context-value">1 designer, 2 engineers</span>
+                </div>
+            </div>
+
+            <hr class="divider">
+        </div>
+
+        <!-- BACKGROUND -->
+        <div class="section">
+            <p class="section-label">BACKGROUND</p>
+            <p>Hangry App is a cloud kitchen: one physical outlet, multiple brands. From a single location, users can order from all available brands at once. This is fundamentally different from conventional food apps where one outlet equals one brand, one type of menu.</p>
+            <p>When I joined in 2019, Hangry had only 3 outlets and 3 brands, all in Jakarta. I was the only full-time designer. An existing design was already in place from a part-time designer.</p>
+        </div>
+
+        <!-- RESEARCH & DISCOVERY -->
+        <div class="section">
+            <p class="section-label">RESEARCH &amp; DISCOVERY</p>
+            <p>Before touching the existing design, I spent time understanding what Hangry actually was.</p>
+            <p>I came in knowing three things: Hangry had 3 brands, 3 locations, and a food delivery app. That felt familiar enough. Most food delivery apps in Indonesia follow the same pattern — GoFood, GrabFood, or F&amp;B brands with their own app. I assumed Hangry was some version of that.</p>
+            <p>So instead of jumping straight into the design, I did what I always do first: I talked to people. Stakeholders, C-level — anyone who could tell me what this product was actually supposed to be and where it was going.</p>
+            <p>That’s when the picture shifted. Those 3 brands weren’t in 3 separate locations. They were all in the same kitchen, the same outlet. One physical space running multiple distinct brands simultaneously.</p>
+            <p>There was no blueprint for that in the industry. Not in GoFood. Not in GrabFood. Not in any F&amp;B app I knew at the time.</p>
+            <p>I sat with that for a while before going back to the existing design. And when I did, I saw it differently — not as a food delivery app with some rough edges, but as a design built on the wrong mental model of what Hangry was.</p>
+        </div>
+
+        <!-- PROBLEM FRAMING -->
+        <div class="section">
+            <p class="section-label">PROBLEM FRAMING</p>
+            <p>When I went back to the existing design, I wasn’t looking at it the same way anymore.</p>
+            <p>Before the conversations, it looked fine. A food delivery app that shows you restaurants and lets you order. Nothing obviously wrong.</p>
+            <p>But now I knew what Hangry actually was — and the design didn’t reflect that at all.</p>
+            <p>The first problem was identity. The existing design presented Hangry like one restaurant with a wide menu. Scroll through, pick something, order. That mental model made sense for most food apps. It made no sense for Hangry, where every brand was distinct, had its own name, its own personality, its own reason to exist. Collapsing them into one undifferentiated list meant users would never understand what they were actually using — or why they should care.</p>
+            <p>The second problem was access. The design used a location-first pattern: if you were too far from an outlet, you couldn’t enter the app at all. For a product trying to build brand awareness in a city where it had only 3 outlets, that meant most of Jakarta hit a wall before they ever saw a single brand.</p>
+            <p><span class="strong">Two problems. Both invisible until you understood the business first.</span></p>
+        </div>
+
+        <!-- DECISION & THINKING -->
+        <div class="section">
+            <p class="section-label">DECISION &amp; THINKING</p>
+            <p>The existing design blocked users based on distance. If no outlet was within range, users couldn’t enter the app at all.</p>
+            <p>For GoFood or GrabFood, that makes sense — if nothing can deliver to you, there’s nothing to show. But Hangry wasn’t that. Hangry was a brand story that hadn’t been told yet.</p>
+            <p>My background is in copywriting. One thing that gets drilled into you in that world: conversion doesn’t start at the moment of purchase. It starts the moment someone becomes aware a brand exists. The sequence is always the same — you can’t buy something you’ve never heard of.</p>
+
+            <svg width="100%" viewBox="0 0 680 360" role="img" xmlns="http://www.w3.org/2000/svg">
+                <title>Awareness funnel — blocked vs open</title>
+                <desc>Two funnels. Left: awareness leads to interest then purchase. Right: awareness is blocked, interest and purchase never happen.</desc>
+                <defs>
+                    <marker id="aw-arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                        <path d="M2 1L8 5L2 9" fill="none" stroke="#888" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </marker>
+                    <marker id="aw-arrow-teal" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                        <path d="M2 1L8 5L2 9" fill="none" stroke="#0F6E56" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </marker>
+                </defs>
+                <text font-family="Inter,sans-serif" font-size="12" fill="#A3A3A3" x="170" y="22" text-anchor="middle" dominant-baseline="central">Without the block</text>
+                <text font-family="Inter,sans-serif" font-size="12" fill="#A3A3A3" x="510" y="22" text-anchor="middle" dominant-baseline="central">With the block</text>
+                <line x1="340" y1="36" x2="340" y2="336" stroke="#E5E5E5" stroke-width="0.5"/>
+                <rect x="60" y="44" width="220" height="56" rx="8" fill="#E1F5EE" stroke="#0F6E56" stroke-width="0.5"/>
+                <text font-family="Inter,sans-serif" font-size="14" font-weight="500" fill="#085041" x="170" y="65" text-anchor="middle" dominant-baseline="central">Aware of the brand</text>
+                <text font-family="Inter,sans-serif" font-size="12" fill="#0F6E56" x="170" y="85" text-anchor="middle" dominant-baseline="central">User discovers Hangry exists</text>
+                <line x1="170" y1="100" x2="170" y2="136" stroke="#0F6E56" stroke-width="1" marker-end="url(#aw-arrow-teal)"/>
+                <rect x="80" y="136" width="180" height="56" rx="8" fill="#E1F5EE" stroke="#0F6E56" stroke-width="0.5"/>
+                <text font-family="Inter,sans-serif" font-size="14" font-weight="500" fill="#085041" x="170" y="157" text-anchor="middle" dominant-baseline="central">Interested</text>
+                <text font-family="Inter,sans-serif" font-size="12" fill="#0F6E56" x="170" y="177" text-anchor="middle" dominant-baseline="central">Browses brands, sees menus</text>
+                <line x1="170" y1="192" x2="170" y2="228" stroke="#0F6E56" stroke-width="1" marker-end="url(#aw-arrow-teal)"/>
+                <rect x="100" y="228" width="140" height="56" rx="8" fill="#E1F5EE" stroke="#0F6E56" stroke-width="0.5"/>
+                <text font-family="Inter,sans-serif" font-size="14" font-weight="500" fill="#085041" x="170" y="249" text-anchor="middle" dominant-baseline="central">Purchases</text>
+                <text font-family="Inter,sans-serif" font-size="12" fill="#0F6E56" x="170" y="269" text-anchor="middle" dominant-baseline="central">Places an order</text>
+                <rect x="400" y="44" width="220" height="56" rx="8" fill="#FEF2F2" stroke="#A32D2D" stroke-width="0.5"/>
+                <text font-family="Inter,sans-serif" font-size="14" font-weight="500" fill="#791F1F" x="510" y="65" text-anchor="middle" dominant-baseline="central">Aware of the brand</text>
+                <text font-family="Inter,sans-serif" font-size="12" fill="#A32D2D" x="510" y="85" text-anchor="middle" dominant-baseline="central">Blocked — app won’t open</text>
+                <line x1="442" y1="56" x2="578" y2="88" stroke="#A32D2D" stroke-width="1.5" stroke-linecap="round"/>
+                <line x1="578" y1="56" x2="442" y2="88" stroke="#A32D2D" stroke-width="1.5" stroke-linecap="round"/>
+                <line x1="510" y1="100" x2="510" y2="136" stroke="#E5E5E5" stroke-width="1" stroke-dasharray="4 3"/>
+                <rect x="420" y="136" width="180" height="56" rx="8" fill="#F5F5F5" stroke="#E5E5E5" stroke-width="0.5" opacity="0.5"/>
+                <text font-family="Inter,sans-serif" font-size="14" font-weight="500" fill="#D4D4D4" x="510" y="157" text-anchor="middle" dominant-baseline="central">Interested</text>
+                <text font-family="Inter,sans-serif" font-size="12" fill="#D4D4D4" x="510" y="177" text-anchor="middle" dominant-baseline="central">Never happens</text>
+                <line x1="510" y1="192" x2="510" y2="228" stroke="#E5E5E5" stroke-width="1" stroke-dasharray="4 3"/>
+                <rect x="440" y="228" width="140" height="56" rx="8" fill="#F5F5F5" stroke="#E5E5E5" stroke-width="0.5" opacity="0.5"/>
+                <text font-family="Inter,sans-serif" font-size="14" font-weight="500" fill="#D4D4D4" x="510" y="249" text-anchor="middle" dominant-baseline="central">Purchases</text>
+                <text font-family="Inter,sans-serif" font-size="12" fill="#D4D4D4" x="510" y="269" text-anchor="middle" dominant-baseline="central">Never happens</text>
+                <text font-family="Inter,sans-serif" font-size="12" fill="#085041" x="170" y="318" text-anchor="middle" dominant-baseline="central">Brand grows over time</text>
+                <text font-family="Inter,sans-serif" font-size="12" fill="#A32D2D" x="510" y="318" text-anchor="middle" dominant-baseline="central">No sale — not today, not ever</text>
+            </svg>
+
+            <p>Blocking users who couldn’t order didn’t just lose a sale. It made sure those users would never have a reason to come back.</p>
+            <p>So I framed it this way: <span class="strong">we might miss a sales opportunity today, but we didn’t have to miss a brand awareness opportunity.</span> Those are two different things, and only one of them was actually within our control at that moment.</p>
+            <p>The proposal was straightforward from there. The app still reads location — that part stays. But instead of a hard block, users see available outlets. If nothing’s in range, they can still browse every brand, see full menus, understand what Hangry is. They just can’t check out — and that’s communicated clearly from the start.</p>
+
+            <svg width="100%" viewBox="0 0 680 380" role="img" xmlns="http://www.w3.org/2000/svg">
+                <title>Existing discovery flow — before redesign</title>
+                <desc>User opens app, system reads location. Near users enter home page. Far users hit dead end: sorry screen, email form, close app.</desc>
+                <defs>
+                    <marker id="ex-arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                        <path d="M2 1L8 5L2 9" fill="none" stroke="#888" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </marker>
+                </defs>
+                <text font-family="Inter,sans-serif" font-size="12" fill="#A3A3A3" x="340" y="22" text-anchor="middle" dominant-baseline="central">Existing flow — before redesign</text>
+                <rect x="40" y="50" width="116" height="48" rx="8" fill="#F1EFE8" stroke="#5F5E5A" stroke-width="0.5"/>
+                <text font-family="Inter,sans-serif" font-size="14" font-weight="500" fill="#2C2C2A" x="98" y="74" text-anchor="middle" dominant-baseline="central">Open app</text>
+                <line x1="156" y1="74" x2="176" y2="74" stroke="#888" stroke-width="1" marker-end="url(#ex-arrow)"/>
+                <rect x="176" y="50" width="148" height="48" rx="8" fill="#F1EFE8" stroke="#5F5E5A" stroke-width="0.5"/>
+                <text font-family="Inter,sans-serif" font-size="14" font-weight="500" fill="#2C2C2A" x="250" y="66" text-anchor="middle" dominant-baseline="central">Read location</text>
+                <text font-family="Inter,sans-serif" font-size="12" fill="#5F5E5A" x="250" y="84" text-anchor="middle" dominant-baseline="central">Match with outlet</text>
+                <line x1="324" y1="74" x2="344" y2="74" stroke="#888" stroke-width="1" marker-end="url(#ex-arrow)"/>
+                <rect x="344" y="50" width="148" height="48" rx="8" fill="#F1EFE8" stroke="#5F5E5A" stroke-width="0.5"/>
+                <text font-family="Inter,sans-serif" font-size="14" font-weight="500" fill="#2C2C2A" x="418" y="66" text-anchor="middle" dominant-baseline="central">Near or far?</text>
+                <text font-family="Inter,sans-serif" font-size="12" fill="#5F5E5A" x="418" y="84" text-anchor="middle" dominant-baseline="central">Threshold: 2km</text>
+                <path d="M418 98 L418 150" fill="none" stroke="#888" stroke-width="1" marker-end="url(#ex-arrow)"/>
+                <text font-family="Inter,sans-serif" font-size="12" fill="#A3A3A3" x="434" y="127" dominant-baseline="central">Near</text>
+                <rect x="344" y="150" width="148" height="48" rx="8" fill="#E1F5EE" stroke="#0F6E56" stroke-width="0.5"/>
+                <text font-family="Inter,sans-serif" font-size="14" font-weight="500" fill="#085041" x="418" y="174" text-anchor="middle" dominant-baseline="central">Enter home page</text>
+                <path d="M492 74 L516 74" fill="none" stroke="#888" stroke-width="1" marker-end="url(#ex-arrow)"/>
+                <text font-family="Inter,sans-serif" font-size="12" fill="#A3A3A3" x="504" y="62" text-anchor="middle" dominant-baseline="central">Far</text>
+                <rect x="516" y="50" width="124" height="48" rx="8" fill="#FEF2F2" stroke="#A32D2D" stroke-width="0.5"/>
+                <text font-family="Inter,sans-serif" font-size="14" font-weight="500" fill="#791F1F" x="578" y="66" text-anchor="middle" dominant-baseline="central">Sorry screen</text>
+                <text font-family="Inter,sans-serif" font-size="12" fill="#A32D2D" x="578" y="84" text-anchor="middle" dominant-baseline="central">Out of range</text>
+                <line x1="578" y1="98" x2="578" y2="150" stroke="#A32D2D" stroke-width="1" marker-end="url(#ex-arrow)"/>
+                <rect x="516" y="150" width="124" height="48" rx="8" fill="#FEF2F2" stroke="#A32D2D" stroke-width="0.5"/>
+                <text font-family="Inter,sans-serif" font-size="14" font-weight="500" fill="#791F1F" x="578" y="166" text-anchor="middle" dominant-baseline="central">Leave email</text>
+                <text font-family="Inter,sans-serif" font-size="12" fill="#A32D2D" x="578" y="184" text-anchor="middle" dominant-baseline="central">Success notif shown</text>
+                <line x1="578" y1="198" x2="578" y2="250" stroke="#A32D2D" stroke-width="1" marker-end="url(#ex-arrow)"/>
+                <rect x="516" y="250" width="124" height="48" rx="8" fill="#FEF2F2" stroke="#A32D2D" stroke-width="0.5"/>
+                <text font-family="Inter,sans-serif" font-size="14" font-weight="500" fill="#791F1F" x="578" y="266" text-anchor="middle" dominant-baseline="central">Close app</text>
+                <text font-family="Inter,sans-serif" font-size="12" fill="#A32D2D" x="578" y="284" text-anchor="middle" dominant-baseline="central">Nothing else to do</text>
+                <rect x="502" y="36" width="152" height="276" rx="10" fill="none" stroke="#E24B4A" stroke-width="0.5" stroke-dasharray="4 3" opacity="0.5"/>
+                <text font-family="Inter,sans-serif" font-size="12" fill="#A32D2D" x="578" y="344" text-anchor="middle" dominant-baseline="central">Dead end — no brand exposure</text>
+            </svg>
+
+            <svg width="100%" viewBox="0 0 680 320" role="img" xmlns="http://www.w3.org/2000/svg">
+                <title>Proposal discovery flow — after redesign</title>
+                <desc>User opens app, system reads location. Near users assigned to nearest outlet and can order. Far users see outlet list and browse brands but cannot check out.</desc>
+                <defs>
+                    <marker id="pr-arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                        <path d="M2 1L8 5L2 9" fill="none" stroke="#888" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </marker>
+                </defs>
+                <text font-family="Inter,sans-serif" font-size="12" fill="#A3A3A3" x="340" y="22" text-anchor="middle" dominant-baseline="central">Proposal flow — after redesign</text>
+                <rect x="40" y="50" width="116" height="48" rx="8" fill="#F1EFE8" stroke="#5F5E5A" stroke-width="0.5"/>
+                <text font-family="Inter,sans-serif" font-size="14" font-weight="500" fill="#2C2C2A" x="98" y="74" text-anchor="middle" dominant-baseline="central">Open app</text>
+                <line x1="156" y1="74" x2="176" y2="74" stroke="#888" stroke-width="1" marker-end="url(#pr-arrow)"/>
+                <rect x="176" y="50" width="148" height="48" rx="8" fill="#F1EFE8" stroke="#5F5E5A" stroke-width="0.5"/>
+                <text font-family="Inter,sans-serif" font-size="14" font-weight="500" fill="#2C2C2A" x="250" y="66" text-anchor="middle" dominant-baseline="central">Read location</text>
+                <text font-family="Inter,sans-serif" font-size="12" fill="#5F5E5A" x="250" y="84" text-anchor="middle" dominant-baseline="central">Match with outlet</text>
+                <line x1="324" y1="74" x2="344" y2="74" stroke="#888" stroke-width="1" marker-end="url(#pr-arrow)"/>
+                <rect x="344" y="50" width="148" height="48" rx="8" fill="#F1EFE8" stroke="#5F5E5A" stroke-width="0.5"/>
+                <text font-family="Inter,sans-serif" font-size="14" font-weight="500" fill="#2C2C2A" x="418" y="66" text-anchor="middle" dominant-baseline="central">Near or far?</text>
+                <text font-family="Inter,sans-serif" font-size="12" fill="#5F5E5A" x="418" y="84" text-anchor="middle" dominant-baseline="central">Threshold: 2km</text>
+                <path d="M418 98 L418 150" fill="none" stroke="#888" stroke-width="1" marker-end="url(#pr-arrow)"/>
+                <text font-family="Inter,sans-serif" font-size="12" fill="#A3A3A3" x="434" y="127" dominant-baseline="central">Near</text>
+                <rect x="344" y="150" width="148" height="48" rx="8" fill="#E1F5EE" stroke="#0F6E56" stroke-width="0.5"/>
+                <text font-family="Inter,sans-serif" font-size="14" font-weight="500" fill="#085041" x="418" y="166" text-anchor="middle" dominant-baseline="central">Nearest outlet</text>
+                <text font-family="Inter,sans-serif" font-size="12" fill="#0F6E56" x="418" y="184" text-anchor="middle" dominant-baseline="central">Can order</text>
+                <path d="M492 74 L516 74" fill="none" stroke="#888" stroke-width="1" marker-end="url(#pr-arrow)"/>
+                <text font-family="Inter,sans-serif" font-size="12" fill="#A3A3A3" x="504" y="62" text-anchor="middle" dominant-baseline="central">Far</text>
+                <rect x="516" y="50" width="124" height="48" rx="8" fill="#E1F5EE" stroke="#0F6E56" stroke-width="0.5"/>
+                <text font-family="Inter,sans-serif" font-size="14" font-weight="500" fill="#085041" x="578" y="66" text-anchor="middle" dominant-baseline="central">Outlet list</text>
+                <text font-family="Inter,sans-serif" font-size="12" fill="#0F6E56" x="578" y="84" text-anchor="middle" dominant-baseline="central">All outlets visible</text>
+                <line x1="578" y1="98" x2="578" y2="150" stroke="#0F6E56" stroke-width="1" marker-end="url(#pr-arrow)"/>
+                <rect x="516" y="150" width="124" height="48" rx="8" fill="#E1F5EE" stroke="#0F6E56" stroke-width="0.5"/>
+                <text font-family="Inter,sans-serif" font-size="14" font-weight="500" fill="#085041" x="578" y="166" text-anchor="middle" dominant-baseline="central">Browse brands</text>
+                <text font-family="Inter,sans-serif" font-size="12" fill="#0F6E56" x="578" y="184" text-anchor="middle" dominant-baseline="central">No checkout</text>
+                <rect x="502" y="36" width="152" height="176" rx="10" fill="none" stroke="#0F6E56" stroke-width="0.5" stroke-dasharray="4 3" opacity="0.5"/>
+                <text font-family="Inter,sans-serif" font-size="12" fill="#085041" x="578" y="256" text-anchor="middle" dominant-baseline="central">Brand exposure without ordering</text>
+            </svg>
+
+            <p>Not being able to order today doesn’t mean not being able to order ever. But never knowing the brand exists? That’s permanent.</p>
+            <!-- UI MOCKUP -->
+            <style>
+                .mw-wrap { display: flex; gap: 40px; align-items: flex-start; justify-content: center; margin: 0 -20px; }
+                .mw-wrap .phone-col { display: flex; flex-direction: column; align-items: center; gap: 10px; }
+                .mw-wrap .phone-label { font-size: 10px; font-weight: 500; color: var(--text); letter-spacing: 0.06em; text-transform: uppercase; text-align: center; font-family: inherit; }
+                .mw-wrap .phone-sublabel { font-size: 10px; color: var(--muted); text-align: center; margin-top: -6px; font-family: inherit; }
+                .mw-wrap .phone-frame { width: 200px; height: 418px; background: #1A1A1A; border-radius: 36px; padding: 8px; position: relative; box-shadow: 0 0 0 1px #333, 0 24px 64px rgba(0,0,0,0.25), 0 8px 24px rgba(0,0,0,0.15); flex-shrink: 0; }
+                .mw-wrap .phone-notch { position: absolute; top: 8px; left: 50%; transform: translateX(-50%); width: 60px; height: 18px; background: #1A1A1A; border-radius: 0 0 12px 12px; z-index: 20; }
+                .mw-wrap .phone-screen { width: 100%; height: 100%; border-radius: 24px; overflow: hidden; position: relative; background: #fff; }
+                .mw-wrap .mw-screen { position: absolute; inset: 0; opacity: 0; pointer-events: none; }
+                .mw-wrap .mw-screen.fade { transition: opacity 0.5s ease; }
+                .mw-wrap .mw-screen.fade.active { opacity: 1; }
+                .mw-wrap .mw-screen.slide-up { opacity: 1; transform: translateY(100%); transition: transform 0.45s cubic-bezier(0.4,0,0.2,1); }
+                .mw-wrap .mw-screen.slide-up.active { opacity: 1; transform: translateY(0%); }
+                .mw-wrap .mw-screen.no-anim { transition: none !important; transform: translateY(100%) !important; opacity: 0 !important; }
+                .mw-wrap .mw-screen img { width: 100%; height: 100%; object-fit: cover; object-position: top; display: block; }
+                .mw-wrap .mw-cursor { position: absolute; width: 18px; height: 18px; border-radius: 50%; background: rgba(0,0,0,0.35); border: 2px solid rgba(255,255,255,0.8); pointer-events: none; z-index: 50; opacity: 0; transform: translate(-50%,-50%) scale(1); transition: opacity 0.2s ease, transform 0.15s ease; box-shadow: 0 2px 8px rgba(0,0,0,0.3); }
+                .mw-wrap .mw-cursor.visible { opacity: 1; }
+                .mw-wrap .mw-cursor.clicking { transform: translate(-50%,-50%) scale(0.7); }
+                .mw-wrap .scroll-phone .phone-screen { overflow: hidden; }
+                .mw-wrap .scroll-phone .phone-screen img { width: 100%; height: auto; display: block; will-change: transform; }
+                @media (max-width: 480px) {
+                    .mw-wrap { gap: 16px; }
+                    .mw-wrap .phone-frame { width: 140px; height: 293px; }
+                }
+            </style>
+
+            <div class="mw-wrap">
+                <div class="phone-col">
+                    <p class="phone-label">Problem 2 — Access</p>
+                    <p class="phone-sublabel">New flow when outlet is out of range</p>
+                    <div class="phone-frame">
+                        <div class="phone-notch"></div>
+                        <div class="phone-screen" id="mw-phone-screen">
+                            <div class="mw-screen fade active" id="mw-screen-0"><img src="../hangry_splash.png" alt="Splash"></div>
+                            <div class="mw-screen fade" id="mw-screen-1"><img src="../hangry_searching.png" alt="Searching"></div>
+                            <div class="mw-screen fade" id="mw-screen-2"><img src="../hangry_outlet_list.png" alt="Outlet list"></div>
+                            <div class="mw-screen slide-up" id="mw-screen-3"><img src="../hangry_home.png" alt="Home"></div>
+                            <div class="mw-cursor" id="mw-cursor"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="phone-col scroll-phone">
+                    <p class="phone-label">Problem 1 — Identity</p>
+                    <p class="phone-sublabel">Home UI showing distinct brands</p>
+                    <div class="phone-frame">
+                        <div class="phone-notch"></div>
+                        <div class="phone-screen">
+                            <img src="../hangry_home.png" alt="Home full" id="mw-scroll-img">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <script>
+                (function() {
+                    var cur = 0;
+                    var TIMINGS = [1500, 1500, 3000, 3000];
+                    var OUTLETS = [
+                        { top: 18.9 },
+                        { top: 30.2 },
+                        { top: 41.5 }
+                    ];
+
+                    function fadeIn(el)  { el.classList.add('active'); }
+                    function fadeOut(el) { el.classList.remove('active'); }
+
+                    function resetHome() {
+                        var home = document.getElementById('mw-screen-3');
+                        home.classList.add('no-anim');
+                        home.classList.remove('active');
+                        void home.offsetHeight;
+                        home.classList.remove('no-anim');
+                    }
+
+                    function goTo(i) {
+                        var prev = cur;
+                        cur = i;
+                        var prevEl = document.getElementById('mw-screen-' + prev);
+                        var nextEl = document.getElementById('mw-screen-' + i);
+
+                        if (prev === 2 && i === 3) {
+                            prevEl.classList.remove('active');
+                            nextEl.classList.add('active');
+                            return;
+                        }
+                        if (prev === 3 && i === 0) {
+                            prevEl.classList.remove('active');
+                            resetHome();
+                            nextEl.classList.add('active');
+                            return;
+                        }
+                        fadeOut(prevEl);
+                        fadeIn(nextEl);
+                    }
+
+                    function animateCursor(callback) {
+                        var cursor = document.getElementById('mw-cursor');
+                        var screen = document.getElementById('mw-phone-screen');
+                        var rect = screen.getBoundingClientRect();
+                        var outlet = OUTLETS[Math.floor(Math.random() * OUTLETS.length)];
+                        var x = 40 + Math.random() * 100;
+                        var y = (outlet.top / 100) * rect.height + 10;
+                        cursor.style.left = x + 'px';
+                        cursor.style.top  = y + 'px';
+                        cursor.classList.add('visible');
+                        setTimeout(function() {
+                            cursor.classList.add('clicking');
+                            setTimeout(function() {
+                                cursor.classList.remove('clicking');
+                                setTimeout(function() {
+                                    cursor.classList.remove('visible');
+                                    setTimeout(callback, 150);
+                                }, 200);
+                            }, 200);
+                        }, 500);
+                    }
+
+                    function schedule() {
+                        setTimeout(function() {
+                            var next = (cur + 1) % 4;
+                            if (cur === 2 && next === 3) {
+                                animateCursor(function() { goTo(3); schedule(); });
+                                return;
+                            }
+                            goTo(next);
+                            schedule();
+                        }, TIMINGS[cur]);
+                    }
+
+                    schedule();
+
+                    // Auto-scroll right
+                    var scrollImg = document.getElementById('mw-scroll-img');
+                    var phoneScreen = scrollImg.parentElement;
+                    var scrollY = 0, scrollDir = 1, pausing = false;
+                    var SPEED = 0.4, PAUSE_MS = 1200;
+
+                    function getMax() {
+                        return Math.max(0, scrollImg.getBoundingClientRect().height - phoneScreen.getBoundingClientRect().height);
+                    }
+
+                    function step() {
+                        if (pausing) return;
+                        var max = getMax();
+                        scrollY += SPEED * scrollDir;
+                        if (scrollY >= max) {
+                            scrollY = max;
+                            scrollImg.style.transform = 'translateY(-' + scrollY + 'px)';
+                            pausing = true;
+                            setTimeout(function() { scrollDir = -1; pausing = false; requestAnimationFrame(step); }, PAUSE_MS);
+                            return;
+                        }
+                        if (scrollY <= 0) {
+                            scrollY = 0;
+                            scrollImg.style.transform = 'translateY(0px)';
+                            pausing = true;
+                            setTimeout(function() { scrollDir = 1; pausing = false; requestAnimationFrame(step); }, PAUSE_MS);
+                            return;
+                        }
+                        scrollImg.style.transform = 'translateY(-' + scrollY + 'px)';
+                        requestAnimationFrame(step);
+                    }
+
+                    scrollImg.addEventListener('load', function() { requestAnimationFrame(step); });
+                    if (scrollImg.complete) requestAnimationFrame(step);
+                })();
+            </script>
+        </div>
+        <!-- OUTCOME -->
+        <div class="section">
+            <p class="section-label">OUTCOME</p>
+            <p>The first launch went well. Early Google Play reviews came in consistently: easy to use, smooth, clear choices, seamless from order to pick-up, etc.</p>
+
+            <div class="figure">
+                <img src="/users_feedback.png" alt="Users feedback on the first launch">
+                <figcaption>Users feedback on the first launch</figcaption>
+            </div>
+
+            <p>After the first launch, the Hangry App kept being iterated and the design kept updating, but this experience remained the same.</p>
+            <p>By the end of 2020, Hangry went from 3 outlets to over 40, growing faster than almost any F&B startup in Indonesia at the time. A product that clearly communicates what it is and doesn't block the people it's trying to reach is part of how you get there.</p>
+
+            <a href="https://play.google.com/store/search?q=hangry&c=apps&hl=en" target="_blank" rel="noopener noreferrer" class="ext-link">
+                You can download and try the product here
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/>
+                </svg>
+            </a>
+        </div>
+
+        <!-- WHAT THIS TAUGHT ME -->
+        <div class="section">
+            <p class="section-label">WHAT THIS TAUGHT ME</p>
+            <p>The obvious lesson was tactical: products in the same industry don't share the same user journey. Everything depends on how the business works and what constraints it has at that specific phase.</p>
+            <p>But the deeper shift was in how I think about constraints. Before this project, a product limitation felt like a design problem to solve around. After it, I started seeing constraints differently — not as walls, but as context. The question is no longer:</p>
+            <p class="italic-text">"How do I hide this limitation from the user?"</p>
+            <p>But:</p>
+            <p class="italic-text">"Given where this product is right now, what's the most honest and useful experience I can design?"</p>
+            <p>That reframe changed how I approached every project after this one.</p>
+        </div>
+
+        <!-- FOOTER -->
+        <div class="footer-wrap">
+            <div class="footer-divider"></div>
+            <div class="footer-inner">
+                <div class="social-links">
+                    <a href="mailto:stickersboy.id@gmail.com" class="social-link" id="emailLink">Email</a>
+                    <a href="https://www.linkedin.com/in/nugrahaekaputra/" target="_blank" rel="noopener noreferrer" class="social-link">LinkedIn</a>
+                    <a href="https://dribbble.com/nugrahaputra" target="_blank" rel="noopener noreferrer" class="social-link">Dribbble</a>
+                </div>
+                <a href="/cv-nugraha-putra.pdf" download class="cv-link" id="cvLink">
+                    Download CV
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/>
+                    </svg>
+                </a>
+            </div>
+        </div>
+
+    </div>
+</main>
+
+<!-- LIGHTBOX -->
+<div class="lightbox" id="lightbox">
+    <button class="lightbox-close" id="lightboxClose" aria-label="Close">×</button>
+    <img id="lightboxImg" src="" alt="">
+</div>
+
+<script>
+    function updateThemeIcon(isDark) {
+        document.getElementById('lbl').textContent = isDark ? 'Light Mode' : 'Dark Mode';
+        document.getElementById('iconMoon').style.display = isDark ? 'none'  : 'block';
+        document.getElementById('iconSun').style.display  = isDark ? 'block' : 'none';
+    }
+
+    (function () {
+        const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+        updateThemeIcon(isDark);
+    })();
+
+    function toggleTheme() {
+        const html   = document.documentElement;
+        const isDark = html.getAttribute('data-theme') === 'dark';
+        const next   = isDark ? 'light' : 'dark';
+        html.setAttribute('data-theme', next);
+        localStorage.setItem('theme', next);
+        updateThemeIcon(!isDark);
+    }
+
+    function showToast(msg) {
+        document.querySelector('.toast')?.remove();
+        const el = document.createElement('div');
+        el.className = 'toast';
+        el.textContent = msg;
+        document.body.appendChild(el);
+        requestAnimationFrame(() => requestAnimationFrame(() => el.classList.add('show')));
+        setTimeout(() => { el.classList.remove('show'); setTimeout(() => el.remove(), 250); }, 2000);
+    }
+
+    document.getElementById('emailLink').addEventListener('click', (e) => {
+        e.preventDefault();
+        navigator.clipboard?.writeText('stickersboy.id@gmail.com')
+            .then(() => showToast('Email copied to clipboard'))
+            .catch(() => window.location.href = 'mailto:stickersboy.id@gmail.com');
+    });
+
+    document.getElementById('cvLink').addEventListener('click', () => showToast('Downloading CV...'));
+
+    // Lightbox
+    const lightbox    = document.getElementById('lightbox');
+    const lightboxImg = document.getElementById('lightboxImg');
+
+    function closeLightbox() {
+        lightbox.classList.remove('open');
+        document.body.style.overflow = '';
+    }
+
+    document.querySelectorAll('.figure img, .hero-image').forEach(img => {
+        img.addEventListener('click', () => {
+            lightboxImg.src = img.src;
+            lightboxImg.alt = img.alt;
+            lightbox.classList.add('open');
+            document.body.style.overflow = 'hidden';
+        });
+    });
+
+    document.getElementById('lightboxClose').addEventListener('click', closeLightbox);
+    lightbox.addEventListener('click', e => { if (e.target === lightbox) closeLightbox(); });
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbox(); });
+</script>
+
+</body>
+</html>
