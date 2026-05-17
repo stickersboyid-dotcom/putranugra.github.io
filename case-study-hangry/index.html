@@ -668,7 +668,7 @@
             
             <!-- UI MOCKUP -->
             <style>
-                .mw-wrap { display: flex; gap: 40px; align-items: flex-start; justify-content: center; margin: 0 -20px; }
+                .mw-wrap { display: flex; gap: 40px; align-items: flex-start; justify-content: center; margin: 20px -20px; }
                 .mw-wrap .phone-col { display: flex; flex-direction: column; align-items: center; gap: 10px; }
                 .mw-wrap .phone-label { font-size: 10px; font-weight: 500; color: var(--text); letter-spacing: 0.06em; text-transform: uppercase; text-align: center; font-family: inherit; }
                 .mw-wrap .phone-sublabel { font-size: 10px; color: var(--muted); text-align: center; margin-top: -6px; font-family: inherit; }
@@ -842,9 +842,80 @@
             <p class="section-label">OUTCOME</p>
             <p>The first launch went well. Early Google Play reviews came in consistently: easy to use, smooth, clear choices, seamless from order to pick-up, etc.</p>
 
-            <div class="figure">
-                <img src="/users_feedback.png" alt="Users feedback on the first launch">
-                <figcaption>Users feedback on the first launch</figcaption>
+            <style>
+                .reviews-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+                .review-card { border: 0.5px solid var(--border); border-radius: 12px; padding: 14px 16px; display: flex; flex-direction: column; gap: 8px; }
+                .review-avatar { width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 500; flex-shrink: 0; }
+                .review-name { font-size: 13px; font-weight: 500; color: var(--text); margin: 0; }
+                .review-date { font-size: 11px; color: var(--muted); margin: 0; }
+                .review-stars { color: #F59E0B; font-size: 13px; }
+                .review-text { font-size: 13px; color: var(--muted); line-height: 1.5; margin: 0; }
+                .review-helpful { font-size: 11px; color: var(--muted); margin: 0; }
+                .av-blue { background: #E6F1FB; color: #185FA5; }
+                .av-green { background: #EAF3DE; color: #3B6D11; }
+                .av-amber { background: #FAEEDA; color: #854F0B; }
+                .av-red { background: #FCEBEB; color: #A32D2D; }
+            </style>
+            <div class="reviews-grid">
+
+                <div class="review-card">
+                    <div style="display:flex;align-items:center;gap:10px;">
+                        <div class="review-avatar av-blue">MC</div>
+                        <div><p class="review-name">Marcell Chandra</p><p class="review-date">July 25, 2020</p></div>
+                    </div>
+                    <span class="review-stars">★★★★★</span>
+                    <p class="review-text">Nice app, easy to use</p>
+                </div>
+
+                <div class="review-card">
+                    <div style="display:flex;align-items:center;gap:10px;">
+                        <div class="review-avatar av-amber">AD</div>
+                        <div><p class="review-name">Antony Dinata</p><p class="review-date">June 5, 2020</p></div>
+                    </div>
+                    <span class="review-stars">★★★★★</span>
+                    <p class="review-text">Cool app! Can order multiple type of foods in 1 basket. Fast delivery!</p>
+                    <p class="review-helpful">4 people found this helpful</p>
+                </div>
+
+                <div class="review-card">
+                    <div style="display:flex;align-items:center;gap:10px;">
+                        <div class="review-avatar av-blue">JK</div>
+                        <div><p class="review-name">Justina Kristianti</p><p class="review-date">May 4, 2020</p></div>
+                    </div>
+                    <span class="review-stars">★★★★★</span>
+                    <p class="review-text">Very coooll!</p>
+                    <p class="review-helpful">1 person found this helpful</p>
+                </div>
+
+                <div class="review-card">
+                    <div style="display:flex;align-items:center;gap:10px;">
+                        <div class="review-avatar av-amber">MS</div>
+                        <div><p class="review-name">Mario Simamora</p><p class="review-date">August 21, 2020</p></div>
+                    </div>
+                    <span class="review-stars">★★★★★</span>
+                    <p class="review-text">First order & very satisfied! Keep a great work ya</p>
+                    <p class="review-helpful">2 people found this helpful</p>
+                </div>
+
+                <div class="review-card">
+                    <div style="display:flex;align-items:center;gap:10px;">
+                        <div class="review-avatar av-red">DK</div>
+                        <div><p class="review-name">Dessy Kristiana</p><p class="review-date">December 14, 2020</p></div>
+                    </div>
+                    <span class="review-stars">★★★★★</span>
+                    <p class="review-text">Pilihannya jelas, proses order sampai pick up lancar jaya. Bravo Hangry.</p>
+                </div>
+
+                <div class="review-card">
+                    <div style="display:flex;align-items:center;gap:10px;">
+                        <div class="review-avatar av-green">JT</div>
+                        <div><p class="review-name">Jennifer Tan</p><p class="review-date">May 4, 2020</p></div>
+                    </div>
+                    <span class="review-stars">★★★★★</span>
+                    <p class="review-text">Easy to use! Really smooth! Thanks Hangry for making this easy and useful apps!</p>
+                    <p class="review-helpful">5 people found this helpful</p>
+                </div>
+
             </div>
 
             <p>After the first launch, the Hangry App kept being iterated and the design kept updating, but this experience remained the same.</p>
