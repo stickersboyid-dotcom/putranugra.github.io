@@ -451,6 +451,40 @@
             <p>That’s when the picture shifted. Those 3 brands weren’t in 3 separate locations. They were all in the same kitchen, the same outlet. One physical space running multiple distinct brands simultaneously.</p>
             <p>There was no blueprint for that in the industry. Not in GoFood. Not in GrabFood. Not in any F&amp;B app I knew at the time.</p>
             <p>I sat with that for a while before going back to the existing design. And when I did, I saw it differently, not as a food delivery app with some rough edges, but as a design built on the wrong mental model of what Hangry was.</p>
+
+            <svg width="100%" viewBox="0 0 680 320" role="img" xmlns="http://www.w3.org/2000/svg">
+                <title>Mental model shift — what I assumed vs what Hangry actually was</title>
+                <desc>Two columns contrasting initial assumptions about Hangry with the reality discovered through stakeholder conversations.</desc>
+                <defs>
+                    <marker id="mm-arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                        <path d="M2 1L8 5L2 9" fill="none" stroke="#888" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </marker>
+                </defs>
+                <text font-family="Inter,sans-serif" font-size="14" font-weight="500" fill="#737373" x="178" y="28" text-anchor="middle" dominant-baseline="central">What I assumed</text>
+                <text font-family="Inter,sans-serif" font-size="14" font-weight="500" fill="#737373" x="502" y="28" text-anchor="middle" dominant-baseline="central">What it actually was</text>
+                <line x1="340" y1="48" x2="340" y2="296" stroke="#E5E5E5" stroke-width="0.5" stroke-dasharray="4 3"/>
+                <line x1="296" y1="160" x2="383" y2="160" stroke="#888" stroke-width="1" marker-end="url(#mm-arrow)"/>
+                <rect x="40" y="60" width="276" height="52" rx="8" fill="#F1EFE8" stroke="#5F5E5A" stroke-width="0.5"/>
+                <text font-family="Inter,sans-serif" font-size="14" font-weight="500" fill="#2C2C2A" x="178" y="79" text-anchor="middle" dominant-baseline="central">3 brands, 3 separate locations</text>
+                <text font-family="Inter,sans-serif" font-size="12" fill="#5F5E5A" x="178" y="97" text-anchor="middle" dominant-baseline="central">Each brand has its own outlet</text>
+                <rect x="40" y="128" width="276" height="52" rx="8" fill="#F1EFE8" stroke="#5F5E5A" stroke-width="0.5"/>
+                <text font-family="Inter,sans-serif" font-size="14" font-weight="500" fill="#2C2C2A" x="178" y="147" text-anchor="middle" dominant-baseline="central">One menu per brand</text>
+                <text font-family="Inter,sans-serif" font-size="12" fill="#5F5E5A" x="178" y="165" text-anchor="middle" dominant-baseline="central">Like any standard F&amp;B app</text>
+                <rect x="40" y="196" width="276" height="52" rx="8" fill="#F1EFE8" stroke="#5F5E5A" stroke-width="0.5"/>
+                <text font-family="Inter,sans-serif" font-size="14" font-weight="500" fill="#2C2C2A" x="178" y="215" text-anchor="middle" dominant-baseline="central">Standard food delivery app</text>
+                <text font-family="Inter,sans-serif" font-size="12" fill="#5F5E5A" x="178" y="233" text-anchor="middle" dominant-baseline="central">GoFood, GrabFood — familiar pattern</text>
+                <rect x="364" y="60" width="276" height="52" rx="8" fill="#E1F5EE" stroke="#0F6E56" stroke-width="0.5"/>
+                <text font-family="Inter,sans-serif" font-size="14" font-weight="500" fill="#085041" x="502" y="79" text-anchor="middle" dominant-baseline="central">3 brands, 1 shared kitchen</text>
+                <text font-family="Inter,sans-serif" font-size="12" fill="#0F6E56" x="502" y="97" text-anchor="middle" dominant-baseline="central">One physical outlet, multiple brands</text>
+                <rect x="364" y="128" width="276" height="52" rx="8" fill="#E1F5EE" stroke="#0F6E56" stroke-width="0.5"/>
+                <text font-family="Inter,sans-serif" font-size="14" font-weight="500" fill="#085041" x="502" y="147" text-anchor="middle" dominant-baseline="central">All brand menus in one place</text>
+                <text font-family="Inter,sans-serif" font-size="12" fill="#0F6E56" x="502" y="165" text-anchor="middle" dominant-baseline="central">Order from multiple brands, one cart</text>
+                <rect x="364" y="196" width="276" height="52" rx="8" fill="#E1F5EE" stroke="#0F6E56" stroke-width="0.5"/>
+                <text font-family="Inter,sans-serif" font-size="14" font-weight="500" fill="#085041" x="502" y="215" text-anchor="middle" dominant-baseline="central">No blueprint in the industry</text>
+                <text font-family="Inter,sans-serif" font-size="12" fill="#0F6E56" x="502" y="233" text-anchor="middle" dominant-baseline="central">Cloud kitchen — no comparable app</text>
+                <text font-family="Inter,sans-serif" font-size="12" fill="#A3A3A3" x="178" y="278" text-anchor="middle" dominant-baseline="central">Before talking to anyone</text>
+                <text font-family="Inter,sans-serif" font-size="12" fill="#A3A3A3" x="502" y="278" text-anchor="middle" dominant-baseline="central">After stakeholder conversations</text>
+            </svg>
         </div>
 
         <!-- PROBLEM FRAMING -->
@@ -458,10 +492,44 @@
             <p class="section-label">PROBLEM FRAMING</p>
             <p>When I went back to the existing design, I wasn’t looking at it the same way anymore.</p>
             <p>Before the research, it looked fine. A food delivery app that shows you restaurants and lets you order. Nothing obviously wrong.</p>
+            <p>The original design files are no longer accessible, the previous designer worked in Adobe XD and the files were never handed over. What I’m describing here is reconstructed from memory and the reasoning that followed.</p>
             <p>But now I knew what Hangry actually was, and the design didn’t reflect that at all.</p>
             <p>The first problem was identity. The existing design presented Hangry like one restaurant with a wide menu. Scroll through, pick something, order. That mental model made sense for most food apps. It made no sense for Hangry, where every brand was distinct, had its own name, its own personality, its own reason to exist. Collapsing them into one undifferentiated list meant users would never understand what they were actually using, or why they should care.</p>
             <p>The second problem was access. The design used a location-first pattern: if you were too far from an outlet, you couldn’t enter the app at all. For a product trying to build brand awareness in a city where it had only 3 outlets, that meant most of Jakarta hit a wall before they ever saw a single brand.</p>
             <p><span class="strong">Two problems. Both invisible until you understood the business first.</span></p>
+
+            <style>
+                .pf-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+                .pf-card { border: 0.5px solid var(--border); border-radius: 12px; overflow: hidden; }
+                .pf-card-header { padding: 12px 16px 10px; font-size: 12px; color: var(--muted); }
+                .pf-card-divider { height: 0.5px; background: var(--border); }
+                .pf-card-body { padding: 14px 16px 16px; display: flex; flex-direction: column; gap: 12px; }
+                .pf-card-title { font-size: 14px; font-weight: 500; color: var(--text); margin: 0; }
+                .pf-card-desc { font-size: 13px; color: var(--muted); line-height: 1.6; margin: 0; }
+                .pf-card-consequence { font-size: 13px; color: var(--muted); line-height: 1.6; margin: 0; font-style: italic; }
+            </style>
+            <div class="pf-grid">
+                <div class="pf-card">
+                    <div class="pf-card-header">Problem 1</div>
+                    <div class="pf-card-divider"></div>
+                    <div class="pf-card-body">
+                        <p class="pf-card-title">Identity</p>
+                        <p class="pf-card-desc">The design collapsed all brands into one undifferentiated list — like one restaurant with a wide menu.</p>
+                        <div class="pf-card-divider"></div>
+                        <p class="pf-card-consequence">Users never understood what Hangry actually was.</p>
+                    </div>
+                </div>
+                <div class="pf-card">
+                    <div class="pf-card-header">Problem 2</div>
+                    <div class="pf-card-divider"></div>
+                    <div class="pf-card-body">
+                        <p class="pf-card-title">Access</p>
+                        <p class="pf-card-desc">Location block cut users off before they could see a single brand — if too far, the app showed nothing.</p>
+                        <div class="pf-card-divider"></div>
+                        <p class="pf-card-consequence">Most of Jakarta hit a wall before ever seeing what Hangry offered.</p>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <!-- DECISION & THINKING -->
@@ -595,6 +663,8 @@
             </svg>
 
             <p>Not being able to order today doesn’t mean not being able to order ever. But never knowing the brand exists? That’s permanent.</p>
+            <p>Here’s what that looked like in practice, the new access flow on the left, and the home UI that answered the identity problem on the right.</p>
+            
             <!-- UI MOCKUP -->
             <style>
                 .mw-wrap { display: flex; gap: 40px; align-items: flex-start; justify-content: center; margin: 0 -20px; }
@@ -764,6 +834,7 @@
                 })();
             </script>
         </div>
+        
         <!-- OUTCOME -->
         <div class="section">
             <p class="section-label">OUTCOME</p>
