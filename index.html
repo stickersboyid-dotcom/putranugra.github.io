@@ -111,6 +111,22 @@
             color: var(--muted);
         }
 
+        .intro-role {
+            font-size: 11px !important;
+            font-weight: 400 !important;
+            color: var(--muted) !important;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            line-height: 20px !important;
+        }
+
+        .intro-tagline {
+            font-size: 22px !important;
+            font-weight: 500 !important;
+            color: var(--text) !important;
+            line-height: 1.3 !important;
+        }
+
         .intro .hangry {
             color: var(--text);
             font-weight: 400;
@@ -141,10 +157,7 @@
             border: 0.5px solid var(--border);
             border-radius: 12px;
             overflow: hidden;
-            transition: border-color 0.15s ease;
         }
-
-        .cs-card:hover { border-color: var(--text); }
 
         .cs-card-img {
             width: 100%;
@@ -152,7 +165,11 @@
             object-fit: cover;
             object-position: top;
             display: block;
+            transform: scale(1);
+            transition: transform 0.4s ease;
         }
+
+        .cs-card:hover .cs-card-img { transform: scale(1.04); }
 
         .cs-card-body {
             padding: 14px 16px 16px;
@@ -407,8 +424,9 @@
 
         <!-- INTRO -->
         <div class="content-block intro">
-            <p>A product designer with 6+ years of designing digital products from scratch – consumer apps, website, internal tools, and everything in between. Currently designing at <a href="https://www.ishangry.com/" target="_blank" rel="noopener noreferrer" class="hangry">Hangry.</a></p>
-            <p>There's something about finding what's actually wrong, not just what looks wrong, that I find genuinely satisfying. I don't start with screens, I start with understanding. The business, the constraints, the people behind it, then I design.</p>
+            <p class="intro-role">Product Designer &middot; 6+ years</p>
+            <p class="intro-tagline">Understanding first.<br>Then I design.</p>
+            <p>Finding what&rsquo;s actually wrong, not just what looks wrong, is what I find genuinely satisfying. I always start with understanding: the business, the constraints, the people behind it.</p>
         </div>
 
         <!-- CASE STUDIES -->
@@ -459,7 +477,6 @@
 
         <!-- PERSONAL -->
         <div class="personal-block">
-            <p>Outside of work, I'm playing &amp; listening to music 🎵 to refresh my head, reading some books 📕 especially comics &amp; manga, and playing some strategy games 🎮 or competitive games.</p>
             <div class="ai-block">
                 <p>Lately, I'm experimenting and creating something with AI:</p>
                 <a href="https://putranugra.com/dna" target="_blank" rel="noopener noreferrer" class="ai-link">Try: Pop Culture DNA</a>
@@ -531,48 +548,41 @@
     // ── CV feedback
     document.getElementById('cvLink').addEventListener('click', () => showToast('Downloading CV...'));
 
-    // ── Nav hover typing animation
-    const navName   = document.getElementById('navName');
+    // ── Nav auto typing animation
     const navTyped  = document.getElementById('navTyped');
     const navCursor = document.getElementById('navCursor');
     const fullText  = 'Nugraha Eka Putra';
     const baseText  = 'Nugraha';
-    let typing = false, erasing = false, rafTyping;
 
     function typeIn() {
-        erasing = false; typing = true;
         navCursor.style.display = 'inline';
-        let i = navTyped.textContent.length;
+        let i = baseText.length;
         function step() {
-            if (erasing) return;
             if (i < fullText.length) {
                 navTyped.textContent = fullText.slice(0, ++i);
-                rafTyping = setTimeout(step, 60);
+                setTimeout(step, 60);
             } else {
-                typing = false;
+                setTimeout(typeOut, 1800);
             }
         }
-        step();
+        setTimeout(step, 800);
     }
 
     function typeOut() {
-        typing = false; erasing = true;
         let i = navTyped.textContent.length;
         function step() {
-            if (!erasing) return;
             if (i > baseText.length) {
                 navTyped.textContent = fullText.slice(0, --i);
-                rafTyping = setTimeout(step, 40);
+                setTimeout(step, 40);
             } else {
-                erasing = false;
                 navCursor.style.display = 'none';
+                setTimeout(typeIn, 2000);
             }
         }
         step();
     }
 
-    navName.addEventListener('mouseenter', typeIn);
-    navName.addEventListener('mouseleave', typeOut);
+    typeIn();
 </script>
 
 </body>
