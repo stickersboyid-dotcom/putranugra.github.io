@@ -91,9 +91,9 @@
         .cv-link { display: inline-flex; align-items: center; gap: 10px; font-size: 14px; font-weight: 400; color: var(--text); text-decoration: none; line-height: 20px; transition: color 0.15s ease; }
         .cv-link:hover { color: var(--muted); }
         .cv-link svg { flex-shrink: 0; }
-        .toast { position: fixed; bottom: 28px; left: 50%; transform: translateX(-50%) translateY(6px); background: var(--text); color: var(--bg); font-family: 'Inter', sans-serif; font-size: 13px; padding: 8px 16px; border-radius: 6px; opacity: 0; transition: opacity 0.2s ease, transform 0.2s ease; pointer-events: none; white-space: nowrap; z-index: 1000; }
+        .toast { position: fixed; bottom: 28px; left: 50%; transform: translateX(-50%) translateY(6px); background: var(--text); color: var(--bg); font-family: 'Inter', sans-serif; font-size: 13px; padding: 8px 16px; border-radius: 6px; opacity: 0; transition: opacity 0.2s ease, transform 0.2s ease; pointer-events: none;  z-index: 1000; }
         .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
-        @media (max-width: 480px) { .wrap { padding: 0 20px; } nav { padding-top: 40px; } .section { padding-top: 32px; } }
+        @media (max-width: 480px) { .wrap { padding: 0 20px; } nav { padding-top: 40px; } .section { padding-top: 32px; } .rs-num-lg { font-size: 32px; } .rs-num-sm { font-size: 28px; } .oc-num-before, .oc-num-after, .oc-num-single { font-size: 36px; } .oc-split { grid-template-columns: 1fr 1fr; } }
         .figure img, .hero-image { cursor: zoom-in; }
         .lightbox { position: fixed; inset: 0; background: rgba(0,0,0,0.92); display: flex; align-items: center; justify-content: center; z-index: 999; opacity: 0; pointer-events: none; transition: opacity 0.22s ease; cursor: zoom-out; }
         .lightbox.open { opacity: 1; pointer-events: all; }
@@ -119,7 +119,7 @@
         .bc-bars.active .bc-col:not(.on) .bc-val { opacity: 0.3; }
         .bc-bars.active .bc-col:not(.on) .bc-label { opacity: 0.3; }
         .bc-bars.active .bc-col.on .bc-bar { filter: brightness(1.12); box-shadow: 0 4px 16px rgba(0,0,0,0.12); }
-        .bc-tip { position: absolute; bottom: calc(100% + 8px); left: 50%; transform: translateX(-50%) translateY(4px); background: var(--text); color: var(--bg); font-size: 11px; font-weight: 500; padding: 5px 9px; border-radius: 5px; white-space: nowrap; opacity: 0; pointer-events: none; transition: opacity 0.15s, transform 0.15s; z-index: 10; }
+        .bc-tip { position: absolute; bottom: calc(100% + 8px); left: 50%; transform: translateX(-50%) translateY(4px); background: var(--text); color: var(--bg); font-size: 11px; font-weight: 500; padding: 5px 9px; border-radius: 5px;  opacity: 0; pointer-events: none; transition: opacity 0.15s, transform 0.15s; z-index: 10; }
         .bc-tip::after { content: ''; position: absolute; top: 100%; left: 50%; transform: translateX(-50%); border: 4px solid transparent; border-top-color: var(--text); }
         .bc-col:hover .bc-tip { opacity: 1; transform: translateX(-50%) translateY(0); }
         .bc-legend { display: flex; gap: 16px; margin-top: 16px; flex-wrap: wrap; }
@@ -172,7 +172,7 @@
             <div class="context-table">
                 <div class="context-row">
                     <span class="context-label">Outcome</span>
-                    <span class="context-value">Replacement time 60% faster</span>
+                    <span class="context-value">Replacement time cut from 10 min to 2–3 min per order</span>
                 </div>
                 <div class="context-row">
                     <span class="context-label">Company</span>
@@ -180,11 +180,11 @@
                 </div>
                 <div class="context-row">
                     <span class="context-label">Product</span>
-                    <span class="context-value">Internal Ops Dashboard</span>
+                    <span class="context-value">Internal Ops Dashboard, Internal Ordering (Replacement)</span>
                 </div>
                 <div class="context-row">
                     <span class="context-label">Role</span>
-                    <span class="context-value">Research, user interview, product thinking, writing UX copy, design</span>
+                    <span class="context-value">Solo designer, research, product thinking, UI design</span>
                 </div>
                 <div class="context-row">
                     <span class="context-label">Team</span>
@@ -214,8 +214,8 @@
                 .rs-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
                 .rs-card { border: 0.5px solid var(--border); border-radius: 12px; padding: 20px 24px; display: flex; flex-direction: column; gap: 8px; }
                 .rs-label { font-size: 11px; color: var(--muted); margin: 0; letter-spacing: 0.06em; text-transform: uppercase; }
-                .rs-num-lg { font-size: 48px; font-weight: 500; color: var(--text); margin: 0; line-height: 1; white-space: nowrap; }
-                .rs-num-sm { font-size: 44px; font-weight: 500; color: var(--text); margin: 0; line-height: 1; white-space: nowrap; }
+                .rs-num-lg { font-size: 32px; font-weight: 500; color: var(--text); margin: 0; line-height: 1;  }
+                .rs-num-sm { font-size: 28px; font-weight: 500; color: var(--text); margin: 0; line-height: 1;  }
                 .rs-desc-lg { font-size: 12px; color: var(--muted); margin: 0; line-height: 1.5; }
                 .rs-desc-sm { font-size: 12px; color: var(--muted); margin: 0; line-height: 1.5; }
             </style>
@@ -530,7 +530,6 @@
             </svg>
 
             <p>Here's what that translated to in practice, the replacement order form inside Internal Ops Dashboard that CE uses to place orders, and the scheduled order tab added to the POS so outlets can process them.</p>
-            <p>UI screens have been reskinned for confidentiality. Structure and functionality reflect the actual product.</p>
 
             <style>
                 .mockup-container { display: flex; flex-direction: column; gap: 24px; align-items: center; margin: 0 -32px; }
@@ -672,12 +671,12 @@
                 .oc-half { padding: 20px 24px; display: flex; flex-direction: column; gap: 8px; }
                 .oc-half:first-child { border-right: 0.5px solid var(--border); }
                 .oc-label { font-size: 11px; color: var(--muted); letter-spacing: 0.06em; text-transform: uppercase; }
-                .oc-num-before { font-size: 56px; font-weight: 500; color: var(--muted); line-height: 1; white-space: nowrap; }
-                .oc-num-after  { font-size: 56px; font-weight: 500; color: var(--text); line-height: 1; white-space: nowrap; }
+                .oc-num-before { font-size: 36px; font-weight: 500; color: var(--muted); line-height: 1; }
+                .oc-num-after  { font-size: 36px; font-weight: 500; color: var(--text); line-height: 1; }
                 .oc-desc { font-size: 12px; color: var(--muted); line-height: 1.5; }
                 .oc-footer { padding: 10px 24px; border-top: 0.5px solid var(--border); font-size: 12px; color: var(--muted); }
                 .oc-single { border: 0.5px solid var(--border); border-radius: 12px; padding: 20px 24px; display: flex; flex-direction: column; gap: 8px; }
-                .oc-num-single { font-size: 56px; font-weight: 500; color: var(--text); line-height: 1; white-space: nowrap; }
+                .oc-num-single { font-size: 36px; font-weight: 500; color: var(--text); line-height: 1; }
             </style>
 
             <div class="oc-card">
