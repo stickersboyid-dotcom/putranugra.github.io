@@ -1,0 +1,867 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Right Tool for the Job — Nugraha Eka Putra</title>
+    <meta name="description" content="Designing an internal replacement order tool for Hangry's CE team.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+    <script>
+        const t = localStorage.getItem('theme');
+        if (t) document.documentElement.setAttribute('data-theme', t);
+    </script>
+    <style>
+        :root {
+            --bg:      #FFFFFF;
+            --text:    #737373;
+            --muted:   #A3A3A3;
+            --quote-bg:#F5F5F5;
+            --border:  #E5E5E5;
+        }
+        [data-theme="dark"] {
+            --bg:      #141414;
+            --text:    #737373;
+            --muted:   #525252;
+            --quote-bg:#1E1E1E;
+            --border:  #2A2A2A;
+        }
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body {
+            background: var(--bg);
+            color: var(--muted);
+            font-family: 'Inter', sans-serif;
+            font-size: 14px;
+            font-weight: 400;
+            line-height: 20px;
+            -webkit-font-smoothing: antialiased;
+            transition: background 0.2s ease, color 0.2s ease;
+        }
+        .wrap { max-width: 560px; margin: 0 auto; padding: 0 32px; }
+        nav { padding: 68px 0 0; }
+        nav .wrap { display: flex; justify-content: space-between; align-items: center; }
+        .back-link {
+            display: flex; align-items: center; gap: 8px;
+            font-size: 14px; font-weight: 400; color: var(--muted);
+            text-decoration: none; line-height: 20px; transition: color 0.15s ease;
+        }
+        .back-link:hover { color: var(--text); }
+        .back-link svg { flex-shrink: 0; }
+        .toggle-btn {
+            display: flex; align-items: center; gap: 10px;
+            background: none; border: none; cursor: pointer;
+            font-family: 'Inter', sans-serif; font-size: 14px; font-weight: 400;
+            color: var(--text); padding: 0; line-height: 20px; transition: color 0.15s ease;
+        }
+        .toggle-btn:hover { color: var(--muted); }
+        .toggle-btn svg { display: block; flex-shrink: 0; }
+        main { padding-bottom: 0; }
+        .hero { padding-top: 40px; display: flex; flex-direction: column; gap: 20px; }
+        .hero-tag { font-size: 14px; font-weight: 400; color: var(--muted); line-height: 20px; margin-bottom: 10px; }
+        .hero-title { font-size: 24px; font-weight: 500; color: var(--text); line-height: 32px; }
+        .hero-image { width: 100%; height: 245px; border-radius: 5px; object-fit: cover; display: block; }
+        .context-table { display: flex; flex-direction: column; gap: 10px; }
+        .context-row { display: flex; align-items: flex-start; gap: 20px; font-size: 14px; line-height: 20px; }
+        .context-label { font-weight: 400; color: var(--muted); min-width: 72px; flex-shrink: 0; }
+        .context-value { font-weight: 500; color: var(--text); }
+        .divider { border: none; border-top: 1px solid var(--border); margin-top: 20px; }
+        .section { padding-top: 40px; display: flex; flex-direction: column; gap: 20px; }
+        .section-label { font-size: 14px; font-weight: 500; color: var(--text); line-height: 20px; }
+        .section p { font-size: 14px; font-weight: 400; color: var(--muted); line-height: 20px; }
+        .italic-text { font-size: 15px; font-style: italic; font-weight: 400; color: var(--muted); line-height: 20px; letter-spacing: -0.23px; }
+        .quote-box { background: var(--quote-bg); border-radius: 5px; padding: 16px; font-size: 15px; font-style: italic; font-weight: 400; color: var(--muted); line-height: 20px; letter-spacing: -0.23px; }
+        .strong { font-weight: 500; color: var(--text); }
+        .figure { display: flex; flex-direction: column; gap: 8px; }
+        .figure img { width: 100%; height: 245px; border-radius: 5px; object-fit: cover; display: block; }
+        .figure figcaption { font-size: 12px; font-weight: 400; color: var(--muted); line-height: 18px; text-align: center; }
+        .bullet-list { padding-left: 20px; display: flex; flex-direction: column; gap: 0; }
+        .bullet-list li { font-size: 14px; font-weight: 400; color: var(--muted); line-height: 20px; margin-bottom: 4px; }
+        .bullet-list li:last-child { margin-bottom: 0; }
+        .ext-link { display: inline-flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 400; color: var(--text); text-decoration: none; line-height: 20px; transition: color 0.15s ease; }
+        .ext-link:hover { color: var(--muted); }
+        .ext-link svg { flex-shrink: 0; }
+        .footer-wrap { padding-top: 40px; padding-bottom: 60px; }
+        .footer-divider { border-top: 1px solid var(--border); margin-bottom: 20px; }
+        .footer-inner { display: flex; align-items: center; justify-content: space-between; }
+        .social-links { display: flex; align-items: center; gap: 20px; }
+        .social-link { font-size: 14px; font-weight: 500; color: var(--text); text-decoration: none; line-height: 20px; transition: color 0.15s ease; }
+        .social-link:hover { color: var(--muted); }
+        .cv-link { display: inline-flex; align-items: center; gap: 10px; font-size: 14px; font-weight: 400; color: var(--text); text-decoration: none; line-height: 20px; transition: color 0.15s ease; }
+        .cv-link:hover { color: var(--muted); }
+        .cv-link svg { flex-shrink: 0; }
+        .toast { position: fixed; bottom: 28px; left: 50%; transform: translateX(-50%) translateY(6px); background: var(--text); color: var(--bg); font-family: 'Inter', sans-serif; font-size: 13px; padding: 8px 16px; border-radius: 6px; opacity: 0; transition: opacity 0.2s ease, transform 0.2s ease; pointer-events: none; white-space: nowrap; z-index: 1000; }
+        .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+        @media (max-width: 480px) { .wrap { padding: 0 20px; } nav { padding-top: 40px; } .section { padding-top: 32px; } }
+        .figure img, .hero-image { cursor: zoom-in; }
+        .lightbox { position: fixed; inset: 0; background: rgba(0,0,0,0.92); display: flex; align-items: center; justify-content: center; z-index: 999; opacity: 0; pointer-events: none; transition: opacity 0.22s ease; cursor: zoom-out; }
+        .lightbox.open { opacity: 1; pointer-events: all; }
+        .lightbox img { max-width: 90vw; max-height: 88vh; object-fit: contain; border-radius: 6px; transform: scale(0.96); transition: transform 0.25s cubic-bezier(0.16,1,0.3,1); pointer-events: none; cursor: default; }
+        .lightbox.open img { transform: scale(1); }
+        .lightbox-close { position: absolute; top: 20px; right: 24px; background: none; border: none; color: rgba(255,255,255,0.6); font-size: 28px; cursor: pointer; line-height: 1; padding: 4px; transition: color 0.15s ease; }
+        .lightbox-close:hover { color: #fff; }
+        @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+
+        /* ─── BAR CHARTS ─────────────────────────────────────── */
+        .bc-wrap { background: var(--quote-bg); border-radius: 8px; padding: 20px; }
+        .bc-title { font-size: 13px; font-weight: 500; color: var(--text); margin-bottom: 2px; }
+        .bc-sub { font-size: 11px; color: var(--muted); margin-bottom: 24px; }
+        .bc-bars { display: flex; align-items: flex-end; gap: 8px; height: 200px; padding-top: 28px; position: relative; }
+        .bc-bars::before { content: ''; position: absolute; inset: 0; background-image: repeating-linear-gradient(to top, transparent 0px, transparent calc(25% - 0.5px), var(--border) calc(25% - 0.5px), var(--border) 25%); pointer-events: none; opacity: 0.5; }
+        .bc-col { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; position: relative; cursor: pointer; -webkit-tap-highlight-color: transparent; }
+        .bc-val { font-size: 11px; font-weight: 500; color: var(--text); transition: opacity 0.2s; text-align: center; line-height: 1; margin-bottom: 5px; flex-shrink: 0; }
+        .bc-bar { width: 100%; border-radius: 4px 4px 0 0; transition: opacity 0.2s, filter 0.2s, transform 0.15s; transform-origin: bottom; flex-shrink: 0; position: relative; }
+        .bc-bar::after { content: ''; position: absolute; inset: 0; border-radius: 4px 4px 0 0; background: linear-gradient(to bottom, rgba(255,255,255,0.18), transparent 60%); pointer-events: none; }
+        .bc-label { font-size: 11px; color: var(--muted); transition: opacity 0.2s; text-align: center; margin-top: 6px; flex-shrink: 0; }
+        .bc-col:hover .bc-bar { filter: brightness(1.1); transform: scaleY(1.02); }
+        .bc-bars.active .bc-col:not(.on) .bc-bar { opacity: 0.2; }
+        .bc-bars.active .bc-col:not(.on) .bc-val { opacity: 0.3; }
+        .bc-bars.active .bc-col:not(.on) .bc-label { opacity: 0.3; }
+        .bc-bars.active .bc-col.on .bc-bar { filter: brightness(1.12); box-shadow: 0 4px 16px rgba(0,0,0,0.12); }
+        .bc-tip { position: absolute; bottom: calc(100% + 8px); left: 50%; transform: translateX(-50%) translateY(4px); background: var(--text); color: var(--bg); font-size: 11px; font-weight: 500; padding: 5px 9px; border-radius: 5px; white-space: nowrap; opacity: 0; pointer-events: none; transition: opacity 0.15s, transform 0.15s; z-index: 10; }
+        .bc-tip::after { content: ''; position: absolute; top: 100%; left: 50%; transform: translateX(-50%); border: 4px solid transparent; border-top-color: var(--text); }
+        .bc-col:hover .bc-tip { opacity: 1; transform: translateX(-50%) translateY(0); }
+        .bc-legend { display: flex; gap: 16px; margin-top: 16px; flex-wrap: wrap; }
+        .bc-leg-item { display: flex; align-items: center; gap: 6px; }
+        .bc-leg-dot { width: 8px; height: 8px; border-radius: 2px; }
+        .bc-leg-label { font-size: 11px; color: var(--muted); }
+        .bc-badge { display: inline-flex; align-items: center; gap: 6px; margin-top: 16px; background: var(--bg); border: 1px solid var(--border); border-radius: 6px; padding: 7px 12px; }
+        .bc-badge-label { font-size: 11px; color: var(--muted); }
+        .bc-badge-value { font-size: 13px; font-weight: 600; color: #2DD4BF; }
+        @keyframes bc-grow { from { transform: scaleY(0); opacity: 0; } to { transform: scaleY(1); opacity: 1; } }
+        .bc-bar.anim { animation: bc-grow 0.5s cubic-bezier(0.16, 1, 0.3, 1) both; transform-origin: bottom; }
+    </style>
+</head>
+<body>
+
+<nav>
+    <div class="wrap">
+        <a href="/" class="back-link">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/>
+            </svg>
+            Back
+        </a>
+        <button class="toggle-btn" onclick="toggleTheme()" aria-label="Toggle theme">
+            <span id="lbl">Dark Mode</span>
+            <svg id="iconMoon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+            </svg>
+            <svg id="iconSun" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="display:none">
+                <circle cx="12" cy="12" r="5"/>
+                <line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/>
+                <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+                <line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/>
+                <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+            </svg>
+        </button>
+    </div>
+</nav>
+
+<main>
+    <div class="wrap">
+
+<!-- HERO -->
+        <div class="hero">
+            <div>
+                <p class="hero-tag">Hangry · 2024–2025</p>
+                <h1 class="hero-title">The Right Tool for the Job</h1>
+            </div>
+            <img class="hero-image" src="../hero_internal_ordering.png" alt="Internal Ordering, Internal Ops Dashboard">
+            <div class="context-table">
+                <div class="context-row">
+                    <span class="context-label">Outcome</span>
+                    <span class="context-value">Replacement time cut from 10 min to 2–3 min per order</span>
+                </div>
+                <div class="context-row">
+                    <span class="context-label">Company</span>
+                    <span class="context-value">Hangry Indonesia</span>
+                </div>
+                <div class="context-row">
+                    <span class="context-label">Product</span>
+                    <span class="context-value">Internal Ops Dashboard, Internal Ordering (Replacement)</span>
+                </div>
+                <div class="context-row">
+                    <span class="context-label">Role</span>
+                    <span class="context-value">Solo designer, research, product thinking, UI design</span>
+                </div>
+                <div class="context-row">
+                    <span class="context-label">Team</span>
+                    <span class="context-value">1 designer, 1 PM, 2 engineers</span>
+                </div>
+            </div>
+            <hr class="divider">
+        </div>
+
+        <!-- BACKGROUND -->
+        <div class="section">
+            <p class="section-label">BACKGROUND</p>
+            <p>Hangry isn’t a typical F&B brand. It’s a cloud kitchen. One physical outlet running multiple distinct brands simultaneously, each with its own menu, its own presence on GrabFood, GoFood, and ShopeeFood, and its own operational identity. By 2024, that model had scaled to over 150 outlets across Jakarta.</p>
+            <p>That complexity doesn’t show up in the consumer experience. It shows up in operations. And consumer-facing tools, including Hangry’s own app, were never built to handle it. Internal Ops Dashboard exists to fill that gap: an internal platform built specifically for how Hangry actually works.</p>
+            <p>This case study is about one module inside Internal Ops Dashboard: the replacement order tool. When a customer complaint qualifies for a food replacement, the CE team needs to act quickly and accurately. Before this existed, they were doing it through the Hangry App. That’s where the problem started.</p>
+        </div>
+
+        <!-- RESEARCH & DISCOVERY -->
+        <div class="section">
+            <p class="section-label">RESEARCH & DISCOVERY</p>
+            <p>The brief came in October 2024. The CE team, ten agents, was handling food replacement orders every week across all of Hangry's brands, outlets, and sales channels. Every complaint that qualified for a replacement had to be handled individually.</p>
+            <p>I talked to Regina, the CE team leader. What surprised me most wasn't the volume. It was the time. One replacement order, done through the Hangry App, took up to ten minutes.</p>
+            <p>Regina called it a pain point. That felt like an understatement.</p>
+
+            <style>
+                .rs-wrap { display: flex; flex-direction: column; gap: 12px; }
+                .rs-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+                .rs-card { border: 0.5px solid var(--border); border-radius: 12px; padding: 20px 24px; display: flex; flex-direction: column; gap: 8px; }
+                .rs-label { font-size: 11px; color: var(--muted); margin: 0; letter-spacing: 0.06em; text-transform: uppercase; }
+                .rs-num-lg { font-size: 48px; font-weight: 500; color: var(--text); margin: 0; line-height: 1; white-space: nowrap; }
+                .rs-num-sm { font-size: 44px; font-weight: 500; color: var(--text); margin: 0; line-height: 1; white-space: nowrap; }
+                .rs-desc-lg { font-size: 12px; color: var(--muted); margin: 0; line-height: 1.5; }
+                .rs-desc-sm { font-size: 12px; color: var(--muted); margin: 0; line-height: 1.5; }
+            </style>
+            <div class="rs-wrap">
+                <div class="rs-grid">
+                    <div class="rs-card">
+                        <div class="rs-label">Time per replacement order</div>
+                        <div class="rs-num-lg">~10 min</div>
+                        <div class="rs-desc-lg">Using the Hangry App, a consumer product never built for this workflow.</div>
+                    </div>
+                    <div class="rs-card">
+                        <div class="rs-label">Replacements per week</div>
+                        <div class="rs-num-lg">150–200</div>
+                        <div class="rs-desc-lg">Hangry runs multiple brands across 150+ outlets on three platforms, complaints come from everywhere.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- PROBLEM FRAMING -->
+        <div class="section">
+            <p class="section-label">PROBLEM FRAMING</p>
+            <p>Using the Hangry App for replacement orders wasn’t just slow. It was the wrong tool for the job. The more I understood how Hangry’s business actually worked, the clearer that became.</p>
+            <p>Four structural problems, all rooted in the same thing: a consumer product being asked to do something it was never designed for.</p>
+
+            <style>
+                .pf2-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+                .pf2-card { border: 0.5px solid var(--border); border-radius: 12px; overflow: hidden; }
+                .pf2-card-header { padding: 12px 16px 10px; font-size: 12px; color: var(--muted); }
+                .pf2-card-divider { height: 0.5px; background: var(--border); }
+                .pf2-card-body { padding: 14px 16px 16px; display: flex; flex-direction: column; gap: 12px; }
+                .pf2-card-title { font-size: 14px; font-weight: 500; color: var(--text); margin: 0; }
+                .pf2-card-desc { font-size: 13px; color: var(--muted); line-height: 1.6; margin: 0; }
+                .pf2-card-consequence { font-size: 13px; color: var(--muted); line-height: 1.6; margin: 0; font-style: italic; }
+            </style>
+            <div class="pf2-grid">
+
+                <div class="pf2-card">
+                    <div class="pf2-card-header">Problem 1</div>
+                    <div class="pf2-card-divider"></div>
+                    <div class="pf2-card-body">
+                        <p class="pf2-card-title">Menu coverage gap</p>
+                        <p class="pf2-card-desc">Hangry App only shows menus sold directly to consumers. Items exclusive to GrabFood, GoFood, or ShopeeFood don’t exist there.</p>
+                        <div class="pf2-card-divider"></div>
+                        <p class="pf2-card-consequence">When a menu wasn’t available, CE reached out to the outlet directly, disrupting kitchen operations in the process.</p>
+                    </div>
+                </div>
+
+                <div class="pf2-card">
+                    <div class="pf2-card-header">Problem 2</div>
+                    <div class="pf2-card-divider"></div>
+                    <div class="pf2-card-body">
+                        <p class="pf2-card-title">Sub-brand gap</p>
+                        <p class="pf2-card-desc">Hangry’s sub-brands only exist on third-party platforms. Some sub-brand items appear under the main brand in the Hangry App, but many don’t.</p>
+                        <div class="pf2-card-divider"></div>
+                        <p class="pf2-card-consequence">Same workaround. Reach out to the outlet directly, same disruption.</p>
+                    </div>
+                </div>
+
+                <div class="pf2-card">
+                    <div class="pf2-card-header">Problem 3</div>
+                    <div class="pf2-card-divider"></div>
+                    <div class="pf2-card-body">
+                        <p class="pf2-card-title">Pricing gap</p>
+                        <p class="pf2-card-desc">The Hangry App shows consumer-facing prices. Every replacement placed through it was charged at full retail. No way to use internal pricing or COGS.</p>
+                        <div class="pf2-card-divider"></div>
+                        <p class="pf2-card-consequence">Every replacement cost more than it should have.</p>
+                    </div>
+                </div>
+
+                <div class="pf2-card">
+                    <div class="pf2-card-header">Problem 4</div>
+                    <div class="pf2-card-divider"></div>
+                    <div class="pf2-card-body">
+                        <p class="pf2-card-title">No centralization</p>
+                        <p class="pf2-card-desc">Each CE agent used their own Hangry App account. There was no shared view. No way to track orders, monitor volume, or control costs across the team.</p>
+                        <div class="pf2-card-divider"></div>
+                        <p class="pf2-card-consequence">Regina had no visibility into what her team was doing.</p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+                <!-- DECISION & THINKING -->
+        <div class="section">
+            <p class="section-label">DECISION & THINKING</p>
+            <p>The PM’s brief came with a proposed direction: a form that CE fills to place a replacement order, with part of it shared to the customer to input their delivery address and location. A stakeholder also suggested extending this into a WhatsApp bot.</p>
+            <p>I mapped out both flows before we sat down together: me, the PM, and the engineers. Not to commit to either direction, but to have something concrete to pressure-test.</p>
+
+            <svg width="100%" viewBox="0 0 680 460" role="img" xmlns="http://www.w3.org/2000/svg" style="margin-bottom:-20px;">
+                <title>Flow option 1: WA Bot + Internal Ops Dashboard + Share Form</title>
+                <desc>Customer messages WA, bot handles comms and generates form, form shared to customer, customer fills, CE reviews, approves or rejects, approved orders pushed to POS.</desc>
+                <defs><marker id="f1-arr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker></defs>
+                <rect x="40" y="40" width="150" height="56" rx="8" fill="#F1EFE8" stroke="#5F5E5A" stroke-width="0.5"/>
+                <text font-family="Inter,sans-serif" font-size="14" font-weight="500" fill="#2C2C2A" x="115" y="62" text-anchor="middle" dominant-baseline="central">Customer</text>
+                <text font-family="Inter,sans-serif" font-size="12" fill="#5F5E5A" x="115" y="80" text-anchor="middle" dominant-baseline="central">Reach out via WA</text>
+                <text font-family="Inter,sans-serif" font-size="10" fill="#A3A3A3" x="115" y="110" text-anchor="middle">Step 1</text>
+                <line x1="190" y1="68" x2="210" y2="68" stroke="#888" stroke-width="1" marker-end="url(#f1-arr)"/>
+                <rect x="210" y="40" width="150" height="56" rx="8" fill="#F1EFE8" stroke="#5F5E5A" stroke-width="0.5"/>
+                <text font-family="Inter,sans-serif" font-size="14" font-weight="500" fill="#2C2C2A" x="285" y="62" text-anchor="middle" dominant-baseline="central">WA Bot</text>
+                <text font-family="Inter,sans-serif" font-size="12" fill="#5F5E5A" x="285" y="80" text-anchor="middle" dominant-baseline="central">Comms &amp; form</text>
+                <text font-family="Inter,sans-serif" font-size="10" fill="#A3A3A3" x="285" y="110" text-anchor="middle">Step 2</text>
+                <line x1="360" y1="68" x2="380" y2="68" stroke="#888" stroke-width="1" marker-end="url(#f1-arr)"/>
+                <rect x="380" y="40" width="260" height="56" rx="8" fill="#F1EFE8" stroke="#5F5E5A" stroke-width="0.5"/>
+                <text font-family="Inter,sans-serif" font-size="14" font-weight="500" fill="#2C2C2A" x="510" y="62" text-anchor="middle" dominant-baseline="central">Form shared to customer</text>
+                <text font-family="Inter,sans-serif" font-size="12" fill="#5F5E5A" x="510" y="80" text-anchor="middle" dominant-baseline="central">Fill address + pin point</text>
+                <text font-family="Inter,sans-serif" font-size="10" fill="#A3A3A3" x="510" y="110" text-anchor="middle">Step 3</text>
+                <line x1="510" y1="96" x2="510" y2="150" stroke="#888" stroke-width="1" marker-end="url(#f1-arr)"/>
+                <rect x="380" y="150" width="260" height="56" rx="8" fill="#F1EFE8" stroke="#5F5E5A" stroke-width="0.5"/>
+                <text font-family="Inter,sans-serif" font-size="14" font-weight="500" fill="#2C2C2A" x="510" y="172" text-anchor="middle" dominant-baseline="central">CE review</text>
+                <text font-family="Inter,sans-serif" font-size="12" fill="#5F5E5A" x="510" y="190" text-anchor="middle" dominant-baseline="central">Check form in dashboard</text>
+                <text font-family="Inter,sans-serif" font-size="10" fill="#A3A3A3" x="510" y="220" text-anchor="middle">Step 4</text>
+                <line x1="380" y1="178" x2="220" y2="178" stroke="#888" stroke-width="1" marker-end="url(#f1-arr)"/>
+                <rect x="40" y="150" width="180" height="56" rx="8" fill="#F1EFE8" stroke="#5F5E5A" stroke-width="0.5"/>
+                <text font-family="Inter,sans-serif" font-size="14" font-weight="500" fill="#2C2C2A" x="130" y="172" text-anchor="middle" dominant-baseline="central">Approve or reject?</text>
+                <text font-family="Inter,sans-serif" font-size="12" fill="#5F5E5A" x="130" y="190" text-anchor="middle" dominant-baseline="central">CE decides</text>
+                <text font-family="Inter,sans-serif" font-size="10" fill="#A3A3A3" x="130" y="220" text-anchor="middle">Step 5</text>
+                <path d="M70 206 L70 270" fill="none" stroke="#888" stroke-width="1" marker-end="url(#f1-arr)"/>
+                <text font-family="Inter,sans-serif" font-size="10" fill="#A3A3A3" x="50" y="242" text-anchor="middle">Reject</text>
+                <rect x="40" y="270" width="160" height="56" rx="8" fill="#FEF2F2" stroke="#A32D2D" stroke-width="0.5"/>
+                <text font-family="Inter,sans-serif" font-size="14" font-weight="500" fill="#791F1F" x="120" y="292" text-anchor="middle" dominant-baseline="central">Notify customer</text>
+                <text font-family="Inter,sans-serif" font-size="12" fill="#A32D2D" x="120" y="310" text-anchor="middle" dominant-baseline="central">Explain reason</text>
+                <path d="M190 206 L190 248 L250 248 L250 270" fill="none" stroke="#888" stroke-width="1" marker-end="url(#f1-arr)"/>
+                <text font-family="Inter,sans-serif" font-size="10" fill="#A3A3A3" x="226" y="236" text-anchor="middle">Approve</text>
+                <rect x="220" y="270" width="420" height="56" rx="8" fill="#E1F5EE" stroke="#0F6E56" stroke-width="0.5"/>
+                <text font-family="Inter,sans-serif" font-size="14" font-weight="500" fill="#085041" x="430" y="292" text-anchor="middle" dominant-baseline="central">Create replacement order</text>
+                <text font-family="Inter,sans-serif" font-size="12" fill="#0F6E56" x="430" y="310" text-anchor="middle" dominant-baseline="central">Order pushed to outlet POS</text>
+                <text font-family="Inter,sans-serif" font-size="10" fill="#A3A3A3" x="430" y="340" text-anchor="middle">Step 6</text>
+                <line x1="40" y1="368" x2="640" y2="368" stroke="#E5E5E5" stroke-width="0.5"/>
+                <line x1="40" y1="363" x2="40" y2="368" stroke="#E5E5E5" stroke-width="0.5"/>
+                <line x1="640" y1="363" x2="640" y2="368" stroke="#E5E5E5" stroke-width="0.5"/>
+                <text font-family="Inter,sans-serif" font-size="10" fill="#A3A3A3" x="340" y="388" text-anchor="middle">Option 1: WA Bot + Internal Ops Dashboard + Share Form</text>
+            </svg>
+
+            <svg width="100%" viewBox="0 0 680 460" role="img" xmlns="http://www.w3.org/2000/svg" style="margin-bottom:-20px;">
+                <title>Flow option 2: Internal Ops Dashboard + Share Form</title>
+                <desc>Customer messages WA, CE agent handles comms and generates form, form shared to customer, customer fills, CE reviews, approves or rejects, approved orders pushed to POS.</desc>
+                <defs><marker id="f2-arr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker></defs>
+                <rect x="40" y="40" width="150" height="56" rx="8" fill="#F1EFE8" stroke="#5F5E5A" stroke-width="0.5"/>
+                <text font-family="Inter,sans-serif" font-size="14" font-weight="500" fill="#2C2C2A" x="115" y="62" text-anchor="middle" dominant-baseline="central">Customer</text>
+                <text font-family="Inter,sans-serif" font-size="12" fill="#5F5E5A" x="115" y="80" text-anchor="middle" dominant-baseline="central">Reach out via WA</text>
+                <text font-family="Inter,sans-serif" font-size="10" fill="#A3A3A3" x="115" y="110" text-anchor="middle">Step 1</text>
+                <line x1="190" y1="68" x2="210" y2="68" stroke="#888" stroke-width="1" marker-end="url(#f2-arr)"/>
+                <rect x="210" y="40" width="150" height="56" rx="8" fill="#F1EFE8" stroke="#5F5E5A" stroke-width="0.5"/>
+                <text font-family="Inter,sans-serif" font-size="14" font-weight="500" fill="#2C2C2A" x="285" y="62" text-anchor="middle" dominant-baseline="central">CE agent</text>
+                <text font-family="Inter,sans-serif" font-size="12" fill="#5F5E5A" x="285" y="80" text-anchor="middle" dominant-baseline="central">Comms &amp; form</text>
+                <text font-family="Inter,sans-serif" font-size="10" fill="#A3A3A3" x="285" y="110" text-anchor="middle">Step 2</text>
+                <line x1="360" y1="68" x2="380" y2="68" stroke="#888" stroke-width="1" marker-end="url(#f2-arr)"/>
+                <rect x="380" y="40" width="260" height="56" rx="8" fill="#F1EFE8" stroke="#5F5E5A" stroke-width="0.5"/>
+                <text font-family="Inter,sans-serif" font-size="14" font-weight="500" fill="#2C2C2A" x="510" y="62" text-anchor="middle" dominant-baseline="central">Form shared to customer</text>
+                <text font-family="Inter,sans-serif" font-size="12" fill="#5F5E5A" x="510" y="80" text-anchor="middle" dominant-baseline="central">Fill address + pin point</text>
+                <text font-family="Inter,sans-serif" font-size="10" fill="#A3A3A3" x="510" y="110" text-anchor="middle">Step 3</text>
+                <line x1="510" y1="96" x2="510" y2="150" stroke="#888" stroke-width="1" marker-end="url(#f2-arr)"/>
+                <rect x="380" y="150" width="260" height="56" rx="8" fill="#F1EFE8" stroke="#5F5E5A" stroke-width="0.5"/>
+                <text font-family="Inter,sans-serif" font-size="14" font-weight="500" fill="#2C2C2A" x="510" y="172" text-anchor="middle" dominant-baseline="central">CE review</text>
+                <text font-family="Inter,sans-serif" font-size="12" fill="#5F5E5A" x="510" y="190" text-anchor="middle" dominant-baseline="central">Check form in dashboard</text>
+                <text font-family="Inter,sans-serif" font-size="10" fill="#A3A3A3" x="510" y="220" text-anchor="middle">Step 4</text>
+                <line x1="380" y1="178" x2="220" y2="178" stroke="#888" stroke-width="1" marker-end="url(#f2-arr)"/>
+                <rect x="40" y="150" width="180" height="56" rx="8" fill="#F1EFE8" stroke="#5F5E5A" stroke-width="0.5"/>
+                <text font-family="Inter,sans-serif" font-size="14" font-weight="500" fill="#2C2C2A" x="130" y="172" text-anchor="middle" dominant-baseline="central">Approve or reject?</text>
+                <text font-family="Inter,sans-serif" font-size="12" fill="#5F5E5A" x="130" y="190" text-anchor="middle" dominant-baseline="central">CE decides</text>
+                <text font-family="Inter,sans-serif" font-size="10" fill="#A3A3A3" x="130" y="220" text-anchor="middle">Step 5</text>
+                <path d="M70 206 L70 270" fill="none" stroke="#888" stroke-width="1" marker-end="url(#f2-arr)"/>
+                <text font-family="Inter,sans-serif" font-size="10" fill="#A3A3A3" x="50" y="242" text-anchor="middle">Reject</text>
+                <rect x="40" y="270" width="160" height="56" rx="8" fill="#FEF2F2" stroke="#A32D2D" stroke-width="0.5"/>
+                <text font-family="Inter,sans-serif" font-size="14" font-weight="500" fill="#791F1F" x="120" y="292" text-anchor="middle" dominant-baseline="central">Notify customer</text>
+                <text font-family="Inter,sans-serif" font-size="12" fill="#A32D2D" x="120" y="310" text-anchor="middle" dominant-baseline="central">Explain reason</text>
+                <path d="M190 206 L190 248 L250 248 L250 270" fill="none" stroke="#888" stroke-width="1" marker-end="url(#f2-arr)"/>
+                <text font-family="Inter,sans-serif" font-size="10" fill="#A3A3A3" x="226" y="236" text-anchor="middle">Approve</text>
+                <rect x="220" y="270" width="420" height="56" rx="8" fill="#E1F5EE" stroke="#0F6E56" stroke-width="0.5"/>
+                <text font-family="Inter,sans-serif" font-size="14" font-weight="500" fill="#085041" x="430" y="292" text-anchor="middle" dominant-baseline="central">Create replacement order</text>
+                <text font-family="Inter,sans-serif" font-size="12" fill="#0F6E56" x="430" y="310" text-anchor="middle" dominant-baseline="central">Order pushed to outlet POS</text>
+                <text font-family="Inter,sans-serif" font-size="10" fill="#A3A3A3" x="430" y="340" text-anchor="middle">Step 6</text>
+                <line x1="40" y1="368" x2="640" y2="368" stroke="#E5E5E5" stroke-width="0.5"/>
+                <line x1="40" y1="363" x2="40" y2="368" stroke="#E5E5E5" stroke-width="0.5"/>
+                <line x1="640" y1="363" x2="640" y2="368" stroke="#E5E5E5" stroke-width="0.5"/>
+                <text font-family="Inter,sans-serif" font-size="10" fill="#A3A3A3" x="340" y="388" text-anchor="middle">Option 2: Internal Ops Dashboard + Share Form</text>
+            </svg>
+
+            <p>We ran them against four constraints.</p>
+
+            <style>
+                .cm-wrap { overflow-x: auto; }
+                .cm-table { width: 100%; border-collapse: collapse; font-size: 12px; line-height: 1.5; }
+                .cm-table th { padding: 10px 12px; text-align: left; font-weight: 500; color: var(--text); background: var(--quote-bg); border-bottom: 0.5px solid var(--border); }
+                .cm-table th:not(:first-child) { border-left: 0.5px solid var(--border); }
+                .cm-table td { padding: 12px; color: var(--muted); vertical-align: top; }
+                .cm-table td:not(:first-child) { border-left: 0.5px solid var(--border); }
+                .cm-table tr { border-bottom: 0.5px solid var(--border); }
+                .cm-table tr:last-child { border-bottom: none; }
+                .cm-table tr:nth-child(even) { background: var(--quote-bg); }
+                .cm-option { font-weight: 500; color: var(--text); }
+                .cm-option-muted { font-weight: 500; color: var(--muted); font-size: 11px; text-decoration: line-through; }
+                .cm-yes  { background: #F0FDF4; color: #166534; font-size: 11px; padding: 2px 8px; border-radius: 4px; display: inline-block; }
+                .cm-no   { background: #FEF2F2; color: #991B1B; font-size: 11px; padding: 2px 8px; border-radius: 4px; display: inline-block; }
+                .cm-caption { font-size: 11px; color: var(--muted); margin-top: 8px; text-align: center; }
+                [data-theme="dark"] .cm-yes { background: #14532D; color: #86EFAC; }
+                [data-theme="dark"] .cm-no  { background: #450A0A; color: #FCA5A5; }
+            </style>
+
+            <div class="cm-wrap">
+                <table class="cm-table">
+                    <thead>
+                        <tr>
+                            <th style="min-width:200px;">Option</th>
+                            <th>CE problem solved</th>
+                            <th>Cost reduced</th>
+                            <th>Low user effort</th>
+                            <th>Low tech effort</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><span class="cm-option">WA Bot + Internal Ops Dashboard + Share Form</span></td>
+                            <td><span class="cm-yes">Yes</span></td>
+                            <td><span class="cm-yes">Yes</span></td>
+                            <td><span class="cm-no">No</span></td>
+                            <td><span class="cm-no">No</span></td>
+                        </tr>
+                        <tr>
+                            <td><span class="cm-option">Internal Ops Dashboard + Share Form</span></td>
+                            <td><span class="cm-yes">Yes</span></td>
+                            <td><span class="cm-yes">Yes</span></td>
+                            <td><span class="cm-no">No</span></td>
+                            <td><span class="cm-yes">Yes</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <p class="cm-caption">Both options fail on low user effort. Customer still has to fill the form and pin point their location.</p>
+            </div>
+
+            <p>The second option was closer. It solved the CE problem, reduced cost through internal pricing, and kept tech effort low. But both options failed on the same constraint: user effort. In both cases, the customer still had to fill part of the form and pin point their own location.</p>
+            <p>These are customers who just had a bad experience. Asking them to do anything extra adds friction to a moment where trust is already thin. We almost pushed through anyway, with CE compensating by handling as much as possible. But something stopped me.</p>
+            <p>I remembered building the location flow for the Hangry App. The pin point feature we used there was powered by a paid mapping service. A fifth constraint had just appeared: no added business cost. And with that, the second option was no longer failing on one constraint, it was failing on two.</p>
+
+            <div class="cm-wrap" style="margin-top:4px;">
+                <table class="cm-table">
+                    <thead>
+                        <tr>
+                            <th style="min-width:200px;">Option</th>
+                            <th>CE problem solved</th>
+                            <th>Cost reduced</th>
+                            <th>Low user effort</th>
+                            <th>Low tech effort</th>
+                            <th>No added business cost</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr style="opacity:0.35;">
+                            <td><span class="cm-option-muted">WA Bot + Internal Ops Dashboard + Share Form</span></td>
+                            <td><span class="cm-yes">Yes</span></td>
+                            <td><span class="cm-yes">Yes</span></td>
+                            <td><span class="cm-no">No</span></td>
+                            <td><span class="cm-no">No</span></td>
+                            <td><span class="cm-no">No</span></td>
+                        </tr>
+                        <tr>
+                            <td><span class="cm-option">Internal Ops Dashboard + Share Form</span></td>
+                            <td><span class="cm-yes">Yes</span></td>
+                            <td><span class="cm-yes">Yes</span></td>
+                            <td><span class="cm-no">No</span></td>
+                            <td><span class="cm-yes">Yes</span></td>
+                            <td><span class="cm-no">No</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <p class="cm-caption">With a fifth constraint added, the remaining option now fails on two counts. Not one.</p>
+            </div>
+
+            <p>That’s when the Google Maps link idea came up. Share links already contain latitude and longitude data. CE could simply ask the customer to share their Google Maps location. No form to fill, no pin point to drag, no paid service. We checked it together. It worked, it was free, and it removed the last burden from the customer entirely.</p>
+            <p>All five constraints satisfied. We had our solution.</p>
+            <svg width="100%" viewBox="0 0 680 420" role="img" xmlns="http://www.w3.org/2000/svg">
+                <title>Solution flow, Internal Ops Dashboard replacement order</title>
+                <desc>Five steps in reverse-C shape: steps 1-3 go left to right on top row, step 4 drops down, step 5 goes left on bottom row.</desc>
+                <defs>
+                    <marker id="sf-arr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                        <path d="M2 1L8 5L2 9" fill="none" stroke="#888" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </marker>
+                </defs>
+                <rect x="40" y="40" width="160" height="72" rx="8" fill="#F1EFE8" stroke="#5F5E5A" stroke-width="0.5"/>
+                <text font-family="Inter,sans-serif" font-size="12" font-weight="500" fill="#2C2C2A" x="120" y="68" text-anchor="middle" dominant-baseline="central">Open form</text>
+                <text font-family="Inter,sans-serif" font-size="11" fill="#5F5E5A" x="120" y="88" text-anchor="middle" dominant-baseline="central">Internal Ops Dashboard</text>
+                <text font-family="Inter,sans-serif" font-size="10" fill="#A3A3A3" x="120" y="126" text-anchor="middle">Step 1</text>
+                <line x1="200" y1="76" x2="226" y2="76" stroke="#888" stroke-width="1" marker-end="url(#sf-arr)"/>
+                <rect x="226" y="40" width="180" height="72" rx="8" fill="#F1EFE8" stroke="#5F5E5A" stroke-width="0.5"/>
+                <text font-family="Inter,sans-serif" font-size="12" font-weight="500" fill="#2C2C2A" x="316" y="62" text-anchor="middle" dominant-baseline="central">Paste Maps link</text>
+                <text font-family="Inter,sans-serif" font-size="11" fill="#5F5E5A" x="316" y="79" text-anchor="middle" dominant-baseline="central">Address + coordinates</text>
+                <text font-family="Inter,sans-serif" font-size="11" fill="#5F5E5A" x="316" y="95" text-anchor="middle" dominant-baseline="central">auto-populate</text>
+                <text font-family="Inter,sans-serif" font-size="10" fill="#A3A3A3" x="316" y="126" text-anchor="middle">Step 2</text>
+                <line x1="406" y1="76" x2="432" y2="76" stroke="#888" stroke-width="1" marker-end="url(#sf-arr)"/>
+                <rect x="432" y="40" width="200" height="72" rx="8" fill="#F1EFE8" stroke="#5F5E5A" stroke-width="0.5"/>
+                <text font-family="Inter,sans-serif" font-size="12" font-weight="500" fill="#2C2C2A" x="532" y="62" text-anchor="middle" dominant-baseline="central">Select menu</text>
+                <text font-family="Inter,sans-serif" font-size="11" fill="#5F5E5A" x="532" y="79" text-anchor="middle" dominant-baseline="central">All channels, sub-brands</text>
+                <text font-family="Inter,sans-serif" font-size="11" fill="#5F5E5A" x="532" y="95" text-anchor="middle" dominant-baseline="central">at internal pricing</text>
+                <text font-family="Inter,sans-serif" font-size="10" fill="#A3A3A3" x="532" y="126" text-anchor="middle">Step 3</text>
+                <line x1="532" y1="112" x2="532" y2="218" stroke="#888" stroke-width="1" marker-end="url(#sf-arr)"/>
+                <rect x="432" y="218" width="200" height="72" rx="8" fill="#F1EFE8" stroke="#5F5E5A" stroke-width="0.5"/>
+                <text font-family="Inter,sans-serif" font-size="12" font-weight="500" fill="#2C2C2A" x="532" y="242" text-anchor="middle" dominant-baseline="central">Submit for approval</text>
+                <text font-family="Inter,sans-serif" font-size="11" fill="#5F5E5A" x="532" y="262" text-anchor="middle" dominant-baseline="central">Regina reviews</text>
+                <text font-family="Inter,sans-serif" font-size="10" fill="#A3A3A3" x="532" y="304" text-anchor="middle">Step 4</text>
+                <line x1="432" y1="254" x2="246" y2="254" stroke="#888" stroke-width="1" marker-end="url(#sf-arr)"/>
+                <text font-family="Inter,sans-serif" font-size="10" fill="#A3A3A3" x="340" y="242" text-anchor="middle">Approved</text>
+                <rect x="40" y="218" width="206" height="72" rx="8" fill="#E1F5EE" stroke="#0F6E56" stroke-width="0.5"/>
+                <text font-family="Inter,sans-serif" font-size="12" font-weight="500" fill="#085041" x="143" y="242" text-anchor="middle" dominant-baseline="central">Order pushed to POS</text>
+                <text font-family="Inter,sans-serif" font-size="11" fill="#0F6E56" x="143" y="262" text-anchor="middle" dominant-baseline="central">Centralized · trackable</text>
+                <text font-family="Inter,sans-serif" font-size="10" fill="#A3A3A3" x="143" y="304" text-anchor="middle">Step 5</text>
+                <line x1="40" y1="330" x2="632" y2="330" stroke="#E5E5E5" stroke-width="0.5"/>
+                <line x1="40" y1="325" x2="40" y2="330" stroke="#E5E5E5" stroke-width="0.5"/>
+                <line x1="632" y1="325" x2="632" y2="330" stroke="#E5E5E5" stroke-width="0.5"/>
+                <text font-family="Inter,sans-serif" font-size="10" fill="#A3A3A3" x="336" y="348" text-anchor="middle">Handled entirely by CE, no customer input required</text>
+            </svg>
+
+            <p>Here's what that translated to in practice, the replacement order form inside Internal Ops Dashboard that CE uses to place orders, and the scheduled order tab added to the POS so outlets can process them.</p>
+
+            <style>
+                .mockup-container { display: flex; flex-direction: column; gap: 24px; align-items: center; margin: 0 -32px; }
+                .mockup-label { font-size: 11px; color: var(--muted); letter-spacing: 0.06em; text-transform: uppercase; text-align: center; }
+                .mockup-item { display: flex; flex-direction: column; align-items: center; gap: 8px; width: 100%; }
+                .mk-wrap { display: flex; flex-direction: column; align-items: center; }
+                .mk-frame { background: #1A1A1A; border-radius: 14px; padding: 0 8px 10px; box-shadow: 0 0 0 1px #2A2A2A, 0 24px 60px rgba(0,0,0,0.35), 0 8px 20px rgba(0,0,0,0.2); position: relative; width: 100%; }
+                .mk-top-bar { height: 8px; display: flex; align-items: flex-end; justify-content: center; margin-bottom: 0; position: relative; }
+                .mk-notch { width: 80px; height: 18px; background: #1A1A1A; border-radius: 0 0 12px 12px; position: absolute; top: 0; left: 50%; transform: translateX(-50%); display: flex; align-items: center; justify-content: center; z-index: 10; }
+                .mk-camera-dot { width: 5px; height: 5px; background: #333; border-radius: 50%; margin-top: 6px; }
+                .mk-screen { width: 100%; aspect-ratio: 3024 / 1964; border-radius: 6px; overflow: hidden; position: relative; background: #fff; }
+                .mk-slide { position: absolute; inset: 0; opacity: 0; transition: opacity 0.4s ease; }
+                .mk-slide.active { opacity: 1; }
+                .mk-slide img { width: 100%; height: 100%; object-fit: cover; object-position: top left; display: block; }
+                .mk-cursor { position: absolute; width: 16px; height: 16px; pointer-events: none; z-index: 50; opacity: 0; transform: translate(-50%, -50%); transition: opacity 0.2s ease, transform 0.15s ease; }
+                .mk-cursor svg { display: block; }
+                .mk-cursor.visible { opacity: 1; }
+                .mk-cursor.clicking { transform: translate(-50%, -50%) scale(0.85); }
+                .mk-ripple { position: absolute; width: 32px; height: 32px; border-radius: 50%; background: rgba(0,0,0,0.15); transform: translate(-50%, -50%) scale(0); pointer-events: none; z-index: 49; opacity: 0; }
+                .mk-ripple.pop { animation: ripple-pop 0.4s ease-out forwards; }
+                @keyframes ripple-pop { 0% { transform: translate(-50%, -50%) scale(0); opacity: 0.5; } 100% { transform: translate(-50%, -50%) scale(2.5); opacity: 0; } }
+            </style>
+
+            <div class="mockup-container">
+
+                <div class="mockup-item">
+                    <p class="mockup-label">Internal Ops Dashboard</p>
+                    <div class="mk-frame">
+                        <div class="mk-top-bar">
+                            <div class="mk-notch"><div class="mk-camera-dot"></div></div>
+                        </div>
+                        <div class="mk-screen" id="db-screen">
+                            <div class="mk-slide active" id="db-slide-0"><img src="../Step_1.png" alt="Dashboard step 1"></div>
+                            <div class="mk-slide" id="db-slide-1"><img src="../Step_2.png" alt="Dashboard step 2"></div>
+                            <div class="mk-slide" id="db-slide-2"><img src="../Step_3.png" alt="Dashboard step 3"></div>
+                            <div class="mk-slide" id="db-slide-3"><img src="../Step_4.png" alt="Dashboard step 4"></div>
+                            <div class="mk-cursor" id="db-cursor"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M2 2L14 7.5L8 9.5L6 15L2 2Z" fill="#1A1A1A" stroke="white" stroke-width="1"/></svg></div>
+                            <div class="mk-ripple" id="db-ripple"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mockup-item">
+                    <p class="mockup-label">POS</p>
+                    <div class="mk-frame">
+                        <div class="mk-top-bar">
+                            <div class="mk-notch"><div class="mk-camera-dot"></div></div>
+                        </div>
+                        <div class="mk-screen" id="pos-screen">
+                            <div class="mk-slide active" id="pos-slide-0"><img src="../pos_1.png" alt="POS step 1"></div>
+                            <div class="mk-slide" id="pos-slide-1"><img src="../pos_2.png" alt="POS step 2"></div>
+                            <div class="mk-cursor" id="pos-cursor"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M2 2L14 7.5L8 9.5L6 15L2 2Z" fill="#1A1A1A" stroke="white" stroke-width="1"/></svg></div>
+                            <div class="mk-ripple" id="pos-ripple"></div>
+                        </div>
+                    </div>
+                </div>
+
+            </div><!-- /mockup-container -->
+
+            <script>
+            (function() {
+                var DB_TIMINGS = [3000, 2000, 3000, 2500];
+                var DB_CLICKS = { 0:{x:0.931,y:0.057}, 2:{x:0.917,y:0.885}, 3:{x:0.232,y:0.148} };
+                var dbCur = 0;
+
+                function dbShow(i) {
+                    document.querySelectorAll('#db-screen .mk-slide').forEach(function(s,idx){ s.classList.toggle('active', idx===i); });
+                    dbCur = i;
+                }
+
+                function mkClick(cId, rId, sId, xP, yP, cb) {
+                    var cursor = document.getElementById(cId);
+                    var ripple = document.getElementById(rId);
+                    var rect   = document.getElementById(sId).getBoundingClientRect();
+                    var x = xP * rect.width, y = yP * rect.height;
+                    cursor.style.left = (x-30)+'px'; cursor.style.top = (y-20)+'px';
+                    cursor.classList.add('visible');
+                    setTimeout(function(){
+                        cursor.style.transition = 'left 0.35s ease,top 0.35s ease,opacity 0.2s ease,transform 0.15s ease';
+                        cursor.style.left = x+'px'; cursor.style.top = y+'px';
+                        setTimeout(function(){
+                            cursor.classList.add('clicking');
+                            ripple.style.left = x+'px'; ripple.style.top = y+'px';
+                            ripple.classList.add('pop');
+                            setTimeout(function(){
+                                cursor.classList.remove('clicking');
+                                setTimeout(function(){
+                                    cursor.classList.remove('visible');
+                                    cursor.style.transition='';
+                                    ripple.classList.remove('pop');
+                                    cb();
+                                }, 200);
+                            }, 200);
+                        }, 400);
+                    }, 100);
+                }
+
+                function dbSchedule() {
+                    setTimeout(function(){
+                        var next = (dbCur+1)%4;
+                        if (dbCur===0&&next===1) { mkClick('db-cursor','db-ripple','db-screen',DB_CLICKS[0].x,DB_CLICKS[0].y,function(){ dbShow(1); dbSchedule(); }); }
+                        else if (dbCur===2&&next===3) { mkClick('db-cursor','db-ripple','db-screen',DB_CLICKS[2].x,DB_CLICKS[2].y,function(){ dbShow(3); dbSchedule(); }); }
+                        else if (dbCur===3&&next===0) { mkClick('db-cursor','db-ripple','db-screen',DB_CLICKS[3].x,DB_CLICKS[3].y,function(){ dbShow(0); dbSchedule(); }); }
+                        else { dbShow(next); dbSchedule(); }
+                    }, DB_TIMINGS[dbCur]);
+                }
+                dbSchedule();
+
+                var POS_TIMINGS = [3000, 2500];
+                var posCur = 0;
+
+                function posShow(i) {
+                    document.querySelectorAll('#pos-screen .mk-slide').forEach(function(s,idx){ s.classList.toggle('active', idx===i); });
+                    posCur = i;
+                }
+
+                function posSchedule() {
+                    setTimeout(function(){
+                        var next = (posCur+1)%2;
+                        if (posCur===0&&next===1) { mkClick('pos-cursor','pos-ripple','pos-screen',0.880,0.360,function(){ posShow(1); posSchedule(); }); }
+                        else { posShow(next); posSchedule(); }
+                    }, POS_TIMINGS[posCur]);
+                }
+                posSchedule();
+            })();
+            </script>
+
+        </div><!-- /section DT -->
+
+        <!-- OUTCOME -->
+        <div class="section">
+            <p class="section-label">OUTCOME</p>
+            <p>The module shipped in February 2025. A few weeks after launch, I checked back in with Regina.</p>
+            <p>The feedback was straightforward: the tool was stable, almost no issues after the early bugs were ironed out. But the number that stuck with me was the time.</p>
+
+            <style>
+                .oc-card { border: 0.5px solid var(--border); border-radius: 12px; overflow: hidden; }
+                .oc-split { display: grid; grid-template-columns: 1fr 1fr; }
+                .oc-half { padding: 20px 24px; display: flex; flex-direction: column; gap: 8px; }
+                .oc-half:first-child { border-right: 0.5px solid var(--border); }
+                .oc-label { font-size: 11px; color: var(--muted); letter-spacing: 0.06em; text-transform: uppercase; }
+                .oc-num-before { font-size: 56px; font-weight: 500; color: var(--muted); line-height: 1; white-space: nowrap; }
+                .oc-num-after  { font-size: 56px; font-weight: 500; color: var(--text); line-height: 1; white-space: nowrap; }
+                .oc-desc { font-size: 12px; color: var(--muted); line-height: 1.5; }
+                .oc-footer { padding: 10px 24px; border-top: 0.5px solid var(--border); font-size: 12px; color: var(--muted); }
+                .oc-single { border: 0.5px solid var(--border); border-radius: 12px; padding: 20px 24px; display: flex; flex-direction: column; gap: 8px; }
+                .oc-num-single { font-size: 56px; font-weight: 500; color: var(--text); line-height: 1; white-space: nowrap; }
+            </style>
+
+            <div class="oc-card">
+                <div class="oc-split">
+                    <div class="oc-half">
+                        <div class="oc-label">Before</div>
+                        <div class="oc-num-before">10 min</div>
+                        <div class="oc-desc">Per replacement order via Hangry App</div>
+                    </div>
+                    <div class="oc-half">
+                        <div class="oc-label">After</div>
+                        <div class="oc-num-after">2–3 min</div>
+                        <div class="oc-desc">Per replacement order via Internal Ops Dashboard</div>
+                    </div>
+                </div>
+                <div class="oc-footer">Time per replacement order, 60–70% faster</div>
+            </div>
+
+            <div class="oc-single">
+                <div class="oc-label">Replacement workload</div>
+                <div class="oc-num-single">↓ 60%</div>
+                <div class="oc-desc">Reduction in workload on replacement tasks, per Regina, CE team leader.</div>
+            </div>
+
+            <p>Regina put it plainly: if the team was still using the Hangry App, her agents would be screaming. The centralization meant she could actually see what was happening across the team, something that simply wasn’t possible before.</p>
+            <p>The cost side was harder to quantify precisely, but the structural shift was clear: replacement orders were no longer being placed at consumer-facing prices. Internal pricing through Internal Ops Dashboard meant every replacement cost less than it would have through the Hangry App, by design, not by accident.</p>
+        </div>
+
+        <!-- WHAT THIS TAUGHT ME -->
+        <div class="section">
+            <p class="section-label">WHAT THIS TAUGHT ME</p>
+            <p>Two things stayed with me after this project.</p>
+            <p>The Google Maps link idea didn’t come from a brainstorm. It came from knowing. From a previous project, that proper pin point accuracy requires a paid mapping service. Right call for a consumer app. Wrong call here. Knowing what the right answer looks like in one context helped me see why it was the wrong answer in another.</p>
+            <p>Good solutions don’t always come from thinking harder. Sometimes they come from remembering further.</p>
+            <p>The other shift was about emotional context. Asking a disappointed customer to fill out a form and locate themselves on a map isn’t just inconvenient. It adds friction to a moment where trust is already thin. That’s not a UX problem. It’s a people problem. And it changes what you build.</p>
+            <p>Sometimes the most important thing you can know about a user isn’t what they need. It’s how they feel when they need it.</p>
+        </div>
+        <!-- FOOTER -->
+        <div class="footer-wrap">
+            <div class="footer-divider"></div>
+            <div class="footer-inner">
+                <div class="social-links">
+                    <a href="mailto:stickersboy.id@gmail.com" class="social-link" id="emailLink">Email</a>
+                    <a href="https://www.linkedin.com/in/nugrahaekaputra/" target="_blank" rel="noopener noreferrer" class="social-link">LinkedIn</a>
+                    <a href="https://dribbble.com/nugrahaputra" target="_blank" rel="noopener noreferrer" class="social-link">Dribbble</a>
+                </div>
+                <a href="/cv-nugraha-putra.pdf" download class="cv-link" id="cvLink">
+                    Download CV
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/>
+                    </svg>
+                </a>
+            </div>
+        </div>
+
+    </div>
+</main>
+
+<!-- LIGHTBOX -->
+<div class="lightbox" id="lightbox">
+    <button class="lightbox-close" id="lightboxClose" aria-label="Close">×</button>
+    <img id="lightboxImg" src="" alt="">
+</div>
+
+<style>#lbScreen::-webkit-scrollbar{display:none;}</style>
+
+<script>
+    function updateThemeIcon(isDark) {
+        document.getElementById('lbl').textContent = isDark ? 'Light Mode' : 'Dark Mode';
+        document.getElementById('iconMoon').style.display = isDark ? 'none' : 'block';
+        document.getElementById('iconSun').style.display  = isDark ? 'block' : 'none';
+    }
+    (function () {
+        const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+        updateThemeIcon(isDark);
+    })();
+    function toggleTheme() {
+        const html   = document.documentElement;
+        const isDark = html.getAttribute('data-theme') === 'dark';
+        const next   = isDark ? 'light' : 'dark';
+        html.setAttribute('data-theme', next);
+        localStorage.setItem('theme', next);
+        updateThemeIcon(!isDark);
+    }
+    function showToast(msg) {
+        document.querySelector('.toast')?.remove();
+        const el = document.createElement('div');
+        el.className = 'toast';
+        el.textContent = msg;
+        document.body.appendChild(el);
+        requestAnimationFrame(() => requestAnimationFrame(() => el.classList.add('show')));
+        setTimeout(() => { el.classList.remove('show'); setTimeout(() => el.remove(), 250); }, 2000);
+    }
+    document.getElementById('emailLink').addEventListener('click', (e) => {
+        e.preventDefault();
+        navigator.clipboard?.writeText('stickersboy.id@gmail.com')
+            .then(() => showToast('Email copied to clipboard'))
+            .catch(() => window.location.href = 'mailto:stickersboy.id@gmail.com');
+    });
+    document.getElementById('cvLink').addEventListener('click', () => showToast('Downloading CV...'));
+
+    // Lightbox
+    const lightbox    = document.getElementById('lightbox');
+    const lightboxImg = document.getElementById('lightboxImg');
+    function closeLightbox() { lightbox.classList.remove('open'); document.body.style.overflow = ''; }
+    document.querySelectorAll('.figure img, .hero-image').forEach(img => {
+        img.addEventListener('click', () => {
+            lightboxImg.src = img.src;
+            lightboxImg.alt = img.alt;
+            lightbox.classList.add('open');
+            document.body.style.overflow = 'hidden';
+        });
+    });
+    document.getElementById('lightboxClose').addEventListener('click', closeLightbox);
+    lightbox.addEventListener('click', e => { if (e.target === lightbox) closeLightbox(); });
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbox(); });
+</script>
+
+<script>
+(function(){
+    // Phone mockup scroll sync
+    var sc  = document.getElementById('lbScreen');
+    var th  = document.getElementById('lbThumb');
+    var tk  = document.getElementById('lbTicker');
+    if (!sc || !th || !tk) return;
+
+    var ITEM_H   = 114;
+    // Scroll positions (in px within #lbScreen) where each AIDA step starts
+    // Image is ~1400px tall rendered at 184px wide inside screen (200px phone - 16px padding)
+    // Step 1: 0, Step 2: ~350, Step 3: ~750, Step 4: ~1100
+    var triggers = [0, 350, 750, 1100];
+    var cur = 0;
+
+    function setStep(s) {
+        if (s === cur) return;
+        cur = s;
+        tk.style.transform = 'translateY(-' + (s * ITEM_H) + 'px)';
+    }
+
+    sc.addEventListener('scroll', function () {
+        var st   = sc.scrollTop;
+        var max  = sc.scrollHeight - sc.clientHeight;
+        if (!max) return;
+
+        // Update thumb
+        var trackH = 44;
+        var thumbH = Math.round(trackH * 0.25);
+        th.style.top = Math.round((st / max) * (trackH - thumbH)) + 'px';
+
+        // Update step label
+        var step = 0;
+        for (var i = triggers.length - 1; i >= 0; i--) {
+            if (st >= triggers[i]) { step = i; break; }
+        }
+        setStep(step);
+    });
+
+    // Bar chart animations
+    var obs = new IntersectionObserver(function(entries){
+        entries.forEach(function(e){
+            if (e.isIntersecting) { e.target.classList.add('anim'); obs.unobserve(e.target); }
+        });
+    }, {threshold: 0.1});
+    document.querySelectorAll('.bc-bar').forEach(function(b){ obs.observe(b); });
+
+    // Bar chart click focus
+    document.querySelectorAll('.bc-bars').forEach(function(chart){
+        var active = null;
+        chart.querySelectorAll('.bc-col').forEach(function(col){
+            col.addEventListener('click', function(){
+                if (active === col) {
+                    active = null;
+                    chart.classList.remove('active');
+                    chart.querySelectorAll('.bc-col').forEach(function(c){ c.classList.remove('on'); });
+                } else {
+                    active = col;
+                    chart.classList.add('active');
+                    chart.querySelectorAll('.bc-col').forEach(function(c){ c.classList.remove('on'); });
+                    col.classList.add('on');
+                }
+            });
+        });
+    });
+})();
+</script>
+
+</body>
+</html>
