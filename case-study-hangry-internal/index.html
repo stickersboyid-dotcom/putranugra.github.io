@@ -373,7 +373,7 @@
         /* ── RESPONSIVE ── */
         @media (max-width: 720px) {
             .wrap { padding: 0 20px; }
-            .navbar-inner { padding: 16px 20px; }
+            @media (max-width: 720px) { .navbar-inner { padding: 16px 20px; } }
             .content { padding-top: 32px; }
             .reviews-grid { grid-template-columns: 1fr; }
         }
