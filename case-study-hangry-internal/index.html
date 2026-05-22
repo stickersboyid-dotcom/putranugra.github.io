@@ -50,8 +50,10 @@
 
         /* ── NAVBAR ── */
         .navbar {
-            position: sticky;
+            position: fixed;
             top: 0;
+            left: 0;
+            right: 0;
             z-index: 100;
             background: var(--bg);
             box-shadow: none;
@@ -115,7 +117,7 @@
 
         /* ── CONTENT ── */
         .content {
-            padding-top: 40px;
+            padding-top: 100px;
         }
 
         /* ── HERO ── */
@@ -374,7 +376,7 @@
         @media (max-width: 720px) {
             .wrap { padding: 0 20px; }
             .navbar-inner { padding: 16px 20px; }
-            .content { padding-top: 32px; }
+            .content { padding-top: 88px; }
             .reviews-grid { grid-template-columns: 1fr; }
         }
     </style>
