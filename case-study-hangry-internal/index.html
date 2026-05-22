@@ -78,6 +78,12 @@
             overflow: hidden;
             text-overflow: ellipsis;
             max-width: 260px;
+            min-width: 0;
+        }
+
+        @media (max-width: 420px) {
+            .nav-title { max-width: 160px; font-size: 12px; }
+            .nav-home { flex-shrink: 0; }
         }
 
         /* ── HOME LINK ── */
