@@ -50,10 +50,8 @@
 
         /* ── NAVBAR ── */
         .navbar {
-            position: fixed;
+            position: sticky;
             top: 0;
-            left: 0;
-            right: 0;
             z-index: 100;
             background: var(--bg);
             box-shadow: none;
@@ -117,7 +115,7 @@
 
         /* ── CONTENT ── */
         .content {
-            padding-top: 100px;
+            padding-top: 40px;
         }
 
         /* ── HERO ── */
@@ -292,7 +290,7 @@
         .av-green { background: #D1FAE5; color: #065F46; }
 
         /* ── PHONE MOCKUP ── */
-        .mw-wrap { display: flex; gap: 40px; align-items: flex-start; justify-content: center; margin: 20px -20px; }
+        .mw-wrap { display: flex; gap: 40px; align-items: flex-start; justify-content: center; margin: 20px 0; }
         .mw-wrap .phone-col { display: flex; flex-direction: column; align-items: center; gap: 10px; }
         .mw-wrap .phone-label { font-size: 10px; font-weight: 500; color: var(--text); letter-spacing: 0.06em; text-transform: uppercase; text-align: center; font-family: inherit; }
         .mw-wrap .phone-sublabel { font-size: 10px; color: var(--muted); text-align: center; margin-top: -6px; font-family: inherit; }
@@ -376,7 +374,7 @@
         @media (max-width: 720px) {
             .wrap { padding: 0 20px; }
             .navbar-inner { padding: 16px 20px; }
-            .content { padding-top: 88px; }
+            .content { padding-top: 32px; }
             .reviews-grid { grid-template-columns: 1fr; }
         }
     </style>
@@ -741,7 +739,7 @@
         <p>UI screens have been reskinned for confidentiality. Structure and functionality reflect the actual product.</p>
 
         <style>
-            .mockup-container { display: flex; flex-direction: column; gap: 24px; align-items: center; margin: 0 -32px; }
+            .mockup-container { display: flex; flex-direction: column; gap: 24px; align-items: center; margin: 0; }
             .mockup-label { font-size: 11px; color: var(--muted); letter-spacing: 0.06em; text-transform: uppercase; text-align: center; }
             .mockup-item { display: flex; flex-direction: column; align-items: center; gap: 8px; width: 100%; }
             .mk-frame { background: #1A1A1A; border-radius: 14px; padding: 0 8px 10px; box-shadow: 0 0 0 1px #2A2A2A, 0 24px 60px rgba(0,0,0,0.35), 0 8px 20px rgba(0,0,0,0.2); position: relative; width: 100%; }
