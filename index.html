@@ -692,7 +692,7 @@
             font-weight: 400;
             color: var(--muted);
             line-height: 20px;
-            letter-spacing: 0.02em;
+            letter-spacing: 0.06em;
         }
 
         
@@ -730,9 +730,6 @@
             width: 250px;
             height: 600px;
         }
-
-        .anim-cb.checked { background:#404040 !important; border-color:#404040 !important; }
-        .anim-cb.checked::after { content:''; position:absolute; top:1px; left:3px; width:4px; height:7px; border:1.5px solid #fff; border-top:none; border-left:none; transform:rotate(45deg); }
 
                 /* ── RESPONSIVE ── */
         @media (max-width: 720px) {
@@ -877,37 +874,19 @@
                         <p class="mockup-label-desc">Increase 76% new user registrations</p>
                     </div>
                 </div>
-                <div class="card card-anim" id="animCard" style="overflow:hidden;position:relative;">
-                    <div id="anim-overlay" style="position:absolute;inset:0;background:#000;opacity:0;z-index:20;pointer-events:none;border-radius:10px;transition:opacity 0s;"></div>
-                    <div style="position:absolute;inset:0;display:flex;flex-direction:column;padding:24px 20px 20px;">
-                        <div style="display:flex;flex-direction:column;gap:11px;">
-                            <div style="display:flex;align-items:center;gap:8px;"><div class="anim-cb" id="acb0" style="width:14px;height:14px;border-radius:3px;border:1.5px solid #D4D4D4;flex-shrink:0;transition:background 0.2s,border-color 0.2s;position:relative;"></div><div style="height:7px;background:#E0E0E0;border-radius:3px;width:70%;"></div></div>
-                            <div style="display:flex;align-items:center;gap:8px;"><div class="anim-cb" id="acb1" style="width:14px;height:14px;border-radius:3px;border:1.5px solid #D4D4D4;flex-shrink:0;transition:background 0.2s,border-color 0.2s;position:relative;"></div><div style="height:7px;background:#E0E0E0;border-radius:3px;width:52%;"></div></div>
-                            <div style="display:flex;align-items:center;gap:8px;"><div class="anim-cb" id="acb2" style="width:14px;height:14px;border-radius:3px;border:1.5px solid #D4D4D4;flex-shrink:0;transition:background 0.2s,border-color 0.2s;position:relative;"></div><div style="height:7px;background:#E0E0E0;border-radius:3px;width:78%;"></div></div>
-                            <div style="height:70px;background:#E8E8E8;border-radius:9px;margin-top:2px;"></div>
-                            <div style="display:flex;align-items:center;gap:8px;"><div class="anim-cb" id="acb3" style="width:14px;height:14px;border-radius:3px;border:1.5px solid #D4D4D4;flex-shrink:0;transition:background 0.2s,border-color 0.2s;position:relative;"></div><div style="height:7px;background:#E0E0E0;border-radius:3px;width:62%;"></div></div>
-                            <div style="display:flex;align-items:center;gap:8px;"><div class="anim-cb" id="acb4" style="width:14px;height:14px;border-radius:3px;border:1.5px solid #D4D4D4;flex-shrink:0;transition:background 0.2s,border-color 0.2s;position:relative;"></div><div style="height:7px;background:#E0E0E0;border-radius:3px;width:44%;"></div></div>
-                        </div>
-                        <div style="margin-top:48px;display:flex;flex-direction:column;gap:10px;">
-                            <div style="position:relative;height:40px;">
-                                <button id="anim-startBtn" style="position:absolute;inset:0;width:100%;height:40px;background:#404040;color:#fff;border:none;border-radius:8px;font-size:12px;font-weight:600;cursor:pointer;font-family:inherit;display:flex;align-items:center;justify-content:center;gap:6px;transition:opacity 0.2s;">
-                                    <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
-                                    Start
-                                </button>
-                                <div id="anim-progressBtn" style="position:absolute;inset:0;height:40px;background:#E8E8E8;border-radius:8px;overflow:hidden;opacity:0;pointer-events:none;">
-                                    <div id="anim-fill" style="position:absolute;left:0;top:0;bottom:0;width:0%;background:#404040;"></div>
-                                    <span id="anim-pctBase" style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;color:#404040;font-family:inherit;"></span>
-                                    <span id="anim-pctClip" style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;color:#fff;font-family:inherit;clip-path:inset(0 100% 0 0);"></span>
-                                </div>
-                            </div>
-                            <div class="mockup-label-wrap" style="box-shadow:0 2px 8px rgba(0,0,0,0.10);">
-                                <p class="mockup-label-tag">Coming Soon</p>
-                                <p class="mockup-label-desc">A story about the project that never shipped</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div id="anim-cursor" style="position:absolute;width:13px;height:13px;border-radius:50%;background:rgba(0,0,0,0.18);border:2px solid rgba(0,0,0,0.35);pointer-events:none;opacity:0;transform:translate(-50%,-50%);z-index:30;"></div>
+                <div class="card card-anim" id="animCard" style="display:flex;flex-direction:column;position:relative;">
+                <div style="padding:14px 14px 12px;display:flex;align-items:center;gap:5px;border-bottom:1px solid #E5E5E5;">
+                    <div style="width:8px;height:8px;border-radius:50%;background:#FF5F57;flex-shrink:0;"></div>
+                    <div style="width:8px;height:8px;border-radius:50%;background:#FFBD2E;flex-shrink:0;"></div>
+                    <div style="width:8px;height:8px;border-radius:50%;background:#28C840;flex-shrink:0;"></div>
+                    <span style="margin-left:6px;font-size:12px;color:#B0B0B0;font-family:monospace;">terminal</span>
                 </div>
+                <div id="anim-terminal" style="padding:14px;font-family:'Menlo','Monaco','Courier New',monospace;font-size:12px;line-height:20px;color:#404040;flex:1;"></div>
+                <div class="mockup-label-wrap">
+                    <p class="mockup-label-tag">Coming Soon</p>
+                    <p class="mockup-label-desc">A story about the project that never shipped</p>
+                </div>
+            </div>
             </div>
 
             <!-- WRITINGS + POP DNA ROW -->
@@ -1327,32 +1306,56 @@
     document.getElementById('cvLink').addEventListener('click', function() {
         showToast('Downloading CV...');
     });
-    // ── ANIMATION CARD ──
+    // ── TERMINAL ANIMATION ──
     (function(){
-        const card=document.getElementById('animCard');
-        if(!card) return;
-        const overlay=document.getElementById('anim-overlay');
-        const startBtn=document.getElementById('anim-startBtn');
-        const progressBtn=document.getElementById('anim-progressBtn');
-        const fill=document.getElementById('anim-fill');
-        const pctBase=document.getElementById('anim-pctBase');
-        const pctClip=document.getElementById('anim-pctClip');
-        const cursor=document.getElementById('anim-cursor');
-        const cbs=[0,1,2,3,4].map(i=>document.getElementById('acb'+i));
-        let phase='idle',raf;
-        function rb(el){return el.getBoundingClientRect();}
-        function placeCursor(x,y,anim){const pr=card.getBoundingClientRect();cursor.style.transition=anim?'left 0.3s ease,top 0.3s ease':'none';cursor.style.left=(x-pr.left)+'px';cursor.style.top=(y-pr.top)+'px';}
-        function click(cb){cursor.style.transform='translate(-50%,-50%) scale(0.7)';setTimeout(()=>{cursor.style.transform='translate(-50%,-50%) scale(1)';if(cb)setTimeout(cb,80);},130);}
-        function resetChecks(){cbs.forEach(b=>b.classList.remove('checked'));}
-        function setPct(pct){const l=Math.round(pct)+'%';pctBase.textContent=l;pctClip.textContent=l;pctClip.style.clipPath='inset(0 '+(100-pct)+'% 0 0)';}
-        function tickWithCursor(i,cb){if(i>=cbs.length){cb();return;}const el=cbs[i],cr=rb(el);placeCursor(cr.left+cr.width/2,cr.top+cr.height/2,true);setTimeout(()=>{click(()=>{el.classList.add('checked');setTimeout(()=>tickWithCursor(i+1,cb),180);});},340);}
-        function glideToBtnAndClick(cb){const br=rb(startBtn);placeCursor(br.left+br.width*0.78,br.top+br.height/2,true);setTimeout(()=>click(cb),380);}
-        function autoPlay(){if(phase!=='idle')return;phase='moving';const cr=rb(cbs[0]);placeCursor(cr.left+cr.width/2+30,cr.top+cr.height/2-25,false);cursor.style.opacity='1';setTimeout(()=>{tickWithCursor(0,()=>{setTimeout(()=>glideToBtnAndClick(()=>runProgress()),250);});},250);}
-        function runProgress(){phase='running';startBtn.style.opacity='0';startBtn.disabled=true;progressBtn.style.opacity='1';fill.style.width='0%';setPct(0);let pct=0;function tick(){if(phase!=='running')return;pct+=0.28;if(pct>=94){pct=94;fill.style.width=pct+'%';setPct(pct);stuckPhase();return;}fill.style.width=pct+'%';setPct(pct);raf=requestAnimationFrame(tick);}raf=requestAnimationFrame(tick);}
-        function stuckPhase(){phase='stuck';setTimeout(()=>{overlay.style.transition='opacity 2.5s ease';overlay.style.opacity='0.72';setTimeout(resetLoop,2800);},2000);}
-        function resetLoop(){phase='resetting';overlay.style.transition='opacity 0.4s ease';overlay.style.opacity='0';cursor.style.opacity='0';setTimeout(()=>{progressBtn.style.opacity='0';startBtn.style.opacity='1';startBtn.disabled=false;fill.style.width='0%';setPct(0);resetChecks();phase='idle';setTimeout(autoPlay,800);},500);}
-        startBtn.addEventListener('click',()=>{if(phase!=='idle')return;cursor.style.opacity='0';phase='checking';tickWithCursor(0,()=>runProgress());});
-        setTimeout(autoPlay,800);
+        const terminal = document.getElementById('anim-terminal');
+        if (!terminal) return;
+        const lines = [
+            { text: '$ npm run build', color: '#404040', delay: 0 },
+            { text: 'Building project...', color: '#A0A0A0', delay: 600 },
+            { text: '✓ Compiled successfully', color: '#2E7D32', delay: 1400 },
+            { text: '', delay: 1800 },
+            { text: '$ npm run test', color: '#404040', delay: 2000 },
+            { text: 'Running test suites...', color: '#A0A0A0', delay: 2600 },
+            { text: '✓ 48 tests passed', color: '#2E7D32', delay: 3400 },
+            { text: '', delay: 3800 },
+            { text: '$ npm run deploy', color: '#404040', delay: 4000 },
+            { text: 'Connecting to server...', color: '#A0A0A0', delay: 4600 },
+            { text: 'Uploading bundle...', color: '#A0A0A0', delay: 5400 },
+            { text: 'Deploying to production', color: '#A0A0A0', delay: 6400 },
+            { text: '', delay: 7200 },
+            { text: 'ERR  process terminated', color: '#C0392B', delay: 7800 },
+            { text: 'Initiative discontinued.', color: '#C0C0C0', delay: 8600 },
+        ];
+        let timers = [];
+        function clearAll() { timers.forEach(t => clearTimeout(t)); timers = []; terminal.innerHTML = ''; }
+        function runSequence() {
+            clearAll();
+            lines.forEach(({ text, color, delay }) => {
+                const t = setTimeout(() => {
+                    const line = document.createElement('div');
+                    line.textContent = text; line.style.color = color;
+                    terminal.appendChild(line);
+                }, delay);
+                timers.push(t);
+            });
+            const cursorT = setTimeout(() => {
+                const cursor = document.createElement('span');
+                cursor.textContent = '█'; cursor.style.color = '#D0D0D0';
+                cursor.style.animation = 'termBlink 1s step-end infinite';
+                terminal.appendChild(cursor);
+            }, 9200);
+            timers.push(cursorT);
+            const resetT = setTimeout(() => {
+                terminal.style.opacity = '0'; terminal.style.transition = 'opacity 0.5s';
+                setTimeout(() => { terminal.style.opacity = '1'; terminal.style.transition = 'opacity 0.5s'; runSequence(); }, 700);
+            }, 12000);
+            timers.push(resetT);
+        }
+        const style = document.createElement('style');
+        style.textContent = '@keyframes termBlink { 0%,100%{opacity:1} 50%{opacity:0} }';
+        document.head.appendChild(style);
+        runSequence();
     })();
 
 </script>
