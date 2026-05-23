@@ -654,21 +654,6 @@
             display: block;
             text-decoration: none;
             align-self: stretch;
-        }
-
-        .popdna-img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            display: block;
-            filter: grayscale(100%);
-            transform: scale(1);
-            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), filter 0.4s ease;
-        }
-
-        .card-pop-dna:hover .popdna-img {
-            filter: grayscale(0%);
-            transform: scale(1.2);
         }        .writing-card {
             padding: 24px;
         }
@@ -900,9 +885,43 @@
                     </div>
                     <a href="https://substack.com/@nugrahaputra/posts" target="_blank" class="writing-link" style="font-weight:600;margin-top:auto;">More on Substack ↗</a>
                 </div>
-                <a href="/dna" target="_blank" class="card card-pop-dna" id="popDnaCard">
-                    <img src="pop_dna.png" alt="Pop DNA" class="popdna-img">
-                </a>
+                <div class="card card-pop-dna" id="popDnaCard" onclick="window.open('/dna','_blank')" style="cursor:pointer;position:relative;overflow:hidden;">
+
+                  <!-- AI Badge -->
+                  <div style="position:absolute;top:12px;left:12px;z-index:20;background:#F5F5F5;border:1px solid #E0E0E0;border-radius:20px;padding:3px 10px;">
+                    <span style="font-size:9px;font-weight:600;color:#737373;letter-spacing:0.06em;text-transform:uppercase;font-family:inherit;">AI Exploration</span>
+                  </div>
+
+                  <!-- Split panels -->
+                  <div id="pdLeft" style="position:absolute;left:0;top:0;width:50%;height:100%;background:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;transition:background 0.3s;">
+                    <span id="pdLE" style="font-size:32px;transition:opacity 0.2s;">🎬</span>
+                    <span id="pdLL" style="font-size:11px;color:#404040;font-weight:500;font-family:inherit;transition:opacity 0.2s;">Film</span>
+                  </div>
+
+                  <div id="pdRight" style="position:absolute;right:0;top:0;width:50%;height:100%;background:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;border-left:1px solid #E5E5E5;transition:background 0.3s;">
+                    <span id="pdRE" style="font-size:32px;transition:opacity 0.2s;">🎵</span>
+                    <span id="pdRL" style="font-size:11px;color:#404040;font-weight:500;font-family:inherit;transition:opacity 0.2s;">Music</span>
+                  </div>
+
+                  <!-- Center OR -->
+                  <div style="position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);z-index:10;">
+                    <div style="background:#fff;border:1.5px solid #E5E5E5;border-radius:20px;padding:3px 9px;font-size:10px;font-weight:600;color:#737373;font-family:inherit;">or</div>
+                  </div>
+
+                  <!-- Result overlay -->
+                  <div id="pdOverlay" style="position:absolute;inset:0;background:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;opacity:0;pointer-events:none;transition:opacity 0.4s;z-index:15;">
+                    <span style="font-size:9px;font-weight:600;color:#A0A0A0;letter-spacing:0.06em;text-transform:uppercase;font-family:inherit;">Profile Type</span>
+                    <span id="pdProfile" style="font-size:15px;font-weight:700;color:#404040;font-family:inherit;text-align:center;padding:0 16px;line-height:22px;"></span>
+                    <span style="font-size:10px;color:#C0C0C0;font-family:inherit;">Based on your picks</span>
+                  </div>
+
+                  <!-- Bottom label -->
+                  <div style="position:absolute;bottom:12px;left:0;right:0;text-align:center;z-index:10;">
+                    <p style="font-size:9px;font-weight:700;color:#737373;letter-spacing:0.08em;text-transform:uppercase;margin:0 0 2px;font-family:inherit;">Pop Culture DNA</p>
+                    <p style="font-size:11px;font-weight:500;color:#404040;margin:0;font-family:inherit;">What's your cultural creature?</p>
+                  </div>
+
+                </div>
             </div>
 
         </div>
@@ -1356,6 +1375,38 @@
         style.textContent = '@keyframes termBlink { 0%,100%{opacity:1} 50%{opacity:0} }';
         document.head.appendChild(style);
         runSequence();
+    })();
+
+    // ── POP DNA ANIMATION ──
+    (function(){
+        const pairs = [
+            [{e:'🎬',l:'Film'},{e:'🎵',l:'Music'}],
+            [{e:'🎮',l:'Gaming'},{e:'📚',l:'Books'}],
+            [{e:'🎭',l:'Theatre'},{e:'🏀',l:'Sports'}],
+            [{e:'🎤',l:'Pop'},{e:'🤘',l:'Rock'}],
+            [{e:'🌐',l:'Anime'},{e:'🎸',l:'Indie'}],
+        ];
+        const profiles = [
+            'The Quiet Contrarian','The Hopeful Maximalist','The Neon Drifter',
+            'The Patient Aesthete','The Chaos Architect','The Eternal Romantic',
+            'The Silent Observer','The Comfort Zone Exile',
+        ];
+        const pL=document.getElementById('pdLeft'), pR=document.getElementById('pdRight');
+        const lE=document.getElementById('pdLE'), lL=document.getElementById('pdLL');
+        const rE=document.getElementById('pdRE'), rL=document.getElementById('pdRL');
+        const ov=document.getElementById('pdOverlay'), pr=document.getElementById('pdProfile');
+        if (!pL) return;
+        let idx=0, cycle=0;
+        function fade(out,cb){[lE,rE,lL,rL].forEach(el=>el.style.opacity=out?'0':'1');setTimeout(cb,220);}
+        function setPair(i){lE.textContent=pairs[i][0].e;lL.textContent=pairs[i][0].l;rE.textContent=pairs[i][1].e;rL.textContent=pairs[i][1].l;}
+        function showResult(){pr.textContent=profiles[Math.floor(Math.random()*profiles.length)];ov.style.opacity='1';setTimeout(()=>{ov.style.opacity='0';setTimeout(()=>{setPair(idx);fade(false,()=>{});},400);},2200);}
+        function flash(){
+            const h=Math.random()>0.5?0:1;
+            pL.style.background=h===0?'#EFEFEF':'#fff';pR.style.background=h===1?'#EFEFEF':'#fff';
+            setTimeout(()=>{pL.style.background='#fff';pR.style.background='#fff';
+                setTimeout(()=>{fade(true,()=>{idx=(idx+1)%pairs.length;cycle++;if(cycle%5===0){showResult();}else{setPair(idx);fade(false,()=>{});}});},300);},400);
+        }
+        setInterval(flash,2000);
     })();
 
 </script>
