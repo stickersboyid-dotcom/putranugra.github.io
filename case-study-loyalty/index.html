@@ -370,6 +370,18 @@
         .lightbox img { max-width: 90vw; max-height: 90vh; border-radius: 8px; object-fit: contain; }
         .lightbox-close { position: absolute; top: 20px; right: 24px; background: none; border: none; color: #fff; font-size: 32px; cursor: pointer; line-height: 1; }
 
+        /* ── PAGE TRANSITION ── */
+        .page-transition {
+            position: fixed;
+            inset: 0;
+            background: var(--bg);
+            z-index: 10000;
+            transform: translateY(100%);
+            transition: transform 0.45s cubic-bezier(0.4, 0, 0.2, 1);
+            pointer-events: none;
+        }
+        .page-transition.active { transform: translateY(0); }
+
         /* ── RESPONSIVE ── */
         @media (max-width: 720px) {
             .wrap { padding: 0 20px; }
@@ -380,6 +392,8 @@
     </style>
 </head>
 <body>
+
+<div class="page-transition" id="pageTransition"></div>
 
 <!-- NAVBAR -->
 <nav class="navbar" id="navbar">
@@ -899,6 +913,40 @@
         });
     });
 })();
+</script>
+
+
+<script>
+    // ── PAGE TRANSITION ──
+    (function(){
+        const overlay = document.getElementById('pageTransition');
+        if (!overlay) return;
+
+        function navigateTo(url) {
+            overlay.classList.add('active');
+            setTimeout(() => { window.location.href = url; }, 420);
+        }
+
+        document.addEventListener('click', function(e) {
+            const a = e.target.closest('a[href]');
+            if (!a) return;
+            if (a.hasAttribute('download')) return;
+            const href = a.getAttribute('href');
+            if (!href || href.startsWith('#') || href.startsWith('mailto') || href.startsWith('http')) return;
+            if (a.target === '_blank') return;
+            e.preventDefault();
+            navigateTo(href);
+        });
+
+        overlay.style.transition = 'none';
+        overlay.style.transform = 'translateY(0)';
+        requestAnimationFrame(() => {
+            requestAnimationFrame(() => {
+                overlay.style.transition = 'transform 0.45s cubic-bezier(0.4, 0, 0.2, 1)';
+                overlay.style.transform = 'translateY(-100%)';
+            });
+        });
+    })();
 </script>
 
 </body>
