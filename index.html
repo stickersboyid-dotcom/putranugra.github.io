@@ -318,7 +318,7 @@
         }
 
         .card-hangry-app {
-            width: 366px;
+            width: 308px;
             height: 468px;
             overflow: hidden;
             position: relative;
@@ -636,36 +636,79 @@
         .card-loyalty.hovered .mockup-label-wrap { opacity: 0; }
 
         .card-pop-dna {
-            width: 250px;
+            flex: 1;
             min-height: 320px;
             overflow: hidden;
             align-self: stretch;
-        }        .writing-card {
-            padding: 24px;
-            min-height: 320px;
         }
 
-        .writing-link {
+        .writing-card {
+            width: 308px;
+            height: 320px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            flex-shrink: 0;
+        }
+
+        .wc-featured {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-bottom: 16px;
+        }
+
+        .wc-title {
+            font-size: 15px;
+            font-weight: 500;
+            color: #404040;
+            line-height: 22px;
             text-decoration: none;
-            color: var(--text);
-            font-size: 16px;
-            font-weight: 400;
-            line-height: 24px;
-            transition: color 0.15s ease;
             display: block;
+            transition: color 0.15s ease;
         }
 
-        .writing-link:hover { color: var(--muted); }
+        .wc-title:hover { color: var(--muted); }
+
+        .wc-excerpt {
+            font-size: 12px;
+            font-weight: 400;
+            color: #737373;
+            line-height: 18px;
+        }
+
+        .wc-list {
+            border-top: 1px solid #E5E5E5;
+            padding-top: 12px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .wc-item {
+            font-size: 13px;
+            font-weight: 400;
+            color: #404040;
+            line-height: 20px;
+            text-decoration: none;
+            transition: color 0.15s ease;
+        }
+
+        .wc-item:hover { color: var(--muted); }
+
+        .wc-more {
+            margin-top: auto;
+            font-size: 13px;
+            font-weight: 600;
+            color: #404040;
+            text-decoration: none;
+            transition: color 0.15s ease;
+        }
+
+        .wc-more:hover { color: var(--muted); }
 
         
 
-        .writing-source {
-            font-size: 14px;
-            font-weight: 400;
-            color: var(--muted);
-            line-height: 20px;
-            letter-spacing: 0.06em;
-        }
 
         
 
@@ -699,7 +742,7 @@
         .footer-inner a:hover { color: var(--text); }
 
         .card-anim {
-            width: 250px;
+            width: 308px;
             height: 468px;
         }
 
@@ -804,7 +847,7 @@
                     </div>
                     <div class="mockup-label-wrap">
                         <p class="mockup-label-tag">Loyalty Page · 2021</p>
-                        <p class="mockup-label-desc">Increase 76% new user registrations</p>
+                        <p class="mockup-label-desc">76% increase in new users</p>
                     </div>
                 </div>
             </div>
@@ -870,22 +913,24 @@
                 </div>
                 <div id="anim-terminal" style="padding:14px;font-family:'Menlo','Monaco','Courier New',monospace;font-size:12px;line-height:20px;color:#404040;flex:1;"></div>
                 <div class="mockup-label-wrap">
-                    <p class="mockup-label-tag">Coming Soon</p>
-                    <p class="mockup-label-desc">A story about the project that never shipped</p>
+                    <p class="mockup-label-tag">COMING SOON · DESIGN STORY</p>
+                    <p class="mockup-label-desc">The Project that Never Shipped</p>
                 </div>
             </div>
             </div>
 
             <!-- WRITINGS + POP DNA ROW -->
             <div class="row" style="align-items:stretch;">
-                <div class="card writing-card" style="flex:1;display:flex;flex-direction:column;gap:14px;">
-                    <p class="writing-source">SUBSTACK · NUGRAHA</p>
-                    <div style="display:flex;flex-direction:column;gap:14px;flex:1;">
-                        <a href="https://open.substack.com/pub/nugrahaputra/p/what-ai-taught-me-about-my-own-thinking?r=87lb4c&utm_campaign=post-expanded-share&utm_medium=web" target="_blank" class="writing-link">· What AI Taught Me About My Own Thinking</a>
-                        <a href="https://open.substack.com/pub/nugrahaputra/p/the-week-i-worked-in-a-restaurant?r=87lb4c&utm_campaign=post-expanded-share&utm_medium=web" target="_blank" class="writing-link">· The Week I Worked in a Restaurant Kitchen</a>
-                        <a href="https://open.substack.com/pub/nugrahaputra/p/the-insight-that-changed-how-i-see?r=87lb4c&utm_campaign=post-expanded-share&utm_medium=web" target="_blank" class="writing-link">· The Insight that Changed How I See Problems</a>
+                <div class="card writing-card">
+                    <div class="wc-featured">
+                        <a href="https://open.substack.com/pub/nugrahaputra/p/what-ai-taught-me-about-my-own-thinking?r=87lb4c&utm_campaign=post-expanded-share&utm_medium=web" target="_blank" class="wc-title">What AI Taught Me About My Own Thinking</a>
+                        <p class="wc-excerpt">I was forcing myself to think more clearly about what I was designing and why. AI didn't replace that thinking. It exposed where it was missing.</p>
                     </div>
-                    <a href="https://substack.com/@nugrahaputra/posts" target="_blank" class="writing-link" style="font-weight:600;margin-top:auto;">More on Substack ↗</a>
+                    <div class="wc-list">
+                        <a href="https://open.substack.com/pub/nugrahaputra/p/the-week-i-worked-in-a-restaurant?r=87lb4c&utm_campaign=post-expanded-share&utm_medium=web" target="_blank" class="wc-item">· The Week I Worked in a Restaurant Kitchen</a>
+                        <a href="https://open.substack.com/pub/nugrahaputra/p/the-insight-that-changed-how-i-see?r=87lb4c&utm_campaign=post-expanded-share&utm_medium=web" target="_blank" class="wc-item">· The Insight that Changed How I See Problems</a>
+                    </div>
+                    <a href="https://substack.com/@nugrahaputra/posts" target="_blank" class="wc-more">More on Substack ↗</a>
                 </div>
                 <div class="card card-pop-dna" id="popDnaCard" onclick="window.open('/dna','_blank')" style="cursor:pointer;position:relative;overflow:hidden;">
 
