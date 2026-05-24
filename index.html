@@ -53,9 +53,16 @@
 
         /* ── NAVBAR ── */
         .navbar {
+            position: sticky;
+            top: 0;
+            z-index: 100;
             background: var(--bg);
+            box-shadow: none;
+            transition: background 0.2s ease, box-shadow 0.2s ease;
             width: 100%;
         }
+
+        .navbar.scrolled { box-shadow: 0 2px 12px rgba(0,0,0,0.08); }
 
         .navbar-inner {
             max-width: 720px;
@@ -737,7 +744,7 @@
 <div class="page-transition" id="pageTransition"></div>
 
 <!-- NAVBAR -->
-<nav class="navbar">
+<nav class="navbar" id="navbar">
     <div class="navbar-inner">
         <a href="https://www.linkedin.com/in/nugrahaekaputra/" target="_blank" class="nav-pill nav-logo" id="navLogo">
             <span class="logo-short">NEP</span>
@@ -932,6 +939,11 @@
 </div>
 
 <script>
+    // Sticky navbar on scroll
+    window.addEventListener('scroll', function() {
+        document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 10);
+    }, { passive: true });
+
     // ── LOYALTY MOCKUP ──
     (function() {
         const card = document.getElementById('loyaltyCard');
