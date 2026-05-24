@@ -311,7 +311,7 @@
         }
 
         .card-hangry-app {
-            width: 250px;
+            width: 366px;
             height: 468px;
             overflow: hidden;
             position: relative;
@@ -366,33 +366,23 @@
         }
 
         .hm-phone {
-            width: 180px;
-            height: 360px;
+            width: 210px;
+            height: 440px;
             background: #1A1A1A;
-            border-radius: 32px;
-            padding: 8px;
+            border-radius: 36px;
+            padding: 10px;
             position: relative;
             box-shadow: 0 0 0 1px #333, 0 20px 48px rgba(0,0,0,0.3);
-            transform: translateX(50px);
+            transform: scale(0.88);
             transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
             flex-shrink: 0;
         }
 
         .card-hangry-app.hovered .hm-phone {
-            transform: translateX(0);
+            transform: scale(1);
         }
 
-        .hm-notch {
-            position: absolute;
-            top: 8px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 56px;
-            height: 16px;
-            background: #1A1A1A;
-            border-radius: 0 0 10px 10px;
-            z-index: 10;
-        }
+        .hm-notch { display: none; }
 
         .hm-screen {
             width: 100%;
@@ -588,7 +578,7 @@
         .dm-slide.no-anim-dm { transition: none !important; }
 
         .card-loyalty {
-            width: 366px;
+            width: 250px;
             height: 468px;
             overflow: hidden;
             position: relative;
@@ -605,36 +595,26 @@
         }
 
         .lm-phone {
-            width: 210px;
-            height: 440px;
+            width: 180px;
+            height: 360px;
             background: #1A1A1A;
-            border-radius: 36px;
-            padding: 10px;
+            border-radius: 32px;
+            padding: 8px;
             position: relative;
             box-shadow: 0 0 0 1px #333, 0 20px 48px rgba(0,0,0,0.25);
-            transform: scale(0.88);
+            transform: translateX(60px);
             transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
             flex-shrink: 0;
         }
 
-        .card-loyalty.hovered .lm-phone { transform: scale(1); }
+        .card-loyalty.hovered .lm-phone { transform: translateX(0); }
 
-        .lm-notch {
-            position: absolute;
-            top: 10px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 64px;
-            height: 18px;
-            background: #1A1A1A;
-            border-radius: 0 0 12px 12px;
-            z-index: 10;
-        }
+        .lm-notch { display: none; }
 
         .lm-screen {
             width: 100%;
             height: 100%;
-            border-radius: 28px;
+            border-radius: 25px;
             overflow: hidden;
             position: relative;
             background: #fff;
@@ -728,15 +708,11 @@
 
             /* Mobile: disable hover effects */
             .dm-frame { transform: translateX(0) !important; }
-            .lm-phone { transform: scale(1) !important; }
+            .lm-phone { transform: translateX(0) !important; }
 
             /* Mobile: disable hover state, center phone */
-            .card-hangry-app .hm-phone {
-                transform: translateX(0) !important;
-            }
-            .card-hangry-app.hovered .hm-phone {
-                transform: translateX(0) !important;
-            }
+            .card-hangry-app .hm-phone { transform: scale(1) !important; }
+            .card-hangry-app.hovered .hm-phone { transform: scale(1) !important; }
         }
     </style>
 </head>
@@ -792,27 +768,18 @@
                         <p>Finding what's actually wrong, not just what looks wrong, is what I find genuinely satisfying. I always start with understanding: the business, the constraints, and the people behind it. Then I design.</p>
                     </div>
                 </div>
-                <div class="card card-hangry-app" id="hangryMockup" onclick="window.location.href='/case-study-hangry'" style="cursor:pointer;">
-                    <div class="hm-container">
-                        <div class="hm-phone">
-                            <div class="hm-notch"></div>
-                            <div class="hm-screen">
-                                <div class="hm-slide active" id="hm-slide-0"><img src="hangry_splash.png" alt="Splash"></div>
-                                <div class="hm-slide" id="hm-slide-1"><img src="hangry_searching.png" alt="Searching"></div>
-                                <div class="hm-slide" id="hm-slide-2"><img src="hangry_outlet_list.png" alt="Outlet list"></div>
-                                <div class="hm-slide" id="hm-slide-3"><img src="hangry_home.png" alt="Home"></div>
-                                <div class="hm-cursor" id="hm-cursor">
-                                    <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
-                                        <path d="M2 2L14 7.5L8 9.5L6 15L2 2Z" fill="#1A1A1A" stroke="white" stroke-width="1"/>
-                                    </svg>
-                                </div>
-                                <div class="hm-ripple" id="hm-ripple"></div>
+                <div class="card card-loyalty" id="loyaltyCard" onclick="window.location.href='/case-study-loyalty'" style="cursor:pointer;">
+                    <div class="lm-container">
+                        <div class="lm-phone">
+                            <div class="lm-notch"></div>
+                            <div class="lm-screen">
+                                <img src="landing_page_loyalty_full.png" alt="Loyalty landing page" class="lm-img" id="lm-img">
                             </div>
                         </div>
                     </div>
                     <div class="mockup-label-wrap">
-                        <p class="mockup-label-tag">Hangry App · 2019</p>
-                        <p class="mockup-label-desc">4.9 stars, 100K+ downloads</p>
+                        <p class="mockup-label-tag">Hangry Loyalty Landing Page · 2021</p>
+                        <p class="mockup-label-desc">Increase 76% new user registrations</p>
                     </div>
                 </div>
             </div>
@@ -846,18 +813,27 @@
 
             <!-- PROJECTS ROW: Loyalty + Anim Card -->
             <div class="row">
-                <div class="card card-loyalty" id="loyaltyCard" onclick="window.location.href='/case-study-loyalty'" style="cursor:pointer;">
-                    <div class="lm-container">
-                        <div class="lm-phone">
-                            <div class="lm-notch"></div>
-                            <div class="lm-screen">
-                                <img src="landing_page_loyalty_full.png" alt="Loyalty landing page" class="lm-img" id="lm-img">
+                <div class="card card-hangry-app" id="hangryMockup" onclick="window.location.href='/case-study-hangry'" style="cursor:pointer;">
+                    <div class="hm-container">
+                        <div class="hm-phone">
+                            <div class="hm-notch"></div>
+                            <div class="hm-screen">
+                                <div class="hm-slide active" id="hm-slide-0"><img src="hangry_splash.png" alt="Splash"></div>
+                                <div class="hm-slide" id="hm-slide-1"><img src="hangry_searching.png" alt="Searching"></div>
+                                <div class="hm-slide" id="hm-slide-2"><img src="hangry_outlet_list.png" alt="Outlet list"></div>
+                                <div class="hm-slide" id="hm-slide-3"><img src="hangry_home.png" alt="Home"></div>
+                                <div class="hm-cursor" id="hm-cursor">
+                                    <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
+                                        <path d="M2 2L14 7.5L8 9.5L6 15L2 2Z" fill="#1A1A1A" stroke="white" stroke-width="1"/>
+                                    </svg>
+                                </div>
+                                <div class="hm-ripple" id="hm-ripple"></div>
                             </div>
                         </div>
                     </div>
                     <div class="mockup-label-wrap">
-                        <p class="mockup-label-tag">Hangry Loyalty Landing Page · 2021</p>
-                        <p class="mockup-label-desc">Increase 76% new user registrations</p>
+                        <p class="mockup-label-tag">Hangry App · 2019</p>
+                        <p class="mockup-label-desc">4.9 stars, 100K+ downloads</p>
                     </div>
                 </div>
                 <div class="card card-anim" id="animCard" style="display:flex;flex-direction:column;position:relative;">
