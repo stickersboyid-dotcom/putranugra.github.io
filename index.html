@@ -375,6 +375,121 @@
       .content { padding: 0 24px 80px; }
       .cases-grid { grid-template-columns: 1fr; }
     }
+
+    /* ── CONTACT LINKS ── */
+    .contact-links {
+      display: flex;
+      gap: 32px;
+      justify-content: center;
+      margin-top: 8px;
+    }
+
+    .contact-link {
+      font-size: 16px;
+      font-weight: 500;
+      color: var(--muted);
+      text-decoration: underline;
+      text-underline-offset: 4px;
+      text-decoration-color: rgba(136,136,136,0.4);
+      transition: color 0.2s, text-decoration-color 0.2s;
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      padding: 0;
+    }
+
+    .contact-link:hover {
+      color: var(--text);
+      text-decoration-color: var(--text);
+    }
+
+    /* Email flip */
+    .contact-email {
+      position: relative;
+      display: inline-block;
+    }
+
+    .contact-email .btn-default {
+      display: block;
+      transition: opacity 0.2s ease;
+    }
+
+    .contact-email .btn-hover {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transition: opacity 0.2s ease;
+      white-space: nowrap;
+    }
+
+    .contact-email:hover .btn-default { opacity: 0; }
+    .contact-email:hover .btn-hover   { opacity: 1; }
+
+
+    /* ── CONTACT ── */
+    .contact-list {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0;
+      margin-top: 32px;
+    }
+
+    .c-item {
+      font-size: 18px;
+      font-weight: 400;
+      color: var(--muted);
+      text-decoration: none;
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      padding: 0;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: fit-content;
+      transition: color 0.2s;
+    }
+
+    .c-item:hover { color: var(--text); }
+
+    .c-email {
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: fit-content;
+      min-width: 320px;
+      height: 40px;
+    }
+
+    .c-email .c-state {
+      width: 100%;
+      text-align: center;
+      font-size: 18px;
+      font-weight: 400;
+      transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.35s ease;
+    }
+
+    .c-email .c-state { position: absolute; }
+    .c-email .c-state-default  { transform: translateY(0); }
+    .c-email .c-state-hover    { transform: translateY(200%); opacity: 0; }
+    .c-email .c-state-copied   { transform: translateY(200%); opacity: 0; }
+
+    .c-email:hover .c-state-default  { transform: translateY(-200%); opacity: 0; }
+    .c-email:hover .c-state-hover    { transform: translateY(0); opacity: 1; }
+    .c-email:hover .c-state-copied   { transform: translateY(200%); opacity: 0; }
+
+    .c-email.copied .c-state-default  { transform: translateY(-200%); opacity: 0; }
+    .c-email.copied .c-state-hover    { transform: translateY(-200%); opacity: 0; }
+    .c-email.copied .c-state-copied   { transform: translateY(0); opacity: 1; }
   </style>
 </head>
 <body>
@@ -510,11 +625,15 @@
   <section class="story-section" style="padding-bottom: 200px;">
     <span class="section-eyebrow">Contact</span>
     <div class="writing-body">
-      <p>I'm always open to new opportunities, collaborations, or just a good conversation about design and product. Whether you have a role in mind, a problem to solve together, or simply want to connect, feel free to reach out.</p>
-      <div style="display:flex; gap:16px; justify-content:center; margin-top:8px;">
-        <a class="case-btn" href="mailto:nugrahaekaputra.id@gmail.com">Email</a>
-        <a class="case-btn" href="https://www.linkedin.com/in/nugrahaekaputra/" target="_blank">LinkedIn</a>
-        <a class="case-btn" href="cv-nugraha-putra.pdf" download>My CV</a>
+      <p>I'm always open to new opportunities, collaborations, or just a good conversation about design and product.</p>
+      <div class="contact-list">
+        <button class="c-item c-email" id="emailBtn">
+          <span class="c-state c-state-default">nugrahaekaputra.id@gmail.com ↗</span>
+          <span class="c-state c-state-hover">Copy email ↗</span>
+          <span class="c-state c-state-copied">Copied ✓</span>
+        </button>
+        <a class="c-item" href="https://www.linkedin.com/in/nugrahaekaputra/" target="_blank">LinkedIn ↗</a>
+        <a class="c-item" href="cv-nugraha-putra.pdf" download>Download CV ↗</a>
       </div>
     </div>
   </section>
@@ -583,6 +702,18 @@
   marquee(document.getElementById('lining-bottom'), false, false, false);
   marquee(document.getElementById('lining-right'),  true,  true,  false);
   marquee(document.getElementById('lining-left'),   true,  false, true);
+
+
+  // Email copy
+  const emailBtn = document.getElementById('emailBtn');
+  if (emailBtn) {
+    emailBtn.addEventListener('click', () => {
+      navigator.clipboard?.writeText('nugrahaekaputra.id@gmail.com').then(() => {
+        emailBtn.classList.add('copied');
+        setTimeout(() => emailBtn.classList.remove('copied'), 1500);
+      });
+    });
+  }
 
 })();
 </script>
