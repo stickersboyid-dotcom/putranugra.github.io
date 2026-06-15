@@ -15,7 +15,7 @@
       --text:   #1A1A1A;
       --muted:  #737373;
       --border: #E5E5E5;
-      --lining: 56px;
+      --lining: 48px;
     }
 
     body {
@@ -33,7 +33,7 @@
       position: fixed;
       top: 0; left: 0;
       width: 100vw; height: var(--lining);
-      background: #1A1A1A;
+      background: #FFFFFF;
       overflow: hidden;
       z-index: 100;
       display: flex;
@@ -47,7 +47,7 @@
       font-size: 16px;
       font-weight: 500;
       letter-spacing: 0.05em;
-      color: rgba(255,255,255,0.6);
+      color: rgba(26,26,26,0.6);
       white-space: nowrap;
       flex-shrink: 0;
       padding: 0 32px;
@@ -56,7 +56,7 @@
     .lining-dot {
       width: 2.5px; height: 2.5px;
       border-radius: 50%;
-      background: rgba(255,255,255,0.3);
+      background: rgba(26,26,26,0.3);
       flex-shrink: 0;
       display: inline-block;
     }
@@ -94,7 +94,9 @@
       margin-bottom: 20px;
     }
 
+    .dark-section h1.case-title { color: #F5F5F5; }
     .dark-section h2.section-heading { color: #F5F5F5; }
+    .dark-section .info-label { color: #F5F5F5; }
     .dark-section p { color: #D4D4D4; }
 
     p { margin-bottom: 20px; }
@@ -522,8 +524,8 @@
 <!-- LINING TOP -->
 <div id="lining-top"></div>
 
-<!-- HEAD OVERVIEW - WHITE -->
-<div class="section-wrap bg-white" style="margin-top: var(--lining);">
+<!-- HEAD OVERVIEW - BLACK -->
+<div class="section-wrap bg-black dark-section" style="margin-top: var(--lining);">
   <div class="section-inner">
     <h1 class="case-title">The Right Tool for the Job</h1>
     <img src="hero-internal-ordering.png" alt="Internal Ops Dashboard" class="hero-img">
