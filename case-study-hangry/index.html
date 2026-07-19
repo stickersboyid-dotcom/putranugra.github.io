@@ -61,6 +61,49 @@
       display: inline-block;
     }
 
+    /* ── BACK TO HOME ── */
+    .back-home {
+      position: fixed;
+      top: 0; left: 0;
+      height: var(--lining);
+      z-index: 101;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 0 20px;
+      background: #FFFFFF;
+      border-right: 1px solid var(--border);
+      color: var(--text);
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.01em;
+      text-decoration: none;
+      white-space: nowrap;
+      transition: opacity 0.15s;
+    }
+
+    .back-home:hover { opacity: 0.6; }
+    .back-home svg { flex-shrink: 0; transition: transform 0.15s; }
+    .back-home:hover svg { transform: translateX(-3px); }
+
+    .back-home-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 24px;
+      border: 1.5px solid var(--border);
+      border-radius: 6px;
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text);
+      text-decoration: none;
+      transition: border-color 0.15s, background 0.15s;
+    }
+
+    .back-home-btn:hover { border-color: #1A1A1A; background: #FAFAFA; }
+    .back-home-btn svg { transition: transform 0.15s; }
+    .back-home-btn:hover svg { transform: translateX(-3px); }
+
     /* ── SECTIONS ── */
     .section-wrap { width: 100%; }
 
@@ -286,12 +329,18 @@
       h2.section-heading { font-size: 22px; }
       .info-grid, .problem-grid, .reviews-grid { grid-template-columns: 1fr; }
       .mw-wrap { flex-direction: column; gap: 24px; padding: 24px; }
+      .back-home { padding: 0 14px; }
+      .back-home-label { display: none; }
     }
   </style>
 </head>
 <body>
 
 <div id="lining-top"></div>
+<a class="back-home" href="/" aria-label="Back to Home">
+  <svg width="13" height="13" viewBox="0 0 14 14" fill="none"><path d="M12 7H2M7 2L2 7l5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  <span class="back-home-label">Back to Home</span>
+</a>
 
 <!-- HEAD OVERVIEW - BLACK -->
 <div class="section-wrap bg-black dark-section" style="margin-top: var(--lining);">
@@ -617,6 +666,16 @@
     <p>But:</p>
     <p class="italic-text">"Given where this product is right now, what's the most honest and useful experience I can design?"</p>
     <p>That reframe changed how I approached every project after this one.</p>
+  </div>
+</div>
+
+<!-- BACK TO HOME -->
+<div class="section-wrap bg-white">
+  <div class="section-inner" style="padding-top:64px; padding-bottom:64px; display:flex; justify-content:center;">
+    <a class="back-home-btn" href="/">
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M12 7H2M7 2L2 7l5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      Back to Home
+    </a>
   </div>
 </div>
 
