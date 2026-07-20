@@ -11,9 +11,10 @@
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
     :root {
-      --bg:     #1A1A1A;
-      --text:   #FFFFFF;
-      --muted:  #888888;
+      --bg:     #FAFAF8;
+      --text:   #1A1A1A;
+      --muted:  #6E6E6E;
+      --frame:  #1A1A1A;
       --lining: 40px;
     }
 
@@ -40,46 +41,69 @@
 
     .blob {
       position: absolute;
-      border-radius: 50%;
       filter: blur(90px);
-      will-change: transform;
+      will-change: transform, border-radius;
     }
 
     .blob-1 {
       width: 900px; height: 700px;
       top: -320px; left: 50%;
-      background: rgba(255,255,255,0.07);
+      background: rgba(255,205,150,0.30);
       transform: translateX(-50%);
-      animation: drift1 12s ease-in-out infinite alternate;
+      animation: morph1 16s ease-in-out infinite, drift1 22s ease-in-out infinite;
     }
 
     .blob-2 {
       width: 650px; height: 650px;
       top: 8%; right: -220px;
-      background: rgba(255,196,140,0.045);
-      animation: drift2 15s ease-in-out infinite alternate;
+      background: rgba(255,170,120,0.16);
+      animation: morph2 19s ease-in-out infinite, drift2 26s ease-in-out infinite;
     }
 
     .blob-3 {
       width: 700px; height: 700px;
       bottom: -260px; left: -180px;
-      background: rgba(150,190,255,0.045);
-      animation: drift3 14s ease-in-out infinite alternate;
+      background: rgba(140,175,255,0.14);
+      animation: morph3 21s ease-in-out infinite, drift3 24s ease-in-out infinite;
+    }
+
+    @keyframes morph1 {
+      0%   { border-radius: 42% 58% 65% 35% / 45% 45% 55% 55%; }
+      33%  { border-radius: 62% 38% 30% 70% / 55% 65% 35% 45%; }
+      66%  { border-radius: 35% 65% 55% 45% / 65% 35% 65% 35%; }
+      100% { border-radius: 42% 58% 65% 35% / 45% 45% 55% 55%; }
     }
 
     @keyframes drift1 {
-      0%   { transform: translate(-50%, 0)      scale(1); }
-      100% { transform: translate(-42%, 40px)   scale(1.08); }
+      0%   { transform: translate(-50%, 0)    rotate(0deg); }
+      50%  { transform: translate(-46%, 34px) rotate(6deg); }
+      100% { transform: translate(-50%, 0)    rotate(0deg); }
+    }
+
+    @keyframes morph2 {
+      0%   { border-radius: 58% 42% 38% 62% / 40% 62% 38% 60%; }
+      33%  { border-radius: 34% 66% 60% 40% / 62% 40% 60% 38%; }
+      66%  { border-radius: 65% 35% 45% 55% / 45% 55% 45% 55%; }
+      100% { border-radius: 58% 42% 38% 62% / 40% 62% 38% 60%; }
     }
 
     @keyframes drift2 {
-      0%   { transform: translate(0, 0)       scale(1); }
-      100% { transform: translate(-60px, 50px) scale(1.1); }
+      0%   { transform: translate(0,0)         rotate(0deg); }
+      50%  { transform: translate(-50px, 40px) rotate(-8deg); }
+      100% { transform: translate(0,0)         rotate(0deg); }
+    }
+
+    @keyframes morph3 {
+      0%   { border-radius: 45% 55% 60% 40% / 55% 45% 55% 45%; }
+      33%  { border-radius: 65% 35% 35% 65% / 40% 60% 40% 60%; }
+      66%  { border-radius: 38% 62% 55% 45% / 60% 40% 65% 35%; }
+      100% { border-radius: 45% 55% 60% 40% / 55% 45% 55% 45%; }
     }
 
     @keyframes drift3 {
-      0%   { transform: translate(0, 0)      scale(1); }
-      100% { transform: translate(50px, -40px) scale(1.06); }
+      0%   { transform: translate(0,0)        rotate(0deg); }
+      50%  { transform: translate(40px,-35px) rotate(7deg); }
+      100% { transform: translate(0,0)        rotate(0deg); }
     }
 
     /* subtle grain so the background doesn't sit flat */
@@ -90,8 +114,8 @@
       width: 120%; height: 120%;
       z-index: 1;
       pointer-events: none;
-      opacity: 0.05;
-      mix-blend-mode: overlay;
+      opacity: 0.035;
+      mix-blend-mode: multiply;
       background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
       background-size: 320px 320px;
       animation: grainMove 0.6s steps(8) infinite;
@@ -117,7 +141,7 @@
     .lining {
       position: fixed;
       z-index: 100;
-      background: #FFFFFF;
+      background: var(--frame);
       overflow: hidden;
     }
 
@@ -133,7 +157,7 @@
       font-size: 14px;
       font-weight: 500;
       letter-spacing: 0.05em;
-      color: rgba(26,26,26,0.6);
+      color: rgba(255,255,255,0.65);
       white-space: nowrap;
       flex-shrink: 0;
     }
@@ -144,7 +168,7 @@
     .lining-dot {
       width: 2.5px; height: 2.5px;
       border-radius: 50%;
-      background: rgba(26,26,26,0.3);
+      background: rgba(255,255,255,0.35);
       flex-shrink: 0;
       display: inline-block;
     }
@@ -218,22 +242,32 @@
     }
 
     .scroll-label {
-      font-size: 9px; font-weight: 500;
+      font-size: 11px; font-weight: 600;
       letter-spacing: 0.2em; text-transform: uppercase;
-      color: var(--muted); opacity: 0.4;
-      margin-bottom: 8px;
+      color: var(--muted); opacity: 0.7;
+      margin-bottom: 10px;
     }
 
-    .bounce-dot {
-      width: 5px; height: 5px;
-      border-radius: 50%;
-      background: var(--muted);
-      animation: bounceDot 1.6s ease-in-out infinite;
+    .scroll-indicator:hover .scroll-label { opacity: 1; }
+
+    .scroll-chevrons {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 2px;
     }
 
-    @keyframes bounceDot {
-      0%, 100% { transform: translateY(0); opacity: 0.3; }
-      50% { transform: translateY(8px); opacity: 0.7; }
+    .scroll-chevrons svg {
+      color: var(--text);
+      animation: chevronBounce 1.4s ease-in-out infinite;
+    }
+
+    .scroll-chevrons svg:nth-child(1) { opacity: 0.85; animation-delay: 0s; }
+    .scroll-chevrons svg:nth-child(2) { opacity: 0.4;  animation-delay: 0.15s; margin-top: -10px; }
+
+    @keyframes chevronBounce {
+      0%, 100% { transform: translateY(0); }
+      50%      { transform: translateY(5px); }
     }
 
     /* ── CONTENT ── */
@@ -319,12 +353,12 @@
       align-items: center;
       gap: 8px;
       padding: 10px 20px;
-      border: 1.5px solid var(--text);
+      border: 1.5px solid var(--frame);
       border-radius: 6px;
       font-size: 14px;
       font-weight: 600;
-      color: #1A1A1A;
-      background: var(--text);
+      color: #FFFFFF;
+      background: var(--frame);
       text-decoration: none;
       position: relative;
       width: fit-content;
@@ -333,7 +367,7 @@
     }
 
     .case-btn:hover {
-      box-shadow: 0 0 0 3px rgba(255,255,255,0.15), 0 0 16px 4px rgba(255,255,255,0.12), 0 0 32px 8px rgba(255,255,255,0.07);
+      box-shadow: 0 0 0 3px rgba(26,26,26,0.1), 0 0 16px 4px rgba(26,26,26,0.08), 0 0 32px 8px rgba(26,26,26,0.05);
     }
 
     .case-btn svg { transition: transform 0.15s; }
@@ -518,10 +552,13 @@
     <span>I understand.</span>
     <span>I design.</span>
   </h1>
-  <p class="hero-sub">I'm Nugraha, a product designer with 6+ years experience. Focused on solving operational and business problems through design.</p>
+  <p class="hero-sub">I'm Nugraha, a product designer with 6+ years of experience in UI/UX design, focused on solving business problems through design.</p>
   <div class="scroll-indicator" onclick="document.getElementById('content').scrollIntoView({behavior:'smooth'})">
     <span class="scroll-label">Scroll</span>
-    <div class="bounce-dot"></div>
+    <div class="scroll-chevrons">
+      <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M4 7l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M4 7l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </div>
   </div>
 </section>
 
@@ -590,6 +627,7 @@
           <span class="c-state c-state-copied">Copied ✓</span>
         </button>
         <a class="c-item" href="https://www.linkedin.com/in/nugrahaekaputra/" target="_blank">LinkedIn ↗</a>
+        <a class="c-item" href="nugraha-eka-putra-cv.pdf" download>My Resume ↗</a>
       </div>
     </div>
   </section>
