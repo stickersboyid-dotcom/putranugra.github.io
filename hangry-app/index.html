@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>How I designed an app that reached 100K+ downloads with a 4.9 star rating — Nugraha Putra</title>
+<meta name="description" content="Hangry App, 2019. A cloud kitchen runs many brands from one outlet. The existing design assumed the opposite, and blocked anyone out of delivery range before they saw a single brand.">
+<link rel="canonical" href="https://putranugra.com/hangry-app/">
+
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://putranugra.com/hangry-app/">
+<meta property="og:title" content="How I designed an app that reached 100K+ downloads with a 4.9 star rating">
+<meta property="og:description" content="Hangry App, 2019 — a case study by Nugraha Putra.">
+<meta name="twitter:card" content="summary">
+
+<link rel="icon" href="../favicon.png" type="image/png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@200;300;400;500&display=swap">
+<link rel="stylesheet" href="../assets/css/styles.css">
+<link rel="stylesheet" href="../assets/css/case.css">
+</head>
+<body>
+
+<a class="skip-link" href="#main">Skip to content</a>
+
+<div class="page">
+  <div class="shell shell--case">
+    <main class="content" id="main">
+
+      <!-- ── BACK ────────────────────────────────────────────── -->
+      <a class="cs-back" href="../"><span class="cs-back__arrow" aria-hidden="true">&larr;</span>Back to home</a>
+
+      <!-- ── TITLE ───────────────────────────────────────────── -->
+      <header class="cs-head">
+        <h1 class="cs-head__title">How I designed an app that reached 100K+ downloads with a 4.9 star rating</h1>
+        <p class="cs-head__meta">Hangry App &middot; 2019</p>
+      </header>
+
+      <!-- ── PROJECT OVERVIEW ────────────────────────────────── -->
+      <section class="cs-card" aria-label="Project overview">
+        <dl class="cs-overview">
+          <div class="cs-overview__item">
+            <dt class="cs-overview__label">Product</dt>
+            <dd class="cs-overview__value">Hangry App</dd>
+          </div>
+          <div class="cs-overview__item">
+            <dt class="cs-overview__label">Team</dt>
+            <dd class="cs-overview__value">1 designer (me), 2 engineers</dd>
+          </div>
+          <div class="cs-overview__item">
+            <dt class="cs-overview__label">Role</dt>
+            <dd class="cs-overview__value">Research, user interviews, product thinking, UX writing, UI/UX design</dd>
+          </div>
+          <div class="cs-overview__item">
+            <dt class="cs-overview__label">Outcome</dt>
+            <dd class="cs-overview__value">Successfully reached 100K+ downloads with a 4.9 star rating</dd>
+          </div>
+        </dl>
+      </section>
+
+      <!-- ── BACKGROUND ──────────────────────────────────────── -->
+      <section class="cs-section" aria-labelledby="bg-head">
+        <h2 class="cs-section__head" id="bg-head">Background</h2>
+        <p>Hangry App is a cloud kitchen app: one physical outlet, multiple brands. From a single location, users can order from all available brands at once. This is fundamentally different from conventional food apps where one outlet equals one brand, one type of menu.</p>
+        <p>When I joined in 2019, Hangry had only 3 outlets and 3 brands, all in Jakarta. I was the only full-time designer. An existing design was already in place from a part-time designer.</p>
+      </section>
+
+      <!-- ── RESEARCH & DISCOVERY ────────────────────────────── -->
+      <section class="cs-section" aria-labelledby="research-head">
+        <h2 class="cs-section__head" id="research-head">Research &amp; Discovery</h2>
+        <p>I came in knowing three things: Hangry had 3 brands, 3 locations, and a food delivery app. That felt familiar enough. Most food delivery apps in Indonesia follow the same pattern &mdash; GoFood, GrabFood, or F&amp;B brands with their own app. I assumed Hangry was some version of that.</p>
+        <p>So, instead of jumping straight into the existing design, I talked to people first. Stakeholders, C-level, anyone who could tell me what this product was actually supposed to be and where it was going.</p>
+        <p>That&rsquo;s what the picture shifted. Those 3 brands weren&rsquo;t in 3 separate locations. They were all in the same kitchen, the same outlet. One physical space running multiple distinct brands simultaneously.</p>
+
+        <div class="cs-cardrow">
+          <div class="cs-card cs-card--metric">
+            <p class="cs-card__label">WHAT I ASSUMED</p>
+            <ul class="cs-bullets cs-bullets--spaced">
+              <li>3 brands, 3 separate locations. Each brand has its own outlet</li>
+              <li>One type of menu per brand like any standard F&amp;B</li>
+              <li>Standard food delivery app. Familiar pattern &mdash; GrabFood, GoFood</li>
+            </ul>
+          </div>
+          <div class="cs-card cs-card--metric">
+            <p class="cs-card__label">WHAT IT ACTUALLY WAS</p>
+            <ul class="cs-bullets cs-bullets--spaced">
+              <li>3 brands, 1 shared location/kitchen. One physical outlet, multiple brands</li>
+              <li>All brand menus in one place. Order from multiple brands in one cart</li>
+              <li>Non identical in the industry (cloud kitchen)</li>
+            </ul>
+          </div>
+        </div>
+
+        <p>Unfortunately, I can&rsquo;t find the existing design file because it no longer accessible, so I can&rsquo;t showing the details. But, now I know what Hangry actually was, the existing design didn&rsquo;t reflect that at all.</p>
+        <p>The first problem was identity. The existing design presented Hangry like one restaurant with a wide menu. Scroll through, pick something, then order. That mental model made sense for most food apps. It made no sense for Hangry, where every brand was distinct, had its own name and own personality. Collapsing them into one undifferentiated list meant users would never understand what they were actually using, or why they should care.</p>
+        <p>The second problem was access. The existing design used a location-first pattern, so if you were too far from an outlet, you couldn&rsquo;t enter the app at all. For a product trying to build brand awareness in a city where it had only 3 outlets, that meant most of Jakarta hit a wall even before they ever saw a single brand.</p>
+
+        <div class="cs-cardrow">
+          <div class="cs-card cs-card--metric">
+            <p class="cs-card__label">PROBLEM 1</p>
+            <p class="cs-card__value">Identity</p>
+            <p class="cs-md">The existing design collapsed all brands into one undifferentiated list, like one restaurant with a wide menu</p>
+            <p class="cs-md">User would never understood what Hangry actually was.</p>
+          </div>
+          <div class="cs-card cs-card--metric">
+            <p class="cs-card__label">PROBLEM 2</p>
+            <p class="cs-card__value">Access</p>
+            <p class="cs-md">Location block cut users off before they could see a single brand. If too far, the app showed nothing.</p>
+            <p class="cs-md">Most of Jakarta hit a wall even before ever seeing what Hangry offered.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ── STRATEGY & DESIGN ───────────────────────────────── -->
+      <section class="cs-section" aria-labelledby="strategy-head">
+        <h2 class="cs-section__head" id="strategy-head">Strategy &amp; Design</h2>
+        <p>The existing design blocked users based on distance. If no outlet was within range, users couldn&rsquo;t enter the app at all.</p>
+        <p>For GoFood or GrabFood with their amount of outlets, that makes sense, if nothing can deliver to you there&rsquo;s nothing to show. But Hangry wasn&rsquo;t that. Hangry was a brand story that hadn&rsquo;t been told yet.</p>
+        <p>My background is in copywriting. One thing that gets drilled into you in that world is conversion doesn&rsquo;t start at the moment of purchase. It starts the moment someone becomes aware a brand exist. The sequence is always the same, you can&rsquo;t buy something you&rsquo;ve never heard of.</p>
+
+        <!-- awareness funnel: with and without the block -->
+        <div class="cs-cardrow">
+          <div class="cs-card cs-card--metric">
+            <p class="cs-minilabel">Without the block</p>
+            <div class="cs-vflow">
+              <div class="cs-node cs-node--success">
+                <span class="cs-node__title">Aware of the brand</span>
+                <span class="cs-node__sub">User discovers Hangry exists</span>
+              </div>
+              <div class="cs-node cs-node--success">
+                <span class="cs-node__title">Interested</span>
+                <span class="cs-node__sub">Browses brands, sees menus</span>
+              </div>
+              <div class="cs-node cs-node--success">
+                <span class="cs-node__title">Purchases</span>
+                <span class="cs-node__sub">When outlet is in range</span>
+              </div>
+            </div>
+          </div>
+          <div class="cs-card cs-card--metric">
+            <p class="cs-minilabel">With the block</p>
+            <div class="cs-vflow">
+              <div class="cs-node cs-node--danger">
+                <span class="cs-node__title">Blocked immediately</span>
+                <span class="cs-node__sub">Out of range &mdash; sees nothing</span>
+              </div>
+              <div class="cs-node cs-node--danger">
+                <span class="cs-node__title">No awareness</span>
+              </div>
+              <div class="cs-node cs-node--danger">
+                <span class="cs-node__title">No purchase</span>
+              </div>
+            </div>
+            <p class="cs-minilabel cs-minilabel--danger">No sale &mdash; not today, not ever</p>
+          </div>
+        </div>
+
+        <p>Blocking users who couldn&rsquo;t order didn&rsquo;t just lose a sale. It made sure those users would never have a reason to come back.</p>
+        <p>So I framed it this way:</p>
+        <p class="cs-quote">&ldquo;We might miss a sales opportunity today, but we didn&rsquo;t have to miss a brand awareness opportunity.&rdquo;</p>
+        <p>Those are two different things, and only one of them was actually within our control at that moment.</p>
+        <p>My proposal was straightforward from there. The app still reads location, that part stays. But instead of a hard block, users see available outlets. If nothing&rsquo;s in range, they can still browse every brand, see full menus, understand what Hangry is. They just can&rsquo;t check out.</p>
+
+        <!-- flow: existing -->
+        <figure class="cs-chart">
+          <figcaption class="cs-chart__caption">Existing flow &mdash; before redesign</figcaption>
+          <div class="cs-chart__body">
+            <div class="cs-graph">
+              <div class="cs-node" style="--c:1;--r:2">
+                <span class="cs-node__title">Open Hangry App</span>
+                <span class="cs-node__sub">Matching outlet location &amp; user</span>
+              </div>
+              <div class="cs-node" style="--c:2;--r:2">
+                <span class="cs-node__title">Near/Far?</span>
+                <span class="cs-node__sub">Threshold 2 Km</span>
+              </div>
+              <div class="cs-node cs-node--success" style="--c:3;--r:1">
+                <span class="cs-node__title">Enter home page</span>
+                <span class="cs-node__sub">User can browse and check out</span>
+              </div>
+              <div class="cs-node cs-node--danger" style="--c:3;--r:3">
+                <span class="cs-node__title">Sorry screen out of range</span>
+                <span class="cs-node__sub">User can leave email or close app</span>
+              </div>
+
+              <span class="cs-link cs-link--h" style="--c:1;--r:2" aria-hidden="true"></span>
+              <span class="cs-elbow cs-elbow--up" aria-hidden="true"></span>
+              <span class="cs-flag cs-flag--yes-up">Near</span>
+              <span class="cs-elbow cs-elbow--down" aria-hidden="true"></span>
+              <span class="cs-flag cs-flag--no-down">Far</span>
+            </div>
+            <p class="cs-chart__caption cs-chart__caption--danger">Dead end &mdash; no brand exposure</p>
+          </div>
+        </figure>
+
+        <!-- flow: proposal -->
+        <figure class="cs-chart">
+          <figcaption class="cs-chart__caption">Proposal flow &mdash; after redesign</figcaption>
+          <div class="cs-chart__body">
+            <div class="cs-graph">
+              <div class="cs-node" style="--c:1;--r:2">
+                <span class="cs-node__title">Open Hangry App</span>
+                <span class="cs-node__sub">Matching outlet location &amp; user</span>
+              </div>
+              <div class="cs-node" style="--c:2;--r:2">
+                <span class="cs-node__title">Near/Far?</span>
+                <span class="cs-node__sub">Threshold 2 Km</span>
+              </div>
+              <div class="cs-node cs-node--success" style="--c:3;--r:1">
+                <span class="cs-node__title">Enter home page</span>
+                <span class="cs-node__sub">User can browse and check out</span>
+              </div>
+              <div class="cs-node cs-node--success" style="--c:3;--r:3">
+                <span class="cs-node__title">Outlet list page</span>
+                <span class="cs-node__sub">User can choose &mdash; can enter app</span>
+              </div>
+
+              <span class="cs-link cs-link--h" style="--c:1;--r:2" aria-hidden="true"></span>
+              <span class="cs-elbow cs-elbow--up" aria-hidden="true"></span>
+              <span class="cs-flag cs-flag--yes-up">Near</span>
+              <span class="cs-elbow cs-elbow--down" aria-hidden="true"></span>
+              <span class="cs-flag cs-flag--no-down">Far</span>
+            </div>
+            <p class="cs-chart__caption cs-chart__caption--success">Brand exposure without ordering</p>
+          </div>
+        </figure>
+
+        <p>Not being able to order today doesn&rsquo;t meant not being able to order ever. But never knowing the brand exists? That&rsquo;s permanent.</p>
+        <p>Here&rsquo;s what that looked like in practice, the new access flow on the left, and the home UI that answered the identity problem on the right.</p>
+
+        <!-- ── MOCKUP ────────────────────────────────────────── -->
+        <div class="cs-mockups">
+          <div class="cs-phones">
+            <div class="cs-phones__col" data-mock="deck"
+                 data-dwell="1000,1000,2000,2500"
+                 data-clicks="2:0.37,0.32">
+              <p class="cs-phones__label">How I solved Problem 2 &mdash; Access</p>
+              <p class="cs-phones__sub">New flow when the outlet is out of range</p>
+              <div class="phone">
+                <div class="phone__screen" data-screen>
+                  <span class="slide is-active"><img src="../assets/img/hangry/splash.png" alt="Hangry App splash screen" loading="lazy" decoding="async"></span>
+                  <span class="slide"><img src="../assets/img/hangry/searching.png" alt="Searching for a nearby outlet" loading="lazy" decoding="async"></span>
+                  <span class="slide"><img src="../assets/img/hangry/outlet-list.png" alt="Every outlet listed, not just the ones in range" loading="lazy" decoding="async"></span>
+                  <span class="slide"><img src="../assets/img/hangry/home.png" alt="Home screen with each brand shown distinctly" loading="lazy" decoding="async"></span>
+                  <span class="pointer" data-pointer aria-hidden="true">
+                    <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M2 2L14 7.5L8 9.5L6 15L2 2Z" fill="#18181b" stroke="#fff" stroke-width="1"/></svg>
+                  </span>
+                  <span class="ripple" data-ripple aria-hidden="true"></span>
+                </div>
+              </div>
+            </div>
+
+            <div class="cs-phones__col" data-mock="scroller">
+              <p class="cs-phones__label">How I solved Problem 1 &mdash; Identity</p>
+              <p class="cs-phones__sub">Home UI showing each brand distinctly</p>
+              <div class="phone">
+                <div class="phone__screen">
+                  <img src="../assets/img/hangry/home.png" alt="The Hangry home screen, top to bottom" class="scroller" data-scroller loading="lazy" decoding="async">
+                </div>
+              </div>
+            </div>
+          </div>
+          <p class="cs-craft__caption">Final UI &mdash; Hangry App</p>
+        </div>
+      </section>
+
+      <!-- ── OUTCOME ─────────────────────────────────────────── -->
+      <section class="cs-section" aria-labelledby="outcome-head">
+        <h2 class="cs-section__head" id="outcome-head">Outcome</h2>
+        <p>The first launch went well. Early Google Play reviews came in consistently around: easy to use, smooth, clear choices, seamless from order to pick-up.</p>
+
+        <div class="cs-cardrow">
+          <div class="cs-card cs-card--metric">
+            <div class="cs-review__who">
+              <span class="cs-review__name">Justina Kristanti</span>
+              <span class="cs-review__date">May 4, 2020</span>
+            </div>
+            <span class="cs-stars" role="img" aria-label="5 out of 5 stars">
+              <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 1.6l1.9 3.9 4.3.6-3.1 3 .7 4.3L8 11.4l-3.8 2 .7-4.3-3.1-3 4.3-.6z"/></svg>
+              <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 1.6l1.9 3.9 4.3.6-3.1 3 .7 4.3L8 11.4l-3.8 2 .7-4.3-3.1-3 4.3-.6z"/></svg>
+              <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 1.6l1.9 3.9 4.3.6-3.1 3 .7 4.3L8 11.4l-3.8 2 .7-4.3-3.1-3 4.3-.6z"/></svg>
+              <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 1.6l1.9 3.9 4.3.6-3.1 3 .7 4.3L8 11.4l-3.8 2 .7-4.3-3.1-3 4.3-.6z"/></svg>
+              <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 1.6l1.9 3.9 4.3.6-3.1 3 .7 4.3L8 11.4l-3.8 2 .7-4.3-3.1-3 4.3-.6z"/></svg>
+            </span>
+            <p class="cs-md">Very coooll!</p>
+          </div>
+          <div class="cs-card cs-card--metric">
+            <div class="cs-review__who">
+              <span class="cs-review__name">Jennifer Tan</span>
+              <span class="cs-review__date">May 4, 2020</span>
+            </div>
+            <span class="cs-stars" role="img" aria-label="5 out of 5 stars">
+              <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 1.6l1.9 3.9 4.3.6-3.1 3 .7 4.3L8 11.4l-3.8 2 .7-4.3-3.1-3 4.3-.6z"/></svg>
+              <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 1.6l1.9 3.9 4.3.6-3.1 3 .7 4.3L8 11.4l-3.8 2 .7-4.3-3.1-3 4.3-.6z"/></svg>
+              <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 1.6l1.9 3.9 4.3.6-3.1 3 .7 4.3L8 11.4l-3.8 2 .7-4.3-3.1-3 4.3-.6z"/></svg>
+              <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 1.6l1.9 3.9 4.3.6-3.1 3 .7 4.3L8 11.4l-3.8 2 .7-4.3-3.1-3 4.3-.6z"/></svg>
+              <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 1.6l1.9 3.9 4.3.6-3.1 3 .7 4.3L8 11.4l-3.8 2 .7-4.3-3.1-3 4.3-.6z"/></svg>
+            </span>
+            <p class="cs-md">Easy to use! Really smooth! Thanks Hangry for making this easy and useful apps!</p>
+          </div>
+        </div>
+
+        <div class="cs-cardrow">
+          <div class="cs-card cs-card--metric">
+            <div class="cs-review__who">
+              <span class="cs-review__name">Mario Simamora</span>
+              <span class="cs-review__date">August 21, 2020</span>
+            </div>
+            <span class="cs-stars" role="img" aria-label="5 out of 5 stars">
+              <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 1.6l1.9 3.9 4.3.6-3.1 3 .7 4.3L8 11.4l-3.8 2 .7-4.3-3.1-3 4.3-.6z"/></svg>
+              <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 1.6l1.9 3.9 4.3.6-3.1 3 .7 4.3L8 11.4l-3.8 2 .7-4.3-3.1-3 4.3-.6z"/></svg>
+              <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 1.6l1.9 3.9 4.3.6-3.1 3 .7 4.3L8 11.4l-3.8 2 .7-4.3-3.1-3 4.3-.6z"/></svg>
+              <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 1.6l1.9 3.9 4.3.6-3.1 3 .7 4.3L8 11.4l-3.8 2 .7-4.3-3.1-3 4.3-.6z"/></svg>
+              <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 1.6l1.9 3.9 4.3.6-3.1 3 .7 4.3L8 11.4l-3.8 2 .7-4.3-3.1-3 4.3-.6z"/></svg>
+            </span>
+            <p class="cs-md">First order &amp; very satisfied! Keep a great work ya</p>
+          </div>
+          <div class="cs-card cs-card--metric">
+            <div class="cs-review__who">
+              <span class="cs-review__name">Dessy Kristiana</span>
+              <span class="cs-review__date">December 14, 2020</span>
+            </div>
+            <span class="cs-stars" role="img" aria-label="5 out of 5 stars">
+              <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 1.6l1.9 3.9 4.3.6-3.1 3 .7 4.3L8 11.4l-3.8 2 .7-4.3-3.1-3 4.3-.6z"/></svg>
+              <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 1.6l1.9 3.9 4.3.6-3.1 3 .7 4.3L8 11.4l-3.8 2 .7-4.3-3.1-3 4.3-.6z"/></svg>
+              <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 1.6l1.9 3.9 4.3.6-3.1 3 .7 4.3L8 11.4l-3.8 2 .7-4.3-3.1-3 4.3-.6z"/></svg>
+              <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 1.6l1.9 3.9 4.3.6-3.1 3 .7 4.3L8 11.4l-3.8 2 .7-4.3-3.1-3 4.3-.6z"/></svg>
+              <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 1.6l1.9 3.9 4.3.6-3.1 3 .7 4.3L8 11.4l-3.8 2 .7-4.3-3.1-3 4.3-.6z"/></svg>
+            </span>
+            <p class="cs-md">Pilihannya jelas, proses order sampai pick up lancar jaya. Bravo Hangry.</p>
+          </div>
+        </div>
+
+        <div class="cs-cardrow">
+          <div class="cs-card cs-card--metric">
+            <p class="cs-card__label">DOWNLOADS</p>
+            <p class="cs-card__value">100K+</p>
+          </div>
+          <div class="cs-card cs-card--metric">
+            <p class="cs-card__label">RATING</p>
+            <p class="cs-card__value">4.9 star &mdash; 8.45K reviews</p>
+          </div>
+        </div>
+
+        <p>After the first launch, the Hangry App kept being iterated and the design kept updating, but this experience remained the same.</p>
+        <p>By the end of 2020, Hangry went from 3 outlets to over 40 outlets, growing faster than almost any F&amp;B startup in Indonesia at the time. A product that clearly communicates what it is and doesn&rsquo;t block the people it&rsquo;s trying to reach, is part of how you get there.</p>
+        <p>Download Hangry App in here:</p>
+
+        <p class="cs-stores">
+          <a class="cs-store" href="https://play.google.com/store/search?q=hangry&amp;c=apps&amp;hl=en&amp;pli=1" target="_blank" rel="noopener">
+            <img src="../assets/img/store/google-play.png" alt="Get it on Google Play" width="140" height="41">
+          </a>
+          <a class="cs-store" href="https://apps.apple.com/id/app/hangry/id1498223490" target="_blank" rel="noopener">
+            <img src="../assets/img/store/app-store.png" alt="Download on the App Store" width="140" height="41">
+          </a>
+        </p>
+      </section>
+
+      <!-- ── LEARNINGS ───────────────────────────────────────── -->
+      <section class="cs-section" aria-labelledby="learnings-head">
+        <h2 class="cs-section__head" id="learnings-head">Learnings</h2>
+        <p>The obvious lesson was tactical:</p>
+        <p class="cs-quote">&ldquo;Product in the same industry don&rsquo;t share the same user journey.&rdquo;</p>
+        <p>Everything depends on how the business works and what constraints it has at that specific phase.</p>
+        <p>But the deeper shift was in how I think about constraints. Before this project, a product limitation felt like a design problem to solve around. After it, I started seeing constraints differently, not as walls, but as context. The question is no longer:</p>
+        <p class="cs-quote">&ldquo;How do I hide this limitation from the user?&rdquo;</p>
+        <p>But,</p>
+        <p class="cs-quote">&ldquo;Given where this product is right now, what&rsquo;s the most honest and useful experience I can design?&rdquo;</p>
+        <p>That reframe changed how I approached every project after this one.</p>
+      </section>
+
+      <!-- ── FOOTER ──────────────────────────────────────────── -->
+      <footer class="footer">
+        <p class="footer__note">&copy; 2026 &mdash; Nugraha Putra</p>
+      </footer>
+
+    </main>
+  </div>
+</div>
+
+<script src="../assets/js/main.js"></script>
+</body>
+</html>
