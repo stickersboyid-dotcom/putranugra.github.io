@@ -180,7 +180,13 @@ img { display: block; max-width: 100%; }
   color: var(--text-secondary);
 }
 
-.intro { max-width: 70ch; }
+/* the 24px above comes from .heading; these three sit 12px apart */
+.heading__body {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  max-width: 70ch;
+}
 
 /* ── SECTIONS ──────────────────────────────────────────────── */
 
