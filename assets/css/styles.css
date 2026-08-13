@@ -1,0 +1,630 @@
+/* ============================================================
+   Nugraha Putra — putranugra.com
+   Tokens mirror the Figma variables 1:1.
+   ============================================================ */
+
+:root {
+  /* colour — from Figma variables */
+  --base-white:     #ffffff;
+  --text-primary:   #18181b;
+  --text-secondary: #52525b;
+  --border-default: #e4e4e7;
+  --border-strong:  #d1d1d6;
+  --bg-muted:       #f4f4f5;
+
+  --success:    #22c55e;
+  --success-bg: #f0fdf4;
+  --success-fg: #14532d;
+  --danger:     #ef4444;
+  --danger-bg:  #fef2f2;
+  --danger-fg:  #991b1b;
+
+  /* review stars are the one warm accent in an otherwise zinc palette */
+  --star:       #f59e0b;
+
+  /* type — from Figma text styles. Figma stores tracking as a percentage of
+     the font size, so these stay in em rather than px. */
+  --font-sans: "Geist", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+
+  --heading-xl-size: 24px;
+  --heading-xl-line: 31.2px;
+  --heading-xl-track: -0.003em;
+
+  --heading-lg-size: 20px;
+  --heading-lg-line: 28px;
+  --heading-lg-track: -0.002em;
+
+  --heading-md-size: 17px;
+  --heading-md-line: 23.8px;
+  --heading-md-track: -0.001em;
+
+  --body-lg-size: 16px;
+  --body-lg-line: 25.6px;
+
+  --body-md-size: 14px;
+  --body-md-line: 22px;
+
+  --body-sm-size: 13px;
+  --body-sm-line: 19.5px;
+
+  --label-size: 12px;
+  --label-line: 18px;
+
+  --caption-size: 11px;
+  --caption-line: 15.4px;
+  --caption-track: 0.001em;
+
+  /* layout */
+  --radius-card: 10px;
+
+  --shell-width: 800px;
+  --shell-pad-y: 100px;
+  --shell-pad-x: 50px;
+  --stack-gap: 80px;
+  --block-gap: 24px;
+  --list-gap: 12px;
+
+  /* motion */
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --dur-micro: 150ms;
+  --dur-small: 250ms;
+  --dur-plate: 320ms;
+}
+
+*,
+*::before,
+*::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  background: var(--base-white);
+  color: var(--text-secondary);
+  font-family: var(--font-sans);
+  font-size: var(--body-lg-size);
+  line-height: var(--body-lg-line);
+  font-weight: 400;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+img { display: block; max-width: 100%; }
+
+.skip-link {
+  position: absolute;
+  left: -9999px;
+  top: 0;
+  z-index: 100;
+  background: var(--text-primary);
+  color: var(--base-white);
+  font-size: var(--body-sm-size);
+  line-height: var(--body-sm-line);
+  padding: 8px 14px;
+}
+
+.skip-link:focus { left: 8px; top: 8px; }
+
+/* ── SHELL ─────────────────────────────────────────────────── */
+
+.page {
+  display: flex;
+  justify-content: center;
+  min-height: 100vh;
+}
+
+.shell {
+  width: var(--shell-width);
+  max-width: 100%;
+  min-height: 100vh;
+  /* no frame — the 800px box only exists to centre a 700px column */
+  padding: var(--shell-pad-y) var(--shell-pad-x);
+  background: var(--base-white);
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--stack-gap);
+  width: 100%;
+}
+
+/* ── HEADING ───────────────────────────────────────────────── */
+
+.heading {
+  display: flex;
+  flex-direction: column;
+  gap: var(--block-gap);
+}
+
+.identity { display: flex; flex-direction: column; gap: 4px; }
+
+.identity__name {
+  /* shrink to the text so the hover target is the name, not the whole column */
+  align-self: flex-start;
+  cursor: pointer;
+  font-size: var(--heading-md-size);
+  line-height: var(--heading-md-line);
+  letter-spacing: var(--heading-md-track);
+  font-weight: 500;
+  color: var(--text-primary);
+}
+
+/* the surname types in on hover — `pre` keeps the leading space, which a
+   normal inline box would collapse until the next letter arrives */
+[data-type-slot] { white-space: pre; }
+
+.identity__caret {
+  display: inline-block;
+  width: 1px;
+  height: 1em;
+  margin-left: 1px;
+  vertical-align: -0.12em;
+  background: currentColor;
+  opacity: 0;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .identity__name:hover .identity__caret {
+    opacity: 1;
+    animation: caret-blink 1s steps(1, end) infinite;
+  }
+}
+
+@keyframes caret-blink { 50% { opacity: 0; } }
+
+/* set as body copy, not as a second heading line */
+.identity__role {
+  font-size: var(--body-lg-size);
+  line-height: var(--body-lg-line);
+  font-weight: 400;
+  color: var(--text-secondary);
+}
+
+.intro { max-width: 70ch; }
+
+/* ── SECTIONS ──────────────────────────────────────────────── */
+
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--block-gap);
+}
+
+.section__head { display: flex; flex-direction: column; gap: 8px; }
+
+/* set in body ink at ExtraLight, matching the pull quotes on the case study
+   pages — the eyebrow labels the section rather than shouting it */
+.eyebrow {
+  font-size: var(--body-sm-size);
+  line-height: var(--body-sm-line);
+  font-weight: 200;
+  color: var(--text-secondary);
+}
+
+.lede { max-width: 70ch; }
+
+/* ── LINK LISTS (writings + contact) ───────────────────────── */
+
+.list {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--list-gap);
+  list-style: none;
+}
+
+.link {
+  display: inline;
+  font: inherit;
+  color: var(--text-secondary);
+  background: none;
+  border: 0;
+  padding: 0;
+  text-align: left;
+  cursor: pointer;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-decoration-color: var(--border-default);
+  text-underline-offset: 3px;
+  transition: color var(--dur-micro) var(--ease-out),
+              text-decoration-color var(--dur-micro) var(--ease-out);
+}
+
+.link:hover,
+.link:focus-visible {
+  color: var(--text-primary);
+  text-decoration-color: currentColor;
+}
+
+.link:focus-visible {
+  outline: 1px solid var(--text-primary);
+  outline-offset: 3px;
+  border-radius: 1px;
+}
+
+/* ── CASE STUDY BOXES ──────────────────────────────────────── */
+
+.showcase {
+  display: flex;
+  flex-direction: column;
+  gap: var(--block-gap);
+}
+
+.showcase__row {
+  display: flex;
+  gap: var(--block-gap);
+  align-items: stretch;
+}
+
+.case {
+  display: block;
+  position: relative;
+  overflow: hidden;
+  background: var(--base-white);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-card);
+  color: inherit;
+  text-decoration: none;
+  transition: border-color var(--dur-small) var(--ease-out);
+}
+
+.case:hover { border-color: #d4d4d8; }
+
+.case:focus-visible {
+  outline: 1px solid var(--text-primary);
+  outline-offset: 2px;
+}
+
+.case--wide { width: 100%; height: 468px; }
+
+.case--tall { flex: 1 1 0; min-width: 0; height: 468px; }
+
+.stage {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+/* knocks the mockup back so the plate is the only thing to read.
+   Sits after .stage and before .case__label in the markup, so paint order
+   alone puts it between them without any z-index bookkeeping. */
+.case__scrim {
+  position: absolute;
+  inset: 0;
+  background: rgba(24, 24, 27, 0.5);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--dur-plate) var(--ease-out);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .case:hover .case__scrim,
+  .case:focus-visible .case__scrim { opacity: 1; }
+}
+
+/* label plate */
+.case__label {
+  position: absolute;
+  left: 16px;
+  right: 16px;
+  bottom: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 14px 16px;
+  background: var(--base-white);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-card);
+  pointer-events: none;
+  opacity: 1;
+  transform: translateY(0);
+  /* opacity settles faster than the travel, so the plate is solid for most
+     of the way up instead of only arriving once it has stopped */
+  transition: transform var(--dur-plate) var(--ease-out),
+              opacity 180ms var(--ease-out);
+}
+
+/* the mockup runs on its own, so the plate stays out of the way until
+   there's a cursor asking what the case is. It rises out of the bottom
+   edge rather than appearing in place. On touch it stays visible, since
+   nothing else names the case. */
+@media (hover: hover) and (pointer: fine) {
+  .case__label {
+    opacity: 0;
+    transform: translateY(calc(100% + 16px));
+  }
+
+  .case:hover .case__label,
+  .case:focus-visible .case__label {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* same pairing as a section head: Body/sm in primary over Body/lg in
+   secondary, no tracking — the copy already carries its own caps */
+.case__tag {
+  font-size: var(--body-sm-size);
+  line-height: var(--body-sm-line);
+  color: var(--text-primary);
+}
+
+.case__desc {
+  font-size: var(--body-lg-size);
+  line-height: var(--body-lg-line);
+  color: var(--text-secondary);
+}
+
+/* ── DEVICE: LAPTOP (internal ops dashboard) ───────────────── */
+
+.case--wide { --laptop-w: 470px; }
+
+.laptop {
+  display: block;
+  flex: 0 0 auto;
+  width: var(--laptop-w);
+  padding: 0 6px 8px;
+  background: #1a1a1a;
+  border-radius: 12px;
+  box-shadow: 0 0 0 1px #2a2a2a, 0 16px 40px rgba(24, 24, 27, 0.28);
+}
+
+.laptop__bar {
+  display: block;
+  position: relative;
+  height: 8px;
+}
+
+.laptop__notch {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 80px;
+  height: 18px;
+  background: #1a1a1a;
+  border-radius: 0 0 12px 12px;
+}
+
+.laptop__cam {
+  width: 5px;
+  height: 5px;
+  margin-top: 6px;
+  background: #333;
+  border-radius: 50%;
+}
+
+.laptop__screen {
+  display: block;
+  position: relative;
+  width: 100%;
+  aspect-ratio: 3024 / 1964;
+  overflow: hidden;
+  border-radius: 6px;
+  background: var(--base-white);
+}
+
+.laptop__screen .slide img { object-position: top left; }
+
+/* ── DEVICE: PHONE (loyalty + hangry) ──────────────────────── */
+
+/* one handset for both boxes — box 2 and box 3 sit side by side, so any
+   difference in size or radius reads as a mistake */
+.phone {
+  display: block;
+  position: relative;
+  flex: 0 0 auto;
+  width: 210px;
+  height: 420px;
+  padding: 8px;
+  background: #1a1a1a;
+  border-radius: 32px;
+  box-shadow: 0 0 0 1px #333, 0 20px 48px rgba(24, 24, 27, 0.26);
+}
+
+.phone__screen {
+  display: block;
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  border-radius: 25px;
+  background: var(--base-white);
+}
+
+/* ── SLIDES + SCROLLERS ────────────────────────────────────── */
+
+.slide {
+  display: block;
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  opacity: 0;
+  transition: opacity 400ms ease;
+}
+
+.slide.is-active { opacity: 1; }
+
+.slide.no-fade { transition: none; }
+
+.slide img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top;
+}
+
+.slide--scroll img {
+  height: auto;
+  min-height: 100%;
+}
+
+.scroller {
+  width: 100%;
+  height: auto;
+}
+
+/* ── FAKE CURSOR ───────────────────────────────────────────── */
+
+.pointer {
+  position: absolute;
+  z-index: 3;
+  width: 14px;
+  height: 14px;
+  opacity: 0;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  transition: opacity 200ms ease, transform var(--dur-micro) ease;
+}
+
+.pointer.is-visible { opacity: 1; }
+.pointer.is-pressing { transform: translate(-50%, -50%) scale(0.8); }
+
+.ripple {
+  position: absolute;
+  z-index: 2;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: rgba(24, 24, 27, 0.15);
+  opacity: 0;
+  transform: translate(-50%, -50%) scale(0);
+  pointer-events: none;
+}
+
+.ripple.is-popping { animation: ripple-pop 400ms ease-out forwards; }
+
+@keyframes ripple-pop {
+  from { transform: translate(-50%, -50%) scale(0); opacity: 0.5; }
+  to   { transform: translate(-50%, -50%) scale(2.5); opacity: 0; }
+}
+
+/* ── FOOTER ────────────────────────────────────────────────── */
+
+.footer {
+  display: flex;
+  flex-direction: column;
+  gap: var(--block-gap);
+  padding-top: 0;
+  border-top: 1px solid var(--border-default);
+}
+
+.footer__note {
+  padding-top: var(--block-gap);
+  font-size: var(--body-sm-size);
+  line-height: var(--body-sm-line);
+}
+
+/* ── TOAST ─────────────────────────────────────────────────── */
+
+.toast {
+  position: fixed;
+  left: 50%;
+  bottom: 24px;
+  z-index: 200;
+  padding: 8px 16px;
+  background: var(--text-primary);
+  color: var(--base-white);
+  font-size: var(--body-sm-size);
+  line-height: var(--body-sm-line);
+  opacity: 0;
+  transform: translate(-50%, 8px);
+  pointer-events: none;
+  transition: opacity var(--dur-small) var(--ease-out),
+              transform var(--dur-small) var(--ease-out);
+}
+
+.toast.is-visible { opacity: 1; transform: translate(-50%, 0); }
+
+/* ── CURSOR TOOLTIP ────────────────────────────────────────── */
+
+/* position comes from JS as two custom properties, so the tip tracks the
+   pointer on the compositor instead of through left/top reflows */
+.cursor-tip {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 300;
+  padding: 6px 10px;
+  background: var(--text-primary);
+  color: var(--base-white);
+  font-size: var(--body-sm-size);
+  line-height: var(--body-sm-line);
+  border-radius: 6px;
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0;
+  transform: translate3d(var(--tip-x, 0px), var(--tip-y, 0px), 0);
+  transition: opacity var(--dur-micro) var(--ease-out);
+}
+
+.cursor-tip.is-visible { opacity: 1; }
+
+/* ── RESPONSIVE ────────────────────────────────────────────── */
+
+@media (max-width: 860px) {
+  :root {
+    --shell-pad-y: 72px;
+    --shell-pad-x: 28px;
+    --stack-gap: 64px;
+  }
+}
+
+@media (max-width: 720px) {
+  :root {
+    --shell-pad-y: 56px;
+    --shell-pad-x: 20px;
+  }
+
+  .showcase__row { flex-direction: column; }
+
+  /* the stage carries the height here, not the box: `flex: 1 1 0` would
+     resolve against the cross axis once the row stacks and collapse it */
+  .case { display: flex; flex-direction: column; }
+  .case--wide,
+  .case--tall { flex: 0 0 auto; height: auto; }
+  .case--wide .stage { height: 240px; }
+  .case--tall .stage { height: 430px; }
+
+  .case--wide { --laptop-w: 320px; }
+
+  .phone { width: 190px; height: 380px; }
+
+  /* nothing reveals the mockup on touch, so the plate sits under it
+     instead of covering it */
+  .case__label {
+    position: static;
+    padding: 14px;
+    border: 0;
+    border-top: 1px solid var(--border-default);
+    /* once it's in the flow it can't hide on hover, or it leaves a hole */
+    opacity: 1;
+    transform: none;
+    /* flush to the box edges here, so rounding it would read as a seam */
+    border-radius: 0;
+  }
+}
+
+/* ── REDUCED MOTION ────────────────────────────────────────── */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  /* the deck never starts, so the plate has to stay readable */
+  .case__label { opacity: 1 !important; }
+
+  /* the surname is filled in outright, so there is nothing to blink for */
+  .identity__caret { display: none; }
+}
