@@ -28,7 +28,11 @@
   /* ── COPY TO CLIPBOARD ───────────────────────────────────── */
 
   Array.prototype.forEach.call(document.querySelectorAll('[data-copy]'), function (btn) {
-    btn.addEventListener('click', function () {
+    btn.addEventListener('click', function (event) {
+      /* the email is a real link, so the address flows and wraps as text and
+         still reaches a mail client without JS. With JS, a click copies. */
+      if (btn.tagName === 'A') event.preventDefault();
+
       var value = btn.getAttribute('data-copy');
 
       function fallback() {
