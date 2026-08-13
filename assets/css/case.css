@@ -20,19 +20,25 @@
   align-items: center;
   gap: 8px;
   padding: 8px 14px;
-  background: var(--base-white);
-  border: 1px solid var(--border-default);
+  /* solid ink, so it reads as a button against the copy it floats over.
+     The arrow is a text glyph, so it takes this colour with the label. */
+  background: var(--text-primary);
+  border: 1px solid var(--text-primary);
   border-radius: var(--radius-card);
   font-size: var(--heading-md-size);
   line-height: var(--heading-md-line);
   letter-spacing: var(--heading-md-track);
   font-weight: 500;
-  color: var(--text-primary);
+  color: var(--base-white);
   text-decoration: none;
-  transition: border-color var(--dur-micro) var(--ease-out);
+  transition: background var(--dur-micro) var(--ease-out),
+              border-color var(--dur-micro) var(--ease-out);
 }
 
-.cs-back:hover { border-color: var(--border-strong); }
+.cs-back:hover {
+  background: #3f3f46;
+  border-color: #3f3f46;
+}
 
 .cs-back__arrow {
   transition: transform var(--dur-small) var(--ease-out);
