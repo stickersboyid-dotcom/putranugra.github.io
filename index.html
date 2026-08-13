@@ -1,715 +1,160 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Nugraha Eka Putra — Product Designer</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <style>
-    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-
-    :root {
-      --bg:     #FAFAF8;
-      --text:   #1A1A1A;
-      --muted:  #6E6E6E;
-      --frame:  #1A1A1A;
-      --lining: 40px;
-    }
-
-    html, body {
-      width: 100%; height: 100%;
-      font-family: 'Plus Jakarta Sans', sans-serif;
-      -webkit-font-smoothing: antialiased;
-      overflow-x: hidden;
-    }
-
-    body {
-      position: relative;
-      background: var(--bg);
-    }
-
-    /* ── AMBIENT BACKGROUND ── */
-    .bg-ambient {
-      position: fixed;
-      inset: 0;
-      z-index: 0;
-      overflow: hidden;
-      pointer-events: none;
-    }
-
-    .blob {
-      position: absolute;
-      filter: blur(90px);
-      will-change: transform, border-radius;
-    }
-
-    .blob-1 {
-      width: 900px; height: 700px;
-      top: -320px; left: 50%;
-      background: rgba(255,205,150,0.30);
-      transform: translateX(-50%);
-      animation: morph1 16s ease-in-out infinite, drift1 22s ease-in-out infinite;
-    }
-
-    .blob-2 {
-      width: 650px; height: 650px;
-      top: 8%; right: -220px;
-      background: rgba(255,170,120,0.16);
-      animation: morph2 19s ease-in-out infinite, drift2 26s ease-in-out infinite;
-    }
-
-    .blob-3 {
-      width: 700px; height: 700px;
-      bottom: -260px; left: -180px;
-      background: rgba(140,175,255,0.14);
-      animation: morph3 21s ease-in-out infinite, drift3 24s ease-in-out infinite;
-    }
-
-    @keyframes morph1 {
-      0%   { border-radius: 42% 58% 65% 35% / 45% 45% 55% 55%; }
-      33%  { border-radius: 62% 38% 30% 70% / 55% 65% 35% 45%; }
-      66%  { border-radius: 35% 65% 55% 45% / 65% 35% 65% 35%; }
-      100% { border-radius: 42% 58% 65% 35% / 45% 45% 55% 55%; }
-    }
-
-    @keyframes drift1 {
-      0%   { transform: translate(-50%, 0)    rotate(0deg); }
-      50%  { transform: translate(-46%, 34px) rotate(6deg); }
-      100% { transform: translate(-50%, 0)    rotate(0deg); }
-    }
-
-    @keyframes morph2 {
-      0%   { border-radius: 58% 42% 38% 62% / 40% 62% 38% 60%; }
-      33%  { border-radius: 34% 66% 60% 40% / 62% 40% 60% 38%; }
-      66%  { border-radius: 65% 35% 45% 55% / 45% 55% 45% 55%; }
-      100% { border-radius: 58% 42% 38% 62% / 40% 62% 38% 60%; }
-    }
-
-    @keyframes drift2 {
-      0%   { transform: translate(0,0)         rotate(0deg); }
-      50%  { transform: translate(-50px, 40px) rotate(-8deg); }
-      100% { transform: translate(0,0)         rotate(0deg); }
-    }
-
-    @keyframes morph3 {
-      0%   { border-radius: 45% 55% 60% 40% / 55% 45% 55% 45%; }
-      33%  { border-radius: 65% 35% 35% 65% / 40% 60% 40% 60%; }
-      66%  { border-radius: 38% 62% 55% 45% / 60% 40% 65% 35%; }
-      100% { border-radius: 45% 55% 60% 40% / 55% 45% 55% 45%; }
-    }
-
-    @keyframes drift3 {
-      0%   { transform: translate(0,0)        rotate(0deg); }
-      50%  { transform: translate(40px,-35px) rotate(7deg); }
-      100% { transform: translate(0,0)        rotate(0deg); }
-    }
-
-    /* subtle grain so the background doesn't sit flat */
-    body::before {
-      content: '';
-      position: fixed;
-      inset: -10%;
-      width: 120%; height: 120%;
-      z-index: 1;
-      pointer-events: none;
-      opacity: 0.035;
-      mix-blend-mode: multiply;
-      background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
-      background-size: 320px 320px;
-      animation: grainMove 0.6s steps(8) infinite;
-    }
-
-    @keyframes grainMove {
-      0%   { transform: translate(0,0); }
-      12%  { transform: translate(-3%,-2%); }
-      24%  { transform: translate(-5%,3%); }
-      36%  { transform: translate(3%,-4%); }
-      48%  { transform: translate(-2%,5%); }
-      60%  { transform: translate(4%,2%); }
-      72%  { transform: translate(2%,-3%); }
-      84%  { transform: translate(-4%,-1%); }
-      100% { transform: translate(0,0); }
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-      .blob, body::before { animation: none; }
-    }
-
-    /* ── LINING ── */
-    .lining {
-      position: fixed;
-      z-index: 100;
-      background: var(--frame);
-      overflow: hidden;
-    }
-
-    #lining-top    { top: 0;    left: 0; width: 100vw; height: var(--lining); display: flex; align-items: center; }
-    #lining-bottom { bottom: 0; left: 0; width: 100vw; height: var(--lining); display: flex; align-items: center; }
-    #lining-left   { top: 0;    left: 0; width: var(--lining); height: 100vh; display: flex; justify-content: center; }
-    #lining-right  { top: 0; right: 0;   width: var(--lining); height: 100vh; display: flex; justify-content: center; }
-
-    .lining-item {
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-      font-size: 14px;
-      font-weight: 500;
-      letter-spacing: 0.05em;
-      color: rgba(255,255,255,0.65);
-      white-space: nowrap;
-      flex-shrink: 0;
-    }
-
-    .lining-h-item { padding: 0 32px; }
-    .lining-v-item { writing-mode: vertical-lr; padding: 28px 0; }
-
-    .lining-dot {
-      width: 2.5px; height: 2.5px;
-      border-radius: 50%;
-      background: rgba(255,255,255,0.35);
-      flex-shrink: 0;
-      display: inline-block;
-    }
-
-    /* ── HERO ── */
-    .hero {
-      width: 100%; height: 100vh;
-      display: flex; flex-direction: column;
-      align-items: center; justify-content: center;
-      gap: 0; text-align: center;
-      padding: calc(var(--lining) + 32px) calc(var(--lining) + 48px);
-      position: relative; z-index: 10;
-    }
-
-    .hero-title {
-      font-size: 100px; font-weight: 700;
-      line-height: 1.0; letter-spacing: -0.03em;
-      color: var(--text);
-      display: flex; flex-direction: column; gap: 0;
-      margin-bottom: 28px;
-    }
-
-    .hero-title span {
-      display: block;
-      opacity: 0;
-      filter: blur(12px);
-      transform: translateY(8px);
-    }
-
-    .hero-title span:nth-child(1) {
-      animation: blurFocus 0.9s cubic-bezier(0.4, 0, 0.2, 1) 0.2s forwards, floatTitle 2.5s ease-in-out 2.2s infinite;
-    }
-    .hero-title span:nth-child(2) {
-      animation: blurFocus 0.9s cubic-bezier(0.4, 0, 0.2, 1) 0.55s forwards, floatTitle 2.5s ease-in-out 2.5s infinite;
-    }
-    .hero-title span:nth-child(3) {
-      animation: blurFocus 0.9s cubic-bezier(0.4, 0, 0.2, 1) 0.9s forwards, floatTitle 2.5s ease-in-out 2.8s infinite;
-    }
-
-    @keyframes floatTitle {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-6px); }
-    }
-
-    @keyframes blurFocus {
-      from { opacity: 0; filter: blur(12px); transform: translateY(8px); }
-      to   { opacity: 1; filter: blur(0);    transform: translateY(0); }
-    }
-
-    .hero-sub {
-      font-size: 20px; font-weight: 400;
-      line-height: 1.85; color: var(--muted); max-width: 440px;
-      letter-spacing: 0.01em;
-      margin-bottom: 10px;
-      opacity: 0;
-      animation: fadeUp 0.8s cubic-bezier(0.4, 0, 0.2, 1) 1.4s forwards;
-    }
-
-    .scroll-indicator {
-      display: flex; flex-direction: column;
-      align-items: center;
-      cursor: pointer;
-      margin-top: 10px;
-      opacity: 0;
-      animation: fadeUp 0.8s cubic-bezier(0.4, 0, 0.2, 1) 1.7s forwards;
-    }
-
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(10px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
-
-    .scroll-label {
-      font-size: 11px; font-weight: 600;
-      letter-spacing: 0.2em; text-transform: uppercase;
-      color: var(--muted); opacity: 0.7;
-      margin-bottom: 10px;
-    }
-
-    .scroll-indicator:hover .scroll-label { opacity: 1; }
-
-    .scroll-chevrons {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 2px;
-    }
-
-    .scroll-chevrons svg {
-      color: var(--text);
-      animation: chevronBounce 1.4s ease-in-out infinite;
-    }
-
-    .scroll-chevrons svg:nth-child(1) { opacity: 0.85; animation-delay: 0s; }
-    .scroll-chevrons svg:nth-child(2) { opacity: 0.4;  animation-delay: 0.15s; margin-top: -10px; }
-
-    @keyframes chevronBounce {
-      0%, 100% { transform: translateY(0); }
-      50%      { transform: translateY(5px); }
-    }
-
-    /* ── CONTENT ── */
-    .content {
-      position: relative; z-index: 10;
-      max-width: 1200px; margin: 0 auto;
-      padding: 0 calc(var(--lining) + 24px) 100px;
-    }
-
-    /* ── CASE STUDIES ── */
-    .cases-section { padding-top: 80px; }
-
-    .cases-header {
-      text-align: center;
-      margin-bottom: 100px;
-    }
-
-    .section-eyebrow {
-      font-size: 16px;
-      font-weight: 600;
-      letter-spacing: 0.16em;
-      text-transform: uppercase;
-      color: var(--muted);
-      margin-bottom: 40px;
-      display: block;
-    }
-
-    .cases-intro {
-      font-size: 24px;
-      font-weight: 500;
-      line-height: 1.75;
-      color: var(--text);
-      max-width: 1200px;
-      margin: 0 auto;
-      letter-spacing: 0.01em;
-    }
-
-    .cases-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      column-gap: 60px;
-      row-gap: 100px;
-    }
-
-    .case-card { display: flex; flex-direction: column; gap: 16px; }
-
-    .case-img-wrap {
-      width: 100%;
-      aspect-ratio: 66 / 43;
-      overflow: hidden;
-      border-radius: 8px;
-      background: #F0F0F0;
-    }
-
-    .case-img-wrap img {
-      width: 100%; height: 100%;
-      object-fit: cover;
-      display: block;
-      transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    }
-
-    .case-img-wrap:hover img { transform: scale(1.05); }
-
-    .case-label {
-      font-size: 16px;
-      font-weight: 700;
-      letter-spacing: 0.04em;
-      color: var(--text);
-      text-transform: uppercase;
-    }
-
-    .case-desc {
-      font-size: 20px;
-      font-weight: 400;
-      line-height: 1.75;
-      color: var(--muted);
-      letter-spacing: 0.01em;
-      flex: 1;
-    }
-
-    .case-btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      padding: 10px 20px;
-      border: 1.5px solid var(--frame);
-      border-radius: 6px;
-      font-size: 14px;
-      font-weight: 600;
-      color: #FFFFFF;
-      background: var(--frame);
-      text-decoration: none;
-      position: relative;
-      width: fit-content;
-      margin-top: 4px;
-      transition: box-shadow 0.3s ease;
-    }
-
-    .case-btn:hover {
-      box-shadow: 0 0 0 3px rgba(26,26,26,0.1), 0 0 16px 4px rgba(26,26,26,0.08), 0 0 32px 8px rgba(26,26,26,0.05);
-    }
-
-    .case-btn svg { transition: transform 0.15s; }
-    .case-btn:hover svg { transform: translateX(3px); }
-
-    /* ── WRITING / LEARN / CONTACT SECTIONS ── */
-    .story-section {
-      padding-top: 300px;
-      text-align: center;
-    }
-
-    .writing-body {
-      display: flex;
-      flex-direction: column;
-      gap: 24px;
-      max-width: 1200px;
-      margin: 0 auto;
-    }
-
-    .writing-body p {
-      font-size: 24px;
-      font-weight: 500;
-      line-height: 1.75;
-      color: var(--text);
-      letter-spacing: 0.01em;
-    }
-
-    .writing-body a:not(.case-btn) {
-      color: var(--muted);
-      text-decoration: underline;
-      text-underline-offset: 4px;
-      text-decoration-color: rgba(136,136,136,0.4);
-      transition: color 0.2s, text-decoration-color 0.2s;
-    }
-
-    .writing-body a:not(.case-btn):hover {
-      color: var(--text);
-      text-decoration-color: var(--text);
-    }
-
-    /* ── MOBILE ── */
-    @media (max-width: 720px) {
-      #lining-left, #lining-right { display: none; }
-      .hero { padding: calc(var(--lining) + 24px) 32px; }
-      .hero-title { font-size: 56px; }
-      .content { padding: 0 24px 80px; }
-      .cases-grid { grid-template-columns: 1fr; }
-    }
-
-    /* ── CONTACT LINKS ── */
-    .contact-links {
-      display: flex;
-      gap: 32px;
-      justify-content: center;
-      margin-top: 8px;
-    }
-
-    .contact-link {
-      font-size: 16px;
-      font-weight: 500;
-      color: var(--muted);
-      text-decoration: underline;
-      text-underline-offset: 4px;
-      text-decoration-color: rgba(136,136,136,0.4);
-      transition: color 0.2s, text-decoration-color 0.2s;
-      background: none;
-      border: none;
-      cursor: pointer;
-      font-family: 'Plus Jakarta Sans', sans-serif;
-      padding: 0;
-    }
-
-    .contact-link:hover {
-      color: var(--text);
-      text-decoration-color: var(--text);
-    }
-
-    /* Email flip */
-    .contact-email {
-      position: relative;
-      display: inline-block;
-    }
-
-    .contact-email .btn-default {
-      display: block;
-      transition: opacity 0.2s ease;
-    }
-
-    .contact-email .btn-hover {
-      position: absolute;
-      inset: 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      opacity: 0;
-      transition: opacity 0.2s ease;
-      white-space: nowrap;
-    }
-
-    .contact-email:hover .btn-default { opacity: 0; }
-    .contact-email:hover .btn-hover   { opacity: 1; }
-
-
-    /* ── CONTACT ── */
-    .contact-list {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 0;
-      margin-top: 32px;
-    }
-
-    .c-item {
-      font-size: 18px;
-      font-weight: 400;
-      color: var(--muted);
-      text-decoration: none;
-      background: none;
-      border: none;
-      cursor: pointer;
-      font-family: 'Plus Jakarta Sans', sans-serif;
-      padding: 0;
-      height: 40px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      width: fit-content;
-      transition: color 0.2s;
-    }
-
-    .c-item:hover { color: var(--text); }
-
-    .c-email {
-      position: relative;
-      overflow: hidden;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      width: fit-content;
-      min-width: 320px;
-      height: 40px;
-    }
-
-    .c-email .c-state {
-      width: 100%;
-      text-align: center;
-      font-size: 18px;
-      font-weight: 400;
-      transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.35s ease;
-    }
-
-    .c-email .c-state { position: absolute; }
-    .c-email .c-state-default  { transform: translateY(0); }
-    .c-email .c-state-hover    { transform: translateY(200%); opacity: 0; }
-    .c-email .c-state-copied   { transform: translateY(200%); opacity: 0; }
-
-    .c-email:hover .c-state-default  { transform: translateY(-200%); opacity: 0; }
-    .c-email:hover .c-state-hover    { transform: translateY(0); opacity: 1; }
-    .c-email:hover .c-state-copied   { transform: translateY(200%); opacity: 0; }
-
-    .c-email.copied .c-state-default  { transform: translateY(-200%); opacity: 0; }
-    .c-email.copied .c-state-hover    { transform: translateY(-200%); opacity: 0; }
-    .c-email.copied .c-state-copied   { transform: translateY(0); opacity: 1; }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Nugraha Putra — Product Designer</title>
+<meta name="description" content="Product designer with 6 years on operational and business problems: reducing costs, improving operational processes, and providing clarity within complex data.">
+<link rel="canonical" href="https://putranugra.com/">
+
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://putranugra.com/">
+<meta property="og:title" content="Nugraha Putra — Product Designer">
+<meta property="og:description" content="I design by finding what's actually wrong, not just what looks wrong.">
+<meta name="twitter:card" content="summary">
+
+<link rel="icon" href="favicon.png" type="image/png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@200;400;500&display=swap">
+<link rel="stylesheet" href="assets/css/styles.css">
 </head>
 <body>
 
-<div class="bg-ambient" aria-hidden="true">
-  <div class="blob blob-1"></div>
-  <div class="blob blob-2"></div>
-  <div class="blob blob-3"></div>
-</div>
+<a class="skip-link" href="#main">Skip to content</a>
 
-<div id="lining-top"    class="lining"></div>
-<div id="lining-bottom" class="lining"></div>
-<div id="lining-left"   class="lining"></div>
-<div id="lining-right"  class="lining"></div>
+<div class="page">
+  <div class="shell">
+    <main class="content" id="main">
 
-<section class="hero">
-  <h1 class="hero-title">
-    <span>I listen.</span>
-    <span>I understand.</span>
-    <span>I design.</span>
-  </h1>
-  <p class="hero-sub">I'm Nugraha, a product designer with 6+ years of experience in UI/UX design, focused on solving business problems through design.</p>
-  <div class="scroll-indicator" onclick="document.getElementById('content').scrollIntoView({behavior:'smooth'})">
-    <span class="scroll-label">Scroll</span>
-    <div class="scroll-chevrons">
-      <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M4 7l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M4 7l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-    </div>
+      <!-- ── HEADING ─────────────────────────────────────────── -->
+      <header class="heading">
+        <div class="identity">
+          <h1 class="identity__name" data-type-suffix=" Eka Putra">Hi, I&rsquo;m Nugraha<span data-type-slot></span><span class="identity__caret" aria-hidden="true"></span></h1>
+          <p class="identity__role">Product Designer</p>
+        </div>
+        <p class="intro">I design by finding what&rsquo;s actually wrong, not just what looks wrong. Over the past 6 years as a product designer, I&rsquo;ve mostly worked on operational and business problems, where the goal is to reduce costs, improve operational processes, and provide clarity within complex data.</p>
+      </header>
+
+      <!-- ── CASE STUDIES ────────────────────────────────────── -->
+      <section class="section" aria-labelledby="work-heading">
+        <div class="section__head">
+          <h2 class="eyebrow" id="work-heading">SELECTED CASE STUDIES</h2>
+          <p class="lede">These are some works that changed how I think about design.</p>
+        </div>
+
+        <div class="showcase">
+          <div class="showcase__row">
+
+            <!-- box 2 — loyalty page -->
+            <a class="case case--tall" href="loyalty-page/" data-mock="scroller" data-hover-freeze data-tip="Click to read">
+              <span class="stage">
+                <span class="phone">
+                  <span class="phone__screen">
+                    <img src="assets/img/loyalty/landing-page.png" alt="" loading="lazy" decoding="async" class="scroller" data-scroller>
+                  </span>
+                </span>
+              </span>
+              <span class="case__scrim" aria-hidden="true"></span>
+              <span class="case__label">
+                <span class="case__tag">LOYALTY PAGE &middot; 2021</span>
+                <span class="case__desc">The UX behind a 76% growth in new loyalty user registrations</span>
+              </span>
+            </a>
+
+            <!-- box 3 — hangry app -->
+            <a class="case case--tall" href="hangry-app/" data-mock="tour" data-hover-freeze data-tip="Click to read">
+              <span class="stage">
+                <span class="phone">
+                  <span class="phone__screen" data-screen>
+                    <span class="slide is-active"><img src="assets/img/hangry/splash.png" alt="" loading="lazy" decoding="async"></span>
+                    <span class="slide"><img src="assets/img/hangry/searching.png" alt="" loading="lazy" decoding="async"></span>
+                    <span class="slide"><img src="assets/img/hangry/outlet-list.png" alt="" loading="lazy" decoding="async"></span>
+                    <span class="slide slide--scroll"><img src="assets/img/hangry/home.png" alt="" loading="lazy" decoding="async" data-scroller></span>
+                    <span class="pointer" data-pointer aria-hidden="true">
+                      <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M2 2L14 7.5L8 9.5L6 15L2 2Z" fill="#18181b" stroke="#fff" stroke-width="1"/></svg>
+                    </span>
+                    <span class="ripple" data-ripple aria-hidden="true"></span>
+                  </span>
+                </span>
+              </span>
+              <span class="case__scrim" aria-hidden="true"></span>
+              <span class="case__label">
+                <span class="case__tag">HANGRY APP &middot; 2019</span>
+                <span class="case__desc">How I designed an app that reached 100K+ downloads with a 4.9 star rating</span>
+              </span>
+            </a>
+
+          </div>
+
+          <!-- box 1 — internal ops dashboard -->
+          <a class="case case--wide" href="internal-ops-dashboard/" data-mock="deck" data-hover-freeze data-tip="Click to read"
+            data-dwell="1000,1000,1000,1000"
+            data-clicks="0:0.931,0.057 2:0.917,0.885 3:0.232,0.148">
+            <span class="stage">
+              <span class="laptop">
+                <span class="laptop__bar"><span class="laptop__notch"><span class="laptop__cam"></span></span></span>
+                <span class="laptop__screen" data-screen>
+                  <span class="slide is-active"><img src="assets/img/dashboard/step-1.png" alt="" loading="lazy" decoding="async"></span>
+                  <span class="slide"><img src="assets/img/dashboard/step-2.png" alt="" loading="lazy" decoding="async"></span>
+                  <span class="slide"><img src="assets/img/dashboard/step-3.png" alt="" loading="lazy" decoding="async"></span>
+                  <span class="slide"><img src="assets/img/dashboard/step-4.png" alt="" loading="lazy" decoding="async"></span>
+                  <span class="pointer" data-pointer aria-hidden="true">
+                    <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M2 2L14 7.5L8 9.5L6 15L2 2Z" fill="#18181b" stroke="#fff" stroke-width="1"/></svg>
+                  </span>
+                  <span class="ripple" data-ripple aria-hidden="true"></span>
+                </span>
+              </span>
+            </span>
+            <span class="case__scrim" aria-hidden="true"></span>
+            <span class="case__label">
+              <span class="case__tag">INTERNAL OPS DASHBOARD &middot; 2024</span>
+              <span class="case__desc">Solving the right problem to make operations 70% faster</span>
+            </span>
+          </a>
+        </div>
+      </section>
+
+      <!-- ── WRITINGS ────────────────────────────────────────── -->
+      <section class="section" aria-labelledby="writings-heading">
+        <div class="section__head">
+          <h2 class="eyebrow" id="writings-heading">WRITINGS</h2>
+          <p class="lede">Design taught me to observe, writing taught me to articulate it.</p>
+        </div>
+        <ul class="list">
+          <li><a class="link" href="https://substack.com/@nugrahaputra/p-197953944" target="_blank" rel="noopener">What AI taught me about my own thinking</a></li>
+          <li><a class="link" href="https://substack.com/@nugrahaputra/p-195337403" target="_blank" rel="noopener">The week I worked in a restaurant kitchen</a></li>
+          <li><a class="link" href="https://substack.com/@nugrahaputra/p-195331541" target="_blank" rel="noopener">The newest person with the loudest question</a></li>
+          <li><a class="link" href="https://substack.com/@nugrahaputra/p-195330900" target="_blank" rel="noopener">The insight that changed how I see problems</a></li>
+        </ul>
+      </section>
+
+      <!-- ── CONTACT ─────────────────────────────────────────── -->
+      <section class="section" aria-labelledby="contact-heading">
+        <div class="section__head">
+          <h2 class="eyebrow" id="contact-heading">LET&rsquo;S BUILD SOMETHING WORTH REMEMBERING</h2>
+          <p class="lede">I&rsquo;m open to new opportunities or just a good conversation about design and product.</p>
+        </div>
+        <ul class="list">
+          <li><button class="link" type="button" data-copy="nugrahaekaputra.id@gmail.com">Email</button></li>
+          <li><a class="link" href="https://www.linkedin.com/in/nugrahaekaputra/" target="_blank" rel="noopener">LinkedIn</a></li>
+          <li><a class="link" href="https://dribbble.com/nugrahaputra" target="_blank" rel="noopener">Design Gallery</a></li>
+          <li><a class="link" href="assets/docs/nugraha-eka-putra-resume.pdf" download>My Resume</a></li>
+        </ul>
+      </section>
+
+      <!-- ── FOOTER ──────────────────────────────────────────── -->
+      <footer class="footer">
+        <p class="footer__note">&copy; 2026 &mdash; Nugraha Putra</p>
+      </footer>
+
+    </main>
   </div>
-</section>
-
-<div class="content" id="content">
-
-  <!-- LOVE TO SOLVE -->
-  <section class="cases-section">
-    <div class="cases-header">
-      <span class="section-eyebrow">Love to Solve</span>
-      <p class="cases-intro">As a designer, I focused on solving problems related to operational and business. Finding what's actually wrong, not just what looks wrong. Understand the constraints, the context, and the people behind it.</p>
-    </div>
-    <div class="cases-grid">
-      <div class="case-card">
-        <div class="case-img-wrap">
-          <img src="case-loyalty.png" alt="Loyalty Page">
-        </div>
-        <div class="case-label">Loyalty Page · 2021</div>
-        <p class="case-desc">Registration numbers were dropping. After digging into the actual user flow and running user interviews, I found the real friction. A single overlooked step nobody had questioned. After I fixed it, new user registrations up 76% in 3 months.</p>
-        <a class="case-btn" href="/case-study-loyalty">See Details <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7h10M7 2l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
-      </div>
-      <div class="case-card">
-        <div class="case-img-wrap">
-          <img src="case-dashboard.png" alt="Internal Ops Dashboard">
-        </div>
-        <div class="case-label">Internal Ops Dashboard · 2024</div>
-        <p class="case-desc">The CE team was using a Hangry App to handle replacement orders. It took up to 10 minutes per order. I designed an internal ops dashboard built around how they actually worked. Then, replacement order time 70% faster.</p>
-        <a class="case-btn" href="/case-study-hangry-internal">See Details <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7h10M7 2l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
-      </div>
-      <div class="case-card">
-        <div class="case-img-wrap">
-          <img src="case-hangry.png" alt="Hangry App">
-        </div>
-        <div class="case-label">Hangry App · 2019</div>
-        <p class="case-desc">Hangry ran multiple brands out of one kitchen. I started by understanding that distinction before drawing a single screen. After launch, it reached 4.9 stars with 100K+ downloads.</p>
-        <a class="case-btn" href="/case-study-hangry">See Details <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7h10M7 2l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
-      </div>
-      <div class="case-card">
-        <div class="case-img-wrap">
-          <img src="case-gallery.png" alt="Design Gallery">
-        </div>
-        <div class="case-label">Design Gallery</div>
-        <p class="case-desc">A collection of UI explorations, visual experiments, and design work outside of case studies. Mostly product interfaces, some just for fun.</p>
-        <a class="case-btn" href="https://dribbble.com/nugrahaputra" target="_blank">See Details <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7h10M7 2l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
-      </div>
-    </div>
-  </section>
-
-  <!-- LOVE TO WRITE -->
-  <section class="story-section">
-    <span class="section-eyebrow">Love to Write</span>
-    <div class="writing-body">
-      <p>Design taught me to observe. Writing taught me to articulate what I observe. When a problem is too complex to sketch, I write it out first. It forces clarity in a way that wireframes sometimes don't.</p>
-      <p>I publish on <a href="https://substack.com/@nugrahaputra/posts" target="_blank">Substack</a> about design, thinking, and the space between the two. Some pieces have also found their way to <a href="https://kumparan.com/nugraha-eka-putra1542944612301" target="_blank">Kumparan</a> and <a href="https://fandom.id/author/nugrahaeka/" target="_blank">Fandom.id</a>, covering topics from product thinking to football, because curiosity rarely stays in one lane.</p>
-    </div>
-  </section>
-
-  <!-- CONTACT -->
-  <section class="story-section" style="padding-bottom: 200px;">
-    <span class="section-eyebrow">Contact</span>
-    <div class="writing-body">
-      <p>I'm always open to new opportunities, collaborations, or just a good conversation about design and product.</p>
-      <div class="contact-list">
-        <button class="c-item c-email" id="emailBtn">
-          <span class="c-state c-state-default">nugrahaekaputra.id@gmail.com ↗</span>
-          <span class="c-state c-state-hover">Copy email ↗</span>
-          <span class="c-state c-state-copied">Copied ✓</span>
-        </button>
-        <a class="c-item" href="https://www.linkedin.com/in/nugrahaekaputra/" target="_blank">LinkedIn ↗</a>
-        <a class="c-item" href="nugraha-eka-putra-cv.pdf" download>My Resume ↗</a>
-      </div>
-    </div>
-  </section>
-
 </div>
 
-<script>
-(function() {
-  const TEXT  = 'NUGRAHA PUTRA · PRODUCT DESIGNER · NOOB WRITER · EXPLORER';
-  const SPEED = 0.8;
-  const N     = 30;
+<div class="toast" data-toast role="status" aria-live="polite"></div>
+<div class="cursor-tip" data-cursor-tip aria-hidden="true"></div>
 
-  function makeItem(vertical, flip) {
-    const el = document.createElement('span');
-    el.className = vertical ? 'lining-item lining-v-item' : 'lining-item lining-h-item';
-    if (vertical) {
-      el.style.writingMode = 'vertical-lr';
-      if (flip) el.style.transform = 'rotate(180deg)';
-    }
-    const parts = TEXT.split(' · ');
-    parts.forEach((part, i) => {
-      el.appendChild(document.createTextNode(part));
-      if (i < parts.length - 1) {
-        const d = document.createElement('span');
-        d.className = 'lining-dot';
-        el.appendChild(d);
-      }
-    });
-    return el;
-  }
-
-  function marquee(container, isV, goPositive, flip) {
-    const track = document.createElement('div');
-    track.style.cssText = isV
-      ? 'display:flex;flex-direction:column;align-items:center;will-change:transform;'
-      : 'display:flex;align-items:center;white-space:nowrap;will-change:transform;';
-
-    for (let i = 0; i < N * 2; i++) track.appendChild(makeItem(isV, flip));
-    container.appendChild(track);
-
-    requestAnimationFrame(() => requestAnimationFrame(() => {
-      let loopSize = 0;
-      const items = track.children;
-      for (let i = 0; i < N; i++) {
-        const r = items[i].getBoundingClientRect();
-        loopSize += isV ? r.height : r.width;
-      }
-
-      if (loopSize <= 0) return;
-
-      let pos = goPositive ? -loopSize : 0;
-
-      function tick() {
-        pos += goPositive ? SPEED : -SPEED;
-        if (goPositive && pos >= 0)          pos -= loopSize;
-        if (!goPositive && pos <= -loopSize) pos += loopSize;
-        track.style.transform = isV ? `translateY(${pos}px)` : `translateX(${pos}px)`;
-        requestAnimationFrame(tick);
-      }
-
-      tick();
-    }));
-  }
-
-  marquee(document.getElementById('lining-top'),    false, true,  false);
-  marquee(document.getElementById('lining-bottom'), false, false, false);
-  marquee(document.getElementById('lining-right'),  true,  true,  false);
-  marquee(document.getElementById('lining-left'),   true,  false, true);
-
-
-  // Email copy
-  const emailBtn = document.getElementById('emailBtn');
-  if (emailBtn) {
-    emailBtn.addEventListener('click', () => {
-      navigator.clipboard?.writeText('nugrahaekaputra.id@gmail.com').then(() => {
-        emailBtn.classList.add('copied');
-        setTimeout(() => emailBtn.classList.remove('copied'), 1500);
-      });
-    });
-  }
-
-})();
-</script>
+<script src="assets/js/main.js"></script>
 </body>
 </html>
