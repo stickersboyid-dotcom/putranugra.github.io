@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The UX behind a 76% growth in new loyalty user registrations — Nugraha Putra</title>
+<meta name="description" content="Loyalty Page, 2021. Registrations were falling and everyone blamed the UI. The real barrier was one overlooked step: users had to download the app first.">
+<link rel="canonical" href="https://putranugra.com/loyalty-page/">
+
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://putranugra.com/loyalty-page/">
+<meta property="og:title" content="The UX behind a 76% growth in new loyalty user registrations">
+<meta property="og:description" content="Loyalty Page, 2021 — a case study by Nugraha Putra.">
+<meta name="twitter:card" content="summary">
+
+<link rel="icon" href="../favicon.png" type="image/png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@200;300;400;500&display=swap">
+<link rel="stylesheet" href="../assets/css/styles.css">
+<link rel="stylesheet" href="../assets/css/case.css">
+</head>
+<body>
+
+<a class="skip-link" href="#main">Skip to content</a>
+
+<div class="page">
+  <div class="shell shell--case">
+    <main class="content" id="main">
+
+      <!-- ── BACK ────────────────────────────────────────────── -->
+      <a class="cs-back" href="../"><span class="cs-back__arrow" aria-hidden="true">&larr;</span>Back to home</a>
+
+      <!-- ── TITLE ───────────────────────────────────────────── -->
+      <header class="cs-head">
+        <h1 class="cs-head__title">The UX behind a 76% growth in new loyalty user registrations</h1>
+        <p class="cs-head__meta">Loyalty Page &middot; 2021</p>
+      </header>
+
+      <!-- ── PROJECT OVERVIEW ────────────────────────────────── -->
+      <section class="cs-card" aria-label="Project overview">
+        <dl class="cs-overview">
+          <div class="cs-overview__item">
+            <dt class="cs-overview__label">Product</dt>
+            <dd class="cs-overview__value">Hangry Loyalty Landing Page</dd>
+          </div>
+          <div class="cs-overview__item">
+            <dt class="cs-overview__label">Team</dt>
+            <dd class="cs-overview__value">1 designer (me), 1 engineer</dd>
+          </div>
+          <div class="cs-overview__item">
+            <dt class="cs-overview__label">Role</dt>
+            <dd class="cs-overview__value">Research, user interviews, product thinking, UX writing, UI/UX design</dd>
+          </div>
+          <div class="cs-overview__item">
+            <dt class="cs-overview__label">Outcome</dt>
+            <dd class="cs-overview__value">Increase 76% new user registrations for Hangry loyalty program</dd>
+          </div>
+        </dl>
+      </section>
+
+      <!-- ── BACKGROUND ──────────────────────────────────────── -->
+      <section class="cs-section" aria-labelledby="bg-head">
+        <h2 class="cs-section__head" id="bg-head">Background</h2>
+        <p>Hangry is a multi-brand virtual restaurant, focused on delivery. Hangry has a loyalty program for their customers to collect &ldquo;Hangry Points&rdquo; by scanning the QR code from their purchase bill. Hangry Points can be used as cashback for upcoming purchases or redeemed for merchandise.</p>
+      </section>
+
+      <!-- ── RESEARCH & DISCOVERY ────────────────────────────── -->
+      <section class="cs-section" aria-labelledby="research-head">
+        <h2 class="cs-section__head" id="research-head">Research &amp; Discovery</h2>
+        <p>In April 2021, new loyalty program registrations dropped 30% in a single month, from 4,217 to 2,916 users. Some assumptions arose.</p>
+        <p class="cs-quote">&ldquo;Is the program attractive enough to customers?&rdquo;</p>
+        <p class="cs-quote">&ldquo;Is the UI confusing?&rdquo;</p>
+        <p class="cs-quote">&ldquo;Are the benefits not interesting?&rdquo;</p>
+        <p>All reasonable assumptions, but unfortunately all wrong.</p>
+        <p>Before touching anything related to design, I needed to know and understand what&rsquo;s actually wrong in here. So, I coordinated with the Ops &amp; Customer Experience team to reach customers who had bought Hangry product but never joined the loyalty program.</p>
+        <p>We successfully gathered around 10 customers and I asked them one by one via online call with two main things:</p>
+        <p class="cs-quote">&ldquo;Did they know the loyalty program existed?&rdquo;</p>
+        <p class="cs-quote">&ldquo;Why hadn&rsquo;t they joined?&rdquo;</p>
+        <p>Surprisingly, the answers were consistent around these three:</p>
+        <p class="cs-quote">&ldquo;I know about the program, but I&rsquo;m too lazy to scan the bill because I have to download the app first.&rdquo;</p>
+        <p class="cs-quote">&ldquo;I don&rsquo;t wanna download another app, my phone storage is already full.&rdquo;</p>
+        <p class="cs-quote">&ldquo;I&rsquo;d like to join the program, but I don&rsquo;t really know what the benefits are. If I have to download the app just to find out, I&rsquo;m not interested.&rdquo;</p>
+        <p>Based on that user interview, the real problem wasn&rsquo;t the program or benefits, and it wasn&rsquo;t even the design. It was a single friction point:</p>
+        <p class="cs-quote">Requirement to download the Hangry App just to participate in the program.</p>
+      </section>
+
+      <!-- ── STRATEGY & DESIGN ───────────────────────────────── -->
+      <section class="cs-section" aria-labelledby="strategy-head">
+        <h2 class="cs-section__head" id="strategy-head">Strategy &amp; Design</h2>
+        <p>The interviews made one thing clear:</p>
+        <p class="cs-quote">&ldquo;The app was the barrier.&rdquo;</p>
+        <p>Every user who hadn&rsquo;t joined said some version of the same thing, they didn&rsquo;t want to download anything.</p>
+
+        <!-- flow: existing user flow -->
+        <figure class="cs-chart">
+          <div class="cs-graph">
+            <div class="cs-node" style="--c:1;--r:2">
+              <span class="cs-node__title">Scan purchase bill</span>
+              <span class="cs-node__sub">with phone camera</span>
+            </div>
+            <div class="cs-node" style="--c:2;--r:2">
+              <span class="cs-node__title">Hangry App installed?</span>
+              <span class="cs-node__sub">Yes/No</span>
+            </div>
+            <div class="cs-node" style="--c:3;--r:1">
+              <span class="cs-node__title">Open Hangry App</span>
+              <span class="cs-node__sub">Scanning QR + point collected</span>
+            </div>
+            <div class="cs-node cs-node--danger" style="--c:3;--r:3">
+              <span class="cs-node__title">Open Play/App Store</span>
+              <span class="cs-node__sub">The friction is here</span>
+            </div>
+
+            <span class="cs-link cs-link--h" style="--c:1;--r:2" aria-hidden="true"></span>
+            <span class="cs-elbow cs-elbow--up" aria-hidden="true"></span>
+            <span class="cs-flag cs-flag--yes-up">Yes</span>
+            <span class="cs-elbow cs-elbow--down" aria-hidden="true"></span>
+            <span class="cs-flag cs-flag--no-down">No</span>
+          </div>
+          <figcaption class="cs-chart__caption">Existing user flow &mdash; Journey to collect point without Hangry App</figcaption>
+        </figure>
+
+        <p>So the question shifted:</p>
+        <p class="cs-quote">&ldquo;What if users could register without downloading the app at all?&rdquo;</p>
+        <p>If that was possible, what was the right way to do it?</p>
+        <p>I mapped the realistic options that I could think of, which is WhatsApp Registration and Landing Page against the constraints we had, what users needed, what the business needed, and what engineering could actually take on given their current workload.</p>
+
+        <div class="cs-tablewrap">
+          <table class="cs-table">
+            <thead>
+              <tr>
+                <th scope="col">Idea</th>
+                <th scope="col">No app download</th>
+                <th scope="col">Low tech effort</th>
+                <th scope="col">Registration</th>
+                <th scope="col">Point collection</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th scope="row">WhatsApp Regis</th>
+                <td class="cs-yes">Yes</td>
+                <td class="cs-yes">Yes</td>
+                <td class="cs-yes">Yes</td>
+                <td class="cs-no">No</td>
+              </tr>
+              <tr>
+                <th scope="row">Landing Page</th>
+                <td class="cs-yes">Yes</td>
+                <td class="cs-yes">Yes</td>
+                <td class="cs-yes">Yes</td>
+                <td class="cs-yes">Yes</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <p>A landing page covered everything: no download, low tech effort, registration, and point collection in one place.</p>
+        <p>But there was another concern that came up.</p>
+        <p class="cs-quote">&ldquo;If users could register and collect points without the Hangry App, what reason did they have to download it at all?&rdquo;</p>
+        <p>It was a real tension. The loyalty program was one of the core reasons Hangry built the app. Solving the friction too completely might undermine that.</p>
+        <p>So I thought about what the app actually does that a landing page never would?</p>
+        <p class="cs-quote">It is redeeming.</p>
+
+        <div class="cs-cardrow">
+          <div class="cs-card cs-card--metric">
+            <p class="cs-card__label">Landing page &middot; No app &middot; Friction removed</p>
+            <ul class="cs-bullets">
+              <li>Scan QR purchase bill</li>
+              <li>Discover &amp; learn about loyalty program and the benefits</li>
+              <li>Registration</li>
+              <li>Collect points (accumulate)</li>
+            </ul>
+          </div>
+          <div class="cs-card cs-card--metric">
+            <p class="cs-card__label">Hangry App teritory (Download App)</p>
+            <ul class="cs-bullets">
+              <li>Cashback</li>
+              <li>Redeem merchandise</li>
+              <li>Redeem vouchers</li>
+            </ul>
+          </div>
+        </div>
+
+        <p class="cs-quote">Collect anywhere. Redeem only in the app.</p>
+        <p>The landing page wasn&rsquo;t replacing the app. It was feeding it. Users who arrived with zero points had little reason to download anything. But users who had accumulated points, who could see a real number sitting there, now had something concrete waiting for them. The download felt worth it because there was already something to redeem.</p>
+        <p class="cs-quote">The friction wasn&rsquo;t removed. It was moved to a better place in the journey.</p>
+
+        <!-- flow: what the QR actually points at -->
+        <figure class="cs-chart">
+          <div class="cs-graph cs-graph--panel">
+            <div class="cs-node" style="--c:1;--r:1">
+              <span class="cs-node__title">Scan purchase bill</span>
+              <span class="cs-node__sub">with phone camera</span>
+            </div>
+            <div class="cs-node" style="--c:2;--r:1">
+              <span class="cs-node__title">Read data from QR</span>
+              <span class="cs-node__sub">Including URLs/links</span>
+            </div>
+            <div class="cs-node cs-node--note" style="--c:3;--r:1">
+              <p>In the existing QR code setup, the embedded URL/link directs users to the App/Play Store.</p>
+              <p>I proposed revising the flow so instead of linking directly to the App/Play Store, the QR redirects users to a dedicated landing page first</p>
+            </div>
+
+            <span class="cs-link cs-link--h" style="--c:1;--r:1" aria-hidden="true"></span>
+          </div>
+        </figure>
+
+        <p>Instead of redirecting users to the App/Play store when they scanned their purchase bill QR, they&rsquo;d land on a web page where they could see the benefits, register directly, and collect points, all without download anything.</p>
+
+        <!-- flow: new user flow -->
+        <figure class="cs-chart">
+          <div class="cs-graph">
+            <div class="cs-node" style="--c:1;--r:1">
+              <span class="cs-node__title">Hangry App installed?</span>
+              <span class="cs-node__sub">No</span>
+            </div>
+            <div class="cs-node" style="--c:2;--r:1">
+              <span class="cs-node__title">Redirect to</span>
+              <span class="cs-node__sub">Loyalty landing page</span>
+            </div>
+            <div class="cs-node" style="--c:1;--r:2">
+              <span class="cs-node__title">Scan purchase bill</span>
+              <span class="cs-node__sub">with phone camera</span>
+            </div>
+            <div class="cs-node" style="--c:2;--r:2">
+              <span class="cs-node__title">Already login/register?</span>
+              <span class="cs-node__sub">Yes/No</span>
+            </div>
+            <div class="cs-node" style="--c:2;--r:3">
+              <span class="cs-node__title">Point collected</span>
+              <span class="cs-node__sub">point auto collected &amp; accumulate</span>
+            </div>
+            <div class="cs-node" style="--c:3;--r:3">
+              <span class="cs-node__title">Landing page</span>
+              <span class="cs-node__sub">User discover loyalty landing page</span>
+            </div>
+
+            <span class="cs-link cs-link--v cs-link--vu" style="--c:1;--r:1" aria-hidden="true"></span>
+            <span class="cs-link cs-link--h" style="--c:1;--r:1" aria-hidden="true"></span>
+            <span class="cs-link cs-link--v" style="--c:2;--r:1" aria-hidden="true"></span>
+            <span class="cs-link cs-link--v" style="--c:2;--r:2" aria-hidden="true"></span>
+            <span class="cs-flag cs-flag--yes-mid">Yes</span>
+            <span class="cs-elbow cs-elbow--rd" aria-hidden="true"></span>
+            <span class="cs-flag cs-flag--no-right">No</span>
+          </div>
+          <figcaption class="cs-chart__caption">New user flow &mdash; Journey to collect point without Hangry App</figcaption>
+        </figure>
+
+        <h3 class="cs-subhead">Crafting</h3>
+        <p>No wireframes. The timeline was tight, and honestly by the time I got to Figma the decisions were already made. The thinking phase did the heavy lifting, crafting was execution.</p>
+        <p>The page was mobile-only by design. The entry point was a QR scan on a purchase bill, users were always on their phone.</p>
+        <p>I designed base on AIDA concept (Attention, Interest, Desire, Action). I came into design from copywriting. This section is where that background shows.</p>
+        <p>I wrote all the copy by myself. The hook was the most important line on the page.</p>
+        <p class="cs-quote">&ldquo;Makin untung, makin mudah! Kini tanpa download aplikasi kamu sudah bisa menikmati keuntungan Hangry Poin.&rdquo;</p>
+        <p>Every user in the interviews said some version of &ldquo;I don&rsquo;t wanna download an app.&rdquo; So that&rsquo;s what the first sentence solved. Not buried and saved for later. Directly in the first line.</p>
+        <p>The landing page also had a dedicated section for the Hangry App, framed as:</p>
+        <p class="cs-quote">&ldquo;Mau cashback lebih? Belanja pakai aplikasi Hangry.&rdquo;</p>
+        <p>This wasn&rsquo;t upsell for the sake of it, It was the &ldquo;collect anywhere-redeem in app&rdquo; decision showing up in copy form.</p>
+
+        <!-- ── MOCKUP ────────────────────────────────────────── -->
+        <div class="cs-mockups">
+          <div class="cs-craft">
+            <ol class="cs-craft__steps">
+              <li class="cs-craft__step is-active" data-step>
+                <span class="cs-craft__num">Step 1 of 4</span>
+                <span class="cs-craft__title">Getting Attention</span>
+                <span class="cs-craft__desc">Hook sentence, directly solving the problem based on user research</span>
+              </li>
+              <li class="cs-craft__step" data-step>
+                <span class="cs-craft__num">Step 2 of 4</span>
+                <span class="cs-craft__title">Building Interest</span>
+                <span class="cs-craft__desc">Explain the facts about the loyalty program benefits</span>
+              </li>
+              <li class="cs-craft__step" data-step>
+                <span class="cs-craft__num">Step 3 of 4</span>
+                <span class="cs-craft__title">Getting Desire</span>
+                <span class="cs-craft__desc">Show how easy it is to earn points and tease the app&rsquo;s extra benefits</span>
+              </li>
+              <li class="cs-craft__step" data-step>
+                <span class="cs-craft__num">Step 4 of 4</span>
+                <span class="cs-craft__title">Do Action</span>
+                <span class="cs-craft__desc">Offer users to join the loyalty program, reinforcing every benefit shown above</span>
+              </li>
+            </ol>
+            <div class="phone">
+              <div class="phone__screen" data-scroll-sync data-stops="0,0.223,0.509,0.811">
+                <img src="../assets/img/loyalty/landing-page.png" alt="The loyalty landing page, top to bottom" loading="lazy" decoding="async">
+              </div>
+            </div>
+          </div>
+          <p class="cs-craft__caption">Final UI &mdash; loyalty landing page &mdash; scroll the phone to explore</p>
+        </div>
+      </section>
+
+      <!-- ── OUTCOME ─────────────────────────────────────────── -->
+      <section class="cs-section" aria-labelledby="outcome-head">
+        <h2 class="cs-section__head" id="outcome-head">Outcome</h2>
+        <p>The program that was losing users month-over-month reversed course, not because the product changed, but because the barrier to entry was removed.</p>
+
+        <figure class="cs-chart cs-chart--data">
+          <figcaption class="cs-chart__head">
+            <span class="cs-chart__title">New User Registration (February &ndash; July)</span>
+            <span class="cs-chart__sub">Landing page launched in May 2021</span>
+          </figcaption>
+          <div class="cs-bars">
+            <div class="cs-bar" style="--h:44.3%;--i:0" data-tip="Feb &middot; 4,491 users">
+              <span class="cs-bar__track">
+                <span class="cs-bar__value">4,491</span>
+                <span class="cs-bar__fill"></span>
+              </span>
+              <span class="cs-bar__label">Feb</span>
+            </div>
+            <div class="cs-bar" style="--h:41.6%;--i:1" data-tip="Mar &middot; 4,217 users">
+              <span class="cs-bar__track">
+                <span class="cs-bar__value">4,217</span>
+                <span class="cs-bar__fill"></span>
+              </span>
+              <span class="cs-bar__label">Mar</span>
+            </div>
+            <div class="cs-bar" style="--h:28.7%;--i:2" data-tip="Apr &middot; 2,916 users">
+              <span class="cs-bar__track">
+                <span class="cs-bar__value">2,916</span>
+                <span class="cs-bar__fill"></span>
+              </span>
+              <span class="cs-bar__label">Apr</span>
+            </div>
+            <div class="cs-bar cs-bar--after" style="--h:31.4%;--i:3" data-tip="May &middot; 3,186 users &middot; launch">
+              <span class="cs-bar__track">
+                <span class="cs-bar__value">3,186</span>
+                <span class="cs-bar__fill"></span>
+              </span>
+              <span class="cs-bar__label">May</span>
+            </div>
+            <div class="cs-bar cs-bar--after" style="--h:70.4%;--i:4" data-tip="Jun &middot; 7,144 users">
+              <span class="cs-bar__track">
+                <span class="cs-bar__value">7,144</span>
+                <span class="cs-bar__fill"></span>
+              </span>
+              <span class="cs-bar__label">Jun</span>
+            </div>
+            <div class="cs-bar cs-bar--after" style="--h:100%;--i:5" data-tip="Jul &middot; 10,146 users">
+              <span class="cs-bar__track">
+                <span class="cs-bar__value">10,146</span>
+                <span class="cs-bar__fill"></span>
+              </span>
+              <span class="cs-bar__label">Jul</span>
+            </div>
+          </div>
+          <div class="cs-legend">
+            <span class="cs-legend__item"><span class="cs-legend__dot cs-legend__dot--before" aria-hidden="true"></span>Before launch</span>
+            <span class="cs-legend__item"><span class="cs-legend__dot cs-legend__dot--after" aria-hidden="true"></span>After launch</span>
+          </div>
+        </figure>
+
+        <figure class="cs-chart cs-chart--data">
+          <figcaption class="cs-chart__head">
+            <span class="cs-chart__title">Before vs After (3 months)</span>
+            <span class="cs-chart__sub">Total new registrations comparison</span>
+          </figcaption>
+          <div class="cs-bars cs-bars--pair">
+            <div class="cs-bar" style="--h:56.8%;--i:0" data-tip="Before &middot; 11,624 users">
+              <span class="cs-bar__track">
+                <span class="cs-bar__value">11,624</span>
+                <span class="cs-bar__fill"></span>
+              </span>
+              <span class="cs-bar__label">Before</span>
+            </div>
+            <div class="cs-bar cs-bar--after" style="--h:100%;--i:1" data-tip="After &middot; 20,476 users">
+              <span class="cs-bar__track">
+                <span class="cs-bar__value">20,476</span>
+                <span class="cs-bar__fill"></span>
+              </span>
+              <span class="cs-bar__label">After</span>
+            </div>
+          </div>
+          <p class="cs-badge">
+            <span class="cs-badge__label">Growth</span>
+            <span class="cs-badge__value">+76%</span>
+          </p>
+        </figure>
+      </section>
+
+      <!-- ── LEARNINGS ───────────────────────────────────────── -->
+      <section class="cs-section" aria-labelledby="learnings-head">
+        <h2 class="cs-section__head" id="learnings-head">Learnings</h2>
+        <p class="cs-quote">&ldquo;The most dangerous assumptions aren&rsquo;t the ones that are clearly wrong, but they&rsquo;re the ones that are reasonable&rdquo;</p>
+        <p class="cs-quote">&ldquo;The UI is confusing,&rdquo;</p>
+        <p class="cs-quote">&ldquo;The benefits aren&rsquo;t attractive.&rdquo;</p>
+        <p>Both pointed toward redesign, but both were wrong. The real problem had nothing to do with design at all. Finding it required asking the right people with the right questions, not staring harder at the product.</p>
+        <p>That&rsquo;s the thing about reasonable assumptions, they&rsquo;re the hardest ones to question. Now I question them first.</p>
+      </section>
+
+      <!-- ── FOOTER ──────────────────────────────────────────── -->
+      <footer class="footer">
+        <p class="footer__note">&copy; 2026 &mdash; Nugraha Putra</p>
+      </footer>
+
+    </main>
+  </div>
+</div>
+
+<div class="cursor-tip" data-cursor-tip aria-hidden="true"></div>
+
+<script src="../assets/js/main.js"></script>
+</body>
+</html>
