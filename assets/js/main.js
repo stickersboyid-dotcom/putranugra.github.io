@@ -101,6 +101,49 @@
     }
   }
 
+  /* ── THEME SWITCH ────────────────────────────────────────────
+     The <head> of every page carries a two-line copy of the read half
+     of this, so a stored choice is on the element before first paint
+     and the page never flashes the wrong palette. With no stored
+     choice the attribute stays off and the prefers-color-scheme media
+     query in styles.css decides — which is also what keeps this
+     working with JS disabled.
+     ────────────────────────────────────────────────────────── */
+
+  var themeBtn = document.querySelector('[data-theme-toggle]');
+
+  if (themeBtn) {
+    var root = document.documentElement;
+    var scheme = window.matchMedia('(prefers-color-scheme: dark)');
+
+    var isDark = function () {
+      var chosen = root.getAttribute('data-theme');
+      return chosen ? chosen === 'dark' : scheme.matches;
+    };
+
+    var paintSwitch = function () {
+      themeBtn.setAttribute('aria-checked', isDark() ? 'true' : 'false');
+    };
+
+    paintSwitch();
+
+    themeBtn.addEventListener('click', function () {
+      var next = isDark() ? 'light' : 'dark';
+      root.setAttribute('data-theme', next);
+      try { localStorage.setItem('theme', next); } catch (err) {}
+      paintSwitch();
+    });
+
+    /* a reader who never touched the switch should still follow the OS
+       if it flips while the page is open */
+    var onSchemeChange = function () {
+      if (!root.getAttribute('data-theme')) paintSwitch();
+    };
+
+    if (scheme.addEventListener) scheme.addEventListener('change', onSchemeChange);
+    else if (scheme.addListener) scheme.addListener(onSchemeChange);
+  }
+
   /* ── BAR CHART REVEAL ────────────────────────────────────────
      Bars ship at full height. We flatten them only once we know we
      can raise them again, and a timer guarantees that happens even
