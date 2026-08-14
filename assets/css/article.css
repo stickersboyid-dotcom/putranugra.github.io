@@ -30,6 +30,9 @@
      it — a little more off the top than the bottom */
   object-fit: cover;
   object-position: center 77%;
+  /* 1 in light, dimmed in dark — the covers are drawn on cream and would
+     otherwise sit in the middle of a dark page like a lightbox */
+  filter: brightness(var(--cover-brightness));
 }
 
 /* ── BODY ──────────────────────────────────────────────────── */

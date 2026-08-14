@@ -71,11 +71,103 @@
   --block-gap: 24px;
   --list-gap: 12px;
 
+  /* hover states that used to be written as literals inline. They are
+     tokens now because dark mode has to move them in the opposite
+     direction: a border that lightens on white must darken on ink. */
+  --border-hover: #d4d4d8;
+  --btn-hover:    #3f3f46;
+
+  /* article covers are drawn on cream. On a dark page that reads as a
+     lightbox, so dark mode knocks them back a little. */
+  --cover-brightness: 1;
+
   /* motion */
   --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
   --dur-micro: 150ms;
   --dur-small: 250ms;
   --dur-plate: 320ms;
+
+  color-scheme: light;
+}
+
+/* ── DARK ──────────────────────────────────────────────────────
+   The light palette is zinc, which carries a slight blue cast. That
+   cast is invisible on white and turns clinical on ink, so dark drops
+   to a neutral grey instead of mirroring zinc.
+
+   The page also sits at #111 rather than near-black. Two thirds of a
+   stop of headroom is the difference between a background that reads
+   as "unlit" and one that reads as a hole punched in the screen, and
+   it softens every contrast ratio on the page along with it.
+
+   Two selectors carry the same values on purpose. The media query
+   honours the visitor's OS setting on a first visit with no JS, and
+   the attribute lets the footer switch override it in either
+   direction afterwards. :not([data-theme="light"]) is what stops the
+   OS from overruling someone who explicitly asked for light.
+
+   Note what does NOT need touching: every ink-coloured chip on the
+   site is written `background: var(--text-primary); color:
+   var(--base-white)`, so swapping those two tokens flips the chip to
+   a light plate with dark type on its own.
+   ────────────────────────────────────────────────────────────── */
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --base-white:     #111111;
+    --text-primary:   #ededed;
+    --text-secondary: #a3a3a3;
+    --border-default: #262626;
+    --border-strong:  #404040;
+    --bg-muted:       #1a1a1a;
+
+    --border-hover: #525252;
+    --btn-hover:    #d4d4d4;
+
+    --success:    #4ade80;
+    --success-bg: #0f2a1a;
+    --success-fg: #86efac;
+    --danger:     #f87171;
+    --danger-bg:  #2e1416;
+    --danger-fg:  #fca5a5;
+
+    --star:       #fbbf24;
+
+    --doc-fill:   #172554;
+    --doc-stroke: #60a5fa;
+
+    --cover-brightness: 0.88;
+
+    color-scheme: dark;
+  }
+}
+
+:root[data-theme="dark"] {
+  --base-white:     #111111;
+  --text-primary:   #ededed;
+  --text-secondary: #a3a3a3;
+  --border-default: #262626;
+  --border-strong:  #404040;
+  --bg-muted:       #1a1a1a;
+
+  --border-hover: #525252;
+  --btn-hover:    #d4d4d4;
+
+  --success:    #4ade80;
+  --success-bg: #0f2a1a;
+  --success-fg: #86efac;
+  --danger:     #f87171;
+  --danger-bg:  #2e1416;
+  --danger-fg:  #fca5a5;
+
+  --star:       #fbbf24;
+
+  --doc-fill:   #172554;
+  --doc-stroke: #60a5fa;
+
+  --cover-brightness: 0.88;
+
+  color-scheme: dark;
 }
 
 *,
@@ -337,7 +429,7 @@ img { display: block; max-width: 100%; }
   transition: border-color var(--dur-small) var(--ease-out);
 }
 
-.case:hover { border-color: #d4d4d8; }
+.case:hover { border-color: var(--border-hover); }
 
 .case:focus-visible {
   outline: 1px solid var(--text-primary);
@@ -584,10 +676,86 @@ img { display: block; max-width: 100%; }
   border-top: 1px solid var(--border-default);
 }
 
-.footer__note {
+/* copyright on the left, theme switch on the right. The 24px under the
+   rule used to hang off .footer__note; it moves here now that the note
+   has a sibling to stay level with. */
+.footer__row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--block-gap);
   padding-top: var(--block-gap);
+}
+
+.footer__note {
   font-size: var(--body-sm-size);
   line-height: var(--body-sm-line);
+}
+
+/* ── THEME SWITCH ──────────────────────────────────────────────
+   A real <button role="switch">, so the label is its accessible name
+   and the state is announced rather than implied by colour. The track
+   is decorative: everything a screen reader needs is on the button.
+   ────────────────────────────────────────────────────────────── */
+
+.theme {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  gap: 12px;
+  padding: 0;
+  background: none;
+  border: 0;
+  font: inherit;
+  color: var(--text-secondary);
+  cursor: pointer;
+}
+
+.theme__label {
+  font-size: var(--caption-size);
+  line-height: var(--caption-line);
+  letter-spacing: var(--caption-track);
+  white-space: nowrap;
+}
+
+.theme__track {
+  display: flex;
+  flex-shrink: 0;
+  width: 36px;
+  height: 20px;
+  padding: 2px;
+  border-radius: 100px;
+  background: var(--border-default);
+  transition: background var(--dur-small) var(--ease-out);
+}
+
+/* the only warm colour on the site, lifted straight from the favicon */
+.theme[aria-checked="true"] .theme__track {
+  background: linear-gradient(158.39deg, #ffcc00 16.08%, #e3ff45 83.13%);
+}
+
+.theme__knob {
+  display: block;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  /* stays white in both modes — it is the knob of a physical switch,
+     not a surface that belongs to the palette */
+  background: #ffffff;
+  transition: transform var(--dur-small) var(--ease-out);
+}
+
+/* 36 track − 2 padding each side − 16 knob = 16 to travel */
+.theme[aria-checked="true"] .theme__knob { transform: translateX(16px); }
+
+.theme:focus-visible {
+  outline: 1px solid var(--text-primary);
+  outline-offset: 4px;
+  border-radius: 2px;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .theme:hover .theme__label { color: var(--text-primary); }
 }
 
 /* ── TOAST ─────────────────────────────────────────────────── */
