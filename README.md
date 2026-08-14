@@ -165,6 +165,14 @@ or a reader with dark stored will see a white flash on every navigation:
 The switch itself is a `<button role="switch">` in `.footer__row`, wired by
 `main.js`, with the yellow gradient of the favicon as its on state.
 
+The guard is not enough on its own. A page restored from the back/forward
+cache comes back as the DOM the reader left, and nothing in `<head>` runs a
+second time — so `main.js` also re-reads the stored choice on `pageshow`.
+Without that, the homepage is the one page that goes stale, because
+`.cs-back` is the one link that navigates through history: switch the theme
+on a case study, click back, and the homepage returns wearing the theme it
+had before. The two features have to know about each other.
+
 ## Deploying to GitHub Pages
 
 1. Create the repo and push everything except `_reference/`.
