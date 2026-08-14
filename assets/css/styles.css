@@ -257,7 +257,7 @@ img { display: block; max-width: 100%; }
   color: var(--text-primary);
 }
 
-.post__by,
+.post__meta,
 .post__excerpt {
   font-size: var(--body-md-size);
   line-height: var(--body-md-line);
