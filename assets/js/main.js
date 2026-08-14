@@ -1,6 +1,6 @@
 /* ============================================================
    Nugraha Putra — putranugra.com
-   Device mockups, copy-to-clipboard, toast.
+   Device mockups, copy-to-clipboard, toast, back-to-home.
    No dependencies.
    ============================================================ */
 
@@ -60,6 +60,46 @@
       }
     });
   });
+
+  /* ── BACK TO HOME ────────────────────────────────────────────
+     The link stays a real href, so it works without JS, opens in a
+     new tab on a modified click, and gives crawlers something to
+     follow. Following it normally, though, loads a fresh homepage
+     scrolled to the top — so a reader who opened the last item in a
+     list has to scroll all the way back down to where they were.
+     When they genuinely arrived from the homepage we step back
+     through history instead, and the browser restores the scroll
+     position it already saved.
+     ────────────────────────────────────────────────────────── */
+
+  var backLink = document.querySelector('.cs-back');
+
+  if (backLink && window.history.length > 1) {
+    var cameFromHome = false;
+
+    try {
+      var ref = document.referrer ? new URL(document.referrer) : null;
+      /* the homepage only. Arriving from another article means going
+         back would land on that article, not on the list the label
+         promises. */
+      cameFromHome = !!ref &&
+        ref.origin === window.location.origin &&
+        /^\/(index\.html)?$/.test(ref.pathname);
+    } catch (err) {
+      cameFromHome = false;
+    }
+
+    if (cameFromHome) {
+      backLink.addEventListener('click', function (event) {
+        /* leave middle clicks and ctrl/cmd clicks to the browser, so
+           "open in new tab" still opens the homepage in a new tab */
+        if (event.button !== 0 || event.metaKey || event.ctrlKey ||
+            event.shiftKey || event.altKey) return;
+        event.preventDefault();
+        window.history.back();
+      });
+    }
+  }
 
   /* ── BAR CHART REVEAL ────────────────────────────────────────
      Bars ship at full height. We flatten them only once we know we
