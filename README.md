@@ -13,13 +13,17 @@ Personal site of Nugraha Putra, Product Designer. Plain HTML, CSS, and JavaScrip
 ├── assets/
 │   ├── css/styles.css            # tokens, shell, homepage, mockup chrome
 │   ├── css/case.css              # case study pages only
+│   ├── css/article.css           # article pages only
 │   ├── js/main.js                # device mockups, copy-to-clipboard, toast
 │   ├── docs/
 │   │   └── nugraha-eka-putra-resume.pdf
 │   └── img/
+│       ├── article/<article-slug>.webp, <article-slug>-og.jpg
 │       ├── dashboard/step-1..4.png, pos-1..2.png
 │       ├── hangry/splash|searching|outlet-list|home.png
 │       └── loyalty/landing-page.png
+├── writings/
+│   └── <article-slug>/index.html
 └── _reference/                   # local only, git-ignored
     └── mockup.html               # earlier draft the device mockups came from
 ```
@@ -45,12 +49,55 @@ and `main.js` runs it. The other two mockup types are `data-mock="scroller"`
 last screen scrolls before looping). Add `data-hover-freeze` only where hovering must hold the
 mockup still, as the homepage boxes do.
 
+`.cs-back` links to `../` (or `../../`) so it works with JavaScript off, but
+when `document.referrer` shows the reader actually came from the homepage,
+`main.js` intercepts the click and calls `history.back()` instead. That lets
+the browser restore the scroll position, so someone who opened the last item
+in a list lands back on it rather than at the top of the page. Arriving from
+anywhere else — a search result, another article — falls through to the plain
+link, because stepping back would not lead home.
+
 Other markup hooks `main.js` looks for, all optional per page:
 `[data-scroll-sync]` + `data-stops` with `[data-step]` siblings drives the
 scroll-synced phone; `.cs-bar` elements animate their fill in on scroll with a 2.5s safety net; `[data-tip]` on any element shows the floating cursor
 tooltip, which needs a `[data-cursor-tip]` div in the page.
 
 Keep case study folder names distinct from `assets/` so nothing collides.
+
+### Article pages
+
+Writings live one level deeper, at `putranugra.com/writings/<slug>`:
+
+```
+writings/what-ai-taught-me-about-my-own-thinking/index.html      2 min
+writings/the-week-i-worked-in-a-restaurant-kitchen/index.html    1 min
+writings/the-newest-person-with-the-loudest-question/index.html  1 min
+writings/the-insight-that-changed-how-i-see-problems/index.html  1 min
+```
+
+Listed newest first. All four are built, and nothing on the site links out to
+Substack any more.
+
+The slug matches the cover image filename in `assets/img/article/`. An article
+page loads `styles.css`, then `case.css` for the back button (`.cs-back`) and
+title block (`.cs-head`), then `article.css` for the cover frame and prose
+rhythm. It reuses the homepage writings list (`.posts`) verbatim for the
+"Read another article" section. It loads `main.js` only for the back button;
+every other feature in that file no-ops when its markup is absent.
+
+Covers are drawn 2:1 and sit in an `aspect-ratio: 2 / 1` frame; a 16:9 image
+still fits, cropped the way Figma crops it.
+
+Each cover ships twice. `<slug>.webp` is what the page loads — 1400px wide,
+quality 82, roughly 2x the 700px column. `<slug>-og.jpg` is 1200px wide and
+exists only for `og:image`, because not every social crawler renders WebP. The
+source PNGs from Figma stay out of the repo; re-export and re-encode from Figma
+rather than upscaling what is committed here.
+
+Reading times are hardcoded, computed as words ÷ 200, rounded up. The
+"Read another article" list is hardcoded too — it holds the three newest
+articles other than the current one, so **adding an article means editing the
+list on the existing article pages as well.**
 
 ## Design tokens
 
