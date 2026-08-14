@@ -19,6 +19,9 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@200;300;400;500&display=swap">
 <link rel="stylesheet" href="../assets/css/styles.css">
 <link rel="stylesheet" href="../assets/css/case.css">
+
+<!-- sets a stored theme before first paint, so the page never flashes the wrong palette -->
+<script>try{var t=localStorage.getItem('theme');if(t)document.documentElement.setAttribute('data-theme',t);}catch(e){}</script>
 </head>
 <body>
 
@@ -372,7 +375,13 @@
 
       <!-- ── FOOTER ──────────────────────────────────────────── -->
       <footer class="footer">
-        <p class="footer__note">&copy; 2026 &mdash; Nugraha Putra</p>
+        <div class="footer__row">
+          <p class="footer__note">&copy; 2026 &mdash; Nugraha Putra</p>
+          <button class="theme" type="button" role="switch" aria-checked="false" data-theme-toggle>
+            <span class="theme__label">DARK MODE</span>
+            <span class="theme__track" aria-hidden="true"><span class="theme__knob"></span></span>
+          </button>
+        </div>
       </footer>
 
     </main>
