@@ -116,6 +116,55 @@ Mirrored 1:1 from the Figma variables, defined at the top of `assets/css/styles.
 Geist loads from Google Fonts. To drop the third-party request, put the woff2
 files in `assets/fonts/` and swap the `<link>` for an `@font-face` block.
 
+### Dark mode
+
+The light palette is Tailwind's zinc ramp, which carries a slight blue cast.
+That cast is invisible on white and turns clinical on ink, so dark drops to a
+neutral grey rather than mirroring zinc. The page sits at `#111111`, not
+near-black: the headroom is what separates a background that reads as unlit
+from one that reads as a hole in the screen.
+
+| Token | Light | Dark |
+| --- | --- | --- |
+| `--base-white` (page + cards) | `#ffffff` | `#111111` |
+| `--text-primary` | `#18181b` | `#ededed` |
+| `--text-secondary` (body copy) | `#52525b` | `#a3a3a3` |
+| `--border-default` | `#e4e4e7` | `#262626` |
+| `--border-strong` | `#d1d1d6` | `#404040` |
+| `--bg-muted` | `#f4f4f5` | `#1a1a1a` |
+| `--border-hover` | `#d4d4d8` | `#525252` |
+| `--btn-hover` | `#3f3f46` | `#d4d4d4` |
+| `--doc-fill` / `--doc-stroke` | `#eff6ff` / `#3b82f6` | `#172554` / `#60a5fa` |
+| `--cover-brightness` | `1` | `0.88` |
+
+Body copy lands at 7.5:1 against the page in dark and 7.7:1 in light; headings
+at 16.1:1 and 17.7:1. Dark sits a shade below light on purpose — the same
+copy at matched ratios reads harsher on a dark ground than on a light one.
+
+Three things fall out of the existing token usage rather than needing rules of
+their own. Every ink chip on the site — `.cs-back`, `.skip-link`, `.toast`,
+`.cursor-tip` — is written `background: var(--text-primary); color:
+var(--base-white)`, so swapping those two tokens turns it into a light plate
+with dark type. The device mockups keep their hardcoded `#1a1a1a` bezels,
+because a lit phone screen in a dark room is what a phone looks like. And the
+article covers, drawn on cream, are knocked back by `--cover-brightness`.
+
+Resolution order: a stored choice in `localStorage` wins, otherwise
+`prefers-color-scheme` decides. That is why the dark values appear twice in
+`styles.css` — once under the media query guarded by
+`:root:not([data-theme="light"])`, once under `:root[data-theme="dark"]`. With
+JavaScript off the media query still works; only the switch stops.
+
+**Every page needs the guard script in its `<head>`**, before the first paint,
+or a reader with dark stored will see a white flash on every navigation:
+
+```html
+<script>try{var t=localStorage.getItem('theme');if(t)document.documentElement.setAttribute('data-theme',t);}catch(e){}</script>
+```
+
+The switch itself is a `<button role="switch">` in `.footer__row`, wired by
+`main.js`, with the yellow gradient of the favicon as its on state.
+
 ## Deploying to GitHub Pages
 
 1. Create the repo and push everything except `_reference/`.
