@@ -49,14 +49,6 @@ and `main.js` runs it. The other two mockup types are `data-mock="scroller"`
 last screen scrolls before looping). Add `data-hover-freeze` only where hovering must hold the
 mockup still, as the homepage boxes do.
 
-`.cs-back` links to `../` (or `../../`) so it works with JavaScript off, but
-when `document.referrer` shows the reader actually came from the homepage,
-`main.js` intercepts the click and calls `history.back()` instead. That lets
-the browser restore the scroll position, so someone who opened the last item
-in a list lands back on it rather than at the top of the page. Arriving from
-anywhere else — a search result, another article — falls through to the plain
-link, because stepping back would not lead home.
-
 Other markup hooks `main.js` looks for, all optional per page:
 `[data-scroll-sync]` + `data-stops` with `[data-step]` siblings drives the
 scroll-synced phone; `.cs-bar` elements animate their fill in on scroll with a 2.5s safety net; `[data-tip]` on any element shows the floating cursor
@@ -82,7 +74,7 @@ The slug matches the cover image filename in `assets/img/article/`. An article
 page loads `styles.css`, then `case.css` for the back button (`.cs-back`) and
 title block (`.cs-head`), then `article.css` for the cover frame and prose
 rhythm. It reuses the homepage writings list (`.posts`) verbatim for the
-"Read another article" section. It loads `main.js` only for the back button;
+"Read another article" section. It loads `main.js` only for the theme switch;
 every other feature in that file no-ops when its markup is absent.
 
 Covers are drawn 2:1 and sit in an `aspect-ratio: 2 / 1` frame; a 16:9 image
@@ -167,11 +159,10 @@ The switch itself is a `<button role="switch">` in `.footer__row`, wired by
 
 The guard is not enough on its own. A page restored from the back/forward
 cache comes back as the DOM the reader left, and nothing in `<head>` runs a
-second time — so `main.js` also re-reads the stored choice on `pageshow`.
-Without that, the homepage is the one page that goes stale, because
-`.cs-back` is the one link that navigates through history: switch the theme
-on a case study, click back, and the homepage returns wearing the theme it
-had before. The two features have to know about each other.
+second time, so it would still be wearing the theme it had before the reader
+switched on another page. Every link on the site is an ordinary link, but the
+browser's own back button still takes that path and no markup can opt out of
+it — so `main.js` re-reads the stored choice on `pageshow` as well.
 
 ## Deploying to GitHub Pages
 
