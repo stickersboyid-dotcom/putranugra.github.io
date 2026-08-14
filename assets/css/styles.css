@@ -22,6 +22,10 @@
   /* review stars are the one warm accent in an otherwise zinc palette */
   --star:       #f59e0b;
 
+  /* the document icon in the writings list is the one blue on the site */
+  --doc-fill:   #eff6ff;
+  --doc-stroke: #3b82f6;
+
   /* type — from Figma text styles. Figma stores tracking as a percentage of
      the font size, so these stay in em rather than px. */
   --font-sans: "Geist", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
@@ -40,6 +44,9 @@
 
   --body-lg-size: 16px;
   --body-lg-line: 25.6px;
+
+  --heading-sm-size: 15px;
+  --heading-sm-line: 22.5px;
 
   --body-md-size: 14px;
   --body-md-line: 22px;
@@ -209,15 +216,71 @@ img { display: block; max-width: 100%; }
 
 .lede { max-width: 70ch; }
 
-/* ── LINK LISTS (writings + contact) ───────────────────────── */
+/* ── WRITINGS LIST ─────────────────────────────────────────── */
 
-.list {
+.posts {
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
-  gap: var(--list-gap);
+  gap: 40px;
   list-style: none;
 }
+
+/* the whole block is the target; the accessible name comes from an
+   aria-label on the link so a screen reader hears the title, not the
+   title plus byline plus excerpt run together */
+.post__link {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  color: inherit;
+  text-decoration: none;
+}
+
+.post__head {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.post__icon { flex-shrink: 0; }
+
+.post__title {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.post__name {
+  font-size: var(--heading-sm-size);
+  line-height: var(--heading-sm-line);
+  font-weight: 500;
+  color: var(--text-primary);
+}
+
+.post__by,
+.post__excerpt {
+  font-size: var(--body-md-size);
+  line-height: var(--body-md-line);
+  color: var(--text-secondary);
+}
+
+.post__excerpt { font-weight: 200; }
+
+@media (hover: hover) and (pointer: fine) {
+  .post__link:hover .post__name {
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 3px;
+  }
+}
+
+.post__link:focus-visible {
+  outline: 1px solid var(--text-primary);
+  outline-offset: 4px;
+  border-radius: 2px;
+}
+
+/* ── INLINE LINKS ──────────────────────────────────────────── */
 
 .link {
   display: inline;
