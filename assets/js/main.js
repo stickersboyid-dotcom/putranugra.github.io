@@ -134,6 +134,27 @@
       paintSwitch();
     });
 
+    /* A page restored from the back/forward cache comes back as the exact
+       DOM the reader left, and nothing in <head> runs a second time — so
+       the homepage would return wearing whatever theme it had before the
+       reader switched on some other page. Our own Back to home button
+       navigates through history, which is why the homepage was the only
+       page that ever went stale. pageshow is the one event that fires on
+       a bfcache restore, so the stored choice gets re-read there.
+
+       It runs on ordinary loads too, where it simply agrees with the
+       <head> guard. Cheaper than reasoning about which restore paths set
+       event.persisted in which browser. */
+    var applyStored = function () {
+      var stored = null;
+      try { stored = localStorage.getItem('theme'); } catch (err) {}
+      if (stored) root.setAttribute('data-theme', stored);
+      else root.removeAttribute('data-theme');
+      paintSwitch();
+    };
+
+    window.addEventListener('pageshow', applyStored);
+
     /* a reader who never touched the switch should still follow the OS
        if it flips while the page is open */
     var onSchemeChange = function () {
