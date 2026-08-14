@@ -1,0 +1,43 @@
+/* ============================================================
+   Nugraha Putra — article pages
+   Loaded after styles.css and case.css. Articles borrow the back
+   button and title block from the case studies and the list styles
+   from the homepage writings section, so only the cover image and
+   the prose rhythm are defined here.
+   ============================================================ */
+
+/* Figma sets 60px between blocks here, same as the case studies
+   rather than the homepage's 80. */
+.shell--article { --stack-gap: 60px; }
+
+/* ── COVER ─────────────────────────────────────────────────── */
+
+/* aspect-ratio rather than a fixed 350px, so the frame keeps its
+   proportion once the column narrows below 700px */
+.article__cover {
+  width: 100%;
+  aspect-ratio: 2 / 1;
+  overflow: hidden;
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-card);
+}
+
+.article__cover img {
+  width: 100%;
+  height: 100%;
+  /* most covers are drawn 2:1 and land here untouched; this only bites
+     on the 16:9 ones, where the offset keeps the crop where Figma put
+     it — a little more off the top than the bottom */
+  object-fit: cover;
+  object-position: center 77%;
+}
+
+/* ── BODY ──────────────────────────────────────────────────── */
+
+/* the paragraphs inherit body copy from styles.css; only the rhythm
+   between them is set here */
+.article__body {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
