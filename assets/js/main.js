@@ -1,6 +1,6 @@
 /* ============================================================
    Nugraha Putra — putranugra.com
-   Device mockups, copy-to-clipboard, toast, back-to-home.
+   Device mockups, copy-to-clipboard, toast, theme switch.
    No dependencies.
    ============================================================ */
 
@@ -61,46 +61,6 @@
     });
   });
 
-  /* ── BACK TO HOME ────────────────────────────────────────────
-     The link stays a real href, so it works without JS, opens in a
-     new tab on a modified click, and gives crawlers something to
-     follow. Following it normally, though, loads a fresh homepage
-     scrolled to the top — so a reader who opened the last item in a
-     list has to scroll all the way back down to where they were.
-     When they genuinely arrived from the homepage we step back
-     through history instead, and the browser restores the scroll
-     position it already saved.
-     ────────────────────────────────────────────────────────── */
-
-  var backLink = document.querySelector('.cs-back');
-
-  if (backLink && window.history.length > 1) {
-    var cameFromHome = false;
-
-    try {
-      var ref = document.referrer ? new URL(document.referrer) : null;
-      /* the homepage only. Arriving from another article means going
-         back would land on that article, not on the list the label
-         promises. */
-      cameFromHome = !!ref &&
-        ref.origin === window.location.origin &&
-        /^\/(index\.html)?$/.test(ref.pathname);
-    } catch (err) {
-      cameFromHome = false;
-    }
-
-    if (cameFromHome) {
-      backLink.addEventListener('click', function (event) {
-        /* leave middle clicks and ctrl/cmd clicks to the browser, so
-           "open in new tab" still opens the homepage in a new tab */
-        if (event.button !== 0 || event.metaKey || event.ctrlKey ||
-            event.shiftKey || event.altKey) return;
-        event.preventDefault();
-        window.history.back();
-      });
-    }
-  }
-
   /* ── THEME SWITCH ────────────────────────────────────────────
      The <head> of every page carries a two-line copy of the read half
      of this, so a stored choice is on the element before first paint
@@ -135,12 +95,12 @@
     });
 
     /* A page restored from the back/forward cache comes back as the exact
-       DOM the reader left, and nothing in <head> runs a second time — so
-       the homepage would return wearing whatever theme it had before the
-       reader switched on some other page. Our own Back to home button
-       navigates through history, which is why the homepage was the only
-       page that ever went stale. pageshow is the one event that fires on
-       a bfcache restore, so the stored choice gets re-read there.
+       DOM the reader left, and nothing in <head> runs a second time, so it
+       would still be wearing the theme it had before they switched on some
+       other page. Every link on this site is an ordinary link now, but the
+       browser's own back button still takes that path and nothing we do in
+       markup can opt out of it. pageshow is the one event that fires on a
+       bfcache restore, so the stored choice gets re-read there.
 
        It runs on ordinary loads too, where it simply agrees with the
        <head> guard. Cheaper than reasoning about which restore paths set
