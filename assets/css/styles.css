@@ -299,6 +299,73 @@ img { display: block; max-width: 100%; }
   max-width: 70ch;
 }
 
+/* company names lifted out of the body ink. Figma draws the linked one and
+   the unlinked one identically, so the only thing separating them is the
+   underline on hover — which is enough, and keeps a sentence of prose from
+   turning into a row of buttons. */
+.emph {
+  font-weight: 500;
+  color: var(--text-primary);
+}
+
+a.emph {
+  color: var(--text-primary);
+  text-decoration: none;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  a.emph:hover {
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 3px;
+  }
+}
+
+a.emph:focus-visible {
+  outline: 1px solid var(--text-primary);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+/* ── SOCIAL ROW ────────────────────────────────────────────── */
+
+.social {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  list-style: none;
+}
+
+.social__link {
+  /* for the hit area below */
+  position: relative;
+  display: block;
+  color: var(--text-secondary);
+  transition: color var(--dur-micro) var(--ease-out);
+}
+
+/* A 16px icon is a 16px target, which is half of what a thumb needs. This
+   grows the tappable area to 40px without moving anything: -12px on each
+   side exactly meets the 24px gap, so neighbouring targets touch but never
+   overlap, and no icon can be hit by aiming at the one beside it. */
+.social__link::after {
+  content: "";
+  position: absolute;
+  inset: -12px;
+}
+
+.social__icon { display: block; }
+
+@media (hover: hover) and (pointer: fine) {
+  .social__link:hover { color: var(--text-primary); }
+}
+
+.social__link:focus-visible {
+  outline: 1px solid var(--text-primary);
+  outline-offset: 6px;
+  border-radius: 2px;
+}
+
 /* ── SECTIONS ──────────────────────────────────────────────── */
 
 .section {
@@ -373,9 +440,76 @@ img { display: block; max-width: 100%; }
      higher this is, the narrower the slice on show, so the colour under
      any one point changes more as the light sweeps past. */
   background-size: 240% 240%;
+  /* keeps the drifting layer inside the pill's ends */
+  overflow: hidden;
   transform: translate3d(var(--thumb-x, 0px), 0, 0);
   transition: transform var(--dur-plate) var(--ease-out);
   animation: thumb-breathe 6s ease-in-out infinite;
+}
+
+/* Second layer: two soft blooms wandering over the base gradient, one
+   warm and one pale. They exist for the two things a single sweeping
+   gradient cannot do.
+
+   Colour: the base only ever travels between its gold end and its lime
+   end. The amber bloom deepens whatever it crosses and the cream one
+   lifts it, so the eye reads a wider range than the two stops actually
+   contain — without touching --accent-gradient, which has to keep
+   matching the favicon and the theme switch.
+
+   Movement: the two blooms are driven by one animation but travel
+   opposite diagonals, and that runs at 8.5s against the base's 6s.
+   Nothing divides evenly, so the three movements keep sliding out of
+   phase and the arrangement does not repeat for about a minute and a
+   half. That is the difference between something flowing and a loop. */
+.tabs__thumb::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image:
+    radial-gradient(circle, rgba(255, 176, 0, 0.5) 0%, rgba(255, 176, 0, 0) 70%),
+    radial-gradient(circle, rgba(255, 252, 214, 0.55) 0%, rgba(255, 252, 214, 0) 70%);
+  background-size: 130% 260%, 110% 220%;
+  background-repeat: no-repeat;
+  animation: thumb-drift 8.5s ease-in-out infinite;
+}
+
+/* Third layer: a sheen that turns rather than travels.
+
+   Two blooms sliding around already reads as movement, but it is all the
+   same kind of movement. Rotation is a different axis entirely, and the
+   three together stop resolving into anything the eye can follow.
+
+   This is the one place geometry is animated, and the reason it is safe
+   here is the reason it was not on the pill itself: the layer is far
+   larger than the box and clipped by it, so no edge of it is ever on
+   screen. Nothing to re-antialias, nothing to shimmer. 140% by 350% of a
+   100x40 pill is a 140px square, comfortably past the 108px diagonal it
+   has to cover at every angle. 19s and not a round number: 17 would have
+   been exactly twice the bloom cycle, and the two would have realigned
+   every 17 seconds — the repeat this whole layer exists to break.
+
+   Every stop is lighter than the base, never darker, so the layer can
+   only lift the label's contrast — it can never eat into it.
+
+   `linear`, because a rotation that speeds up and slows down reads as a
+   stutter, which is exactly what we spent three attempts removing. */
+.tabs__thumb::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 140%;
+  height: 350%;
+  background: conic-gradient(
+    from 0deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.3) 22%,
+    rgba(255, 244, 186, 0.24) 45%,
+    rgba(255, 255, 255, 0) 68%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  animation: thumb-turn 19s linear infinite;
 }
 
 /* Two things on one 6s cycle: the light drifts along the gradient's own
@@ -409,6 +543,23 @@ img { display: block; max-width: 100%; }
     background-position: 90% 84%;
     filter: brightness(1.06) saturate(1.08);
   }
+}
+
+/* One animation, two blooms, opposite diagonals — they cross near the
+   middle of the cycle and separate again. `background-position` takes a
+   value per layer, which is why both can be driven from a single
+   timeline while still moving independently of each other. */
+@keyframes thumb-drift {
+  0%, 100% { background-position: 6% 18%, 90% 80%; }
+  50%      { background-position: 78% 86%, 12% 20%; }
+}
+
+/* the translate is what centres the oversized layer; the rotation is the
+   only part that moves, and it carries the translate with it because a
+   transform list is applied as one */
+@keyframes thumb-turn {
+  from { transform: translate(-50%, -50%) rotate(0deg); }
+  to   { transform: translate(-50%, -50%) rotate(360deg); }
 }
 
 .tab {
