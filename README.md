@@ -28,6 +28,29 @@ Personal site of Nugraha Putra, Product Designer. Plain HTML, CSS, and JavaScrip
     └── mockup.html               # earlier draft the device mockups came from
 ```
 
+### Homepage heading
+
+The intro ends in a row of five 16px icons: mail, LinkedIn, Dribbble, GitHub,
+resume. They reuse two hooks that already existed — `data-tip` for the cursor
+tooltip and `data-copy` on the mail link, which keeps its `mailto:` href so it
+still reaches a mail client with JavaScript off.
+
+Each icon is a 16px target inside a 40px one. `.social__link::after` is an
+inset overlay of -12px, which is exactly half the 24px gap, so neighbouring
+targets meet without overlapping and nothing moves in the layout. Icon-only
+links carry an `aria-label` matching the tooltip, so the visible label is
+contained in the accessible name.
+
+The icons are Figma's exports, which crop each one to its own bounding box and
+so arrive at five different viewBox sizes. One export unit happens to equal one
+rendered pixel, so re-centring each in a `16 16` viewBox lines them up at a
+common scale — the offsets in each `viewBox` are what does that. `#52525B` was
+swapped for `currentColor` so they follow the palette.
+
+Company names in the prose use `.emph`. Figma draws the linked one and the
+unlinked one identically, so only a hover underline separates them; that keeps
+a sentence from turning into a row of buttons.
+
 ### Homepage tabs
 
 Projects and writing share one panel behind two pills. Real tab semantics —
