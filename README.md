@@ -42,6 +42,28 @@ the row never reflows. Both pills are a fixed 100px, so the plate only ever
 has to travel, never resize. A third tab of a different width would need the
 width handled too.
 
+The plate breathes. `thumb-breathe` (6s) sweeps the gradient across the pill
+and swells brightness 6% and saturation 8% at the top of the pass;
+`background-size: 240%` is what gives the light room to travel — 112px of it,
+more than the pill is wide, so the plate moves between the gold end of the
+gradient and the lime end rather than shimmering in place.
+
+**It animates paint only, never geometry.** An earlier version also wobbled the
+shape: uneven `border-radius`, a little float and scale. It read as stuttering
+rather than living, for two reasons worth keeping. `border-radius` cannot be
+composited, so every frame repaints the plate on a page already running three
+mockups; and at 100x40 a 2% scale lands the edges on sub-pixel boundaries that
+get re-antialiased each frame, which the eye reads as vibration. Small crisp
+boxes animate well by paint and badly by shape.
+
+One more trap: CSS applies the timing function between each *pair* of
+keyframes, not across the loop, so a cycle with stops at 33% and 66%
+decelerates to a halt three times over. Keep ambient loops to two or three
+keyframes.
+
+The theme switch shares the gradient but stays still, on purpose — one ambient
+loop on a page is alive, two is busy.
+
 The panels are very different heights, so nothing animates height. The
 outgoing panel fades in 110ms, the swap happens while it is transparent, and
 the incoming panel's children rise in sequence — `[data-stagger]` gets a `--i`
