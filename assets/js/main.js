@@ -180,6 +180,14 @@
       panel.classList.add('is-entering');
     };
 
+    /* short name, because it is also what the <head> writes onto <html> */
+    var nameOf = function (tab) { return tab.id.replace('tab-', ''); };
+
+    var remember = function (tab) {
+      document.documentElement.setAttribute('data-tab', nameOf(tab));
+      try { sessionStorage.setItem('tab', nameOf(tab)); } catch (err) {}
+    };
+
     var select = function (tab, moveFocus) {
       var previous = currentTab();
 
@@ -189,8 +197,7 @@
         tab.setAttribute('aria-selected', 'true');
         tab.tabIndex = 0;
         placeThumb(tab);
-
-        try { sessionStorage.setItem('tab', tab.id); } catch (err) {}
+        remember(tab);
 
         var outgoing = panelFor(previous);
         var incoming = panelFor(tab);
@@ -238,7 +245,7 @@
     try {
       var remembered = sessionStorage.getItem('tab');
       if (remembered) {
-        var match = document.getElementById(remembered);
+        var match = document.getElementById('tab-' + remembered.replace('tab-', ''));
         if (match && tabs.indexOf(match) !== -1) opening = match;
       }
     } catch (err) {}
@@ -256,6 +263,11 @@
       void thumb.offsetWidth;
       thumb.style.transition = '';
     }
+
+    /* hands styling back to aria-selected. The pre-paint rules in the
+       stylesheet stop applying from here, so they can never fight a swap. */
+    remember(opening);
+    document.documentElement.classList.add('tabs-ready');
 
     window.addEventListener('resize', function () {
       placeThumb(currentTab());

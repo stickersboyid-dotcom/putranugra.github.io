@@ -334,6 +334,23 @@ img { display: block; max-width: 100%; }
    of the panel they switch */
 .section--tabs { gap: 40px; }
 
+/* The remembered tab is written onto <html> in the <head>, before the
+   first paint, the same way the theme is — otherwise the page paints
+   Project and swaps to Writing once main.js runs. Every article sits
+   behind Writing, so that swap would fire on the way back from every
+   single one.
+
+   The markup ships with Project up, so only Writing needs stating. And
+   these only hold until main.js has taken over: after that the buttons'
+   own aria-selected governs, and leaving these live would fight the
+   swap animation by revealing the incoming panel too early. */
+:root[data-tab="writing"]:not(.tabs-ready) #panel-project { display: none; }
+:root[data-tab="writing"]:not(.tabs-ready) #panel-writing { display: block; }
+:root[data-tab="writing"]:not(.tabs-ready) #tab-project { color: var(--text-secondary); }
+:root[data-tab="writing"]:not(.tabs-ready) #tab-writing { color: var(--on-accent); }
+/* one pill (100px) plus the gap (4px) */
+:root[data-tab="writing"]:not(.tabs-ready) .tabs__thumb { --thumb-x: 104px; }
+
 .tabs__list {
   position: relative;
   align-self: flex-start;

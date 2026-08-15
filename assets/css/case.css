@@ -36,8 +36,8 @@
 }
 
 .cs-back:hover {
-  background: #3f3f46;
-  border-color: #3f3f46;
+  background: var(--btn-hover);
+  border-color: var(--btn-hover);
 }
 
 .cs-back__arrow {
