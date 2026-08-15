@@ -1,0 +1,1114 @@
+/* ============================================================
+   Nugraha Putra — putranugra.com
+   Tokens mirror the Figma variables 1:1.
+   ============================================================ */
+
+:root {
+  /* colour — from Figma variables */
+  --base-white:     #ffffff;
+  --text-primary:   #18181b;
+  --text-secondary: #52525b;
+  --border-default: #e4e4e7;
+  --border-strong:  #d1d1d6;
+  --bg-muted:       #f4f4f5;
+
+  --success:    #22c55e;
+  --success-bg: #f0fdf4;
+  --success-fg: #14532d;
+  --danger:     #ef4444;
+  --danger-bg:  #fef2f2;
+  --danger-fg:  #991b1b;
+
+  /* review stars are the one warm accent in an otherwise zinc palette */
+  --star:       #f59e0b;
+
+  /* the document icon in the writings list is the one blue on the site */
+  --doc-fill:   #eff6ff;
+  --doc-stroke: #3b82f6;
+
+  /* Lifted from the favicon, and the only warm surface on the site. Used
+     by the two controls that carry state — the theme switch and the tab
+     plate — so "on" looks the same wherever it appears. Deliberately not
+     redefined for dark: a yellow that dims is a yellow that stopped
+     meaning "on". */
+  --accent-gradient: linear-gradient(164deg, #ffcc00 16%, #e3ff45 83%);
+
+  /* label ink for that gradient. Fixed, because the plate under it does
+     not follow the palette either — zinc-600 holds ~5:1 on the darkest
+     end of the ramp in both themes. */
+  --on-accent: #52525b;
+
+  /* type — from Figma text styles. Figma stores tracking as a percentage of
+     the font size, so these stay in em rather than px. */
+  --font-sans: "Geist", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+
+  --heading-xl-size: 24px;
+  --heading-xl-line: 31.2px;
+  --heading-xl-track: -0.003em;
+
+  --heading-lg-size: 20px;
+  --heading-lg-line: 28px;
+  --heading-lg-track: -0.002em;
+
+  --heading-md-size: 17px;
+  --heading-md-line: 23.8px;
+  --heading-md-track: -0.001em;
+
+  --body-lg-size: 16px;
+  --body-lg-line: 25.6px;
+
+  --heading-sm-size: 15px;
+  --heading-sm-line: 22.5px;
+
+  --body-md-size: 14px;
+  --body-md-line: 22px;
+
+  --body-sm-size: 13px;
+  --body-sm-line: 19.5px;
+
+  --label-size: 12px;
+  --label-line: 18px;
+
+  --caption-size: 11px;
+  --caption-line: 15.4px;
+  --caption-track: 0.001em;
+
+  /* layout */
+  --radius-card: 10px;
+
+  --shell-width: 800px;
+  --shell-pad-y: 100px;
+  --shell-pad-x: 50px;
+  --stack-gap: 80px;
+  --block-gap: 24px;
+  --list-gap: 12px;
+
+  /* hover states that used to be written as literals inline. They are
+     tokens now because dark mode has to move them in the opposite
+     direction: a border that lightens on white must darken on ink. */
+  --border-hover: #d4d4d8;
+  --btn-hover:    #3f3f46;
+
+  /* article covers are drawn on cream. On a dark page that reads as a
+     lightbox, so dark mode knocks them back a little. */
+  --cover-brightness: 1;
+
+  /* motion */
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --dur-micro: 150ms;
+  --dur-small: 250ms;
+  --dur-plate: 320ms;
+
+  color-scheme: light;
+}
+
+/* ── DARK ──────────────────────────────────────────────────────
+   The light palette is zinc, which carries a slight blue cast. That
+   cast is invisible on white and turns clinical on ink, so dark drops
+   to a neutral grey instead of mirroring zinc.
+
+   The page also sits at #111 rather than near-black. Two thirds of a
+   stop of headroom is the difference between a background that reads
+   as "unlit" and one that reads as a hole punched in the screen, and
+   it softens every contrast ratio on the page along with it.
+
+   Two selectors carry the same values on purpose. The media query
+   honours the visitor's OS setting on a first visit with no JS, and
+   the attribute lets the footer switch override it in either
+   direction afterwards. :not([data-theme="light"]) is what stops the
+   OS from overruling someone who explicitly asked for light.
+
+   Note what does NOT need touching: every ink-coloured chip on the
+   site is written `background: var(--text-primary); color:
+   var(--base-white)`, so swapping those two tokens flips the chip to
+   a light plate with dark type on its own.
+   ────────────────────────────────────────────────────────────── */
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --base-white:     #111111;
+    --text-primary:   #ededed;
+    --text-secondary: #a3a3a3;
+    --border-default: #262626;
+    --border-strong:  #404040;
+    --bg-muted:       #1a1a1a;
+
+    --border-hover: #525252;
+    --btn-hover:    #d4d4d4;
+
+    --success:    #4ade80;
+    --success-bg: #0f2a1a;
+    --success-fg: #86efac;
+    --danger:     #f87171;
+    --danger-bg:  #2e1416;
+    --danger-fg:  #fca5a5;
+
+    --star:       #fbbf24;
+
+    --doc-fill:   #172554;
+    --doc-stroke: #60a5fa;
+
+    --cover-brightness: 0.88;
+
+    color-scheme: dark;
+  }
+}
+
+:root[data-theme="dark"] {
+  --base-white:     #111111;
+  --text-primary:   #ededed;
+  --text-secondary: #a3a3a3;
+  --border-default: #262626;
+  --border-strong:  #404040;
+  --bg-muted:       #1a1a1a;
+
+  --border-hover: #525252;
+  --btn-hover:    #d4d4d4;
+
+  --success:    #4ade80;
+  --success-bg: #0f2a1a;
+  --success-fg: #86efac;
+  --danger:     #f87171;
+  --danger-bg:  #2e1416;
+  --danger-fg:  #fca5a5;
+
+  --star:       #fbbf24;
+
+  --doc-fill:   #172554;
+  --doc-stroke: #60a5fa;
+
+  --cover-brightness: 0.88;
+
+  color-scheme: dark;
+}
+
+*,
+*::before,
+*::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  background: var(--base-white);
+  color: var(--text-secondary);
+  font-family: var(--font-sans);
+  font-size: var(--body-lg-size);
+  line-height: var(--body-lg-line);
+  font-weight: 400;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+img { display: block; max-width: 100%; }
+
+.skip-link {
+  position: absolute;
+  left: -9999px;
+  top: 0;
+  z-index: 100;
+  background: var(--text-primary);
+  color: var(--base-white);
+  font-size: var(--body-sm-size);
+  line-height: var(--body-sm-line);
+  padding: 8px 14px;
+}
+
+.skip-link:focus { left: 8px; top: 8px; }
+
+/* ── SHELL ─────────────────────────────────────────────────── */
+
+.page {
+  display: flex;
+  justify-content: center;
+  min-height: 100vh;
+}
+
+.shell {
+  width: var(--shell-width);
+  max-width: 100%;
+  min-height: 100vh;
+  /* no frame — the 800px box only exists to centre a 700px column */
+  padding: var(--shell-pad-y) var(--shell-pad-x);
+  background: var(--base-white);
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--stack-gap);
+  width: 100%;
+}
+
+/* ── HEADING ───────────────────────────────────────────────── */
+
+.heading {
+  display: flex;
+  flex-direction: column;
+  gap: var(--block-gap);
+}
+
+.identity { display: flex; flex-direction: column; gap: 4px; }
+
+.identity__name {
+  /* shrink to the text so the hover target is the name, not the whole column */
+  align-self: flex-start;
+  cursor: pointer;
+  font-size: var(--heading-md-size);
+  line-height: var(--heading-md-line);
+  letter-spacing: var(--heading-md-track);
+  font-weight: 500;
+  color: var(--text-primary);
+}
+
+/* the surname types in on hover — `pre` keeps the leading space, which a
+   normal inline box would collapse until the next letter arrives */
+[data-type-slot] { white-space: pre; }
+
+.identity__caret {
+  display: inline-block;
+  width: 1px;
+  height: 1em;
+  margin-left: 1px;
+  vertical-align: -0.12em;
+  background: currentColor;
+  opacity: 0;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .identity__name:hover .identity__caret {
+    opacity: 1;
+    animation: caret-blink 1s steps(1, end) infinite;
+  }
+}
+
+@keyframes caret-blink { 50% { opacity: 0; } }
+
+/* set as body copy, not as a second heading line */
+.identity__role {
+  font-size: var(--body-lg-size);
+  line-height: var(--body-lg-line);
+  font-weight: 400;
+  color: var(--text-secondary);
+}
+
+/* the 24px above comes from .heading; these three sit 12px apart */
+.heading__body {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  max-width: 70ch;
+}
+
+/* ── SECTIONS ──────────────────────────────────────────────── */
+
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--block-gap);
+}
+
+.section__head { display: flex; flex-direction: column; gap: 8px; }
+
+/* set in body ink at ExtraLight, matching the pull quotes on the case study
+   pages — the eyebrow labels the section rather than shouting it */
+.eyebrow {
+  font-size: var(--body-sm-size);
+  line-height: var(--body-sm-line);
+  font-weight: 200;
+  color: var(--text-secondary);
+}
+
+/* ── TABS ──────────────────────────────────────────────────────
+   Project and Writing over one panel.
+
+   The active state is a single plate that travels, not a background
+   that swaps. Watching one object cross the gap tells you the two
+   pills belong to the same control; watching one shape blink out
+   while another blinks in tells you nothing. The plate is a sibling
+   of the buttons rather than their background, which is what lets it
+   move at all — and it moves on transform, so the row never reflows.
+   ────────────────────────────────────────────────────────────── */
+
+/* wider than the 24px the other sections use: the pills are a control,
+   not a heading, and they need air under them to stop reading as part
+   of the panel they switch */
+.section--tabs { gap: 40px; }
+
+/* The remembered tab is written onto <html> in the <head>, before the
+   first paint, the same way the theme is — otherwise the page paints
+   Project and swaps to Writing once main.js runs. Every article sits
+   behind Writing, so that swap would fire on the way back from every
+   single one.
+
+   The markup ships with Project up, so only Writing needs stating. And
+   these only hold until main.js has taken over: after that the buttons'
+   own aria-selected governs, and leaving these live would fight the
+   swap animation by revealing the incoming panel too early. */
+:root[data-tab="writing"]:not(.tabs-ready) #panel-project { display: none; }
+:root[data-tab="writing"]:not(.tabs-ready) #panel-writing { display: block; }
+:root[data-tab="writing"]:not(.tabs-ready) #tab-project { color: var(--text-secondary); }
+:root[data-tab="writing"]:not(.tabs-ready) #tab-writing { color: var(--on-accent); }
+/* one pill (100px) plus the gap (4px) */
+:root[data-tab="writing"]:not(.tabs-ready) .tabs__thumb { --thumb-x: 104px; }
+
+.tabs__list {
+  position: relative;
+  align-self: flex-start;
+  display: flex;
+  gap: 4px;
+}
+
+.tabs__thumb {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: var(--thumb-w, 100px);
+  height: 100%;
+  /* half the height, so the ends stay perfectly round whatever the tab
+     is wide — a percentage would distort them at any other width */
+  border-radius: 20px;
+  background: var(--accent-gradient);
+  /* room for the gradient to travel inside the pill. At 100% there is
+     nothing to move — the gradient would exactly fill the box. The
+     higher this is, the narrower the slice on show, so the colour under
+     any one point changes more as the light sweeps past. */
+  background-size: 240% 240%;
+  /* keeps the drifting layer inside the pill's ends */
+  overflow: hidden;
+  transform: translate3d(var(--thumb-x, 0px), 0, 0);
+  transition: transform var(--dur-plate) var(--ease-out);
+  animation: thumb-breathe 6s ease-in-out infinite;
+}
+
+/* Second layer: two soft blooms wandering over the base gradient, one
+   warm and one pale. They exist for the two things a single sweeping
+   gradient cannot do.
+
+   Colour: the base only ever travels between its gold end and its lime
+   end. The amber bloom deepens whatever it crosses and the cream one
+   lifts it, so the eye reads a wider range than the two stops actually
+   contain — without touching --accent-gradient, which has to keep
+   matching the favicon and the theme switch.
+
+   Movement: the two blooms are driven by one animation but travel
+   opposite diagonals, and that runs at 8.5s against the base's 6s.
+   Nothing divides evenly, so the three movements keep sliding out of
+   phase and the arrangement does not repeat for about a minute and a
+   half. That is the difference between something flowing and a loop. */
+.tabs__thumb::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image:
+    radial-gradient(circle, rgba(255, 176, 0, 0.5) 0%, rgba(255, 176, 0, 0) 70%),
+    radial-gradient(circle, rgba(255, 252, 214, 0.55) 0%, rgba(255, 252, 214, 0) 70%);
+  background-size: 130% 260%, 110% 220%;
+  background-repeat: no-repeat;
+  animation: thumb-drift 8.5s ease-in-out infinite;
+}
+
+/* Third layer: a sheen that turns rather than travels.
+
+   Two blooms sliding around already reads as movement, but it is all the
+   same kind of movement. Rotation is a different axis entirely, and the
+   three together stop resolving into anything the eye can follow.
+
+   This is the one place geometry is animated, and the reason it is safe
+   here is the reason it was not on the pill itself: the layer is far
+   larger than the box and clipped by it, so no edge of it is ever on
+   screen. Nothing to re-antialias, nothing to shimmer. 140% by 350% of a
+   100x40 pill is a 140px square, comfortably past the 108px diagonal it
+   has to cover at every angle. 19s and not a round number: 17 would have
+   been exactly twice the bloom cycle, and the two would have realigned
+   every 17 seconds — the repeat this whole layer exists to break.
+
+   Every stop is lighter than the base, never darker, so the layer can
+   only lift the label's contrast — it can never eat into it.
+
+   `linear`, because a rotation that speeds up and slows down reads as a
+   stutter, which is exactly what we spent three attempts removing. */
+.tabs__thumb::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 140%;
+  height: 350%;
+  background: conic-gradient(
+    from 0deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.3) 22%,
+    rgba(255, 244, 186, 0.24) 45%,
+    rgba(255, 255, 255, 0) 68%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  animation: thumb-turn 19s linear infinite;
+}
+
+/* Two things on one 6s cycle: the light drifts along the gradient's own
+   axis, and it swells 4% at the top of the breath. Either alone reads as
+   a mistake — a gradient sliding for no reason, or a pill that flickers.
+   Together they read as something lit rather than something animating.
+
+   ease-in-out because a breath is symmetric: it slows at both ends. The
+   site's usual ease-out curve would make it lunge and settle, which is
+   the shape of a reaction, not of breathing.
+
+   The reduced-motion block at the end of this file stops it outright. */
+/* The light sweeps almost the full width of the gradient, so the plate
+   moves between its gold end and its lime end rather than just shimmering
+   in place. Brightness and saturation swell together at the top of the
+   pass: colour alone reads as a slider being dragged, the swell is what
+   makes it read as a breath.
+
+   Nothing here touches geometry. An earlier version wobbled the shape
+   too, and at this size the sub-pixel edges shimmered instead of moving.
+   Paint is what animates well on a small crisp box; shape is not.
+
+   Three keyframes with the middle one at 50% is the most a loop should
+   have: CSS eases between each pair, so extra stops mean extra pauses. */
+@keyframes thumb-breathe {
+  0%, 100% {
+    background-position: 10% 16%;
+    filter: brightness(1) saturate(1);
+  }
+  50% {
+    background-position: 90% 84%;
+    filter: brightness(1.06) saturate(1.08);
+  }
+}
+
+/* One animation, two blooms, opposite diagonals — they cross near the
+   middle of the cycle and separate again. `background-position` takes a
+   value per layer, which is why both can be driven from a single
+   timeline while still moving independently of each other. */
+@keyframes thumb-drift {
+  0%, 100% { background-position: 6% 18%, 90% 80%; }
+  50%      { background-position: 78% 86%, 12% 20%; }
+}
+
+/* the translate is what centres the oversized layer; the rotation is the
+   only part that moves, and it carries the translate with it because a
+   transform list is applied as one */
+@keyframes thumb-turn {
+  from { transform: translate(-50%, -50%) rotate(0deg); }
+  to   { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+.tab {
+  /* above the plate, and its own stacking context so the label never
+     disappears under the thumb mid-travel */
+  position: relative;
+  z-index: 1;
+  width: 100px;
+  height: 40px;
+  padding: 12px 8px;
+  background: none;
+  border: 0;
+  border-radius: 20px;
+  font-family: inherit;
+  font-size: var(--label-size);
+  line-height: var(--label-line);
+  font-weight: 500;
+  color: var(--text-secondary);
+  text-align: center;
+  cursor: pointer;
+  /* slower than the plate on purpose: the ink catches up to the plate
+     rather than racing it there */
+  transition: color var(--dur-plate) var(--ease-out);
+}
+
+.tab[aria-selected="true"] { color: var(--on-accent); }
+
+@media (hover: hover) and (pointer: fine) {
+  .tab[aria-selected="false"]:hover { color: var(--text-primary); }
+}
+
+.tab:focus-visible {
+  outline: 1px solid var(--text-primary);
+  outline-offset: 3px;
+}
+
+/* ── TAB PANELS ────────────────────────────────────────────── */
+
+.tabs__panel[hidden] { display: none; }
+
+/* The panels are wildly different heights, so nothing here animates
+   height — the swap happens while the panel is transparent, which is
+   the one moment the jump costs nothing to look at. What does animate
+   is the arrival: children rise in sequence, so the eye is given an
+   order to read them in instead of a whole block landing at once. */
+.tabs__panel.is-leaving {
+  animation: tab-panel-out 110ms cubic-bezier(0.55, 0, 1, 0.45) both;
+}
+
+.tabs__panel.is-entering > [data-stagger] > * {
+  animation: tab-panel-in var(--dur-plate) var(--ease-out) both;
+  animation-delay: calc(var(--i, 0) * 55ms);
+}
+
+@keyframes tab-panel-out {
+  to { opacity: 0; }
+}
+
+@keyframes tab-panel-in {
+  from { opacity: 0; transform: translate3d(0, 10px, 0); }
+  to   { opacity: 1; transform: none; }
+}
+
+/* ── WRITINGS LIST ─────────────────────────────────────────── */
+
+.posts {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  list-style: none;
+}
+
+/* the whole block is the target; the accessible name comes from an
+   aria-label on the link so a screen reader hears the title, not the
+   title plus byline plus excerpt run together */
+.post__link {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  color: inherit;
+  text-decoration: none;
+}
+
+.post__head {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.post__icon { flex-shrink: 0; }
+
+.post__title {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.post__name {
+  font-size: var(--heading-sm-size);
+  line-height: var(--heading-sm-line);
+  font-weight: 500;
+  color: var(--text-primary);
+}
+
+.post__meta,
+.post__excerpt {
+  font-size: var(--body-md-size);
+  line-height: var(--body-md-line);
+  color: var(--text-secondary);
+}
+
+.post__excerpt { font-weight: 200; }
+
+@media (hover: hover) and (pointer: fine) {
+  .post__link:hover .post__name {
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 3px;
+  }
+}
+
+.post__link:focus-visible {
+  outline: 1px solid var(--text-primary);
+  outline-offset: 4px;
+  border-radius: 2px;
+}
+
+/* ── INLINE LINKS ──────────────────────────────────────────── */
+
+.link {
+  display: inline;
+  font: inherit;
+  color: var(--text-secondary);
+  background: none;
+  border: 0;
+  padding: 0;
+  text-align: left;
+  cursor: pointer;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-decoration-color: var(--border-default);
+  text-underline-offset: 3px;
+  transition: color var(--dur-micro) var(--ease-out),
+              text-decoration-color var(--dur-micro) var(--ease-out);
+}
+
+.link:hover,
+.link:focus-visible {
+  color: var(--text-primary);
+  text-decoration-color: currentColor;
+}
+
+.link:focus-visible {
+  outline: 1px solid var(--text-primary);
+  outline-offset: 3px;
+  border-radius: 1px;
+}
+
+/* ── CASE STUDY BOXES ──────────────────────────────────────── */
+
+.showcase {
+  display: flex;
+  flex-direction: column;
+  gap: var(--block-gap);
+}
+
+.showcase__row {
+  display: flex;
+  gap: var(--block-gap);
+  align-items: stretch;
+}
+
+.case {
+  display: block;
+  position: relative;
+  overflow: hidden;
+  background: var(--base-white);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-card);
+  color: inherit;
+  text-decoration: none;
+  transition: border-color var(--dur-small) var(--ease-out);
+}
+
+.case:hover { border-color: var(--border-hover); }
+
+.case:focus-visible {
+  outline: 1px solid var(--text-primary);
+  outline-offset: 2px;
+}
+
+.case--wide { width: 100%; height: 468px; }
+
+.case--tall { flex: 1 1 0; min-width: 0; height: 468px; }
+
+.stage {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+/* knocks the mockup back so the plate is the only thing to read.
+   Sits after .stage and before .case__label in the markup, so paint order
+   alone puts it between them without any z-index bookkeeping. */
+.case__scrim {
+  position: absolute;
+  inset: 0;
+  background: rgba(24, 24, 27, 0.5);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--dur-plate) var(--ease-out);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .case:hover .case__scrim,
+  .case:focus-visible .case__scrim { opacity: 1; }
+}
+
+/* label plate */
+.case__label {
+  position: absolute;
+  left: 16px;
+  right: 16px;
+  bottom: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 14px 16px;
+  background: var(--base-white);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-card);
+  pointer-events: none;
+  opacity: 1;
+  transform: translateY(0);
+  /* opacity settles faster than the travel, so the plate is solid for most
+     of the way up instead of only arriving once it has stopped */
+  transition: transform var(--dur-plate) var(--ease-out),
+              opacity 180ms var(--ease-out);
+}
+
+/* the mockup runs on its own, so the plate stays out of the way until
+   there's a cursor asking what the case is. It rises out of the bottom
+   edge rather than appearing in place. On touch it stays visible, since
+   nothing else names the case. */
+@media (hover: hover) and (pointer: fine) {
+  .case__label {
+    opacity: 0;
+    transform: translateY(calc(100% + 16px));
+  }
+
+  .case:hover .case__label,
+  .case:focus-visible .case__label {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* same pairing as a section head: Body/sm in primary over Body/lg in
+   secondary, no tracking — the copy already carries its own caps */
+.case__tag {
+  font-size: var(--body-sm-size);
+  line-height: var(--body-sm-line);
+  color: var(--text-primary);
+}
+
+.case__desc {
+  font-size: var(--body-lg-size);
+  line-height: var(--body-lg-line);
+  color: var(--text-secondary);
+}
+
+/* ── DEVICE: LAPTOP (internal ops dashboard) ───────────────── */
+
+.case--wide { --laptop-w: 470px; }
+
+.laptop {
+  display: block;
+  flex: 0 0 auto;
+  width: var(--laptop-w);
+  padding: 0 6px 8px;
+  background: #1a1a1a;
+  border-radius: 12px;
+  box-shadow: 0 0 0 1px #2a2a2a, 0 16px 40px rgba(24, 24, 27, 0.28);
+}
+
+.laptop__bar {
+  display: block;
+  position: relative;
+  height: 8px;
+}
+
+.laptop__notch {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 80px;
+  height: 18px;
+  background: #1a1a1a;
+  border-radius: 0 0 12px 12px;
+}
+
+.laptop__cam {
+  width: 5px;
+  height: 5px;
+  margin-top: 6px;
+  background: #333;
+  border-radius: 50%;
+}
+
+.laptop__screen {
+  display: block;
+  position: relative;
+  width: 100%;
+  aspect-ratio: 3024 / 1964;
+  overflow: hidden;
+  border-radius: 6px;
+  background: var(--base-white);
+}
+
+.laptop__screen .slide img { object-position: top left; }
+
+/* ── DEVICE: PHONE (loyalty + hangry) ──────────────────────── */
+
+/* one handset for both boxes — box 2 and box 3 sit side by side, so any
+   difference in size or radius reads as a mistake */
+.phone {
+  display: block;
+  position: relative;
+  flex: 0 0 auto;
+  width: 210px;
+  height: 420px;
+  padding: 8px;
+  background: #1a1a1a;
+  border-radius: 32px;
+  box-shadow: 0 0 0 1px #333, 0 20px 48px rgba(24, 24, 27, 0.26);
+}
+
+.phone__screen {
+  display: block;
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  border-radius: 25px;
+  background: var(--base-white);
+}
+
+/* ── SLIDES + SCROLLERS ────────────────────────────────────── */
+
+.slide {
+  display: block;
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  opacity: 0;
+  transition: opacity 400ms ease;
+}
+
+.slide.is-active { opacity: 1; }
+
+.slide.no-fade { transition: none; }
+
+.slide img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top;
+}
+
+.slide--scroll img {
+  height: auto;
+  min-height: 100%;
+}
+
+.scroller {
+  width: 100%;
+  height: auto;
+}
+
+/* ── FAKE CURSOR ───────────────────────────────────────────── */
+
+.pointer {
+  position: absolute;
+  z-index: 3;
+  width: 14px;
+  height: 14px;
+  opacity: 0;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  transition: opacity 200ms ease, transform var(--dur-micro) ease;
+}
+
+.pointer.is-visible { opacity: 1; }
+.pointer.is-pressing { transform: translate(-50%, -50%) scale(0.8); }
+
+.ripple {
+  position: absolute;
+  z-index: 2;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: rgba(24, 24, 27, 0.15);
+  opacity: 0;
+  transform: translate(-50%, -50%) scale(0);
+  pointer-events: none;
+}
+
+.ripple.is-popping { animation: ripple-pop 400ms ease-out forwards; }
+
+@keyframes ripple-pop {
+  from { transform: translate(-50%, -50%) scale(0); opacity: 0.5; }
+  to   { transform: translate(-50%, -50%) scale(2.5); opacity: 0; }
+}
+
+/* ── FOOTER ────────────────────────────────────────────────── */
+
+.footer {
+  display: flex;
+  flex-direction: column;
+  gap: var(--block-gap);
+  padding-top: 0;
+  border-top: 1px solid var(--border-default);
+}
+
+/* copyright on the left, theme switch on the right. The 24px under the
+   rule used to hang off .footer__note; it moves here now that the note
+   has a sibling to stay level with. */
+.footer__row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--block-gap);
+  padding-top: var(--block-gap);
+}
+
+.footer__note {
+  font-size: var(--body-sm-size);
+  line-height: var(--body-sm-line);
+}
+
+/* ── THEME SWITCH ──────────────────────────────────────────────
+   A real <button role="switch">, so the label is its accessible name
+   and the state is announced rather than implied by colour. The track
+   is decorative: everything a screen reader needs is on the button.
+   ────────────────────────────────────────────────────────────── */
+
+.theme {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  gap: 12px;
+  padding: 0;
+  background: none;
+  border: 0;
+  font: inherit;
+  color: var(--text-secondary);
+  cursor: pointer;
+}
+
+.theme__label {
+  font-size: var(--caption-size);
+  line-height: var(--caption-line);
+  letter-spacing: var(--caption-track);
+  white-space: nowrap;
+}
+
+.theme__track {
+  display: flex;
+  flex-shrink: 0;
+  width: 36px;
+  height: 20px;
+  padding: 2px;
+  border-radius: 100px;
+  background: var(--border-default);
+  transition: background var(--dur-small) var(--ease-out);
+}
+
+.theme[aria-checked="true"] .theme__track {
+  background: var(--accent-gradient);
+}
+
+.theme__knob {
+  display: block;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  /* stays white in both modes — it is the knob of a physical switch,
+     not a surface that belongs to the palette */
+  background: #ffffff;
+  transition: transform var(--dur-small) var(--ease-out);
+}
+
+/* 36 track − 2 padding each side − 16 knob = 16 to travel */
+.theme[aria-checked="true"] .theme__knob { transform: translateX(16px); }
+
+.theme:focus-visible {
+  outline: 1px solid var(--text-primary);
+  outline-offset: 4px;
+  border-radius: 2px;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .theme:hover .theme__label { color: var(--text-primary); }
+}
+
+/* ── TOAST ─────────────────────────────────────────────────── */
+
+.toast {
+  position: fixed;
+  left: 50%;
+  bottom: 24px;
+  z-index: 200;
+  padding: 8px 16px;
+  background: var(--text-primary);
+  color: var(--base-white);
+  font-size: var(--body-sm-size);
+  line-height: var(--body-sm-line);
+  opacity: 0;
+  transform: translate(-50%, 8px);
+  pointer-events: none;
+  transition: opacity var(--dur-small) var(--ease-out),
+              transform var(--dur-small) var(--ease-out);
+}
+
+.toast.is-visible { opacity: 1; transform: translate(-50%, 0); }
+
+/* ── CURSOR TOOLTIP ────────────────────────────────────────── */
+
+/* position comes from JS as two custom properties, so the tip tracks the
+   pointer on the compositor instead of through left/top reflows */
+.cursor-tip {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 300;
+  padding: 6px 10px;
+  background: var(--text-primary);
+  color: var(--base-white);
+  font-size: var(--body-sm-size);
+  line-height: var(--body-sm-line);
+  border-radius: 6px;
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0;
+  transform: translate3d(var(--tip-x, 0px), var(--tip-y, 0px), 0);
+  transition: opacity var(--dur-micro) var(--ease-out);
+}
+
+.cursor-tip.is-visible { opacity: 1; }
+
+/* ── RESPONSIVE ────────────────────────────────────────────── */
+
+@media (max-width: 860px) {
+  :root {
+    --shell-pad-y: 72px;
+    --shell-pad-x: 28px;
+    --stack-gap: 64px;
+  }
+}
+
+@media (max-width: 720px) {
+  :root {
+    --shell-pad-y: 56px;
+    --shell-pad-x: 20px;
+  }
+
+  .showcase__row { flex-direction: column; }
+
+  /* the stage carries the height here, not the box: `flex: 1 1 0` would
+     resolve against the cross axis once the row stacks and collapse it */
+  .case { display: flex; flex-direction: column; }
+  .case--wide,
+  .case--tall { flex: 0 0 auto; height: auto; }
+  .case--wide .stage { height: 240px; }
+  .case--tall .stage { height: 430px; }
+
+  .case--wide { --laptop-w: 320px; }
+
+  .phone { width: 190px; height: 380px; }
+
+  /* nothing reveals the mockup on touch, so the plate sits under it
+     instead of covering it */
+  .case__label {
+    position: static;
+    padding: 14px;
+    border: 0;
+    border-top: 1px solid var(--border-default);
+    /* once it's in the flow it can't hide on hover, or it leaves a hole */
+    opacity: 1;
+    transform: none;
+    /* flush to the box edges here, so rounding it would read as a seam */
+    border-radius: 0;
+  }
+}
+
+/* ── REDUCED MOTION ────────────────────────────────────────── */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  /* the deck never starts, so the plate has to stay readable */
+  .case__label { opacity: 1 !important; }
+
+  /* the surname is filled in outright, so there is nothing to blink for */
+  .identity__caret { display: none; }
+}
