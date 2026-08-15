@@ -125,6 +125,143 @@
     else if (scheme.addListener) scheme.addListener(onSchemeChange);
   }
 
+  /* ── TABS ────────────────────────────────────────────────────
+     Project / Writing over one panel. Real tab semantics, so the two
+     pills behave the way a keyboard expects: one stop in the tab
+     order, arrows to move between them, Home/End to jump.
+
+     The plate moves the instant the pill is pressed, before the panel
+     has finished swapping. The control has to answer immediately; the
+     content is allowed to take its time.
+
+     Which tab you were on is remembered for the session, so opening an
+     article and coming back does not drop you on Project again.
+     ────────────────────────────────────────────────────────── */
+
+  var tabList = document.querySelector('[role="tablist"]');
+
+  if (tabList) {
+    var tabs = Array.prototype.slice.call(tabList.querySelectorAll('[role="tab"]'));
+    var thumb = tabList.querySelector('.tabs__thumb');
+    var swapping = false;
+
+    var panelFor = function (tab) {
+      return document.getElementById(tab.getAttribute('aria-controls'));
+    };
+
+    var currentTab = function () {
+      for (var i = 0; i < tabs.length; i++) {
+        if (tabs[i].getAttribute('aria-selected') === 'true') return tabs[i];
+      }
+      return tabs[0];
+    };
+
+    var placeThumb = function (tab) {
+      if (!thumb) return;
+      thumb.style.setProperty('--thumb-w', tab.offsetWidth + 'px');
+      thumb.style.setProperty('--thumb-x', tab.offsetLeft + 'px');
+    };
+
+    /* numbering the children once is what the stagger delay counts off */
+    Array.prototype.forEach.call(document.querySelectorAll('[data-stagger]'), function (group) {
+      Array.prototype.forEach.call(group.children, function (child, i) {
+        child.style.setProperty('--i', i);
+      });
+    });
+
+    var reveal = function (panel) {
+      panel.classList.remove('is-leaving');
+      panel.hidden = false;
+      if (reduceMotion) return;
+      /* re-adding a class that is already there will not replay an
+         animation, so it comes off and the reflow is forced first */
+      panel.classList.remove('is-entering');
+      void panel.offsetWidth;
+      panel.classList.add('is-entering');
+    };
+
+    var select = function (tab, moveFocus) {
+      var previous = currentTab();
+
+      if (tab !== previous && !swapping) {
+        previous.setAttribute('aria-selected', 'false');
+        previous.tabIndex = -1;
+        tab.setAttribute('aria-selected', 'true');
+        tab.tabIndex = 0;
+        placeThumb(tab);
+
+        try { sessionStorage.setItem('tab', tab.id); } catch (err) {}
+
+        var outgoing = panelFor(previous);
+        var incoming = panelFor(tab);
+
+        if (reduceMotion) {
+          outgoing.hidden = true;
+          reveal(incoming);
+        } else {
+          swapping = true;
+          outgoing.classList.add('is-leaving');
+          setTimeout(function () {
+            outgoing.classList.remove('is-leaving');
+            outgoing.hidden = true;
+            reveal(incoming);
+            swapping = false;
+          }, 110);
+        }
+      }
+
+      if (moveFocus) tab.focus();
+    };
+
+    tabs.forEach(function (tab) {
+      tab.addEventListener('click', function () { select(tab, false); });
+    });
+
+    tabList.addEventListener('keydown', function (event) {
+      var at = tabs.indexOf(document.activeElement);
+      if (at === -1) return;
+
+      var next = null;
+      if (event.key === 'ArrowRight') next = tabs[(at + 1) % tabs.length];
+      else if (event.key === 'ArrowLeft') next = tabs[(at - 1 + tabs.length) % tabs.length];
+      else if (event.key === 'Home') next = tabs[0];
+      else if (event.key === 'End') next = tabs[tabs.length - 1];
+      if (!next) return;
+
+      event.preventDefault();
+      select(next, true);
+    });
+
+    /* starting state, painted rather than animated */
+    var opening = currentTab();
+
+    try {
+      var remembered = sessionStorage.getItem('tab');
+      if (remembered) {
+        var match = document.getElementById(remembered);
+        if (match && tabs.indexOf(match) !== -1) opening = match;
+      }
+    } catch (err) {}
+
+    tabs.forEach(function (tab) {
+      var on = tab === opening;
+      tab.setAttribute('aria-selected', on ? 'true' : 'false');
+      tab.tabIndex = on ? 0 : -1;
+      panelFor(tab).hidden = !on;
+    });
+
+    if (thumb) {
+      thumb.style.transition = 'none';
+      placeThumb(opening);
+      void thumb.offsetWidth;
+      thumb.style.transition = '';
+    }
+
+    window.addEventListener('resize', function () {
+      placeThumb(currentTab());
+    }, { passive: true });
+  }
+
   /* ── BAR CHART REVEAL ────────────────────────────────────────
      Bars ship at full height. We flatten them only once we know we
      can raise them again, and a timer guarantees that happens even
