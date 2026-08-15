@@ -30,7 +30,7 @@ Personal site of Nugraha Putra, Product Designer. Plain HTML, CSS, and JavaScrip
 
 ### Homepage heading
 
-The intro ends in a row of five 16px icons: mail, LinkedIn, Dribbble, GitHub,
+The intro ends in a row of five 16px icons: mail, LinkedIn, Dribbble, Threads,
 resume. They reuse two hooks that already existed — `data-tip` for the cursor
 tooltip and `data-copy` on the mail link, which keeps its `mailto:` href so it
 still reaches a mail client with JavaScript off.
@@ -45,7 +45,9 @@ The icons are Figma's exports, which crop each one to its own bounding box and
 so arrive at five different viewBox sizes. One export unit happens to equal one
 rendered pixel, so re-centring each in a `16 16` viewBox lines them up at a
 common scale — the offsets in each `viewBox` are what does that. `#52525B` was
-swapped for `currentColor` so they follow the palette.
+swapped for `currentColor` so they follow the palette: `stroke` on the four
+Lucide outlines, `fill` on the Threads glyph, which is a brand mark and the one
+solid shape in the row. The outlines run at 1.2 stroke to sit at its weight.
 
 Company names in the prose use `.emph`. Figma draws the linked one and the
 unlinked one identically, so only a hover underline separates them; that keeps
