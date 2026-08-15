@@ -19,6 +19,8 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@200;400;500&display=swap">
 <link rel="stylesheet" href="assets/css/styles.css">
 
+<noscript><style>.tabs__list{display:none}.tabs__panel[hidden]{display:block}</style></noscript>
+
 <!-- sets a stored theme before first paint, so the page never flashes the wrong palette -->
 <script>try{var t=localStorage.getItem('theme');if(t)document.documentElement.setAttribute('data-theme',t);}catch(e){}</script>
 </head>
@@ -43,41 +45,72 @@
         </div>
       </header>
 
-      <!-- ── CASE STUDIES ────────────────────────────────────── -->
-      <section class="section" aria-labelledby="work-heading">
-        <div class="section__head">
-          <h2 class="eyebrow" id="work-heading">SELECTED CASE STUDIES</h2>
-          <p class="lede">These are some works that changed how I think about design.</p>
+      <!-- ── WORK ──────────────────────── -->
+      <section class="section section--tabs" aria-label="Selected work">
+
+        <div class="tabs__list" role="tablist" aria-label="Show projects or writing">
+          <span class="tabs__thumb" aria-hidden="true"></span>
+          <button class="tab" type="button" role="tab" id="tab-project" aria-controls="panel-project" aria-selected="true">PROJECT</button>
+          <button class="tab" type="button" role="tab" id="tab-writing" aria-controls="panel-writing" aria-selected="false" tabindex="-1">WRITING</button>
         </div>
 
-        <div class="showcase">
-          <div class="showcase__row">
+        <div class="tabs__panel" role="tabpanel" id="panel-project" aria-labelledby="tab-project">
+          <div class="showcase" data-stagger>
+            <div class="showcase__row">
 
-            <!-- box 2 — loyalty page -->
-            <a class="case case--tall" href="loyalty-page/" data-mock="scroller" data-hover-freeze data-tip="Click to read">
-              <span class="stage">
-                <span class="phone">
-                  <span class="phone__screen">
-                    <img src="assets/img/loyalty/landing-page.png" alt="" loading="lazy" decoding="async" class="scroller" data-scroller>
+              <!-- box 2 — loyalty page -->
+              <a class="case case--tall" href="loyalty-page/" data-mock="scroller" data-hover-freeze data-tip="Click to read">
+                <span class="stage">
+                  <span class="phone">
+                    <span class="phone__screen">
+                      <img src="assets/img/loyalty/landing-page.png" alt="" loading="lazy" decoding="async" class="scroller" data-scroller>
+                    </span>
                   </span>
                 </span>
-              </span>
-              <span class="case__scrim" aria-hidden="true"></span>
-              <span class="case__label">
-                <span class="case__tag">LOYALTY PAGE &middot; 2021</span>
-                <span class="case__desc">The UX behind a 76% growth in new loyalty user registrations</span>
-              </span>
-            </a>
+                <span class="case__scrim" aria-hidden="true"></span>
+                <span class="case__label">
+                  <span class="case__tag">LOYALTY PAGE &middot; 2021</span>
+                  <span class="case__desc">The UX behind a 76% growth in new loyalty user registrations</span>
+                </span>
+              </a>
 
-            <!-- box 3 — hangry app -->
-            <a class="case case--tall" href="hangry-app/" data-mock="tour" data-hover-freeze data-tip="Click to read">
+              <!-- box 3 — hangry app -->
+              <a class="case case--tall" href="hangry-app/" data-mock="tour" data-hover-freeze data-tip="Click to read">
+                <span class="stage">
+                  <span class="phone">
+                    <span class="phone__screen" data-screen>
+                      <span class="slide is-active"><img src="assets/img/hangry/splash.png" alt="" loading="lazy" decoding="async"></span>
+                      <span class="slide"><img src="assets/img/hangry/searching.png" alt="" loading="lazy" decoding="async"></span>
+                      <span class="slide"><img src="assets/img/hangry/outlet-list.png" alt="" loading="lazy" decoding="async"></span>
+                      <span class="slide slide--scroll"><img src="assets/img/hangry/home.png" alt="" loading="lazy" decoding="async" data-scroller></span>
+                      <span class="pointer" data-pointer aria-hidden="true">
+                        <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M2 2L14 7.5L8 9.5L6 15L2 2Z" fill="#18181b" stroke="#fff" stroke-width="1"/></svg>
+                      </span>
+                      <span class="ripple" data-ripple aria-hidden="true"></span>
+                    </span>
+                  </span>
+                </span>
+                <span class="case__scrim" aria-hidden="true"></span>
+                <span class="case__label">
+                  <span class="case__tag">HANGRY APP &middot; 2019</span>
+                  <span class="case__desc">How I designed an app that reached 100K+ downloads with a 4.9 star rating</span>
+                </span>
+              </a>
+
+            </div>
+
+            <!-- box 1 — internal ops dashboard -->
+            <a class="case case--wide" href="internal-ops-dashboard/" data-mock="deck" data-hover-freeze data-tip="Click to read"
+              data-dwell="1000,1000,1000,1000"
+              data-clicks="0:0.931,0.057 2:0.917,0.885 3:0.232,0.148">
               <span class="stage">
-                <span class="phone">
-                  <span class="phone__screen" data-screen>
-                    <span class="slide is-active"><img src="assets/img/hangry/splash.png" alt="" loading="lazy" decoding="async"></span>
-                    <span class="slide"><img src="assets/img/hangry/searching.png" alt="" loading="lazy" decoding="async"></span>
-                    <span class="slide"><img src="assets/img/hangry/outlet-list.png" alt="" loading="lazy" decoding="async"></span>
-                    <span class="slide slide--scroll"><img src="assets/img/hangry/home.png" alt="" loading="lazy" decoding="async" data-scroller></span>
+                <span class="laptop">
+                  <span class="laptop__bar"><span class="laptop__notch"><span class="laptop__cam"></span></span></span>
+                  <span class="laptop__screen" data-screen>
+                    <span class="slide is-active"><img src="assets/img/dashboard/step-1.png" alt="" loading="lazy" decoding="async"></span>
+                    <span class="slide"><img src="assets/img/dashboard/step-2.png" alt="" loading="lazy" decoding="async"></span>
+                    <span class="slide"><img src="assets/img/dashboard/step-3.png" alt="" loading="lazy" decoding="async"></span>
+                    <span class="slide"><img src="assets/img/dashboard/step-4.png" alt="" loading="lazy" decoding="async"></span>
                     <span class="pointer" data-pointer aria-hidden="true">
                       <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M2 2L14 7.5L8 9.5L6 15L2 2Z" fill="#18181b" stroke="#fff" stroke-width="1"/></svg>
                     </span>
@@ -87,117 +120,86 @@
               </span>
               <span class="case__scrim" aria-hidden="true"></span>
               <span class="case__label">
-                <span class="case__tag">HANGRY APP &middot; 2019</span>
-                <span class="case__desc">How I designed an app that reached 100K+ downloads with a 4.9 star rating</span>
+                <span class="case__tag">INTERNAL OPS DASHBOARD &middot; 2024</span>
+                <span class="case__desc">Solving the right problem to make operations 70% faster</span>
               </span>
             </a>
-
           </div>
+        </div>
 
-          <!-- box 1 — internal ops dashboard -->
-          <a class="case case--wide" href="internal-ops-dashboard/" data-mock="deck" data-hover-freeze data-tip="Click to read"
-            data-dwell="1000,1000,1000,1000"
-            data-clicks="0:0.931,0.057 2:0.917,0.885 3:0.232,0.148">
-            <span class="stage">
-              <span class="laptop">
-                <span class="laptop__bar"><span class="laptop__notch"><span class="laptop__cam"></span></span></span>
-                <span class="laptop__screen" data-screen>
-                  <span class="slide is-active"><img src="assets/img/dashboard/step-1.png" alt="" loading="lazy" decoding="async"></span>
-                  <span class="slide"><img src="assets/img/dashboard/step-2.png" alt="" loading="lazy" decoding="async"></span>
-                  <span class="slide"><img src="assets/img/dashboard/step-3.png" alt="" loading="lazy" decoding="async"></span>
-                  <span class="slide"><img src="assets/img/dashboard/step-4.png" alt="" loading="lazy" decoding="async"></span>
-                  <span class="pointer" data-pointer aria-hidden="true">
-                    <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M2 2L14 7.5L8 9.5L6 15L2 2Z" fill="#18181b" stroke="#fff" stroke-width="1"/></svg>
+        <div class="tabs__panel" role="tabpanel" id="panel-writing" aria-labelledby="tab-writing" hidden>
+          <ul class="posts" data-stagger>
+            <li>
+              <a class="post__link" href="writings/what-ai-taught-me-about-my-own-thinking/" aria-label="What AI taught me about my own thinking" data-tip="Click to read">
+                <span class="post__head">
+                  <svg class="post__icon" width="45" height="45" viewBox="0 0 45 45" fill="none" aria-hidden="true">
+                    <g transform="translate(6.5 2.75)">
+                      <path d="M19.75 1H4.75C3.75544 1 2.80161 1.39509 2.09835 2.09835C1.39509 2.80161 1 3.75544 1 4.75V34.75C1 35.7446 1.39509 36.6984 2.09835 37.4016C2.80161 38.1049 3.75544 38.5 4.75 38.5H27.25C28.2446 38.5 29.1984 38.1049 29.9016 37.4016C30.6049 36.6984 31 35.7446 31 34.75V12.25L19.75 1Z" fill="var(--doc-fill)"/>
+                      <path d="M31 12.25L19.75 1H4.75C3.75544 1 2.80161 1.39509 2.09835 2.09835C1.39509 2.80161 1 3.75544 1 4.75V34.75C1 35.7446 1.39509 36.6984 2.09835 37.4016C2.80161 38.1049 3.75544 38.5 4.75 38.5H27.25C28.2446 38.5 29.1984 38.1049 29.9016 37.4016C30.6049 36.6984 31 35.7446 31 34.75V12.25ZM19.75 1V12.25H31M23.5 21.625H8.5M23.5 29.125H8.5M12.25 14.125H8.5" stroke="var(--doc-stroke)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </g>
+                  </svg>
+                  <span class="post__title">
+                    <span class="post__name">What AI taught me about my own thinking</span>
+                    <span class="post__meta">2 min read</span>
                   </span>
-                  <span class="ripple" data-ripple aria-hidden="true"></span>
                 </span>
-              </span>
-            </span>
-            <span class="case__scrim" aria-hidden="true"></span>
-            <span class="case__label">
-              <span class="case__tag">INTERNAL OPS DASHBOARD &middot; 2024</span>
-              <span class="case__desc">Solving the right problem to make operations 70% faster</span>
-            </span>
-          </a>
+                <span class="post__excerpt">I try to use FigMake, Figma&rsquo;s AI feature around 2025. The goal was to move from wireframe to testable prototype much faster than manual Figma work would allow.</span>
+              </a>
+            </li>
+            <li>
+              <a class="post__link" href="writings/the-week-i-worked-in-a-restaurant-kitchen/" aria-label="The week I worked in a restaurant kitchen" data-tip="Click to read">
+                <span class="post__head">
+                  <svg class="post__icon" width="45" height="45" viewBox="0 0 45 45" fill="none" aria-hidden="true">
+                    <g transform="translate(6.5 2.75)">
+                      <path d="M19.75 1H4.75C3.75544 1 2.80161 1.39509 2.09835 2.09835C1.39509 2.80161 1 3.75544 1 4.75V34.75C1 35.7446 1.39509 36.6984 2.09835 37.4016C2.80161 38.1049 3.75544 38.5 4.75 38.5H27.25C28.2446 38.5 29.1984 38.1049 29.9016 37.4016C30.6049 36.6984 31 35.7446 31 34.75V12.25L19.75 1Z" fill="var(--doc-fill)"/>
+                      <path d="M31 12.25L19.75 1H4.75C3.75544 1 2.80161 1.39509 2.09835 2.09835C1.39509 2.80161 1 3.75544 1 4.75V34.75C1 35.7446 1.39509 36.6984 2.09835 37.4016C2.80161 38.1049 3.75544 38.5 4.75 38.5H27.25C28.2446 38.5 29.1984 38.1049 29.9016 37.4016C30.6049 36.6984 31 35.7446 31 34.75V12.25ZM19.75 1V12.25H31M23.5 21.625H8.5M23.5 29.125H8.5M12.25 14.125H8.5" stroke="var(--doc-stroke)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </g>
+                  </svg>
+                  <span class="post__title">
+                    <span class="post__name">The week I worked in a restaurant kitchen</span>
+                    <span class="post__meta">1 min read</span>
+                  </span>
+                </span>
+                <span class="post__excerpt">I was designing internal tools for Hangry&rsquo;s outlet operations. I had the briefs, the data, the user interviews. Enough to start building.</span>
+              </a>
+            </li>
+            <li>
+              <a class="post__link" href="writings/the-newest-person-with-the-loudest-question/" aria-label="The newest person with the loudest question" data-tip="Click to read">
+                <span class="post__head">
+                  <svg class="post__icon" width="45" height="45" viewBox="0 0 45 45" fill="none" aria-hidden="true">
+                    <g transform="translate(6.5 2.75)">
+                      <path d="M19.75 1H4.75C3.75544 1 2.80161 1.39509 2.09835 2.09835C1.39509 2.80161 1 3.75544 1 4.75V34.75C1 35.7446 1.39509 36.6984 2.09835 37.4016C2.80161 38.1049 3.75544 38.5 4.75 38.5H27.25C28.2446 38.5 29.1984 38.1049 29.9016 37.4016C30.6049 36.6984 31 35.7446 31 34.75V12.25L19.75 1Z" fill="var(--doc-fill)"/>
+                      <path d="M31 12.25L19.75 1H4.75C3.75544 1 2.80161 1.39509 2.09835 2.09835C1.39509 2.80161 1 3.75544 1 4.75V34.75C1 35.7446 1.39509 36.6984 2.09835 37.4016C2.80161 38.1049 3.75544 38.5 4.75 38.5H27.25C28.2446 38.5 29.1984 38.1049 29.9016 37.4016C30.6049 36.6984 31 35.7446 31 34.75V12.25ZM19.75 1V12.25H31M23.5 21.625H8.5M23.5 29.125H8.5M12.25 14.125H8.5" stroke="var(--doc-stroke)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </g>
+                  </svg>
+                  <span class="post__title">
+                    <span class="post__name">The newest person with the loudest question</span>
+                    <span class="post__meta">1 min read</span>
+                  </span>
+                </span>
+                <span class="post__excerpt">When I joined Hangry, the design was already done. A freelancer had built it before I came on. The natural move was to ship it.</span>
+              </a>
+            </li>
+            <li>
+              <a class="post__link" href="writings/the-insight-that-changed-how-i-see-problems/" aria-label="The insight that changed how I see problems" data-tip="Click to read">
+                <span class="post__head">
+                  <svg class="post__icon" width="45" height="45" viewBox="0 0 45 45" fill="none" aria-hidden="true">
+                    <g transform="translate(6.5 2.75)">
+                      <path d="M19.75 1H4.75C3.75544 1 2.80161 1.39509 2.09835 2.09835C1.39509 2.80161 1 3.75544 1 4.75V34.75C1 35.7446 1.39509 36.6984 2.09835 37.4016C2.80161 38.1049 3.75544 38.5 4.75 38.5H27.25C28.2446 38.5 29.1984 38.1049 29.9016 37.4016C30.6049 36.6984 31 35.7446 31 34.75V12.25L19.75 1Z" fill="var(--doc-fill)"/>
+                      <path d="M31 12.25L19.75 1H4.75C3.75544 1 2.80161 1.39509 2.09835 2.09835C1.39509 2.80161 1 3.75544 1 4.75V34.75C1 35.7446 1.39509 36.6984 2.09835 37.4016C2.80161 38.1049 3.75544 38.5 4.75 38.5H27.25C28.2446 38.5 29.1984 38.1049 29.9016 37.4016C30.6049 36.6984 31 35.7446 31 34.75V12.25ZM19.75 1V12.25H31M23.5 21.625H8.5M23.5 29.125H8.5M12.25 14.125H8.5" stroke="var(--doc-stroke)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </g>
+                  </svg>
+                  <span class="post__title">
+                    <span class="post__name">The insight that changed how I see problems</span>
+                    <span class="post__meta">1 min read</span>
+                  </span>
+                </span>
+                <span class="post__excerpt">Hangry had a loyalty program that should&rsquo;ve worked. The mechanic was clean, the value was there. But users weren&rsquo;t engaging, and nobody could figure out why.</span>
+              </a>
+            </li>
+          </ul>
         </div>
-      </section>
 
-      <!-- ── WRITINGS ────────────────────────────────────────── -->
-      <section class="section" aria-labelledby="writings-heading">
-        <div class="section__head">
-          <h2 class="eyebrow" id="writings-heading">WRITINGS</h2>
-          <p class="lede">Design taught me to observe, writing taught me to articulate it.</p>
-        </div>
-        <ul class="posts">
-          <li>
-            <a class="post__link" href="writings/what-ai-taught-me-about-my-own-thinking/" aria-label="What AI taught me about my own thinking" data-tip="Click to read">
-              <span class="post__head">
-                <svg class="post__icon" width="45" height="45" viewBox="0 0 45 45" fill="none" aria-hidden="true">
-                  <g transform="translate(6.5 2.75)">
-                    <path d="M19.75 1H4.75C3.75544 1 2.80161 1.39509 2.09835 2.09835C1.39509 2.80161 1 3.75544 1 4.75V34.75C1 35.7446 1.39509 36.6984 2.09835 37.4016C2.80161 38.1049 3.75544 38.5 4.75 38.5H27.25C28.2446 38.5 29.1984 38.1049 29.9016 37.4016C30.6049 36.6984 31 35.7446 31 34.75V12.25L19.75 1Z" fill="var(--doc-fill)"/>
-                    <path d="M31 12.25L19.75 1H4.75C3.75544 1 2.80161 1.39509 2.09835 2.09835C1.39509 2.80161 1 3.75544 1 4.75V34.75C1 35.7446 1.39509 36.6984 2.09835 37.4016C2.80161 38.1049 3.75544 38.5 4.75 38.5H27.25C28.2446 38.5 29.1984 38.1049 29.9016 37.4016C30.6049 36.6984 31 35.7446 31 34.75V12.25ZM19.75 1V12.25H31M23.5 21.625H8.5M23.5 29.125H8.5M12.25 14.125H8.5" stroke="var(--doc-stroke)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                  </g>
-                </svg>
-                <span class="post__title">
-                  <span class="post__name">What AI taught me about my own thinking</span>
-                  <span class="post__meta">2 min read</span>
-                </span>
-              </span>
-              <span class="post__excerpt">I try to use FigMake, Figma&rsquo;s AI feature around 2025. The goal was to move from wireframe to testable prototype much faster than manual Figma work would allow.</span>
-            </a>
-          </li>
-          <li>
-            <a class="post__link" href="writings/the-week-i-worked-in-a-restaurant-kitchen/" aria-label="The week I worked in a restaurant kitchen" data-tip="Click to read">
-              <span class="post__head">
-                <svg class="post__icon" width="45" height="45" viewBox="0 0 45 45" fill="none" aria-hidden="true">
-                  <g transform="translate(6.5 2.75)">
-                    <path d="M19.75 1H4.75C3.75544 1 2.80161 1.39509 2.09835 2.09835C1.39509 2.80161 1 3.75544 1 4.75V34.75C1 35.7446 1.39509 36.6984 2.09835 37.4016C2.80161 38.1049 3.75544 38.5 4.75 38.5H27.25C28.2446 38.5 29.1984 38.1049 29.9016 37.4016C30.6049 36.6984 31 35.7446 31 34.75V12.25L19.75 1Z" fill="var(--doc-fill)"/>
-                    <path d="M31 12.25L19.75 1H4.75C3.75544 1 2.80161 1.39509 2.09835 2.09835C1.39509 2.80161 1 3.75544 1 4.75V34.75C1 35.7446 1.39509 36.6984 2.09835 37.4016C2.80161 38.1049 3.75544 38.5 4.75 38.5H27.25C28.2446 38.5 29.1984 38.1049 29.9016 37.4016C30.6049 36.6984 31 35.7446 31 34.75V12.25ZM19.75 1V12.25H31M23.5 21.625H8.5M23.5 29.125H8.5M12.25 14.125H8.5" stroke="var(--doc-stroke)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                  </g>
-                </svg>
-                <span class="post__title">
-                  <span class="post__name">The week I worked in a restaurant kitchen</span>
-                  <span class="post__meta">1 min read</span>
-                </span>
-              </span>
-              <span class="post__excerpt">I was designing internal tools for Hangry&rsquo;s outlet operations. I had the briefs, the data, the user interviews. Enough to start building.</span>
-            </a>
-          </li>
-          <li>
-            <a class="post__link" href="writings/the-newest-person-with-the-loudest-question/" aria-label="The newest person with the loudest question" data-tip="Click to read">
-              <span class="post__head">
-                <svg class="post__icon" width="45" height="45" viewBox="0 0 45 45" fill="none" aria-hidden="true">
-                  <g transform="translate(6.5 2.75)">
-                    <path d="M19.75 1H4.75C3.75544 1 2.80161 1.39509 2.09835 2.09835C1.39509 2.80161 1 3.75544 1 4.75V34.75C1 35.7446 1.39509 36.6984 2.09835 37.4016C2.80161 38.1049 3.75544 38.5 4.75 38.5H27.25C28.2446 38.5 29.1984 38.1049 29.9016 37.4016C30.6049 36.6984 31 35.7446 31 34.75V12.25L19.75 1Z" fill="var(--doc-fill)"/>
-                    <path d="M31 12.25L19.75 1H4.75C3.75544 1 2.80161 1.39509 2.09835 2.09835C1.39509 2.80161 1 3.75544 1 4.75V34.75C1 35.7446 1.39509 36.6984 2.09835 37.4016C2.80161 38.1049 3.75544 38.5 4.75 38.5H27.25C28.2446 38.5 29.1984 38.1049 29.9016 37.4016C30.6049 36.6984 31 35.7446 31 34.75V12.25ZM19.75 1V12.25H31M23.5 21.625H8.5M23.5 29.125H8.5M12.25 14.125H8.5" stroke="var(--doc-stroke)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                  </g>
-                </svg>
-                <span class="post__title">
-                  <span class="post__name">The newest person with the loudest question</span>
-                  <span class="post__meta">1 min read</span>
-                </span>
-              </span>
-              <span class="post__excerpt">When I joined Hangry, the design was already done. A freelancer had built it before I came on. The natural move was to ship it.</span>
-            </a>
-          </li>
-          <li>
-            <a class="post__link" href="writings/the-insight-that-changed-how-i-see-problems/" aria-label="The insight that changed how I see problems" data-tip="Click to read">
-              <span class="post__head">
-                <svg class="post__icon" width="45" height="45" viewBox="0 0 45 45" fill="none" aria-hidden="true">
-                  <g transform="translate(6.5 2.75)">
-                    <path d="M19.75 1H4.75C3.75544 1 2.80161 1.39509 2.09835 2.09835C1.39509 2.80161 1 3.75544 1 4.75V34.75C1 35.7446 1.39509 36.6984 2.09835 37.4016C2.80161 38.1049 3.75544 38.5 4.75 38.5H27.25C28.2446 38.5 29.1984 38.1049 29.9016 37.4016C30.6049 36.6984 31 35.7446 31 34.75V12.25L19.75 1Z" fill="var(--doc-fill)"/>
-                    <path d="M31 12.25L19.75 1H4.75C3.75544 1 2.80161 1.39509 2.09835 2.09835C1.39509 2.80161 1 3.75544 1 4.75V34.75C1 35.7446 1.39509 36.6984 2.09835 37.4016C2.80161 38.1049 3.75544 38.5 4.75 38.5H27.25C28.2446 38.5 29.1984 38.1049 29.9016 37.4016C30.6049 36.6984 31 35.7446 31 34.75V12.25ZM19.75 1V12.25H31M23.5 21.625H8.5M23.5 29.125H8.5M12.25 14.125H8.5" stroke="var(--doc-stroke)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                  </g>
-                </svg>
-                <span class="post__title">
-                  <span class="post__name">The insight that changed how I see problems</span>
-                  <span class="post__meta">1 min read</span>
-                </span>
-              </span>
-              <span class="post__excerpt">Hangry had a loyalty program that should&rsquo;ve worked. The mechanic was clean, the value was there. But users weren&rsquo;t engaging, and nobody could figure out why.</span>
-            </a>
-          </li>
-        </ul>
       </section>
 
       <!-- ── FOOTER ──────────────────────────────────────────── -->

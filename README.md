@@ -28,6 +28,32 @@ Personal site of Nugraha Putra, Product Designer. Plain HTML, CSS, and JavaScrip
     └── mockup.html               # earlier draft the device mockups came from
 ```
 
+### Homepage tabs
+
+Projects and writing share one panel behind two pills. Real tab semantics —
+`role="tablist"` / `role="tab"` / `role="tabpanel"`, roving tabindex, arrows
+and Home/End to move — so the pair is one stop in the tab order rather than
+two buttons a keyboard has to hunt through.
+
+The active pill is `.tabs__thumb`, a single plate that translates between the
+buttons rather than a background that swaps. It is a sibling of the buttons,
+not their background, which is what lets it move; it moves on `transform`, so
+the row never reflows. Both pills are a fixed 100px, so the plate only ever
+has to travel, never resize. A third tab of a different width would need the
+width handled too.
+
+The panels are very different heights, so nothing animates height. The
+outgoing panel fades in 110ms, the swap happens while it is transparent, and
+the incoming panel's children rise in sequence — `[data-stagger]` gets a `--i`
+per child at init, and the CSS reads it as an animation delay.
+
+The chosen tab lives in `sessionStorage`, so opening an article and coming
+back does not drop the reader on Project again. It is session-scoped on
+purpose: a tab is where you were, not a preference.
+
+With JavaScript off, a `<noscript>` block hides the pills and shows both
+panels — better an honest list than a control that does nothing.
+
 ### Case study pages
 
 Each case study is a folder at the root with its own `index.html`, so the URL is
