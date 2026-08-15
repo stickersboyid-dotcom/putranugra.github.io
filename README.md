@@ -47,7 +47,8 @@ rendered pixel, so re-centring each in a `16 16` viewBox lines them up at a
 common scale — the offsets in each `viewBox` are what does that. `#52525B` was
 swapped for `currentColor` so they follow the palette: `stroke` on the four
 Lucide outlines, `fill` on the Threads glyph, which is a brand mark and the one
-solid shape in the row. The outlines run at 1.2 stroke to sit at its weight.
+solid shape in the row. Figma exports the outlines at 1.2; they run at 1.3
+here, which sits closer to the glyph's weight at 16px.
 
 Company names in the prose use `.emph`. Figma draws the linked one and the
 unlinked one identically, so only a hover underline separates them; that keeps
