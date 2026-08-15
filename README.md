@@ -51,6 +51,16 @@ The chosen tab lives in `sessionStorage`, so opening an article and coming
 back does not drop the reader on Project again. It is session-scoped on
 purpose: a tab is where you were, not a preference.
 
+That memory needs the same pre-paint treatment as the theme, and for a
+sharper reason: every article sits behind Writing, so a reader coming back
+from one is always returning to a remembered Writing tab. Left to `main.js`
+alone the page would paint Project and swap — a visible blink on the way back
+from every article. The homepage `<head>` writes the remembered tab onto
+`<html>` as `data-tab`, and a short block in `styles.css` renders that state
+directly. Those rules are scoped `:not(.tabs-ready)`; `main.js` adds
+`tabs-ready` once it has taken over, which stops them from revealing the
+incoming panel early and breaking the swap animation.
+
 With JavaScript off, a `<noscript>` block hides the pills and shows both
 panels — better an honest list than a control that does nothing.
 

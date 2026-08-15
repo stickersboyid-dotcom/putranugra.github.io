@@ -21,8 +21,9 @@
 
 <noscript><style>.tabs__list{display:none}.tabs__panel[hidden]{display:block}</style></noscript>
 
-<!-- sets a stored theme before first paint, so the page never flashes the wrong palette -->
-<script>try{var t=localStorage.getItem('theme');if(t)document.documentElement.setAttribute('data-theme',t);}catch(e){}</script>
+<!-- theme and tab, both onto <html> before first paint, so the page never
+     renders one state and then corrects itself -->
+<script>try{var t=localStorage.getItem('theme');if(t)document.documentElement.setAttribute('data-theme',t);var b=sessionStorage.getItem('tab');if(b)document.documentElement.setAttribute('data-tab',b.replace('tab-',''));}catch(e){}</script>
 </head>
 <body>
 
