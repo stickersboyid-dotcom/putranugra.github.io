@@ -42,27 +42,45 @@ the row never reflows. Both pills are a fixed 100px, so the plate only ever
 has to travel, never resize. A third tab of a different width would need the
 width handled too.
 
-The plate breathes. `thumb-breathe` (6s) sweeps the gradient across the pill
-and swells brightness 6% and saturation 8% at the top of the pass;
-`background-size: 240%` is what gives the light room to travel — 112px of it,
-more than the pill is wide, so the plate moves between the gold end of the
-gradient and the lime end rather than shimmering in place.
+The plate is lit by three layers, each on its own cycle.
 
-**It animates paint only, never geometry.** An earlier version also wobbled the
-shape: uneven `border-radius`, a little float and scale. It read as stuttering
-rather than living, for two reasons worth keeping. `border-radius` cannot be
-composited, so every frame repaints the plate on a page already running three
-mockups; and at 100x40 a 2% scale lands the edges on sub-pixel boundaries that
-get re-antialiased each frame, which the eye reads as vibration. Small crisp
-boxes animate well by paint and badly by shape.
+The **base gradient** sweeps across the pill every 6s, swelling brightness 6%
+and saturation 8% at the top of the pass; `background-size: 240%` gives the
+light 112px of travel, more than the pill is wide, so it moves between the gold
+end of the gradient and the lime end rather than shimmering in place.
+`.tabs__thumb::before` carries **two soft blooms**, one amber and one cream,
+wandering opposite diagonals every 8.5s — they widen the colour, because amber
+deepens whatever it crosses and cream lifts it, so the eye reads a range wider
+than the two gradient stops actually contain. One animation drives both:
+`background-position` takes a value per layer, so a single timeline can send
+them different ways. `.tabs__thumb::after` adds a **sheen that turns** rather
+than travels, 19s per revolution, `linear`.
 
-One more trap: CSS applies the timing function between each *pair* of
-keyframes, not across the loop, so a cycle with stops at 33% and 66%
-decelerates to a halt three times over. Keep ambient loops to two or three
-keyframes.
+The periods matter as much as the layers. 6, 8.5 and 19 share no useful
+factors, so the arrangement does not repeat for about half an hour. 17s was the
+first choice for the sheen and was wrong: exactly twice 8.5, the two would have
+realigned every 17 seconds, which is the repeat the third layer exists to break.
 
-The theme switch shares the gradient but stays still, on purpose — one ambient
-loop on a page is alive, two is busy.
+**Only the sheen animates geometry, and only because it cannot show an edge.**
+That layer is 140px square inside a 100x40 pill with `overflow: hidden`, past
+the 108px diagonal it must cover at every angle, so no edge of it is ever on
+screen to re-antialias. An earlier version wobbled the pill itself — uneven
+`border-radius`, a little float and scale — and read as stuttering rather than
+living: `border-radius` cannot be composited, and at that size a 2% scale lands
+the edges on sub-pixel boundaries that shimmer. Small crisp boxes animate well
+by paint and badly by shape.
+
+Another trap: CSS applies the timing function between each *pair* of keyframes,
+not across the loop, so a cycle with stops at 33% and 66% decelerates to a halt
+three times over. Keep ambient loops to two or three keyframes, and keep
+rotation `linear`.
+
+The label holds 4.64:1 at its worst moment, the amber bloom at full strength
+over the gold end of the base. The sheen cannot make that worse — every one of
+its stops is lighter than the base, never darker. Deepening the amber past 0.5
+alpha is what would eat into it. The theme switch shares the gradient but stays
+still, on purpose: one ambient loop on a page is alive, three on one 100x40
+control is the most it will carry.
 
 The panels are very different heights, so nothing animates height. The
 outgoing panel fades in 110ms, the swap happens while it is transparent, and
