@@ -364,10 +364,51 @@ img { display: block; max-width: 100%; }
   left: 0;
   width: var(--thumb-w, 100px);
   height: 100%;
+  /* half the height, so the ends stay perfectly round whatever the tab
+     is wide — a percentage would distort them at any other width */
   border-radius: 20px;
   background: var(--accent-gradient);
+  /* room for the gradient to travel inside the pill. At 100% there is
+     nothing to move — the gradient would exactly fill the box. The
+     higher this is, the narrower the slice on show, so the colour under
+     any one point changes more as the light sweeps past. */
+  background-size: 240% 240%;
   transform: translate3d(var(--thumb-x, 0px), 0, 0);
   transition: transform var(--dur-plate) var(--ease-out);
+  animation: thumb-breathe 6s ease-in-out infinite;
+}
+
+/* Two things on one 6s cycle: the light drifts along the gradient's own
+   axis, and it swells 4% at the top of the breath. Either alone reads as
+   a mistake — a gradient sliding for no reason, or a pill that flickers.
+   Together they read as something lit rather than something animating.
+
+   ease-in-out because a breath is symmetric: it slows at both ends. The
+   site's usual ease-out curve would make it lunge and settle, which is
+   the shape of a reaction, not of breathing.
+
+   The reduced-motion block at the end of this file stops it outright. */
+/* The light sweeps almost the full width of the gradient, so the plate
+   moves between its gold end and its lime end rather than just shimmering
+   in place. Brightness and saturation swell together at the top of the
+   pass: colour alone reads as a slider being dragged, the swell is what
+   makes it read as a breath.
+
+   Nothing here touches geometry. An earlier version wobbled the shape
+   too, and at this size the sub-pixel edges shimmered instead of moving.
+   Paint is what animates well on a small crisp box; shape is not.
+
+   Three keyframes with the middle one at 50% is the most a loop should
+   have: CSS eases between each pair, so extra stops mean extra pauses. */
+@keyframes thumb-breathe {
+  0%, 100% {
+    background-position: 10% 16%;
+    filter: brightness(1) saturate(1);
+  }
+  50% {
+    background-position: 90% 84%;
+    filter: brightness(1.06) saturate(1.08);
+  }
 }
 
 .tab {
