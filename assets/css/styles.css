@@ -26,6 +26,18 @@
   --doc-fill:   #eff6ff;
   --doc-stroke: #3b82f6;
 
+  /* Lifted from the favicon, and the only warm surface on the site. Used
+     by the two controls that carry state — the theme switch and the tab
+     plate — so "on" looks the same wherever it appears. Deliberately not
+     redefined for dark: a yellow that dims is a yellow that stopped
+     meaning "on". */
+  --accent-gradient: linear-gradient(164deg, #ffcc00 16%, #e3ff45 83%);
+
+  /* label ink for that gradient. Fixed, because the plate under it does
+     not follow the palette either — zinc-600 holds ~5:1 on the darkest
+     end of the ramp in both themes. */
+  --on-accent: #52525b;
+
   /* type — from Figma text styles. Figma stores tracking as a percentage of
      the font size, so these stay in em rather than px. */
   --font-sans: "Geist", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
@@ -306,7 +318,101 @@ img { display: block; max-width: 100%; }
   color: var(--text-secondary);
 }
 
-.lede { max-width: 70ch; }
+/* ── TABS ──────────────────────────────────────────────────────
+   Project and Writing over one panel.
+
+   The active state is a single plate that travels, not a background
+   that swaps. Watching one object cross the gap tells you the two
+   pills belong to the same control; watching one shape blink out
+   while another blinks in tells you nothing. The plate is a sibling
+   of the buttons rather than their background, which is what lets it
+   move at all — and it moves on transform, so the row never reflows.
+   ────────────────────────────────────────────────────────────── */
+
+/* wider than the 24px the other sections use: the pills are a control,
+   not a heading, and they need air under them to stop reading as part
+   of the panel they switch */
+.section--tabs { gap: 40px; }
+
+.tabs__list {
+  position: relative;
+  align-self: flex-start;
+  display: flex;
+  gap: 4px;
+}
+
+.tabs__thumb {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: var(--thumb-w, 100px);
+  height: 100%;
+  border-radius: 20px;
+  background: var(--accent-gradient);
+  transform: translate3d(var(--thumb-x, 0px), 0, 0);
+  transition: transform var(--dur-plate) var(--ease-out);
+}
+
+.tab {
+  /* above the plate, and its own stacking context so the label never
+     disappears under the thumb mid-travel */
+  position: relative;
+  z-index: 1;
+  width: 100px;
+  height: 40px;
+  padding: 12px 8px;
+  background: none;
+  border: 0;
+  border-radius: 20px;
+  font-family: inherit;
+  font-size: var(--label-size);
+  line-height: var(--label-line);
+  font-weight: 500;
+  color: var(--text-secondary);
+  text-align: center;
+  cursor: pointer;
+  /* slower than the plate on purpose: the ink catches up to the plate
+     rather than racing it there */
+  transition: color var(--dur-plate) var(--ease-out);
+}
+
+.tab[aria-selected="true"] { color: var(--on-accent); }
+
+@media (hover: hover) and (pointer: fine) {
+  .tab[aria-selected="false"]:hover { color: var(--text-primary); }
+}
+
+.tab:focus-visible {
+  outline: 1px solid var(--text-primary);
+  outline-offset: 3px;
+}
+
+/* ── TAB PANELS ────────────────────────────────────────────── */
+
+.tabs__panel[hidden] { display: none; }
+
+/* The panels are wildly different heights, so nothing here animates
+   height — the swap happens while the panel is transparent, which is
+   the one moment the jump costs nothing to look at. What does animate
+   is the arrival: children rise in sequence, so the eye is given an
+   order to read them in instead of a whole block landing at once. */
+.tabs__panel.is-leaving {
+  animation: tab-panel-out 110ms cubic-bezier(0.55, 0, 1, 0.45) both;
+}
+
+.tabs__panel.is-entering > [data-stagger] > * {
+  animation: tab-panel-in var(--dur-plate) var(--ease-out) both;
+  animation-delay: calc(var(--i, 0) * 55ms);
+}
+
+@keyframes tab-panel-out {
+  to { opacity: 0; }
+}
+
+@keyframes tab-panel-in {
+  from { opacity: 0; transform: translate3d(0, 10px, 0); }
+  to   { opacity: 1; transform: none; }
+}
 
 /* ── WRITINGS LIST ─────────────────────────────────────────── */
 
@@ -729,9 +835,8 @@ img { display: block; max-width: 100%; }
   transition: background var(--dur-small) var(--ease-out);
 }
 
-/* the only warm colour on the site, lifted straight from the favicon */
 .theme[aria-checked="true"] .theme__track {
-  background: linear-gradient(158.39deg, #ffcc00 16.08%, #e3ff45 83.13%);
+  background: var(--accent-gradient);
 }
 
 .theme__knob {
