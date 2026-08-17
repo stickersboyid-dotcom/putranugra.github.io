@@ -11,10 +11,10 @@ Personal site of Nugraha Putra, Product Designer. Plain HTML, CSS, and JavaScrip
 ├── .nojekyll                     # serve files as-is, skip Jekyll
 ├── favicon.png
 ├── assets/
-│   ├── css/styles.css            # tokens, shell, homepage, mockup chrome
+│   ├── css/styles.css            # tokens, shell, homepage, experiments, mockup chrome
 │   ├── css/case.css              # case study pages only
 │   ├── css/article.css           # article pages only
-│   ├── js/main.js                # device mockups, copy-to-clipboard, toast
+│   ├── js/main.js                # device mockups, experiments, copy-to-clipboard, toast
 │   ├── docs/
 │   │   └── nugraha-eka-putra-resume.pdf
 │   └── img/
@@ -56,17 +56,24 @@ a sentence from turning into a row of buttons.
 
 ### Homepage tabs
 
-Projects and writing share one panel behind two pills. Real tab semantics —
-`role="tablist"` / `role="tab"` / `role="tabpanel"`, roving tabindex, arrows
-and Home/End to move — so the pair is one stop in the tab order rather than
-two buttons a keyboard has to hunt through.
+Experiment, Project and Writing share one panel behind three pills. Real tab
+semantics — `role="tablist"` / `role="tab"` / `role="tabpanel"`, roving
+tabindex, arrows and Home/End to move — so the set is one stop in the tab
+order rather than three buttons a keyboard has to hunt through.
+
+**Experiment is first and is the tab the page opens on**, which is what the
+Figma frame shows. To lead with Project instead, swap the first two buttons in
+`.tabs__list` and move the `hidden` attribute from `#panel-project` to
+`#panel-experiment` — the plate and the pre-paint rules below both derive their
+positions from the row, so nothing else needs touching.
 
 The active pill is `.tabs__thumb`, a single plate that translates between the
 buttons rather than a background that swaps. It is a sibling of the buttons,
 not their background, which is what lets it move; it moves on `transform`, so
-the row never reflows. Both pills are a fixed 100px, so the plate only ever
-has to travel, never resize. A third tab of a different width would need the
-width handled too.
+the row never reflows. All three pills are a fixed 100px, so the plate only
+ever has to travel, never resize — the pre-paint offsets (104px, 208px) are
+written out as literals for that reason. A tab of a different width would need
+the width handled too.
 
 The plate is lit by three layers, each on its own cycle.
 
@@ -111,24 +118,142 @@ control is the most it will carry.
 The panels are very different heights, so nothing animates height. The
 outgoing panel fades in 110ms, the swap happens while it is transparent, and
 the incoming panel's children rise in sequence — `[data-stagger]` gets a `--i`
-per child at init, and the CSS reads it as an animation delay.
+per child at init, and the CSS reads it as an animation delay. The selector is
+`.tabs__panel.is-entering [data-stagger] > *`, a descendant rather than a
+child, because the Experiment panel puts its `[data-stagger]` on each of its
+two columns so the cards count off within their own column.
 
 The chosen tab lives in `sessionStorage`, so opening an article and coming
-back does not drop the reader on Project again. It is session-scoped on
+back does not drop the reader on Experiment again. It is session-scoped on
 purpose: a tab is where you were, not a preference.
 
 That memory needs the same pre-paint treatment as the theme, and for a
 sharper reason: every article sits behind Writing, so a reader coming back
 from one is always returning to a remembered Writing tab. Left to `main.js`
-alone the page would paint Project and swap — a visible blink on the way back
-from every article. The homepage `<head>` writes the remembered tab onto
+alone the page would paint Experiment and swap — a visible blink on the way
+back from every article. The homepage `<head>` writes the remembered tab onto
 `<html>` as `data-tab`, and a short block in `styles.css` renders that state
-directly. Those rules are scoped `:not(.tabs-ready)`; `main.js` adds
+directly. The markup ships with Experiment up, so only `project` and `writing`
+need stating there. Those rules are scoped `:not(.tabs-ready)`; `main.js` adds
 `tabs-ready` once it has taken over, which stops them from revealing the
 incoming panel early and breaking the swap animation.
 
-With JavaScript off, a `<noscript>` block hides the pills and shows both
-panels — better an honest list than a control that does nothing.
+With JavaScript off, a `<noscript>` block hides the pills and shows all three
+panels — better an honest list than a control that does nothing. The
+experiments degrade with it: the coupon still draws intact, the pills still
+show their active state, and nothing else moves.
+
+### Homepage experiments
+
+The Experiment panel is five small interaction studies. Each one is a
+`.lab-card`: two white panels floating on a 6px `--bg-subtle` tray — a stage
+holding the thing you can touch, and a note under it saying what it does.
+
+The panel is `.lab`, a two-column grid holding two `.lab__col` flex columns
+rather than laying the cards out in grid rows. The cards are deliberately
+unequal heights (170 / 170 / 266 on the left, 181 / 278 on the right, matching
+Figma) and rows would tie each pair together, growing a gap under the shorter
+one instead of letting the next card slide up. Below 720px the grid drops to
+one column and the columns simply stack.
+
+**Scaling.** The two drawings are authored at Figma's 276px width. Rather than
+letting the type stay put while the frame closes in on it, `.lab-card__stage`
+is a `container-type: inline-size` container and the coupon and tilt card
+derive one unit from it:
+
+```css
+--u: calc(min(276px, 100cqw) / 276);
+```
+
+Every dimension inside those two is written `calc(N * var(--u))`, so below
+276px the whole drawing — type, strokes, spacing, corner radii — shrinks on one
+factor. It has to be declared on a child of the stage: an element is never its
+own query container. At a 320px viewport they land at 234px wide and nothing
+overflows.
+
+**Confetti.** 44 pieces are spawned into the stage, not the card, so the shower
+is bounded by the white panel; the stage's `overflow: hidden` is what stops
+them at the bottom edge. Each piece carries its own fall distance, drift, spin,
+duration and delay as custom properties and they all share one keyframe. The
+fall distance is measured (`stage.clientHeight + 40`) rather than assumed,
+because the stage grows once the cards stack. Cleared after 2s, and the button
+locks until then. Under `prefers-reduced-motion` the layer is `display: none` —
+a shower of paper has no calm version of itself.
+
+**Randomize.** The characters do not all stop at once: five frames of pure
+churn, then one slot locks per frame from the left, which is the difference
+between a slot machine coming to rest and a string being replaced. The code
+shape is a mask read off the design, `LLDD - LLDDLLDD`; anything that is not
+`L` or `D` is a literal. `I` and `O` are left out of the letter set, since at
+12px nobody can tell them from `1` and `0`. `.fn__result` has a `min-width` and
+`tabular-nums` so the box cannot breathe while characters churn. The refresh
+icon spins only while rolling, becomes a green tick, then steps back out after
+2.6s — the tick is an answer, not a state.
+
+**Pills.** The same travelling plate as the tabs above, in ink rather than the
+accent, because these carry no page state. Unlike the tabs the three labels are
+different widths, so the plate is measured from `offsetWidth`/`offsetLeft` and
+`width` transitions alongside `transform`. Two things re-measure it: a
+`document.fonts.ready` handler, because Geist arrives after the script does and
+"Music" is eight pixels wider in Geist than in the fallback, and a
+`ResizeObserver` on the row, which covers both window resizes and the moment a
+hidden panel is revealed (a hidden panel measures zero, so a reader returning
+on Writing would otherwise find the plate parked at the origin).
+
+**Tilt.** Rotation is a direct readout of pointer position, capped at 11° per
+axis — past about 12° the near corner reads as a fold rather than a tip. Three
+things sell the depth: the rotation itself, a highlight that stays where the
+pointer is while the card turns under it, and the logo pushed 40px off the
+card's own plane so the same rotation carries it further than the surface
+travels. While tracking, the transition drops to `90ms linear`; on leave the
+class comes off first so the reset settles on the long `--ease-out` curve.
+Pointer sampling is throttled through `requestAnimationFrame`. Skipped
+entirely under `prefers-reduced-motion` or without a fine pointer.
+
+The card in Figma is three blurred circles under a 30% black wash. A 100px
+backdrop filter on every frame of a transform is not worth it, so the same
+shape is painted as three radial gradients with the wash folded into their
+stops, and the 13% grain is an inline `feTurbulence` data URI rather than a
+request.
+
+**Coupon.** The coupon is drawn twice and each copy clipped to one side of the
+same ragged `clip-path` polygon. Both polygons list the same twelve boundary
+vertices, so in the intact state the halves compose back into one ticket with
+no seam to hide — and the tear needs no JavaScript to *exist*, only to fire.
+The ragged line runs either side of 31.34%, which is where the perforation is:
+the tear has to start from the dashes, not from the middle of the paper.
+
+The clip sits on an inner `.coupon__clip` rather than on `.coupon__half`,
+because `filter` is applied before `clip-path` in the rendering model and the
+lifted-paper drop-shadow would otherwise be cut off by the very edge it exists
+to describe. Travel is 11px and 5° at most, which keeps the rotated halves
+inside the stage's 24px of side padding so nothing is clipped mid-swing. It
+mends after 2s.
+
+The paper outline is Figma's boolean path, rotated into place with
+`translate(275 1) scale(0.9927536 0.984375) rotate(90)`. The scale is the
+one-unit inset that keeps a centred 2px stroke fully inside the 276×128 box; a
+stroke hanging over the edge would be shaved off by the clip. The barcode is
+the same export rotated `translate(55 0) rotate(90)`. Both take their paint
+from tokens — `stroke` and bars from `var(--text-primary)`, the paper from
+`var(--coupon-paper)` — so the ticket inverts with the theme. See the dark
+mode section for why the paper needs a token of its own rather than
+`var(--base-white)`.
+
+The coupon is also the one place a UA button default bit hard. It is a
+`<button>`, and a button neither inherits `font-family` nor leaves
+`text-align` alone: the whole ticket was set in the UA's own face, wide enough
+to break `50% OFF` onto a second line, and centred rather than ranged left.
+`font: inherit` and `text-align: left` fix it. `.coupon__deal` also carries
+`white-space: nowrap`, because its fixed height means a second line lands on
+top of the sentence below rather than pushing it down — the headline is one
+line by design, so it is nailed to one line in code.
+
+One typographic trap worth remembering: `50%` at 36px and `OFF` at 24px on one
+31.2px line make a line box taller than either, because they align on the
+baseline and their half-leading differs. Left alone that pushed everything
+under it down three pixels, so `.coupon__deal` is held at the 32px the design
+gives it and the line is allowed to sit proud of it.
 
 ### Case study pages
 
@@ -203,12 +328,16 @@ Mirrored 1:1 from the Figma variables, defined at the top of `assets/css/styles.
 | `--text-secondary` | `#52525b` |
 | `--border-default` | `#e4e4e7` |
 | `--base-white` | `#ffffff` |
+| `--bg-subtle` | `#fafafa` |
 | Heading md | Geist Medium 17 / 23.8, tracking -0.1 |
 | Body lg | Geist Regular 16 / 25.6 |
 | Body sm | Geist Regular 13 / 19.5 |
 
-Geist loads from Google Fonts. To drop the third-party request, put the woff2
-files in `assets/fonts/` and swap the `<link>` for an `@font-face` block.
+Geist loads from Google Fonts at weights 200, 300, 400, 500 and 700. The homepage
+needs all five: 300 and 700 exist only for the coupon's `50% OFF`, and 200 for
+its expiry line and the article excerpts. To drop the third-party request, put
+the woff2 files in `assets/fonts/` and swap the `<link>` for an `@font-face`
+block.
 
 ### Dark mode
 
@@ -226,6 +355,8 @@ from one that reads as a hole in the screen.
 | `--border-default` | `#e4e4e7` | `#262626` |
 | `--border-strong` | `#d1d1d6` | `#404040` |
 | `--bg-muted` | `#f4f4f5` | `#1a1a1a` |
+| `--bg-subtle` (experiment card tray) | `#fafafa` | `#171717` |
+| `--coupon-paper` | `var(--base-white)` | `var(--bg-muted)` |
 | `--border-hover` | `#d4d4d8` | `#525252` |
 | `--btn-hover` | `#3f3f46` | `#d4d4d4` |
 | `--doc-fill` / `--doc-stroke` | `#eff6ff` / `#3b82f6` | `#172554` / `#60a5fa` |
@@ -237,11 +368,28 @@ copy at matched ratios reads harsher on a dark ground than on a light one.
 
 Three things fall out of the existing token usage rather than needing rules of
 their own. Every ink chip on the site — `.cs-back`, `.skip-link`, `.toast`,
-`.cursor-tip` — is written `background: var(--text-primary); color:
-var(--base-white)`, so swapping those two tokens turns it into a light plate
-with dark type. The device mockups keep their hardcoded `#1a1a1a` bezels,
-because a lit phone screen in a dark room is what a phone looks like. And the
-article covers, drawn on cream, are knocked back by `--cover-brightness`.
+`.cursor-tip`, `.lab-btn`, `.mini-pills__thumb` — is written `background:
+var(--text-primary); color: var(--base-white)`, so swapping those two tokens
+turns it into a light plate with dark type. The device mockups keep their
+hardcoded `#1a1a1a` bezels, and the tilt card keeps its own dark gradient for
+the same reason: a lit phone screen in a dark room is what a phone looks like,
+and that card is artwork, not a surface. And the article covers, drawn on
+cream, are knocked back by `--cover-brightness`.
+
+Two things need their own handling. The confetti's colours are fixed, and none
+of them may be near-black or near-white, or half the shower would vanish in one
+theme or the other.
+
+And the coupon has `--coupon-paper`, the one token that is not simply the
+inverse of its light value. Everywhere else the page ground and a card surface
+are meant to be the same colour; the coupon is a sheet of paper laid *on* the
+panel, and paper that matches the panel is just an outline floating in nothing.
+On white that resolves itself, so the token is `var(--base-white)`. On ink it
+does not — both would be `#111` — so dark lifts it to `var(--bg-muted)`, the
+same surface the randomize result chip sits on, which makes the two inset
+panels in the section read as one material. It clears the stage by only
+1.08:1, which is the point: the 2px outline is what draws the shape, the fill
+only has to stop the paper from vanishing.
 
 Resolution order: a stored choice in `localStorage` wins, otherwise
 `prefers-color-scheme` decides. That is why the dark values appear twice in
@@ -279,5 +427,10 @@ it — so `main.js` re-reads the stored choice on `pageshow` as well.
 
 - The mockup animations run on hover on pointer devices and on scroll-into-view
   on touch devices, and are disabled entirely under `prefers-reduced-motion`.
+- Under `prefers-reduced-motion` the experiments still answer, they just stop
+  moving: the confetti layer is hidden, the randomize result jumps straight to
+  its value, and the global rule at the end of `styles.css` flattens the tear
+  and the pill plate to instant. The tilt is skipped outright, as it is on any
+  device without a fine pointer.
 - Screenshots total roughly 3 MB. Converting them to WebP would cut that by
   about 70% with no visible loss.
