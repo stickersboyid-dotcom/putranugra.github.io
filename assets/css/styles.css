@@ -11,6 +11,16 @@
   --border-default: #e4e4e7;
   --border-strong:  #d1d1d6;
   --bg-muted:       #f4f4f5;
+  --bg-subtle:      #fafafa;
+
+  /* The coupon is the one card whose artwork is a sheet of paper, and
+     paper has to sit on the panel rather than disappear into it. On
+     white that is what white already does. On ink it is not: the page
+     ground and the paper would be the same #111, leaving an outline
+     floating in nothing. So dark lifts it to --bg-muted, the same
+     surface the randomize result chip sits on — the two are the only
+     inset panels in the section and they read as one material. */
+  --coupon-paper:   var(--base-white);
 
   --success:    #22c55e;
   --success-bg: #f0fdf4;
@@ -132,6 +142,8 @@
     --border-default: #262626;
     --border-strong:  #404040;
     --bg-muted:       #1a1a1a;
+    --bg-subtle:      #171717;
+    --coupon-paper:   var(--bg-muted);
 
     --border-hover: #525252;
     --btn-hover:    #d4d4d4;
@@ -161,6 +173,8 @@
   --border-default: #262626;
   --border-strong:  #404040;
   --bg-muted:       #1a1a1a;
+  --bg-subtle:      #171717;
+  --coupon-paper:   var(--bg-muted);
 
   --border-hover: #525252;
   --btn-hover:    #d4d4d4;
@@ -403,20 +417,27 @@ a.emph:focus-visible {
 
 /* The remembered tab is written onto <html> in the <head>, before the
    first paint, the same way the theme is — otherwise the page paints
-   Project and swaps to Writing once main.js runs. Every article sits
+   Experiment and swaps to Writing once main.js runs. Every article sits
    behind Writing, so that swap would fire on the way back from every
    single one.
 
-   The markup ships with Project up, so only Writing needs stating. And
-   these only hold until main.js has taken over: after that the buttons'
-   own aria-selected governs, and leaving these live would fight the
-   swap animation by revealing the incoming panel too early. */
-:root[data-tab="writing"]:not(.tabs-ready) #panel-project { display: none; }
+   The markup ships with Experiment up, so only the other two need
+   stating. And these only hold until main.js has taken over: after that
+   the buttons' own aria-selected governs, and leaving these live would
+   fight the swap animation by revealing the incoming panel too early. */
+:root[data-tab="project"]:not(.tabs-ready) #panel-experiment { display: none; }
+:root[data-tab="project"]:not(.tabs-ready) #panel-project { display: block; }
+:root[data-tab="project"]:not(.tabs-ready) #tab-experiment { color: var(--text-secondary); }
+:root[data-tab="project"]:not(.tabs-ready) #tab-project { color: var(--on-accent); }
+
+:root[data-tab="writing"]:not(.tabs-ready) #panel-experiment { display: none; }
 :root[data-tab="writing"]:not(.tabs-ready) #panel-writing { display: block; }
-:root[data-tab="writing"]:not(.tabs-ready) #tab-project { color: var(--text-secondary); }
+:root[data-tab="writing"]:not(.tabs-ready) #tab-experiment { color: var(--text-secondary); }
 :root[data-tab="writing"]:not(.tabs-ready) #tab-writing { color: var(--on-accent); }
-/* one pill (100px) plus the gap (4px) */
-:root[data-tab="writing"]:not(.tabs-ready) .tabs__thumb { --thumb-x: 104px; }
+
+/* one pill (100px) plus the gap (4px), counted from the left of the row */
+:root[data-tab="project"]:not(.tabs-ready) .tabs__thumb { --thumb-x: 104px; }
+:root[data-tab="writing"]:not(.tabs-ready) .tabs__thumb { --thumb-x: 208px; }
 
 .tabs__list {
   position: relative;
@@ -609,7 +630,7 @@ a.emph:focus-visible {
   animation: tab-panel-out 110ms cubic-bezier(0.55, 0, 1, 0.45) both;
 }
 
-.tabs__panel.is-entering > [data-stagger] > * {
+.tabs__panel.is-entering [data-stagger] > * {
   animation: tab-panel-in var(--dur-plate) var(--ease-out) both;
   animation-delay: calc(var(--i, 0) * 55ms);
 }
@@ -1117,6 +1138,549 @@ a.emph:focus-visible {
 
 .cursor-tip.is-visible { opacity: 1; }
 
+/* ── EXPERIMENTS ───────────────────────────────────────────────
+   Five toys under the Experiment tab. Every card is the same two
+   panels floating on a 6px tray: a white stage holding the thing
+   you can touch, and a note under it saying what it does. The tray
+   is what gives the card its inset look without a second frame.
+
+   The cards are all different heights because the toys are, and
+   only the width is fixed. Nothing here is a link — these are the
+   one part of the page that answers back rather than going
+   somewhere.
+   ────────────────────────────────────────────────────────────── */
+
+.lab {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--block-gap);
+  align-items: start;
+}
+
+/* Two independent columns rather than grid rows. The cards are
+   deliberately unequal, and rows would tie each pair together — the
+   shorter card would grow a gap under it instead of letting the next
+   one slide up to meet it. */
+.lab__col {
+  display: flex;
+  flex-direction: column;
+  gap: var(--block-gap);
+  min-width: 0;
+}
+
+.lab-card {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 6px;
+  background: var(--bg-subtle);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-card);
+}
+
+.lab-card__stage {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* 24 from the panel, 10 more that the toy carries itself */
+  padding: 34px 24px;
+  background: var(--base-white);
+  border-radius: var(--radius-card) var(--radius-card) 0 0;
+  /* confetti falls past the bottom of the panel and has to stop
+     there; the torn coupon swings out sideways and must not */
+  overflow: hidden;
+  /* the two fixed-size drawings measure themselves against this box,
+     not against the viewport — see --u below */
+  container-type: inline-size;
+}
+
+.lab-card__note {
+  padding: 16px 24px;
+  background: var(--base-white);
+  border-radius: 0 0 var(--radius-card) var(--radius-card);
+  font-size: var(--label-size);
+  line-height: var(--label-line);
+  color: var(--text-secondary);
+}
+
+/* One unit of the 276px-wide artwork the design is drawn at. Below
+   that width the whole drawing shrinks together — type, strokes and
+   spacing on the same factor — instead of the type staying put while
+   the frame closes in on it. It has to be declared on a child of the
+   stage: an element can never be its own query container. */
+.tilt,
+.coupon { --u: calc(min(276px, 100cqw) / 276); }
+
+/* ── shared button ─────────────────────────────────────────── */
+
+/* the ink chip the site uses everywhere: primary background, page
+   background as the label, so dark mode flips it without a rule */
+.lab-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  padding: 7px 8px;
+  background: var(--text-primary);
+  border: 0;
+  border-radius: 8px;
+  font-family: inherit;
+  font-size: var(--label-size);
+  line-height: var(--label-line);
+  font-weight: 500;
+  color: var(--base-white);
+  white-space: nowrap;
+  cursor: pointer;
+  transition: background var(--dur-micro) var(--ease-out),
+              transform var(--dur-micro) var(--ease-out);
+}
+
+.lab-btn svg { display: block; flex-shrink: 0; }
+
+/* the press is the only feedback that lands before the animation
+   does, so it has to be immediate */
+.lab-btn:active { transform: scale(0.96); }
+
+@media (hover: hover) and (pointer: fine) {
+  .lab-btn:hover { background: var(--btn-hover); }
+}
+
+.lab-btn:focus-visible {
+  outline: 1px solid var(--text-primary);
+  outline-offset: 3px;
+}
+
+/* ── CARD: CONFETTI ────────────────────────────────────────────
+   Pieces are spawned into the stage, not the card, so the shower is
+   bounded by the white panel exactly as drawn. Each one carries its
+   own fall distance, drift, spin and duration as custom properties
+   and shares a single keyframe — forty elements, one animation.
+   ────────────────────────────────────────────────────────────── */
+
+.confetti {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.confetti i {
+  position: absolute;
+  top: -14px;
+  display: block;
+  will-change: transform, opacity;
+  animation: lab-confetti var(--dur, 1.4s) cubic-bezier(0.3, 0.15, 0.65, 1) var(--delay, 0s) both;
+}
+
+/* gravity is not symmetric, so neither is the curve — a piece leaves
+   the top slowly and is moving fastest as it clears the bottom edge.
+   The fade is at the very end only, so nothing vanishes while it is
+   still in open air. */
+@keyframes lab-confetti {
+  0%   { transform: translate3d(0, 0, 0) rotate(0deg); opacity: 0; }
+  6%   { opacity: 1; }
+  85%  { opacity: 1; }
+  100% {
+    transform: translate3d(var(--sway, 0px), var(--fall, 160px), 0) rotate(var(--spin, 360deg));
+    opacity: 0;
+  }
+}
+
+/* ── CARD: RANDOMIZE ───────────────────────────────────────── */
+
+.fn {
+  display: flex;
+  align-items: stretch;
+  gap: 5px;
+  height: 43px;
+  padding: 5px;
+  background: var(--base-white);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-card);
+}
+
+.fn__result {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* the string is always the same length, and this is what it
+     measures — the box must not breathe while characters churn */
+  min-width: 104px;
+  padding: 0 8px;
+  background: var(--bg-muted);
+  border-radius: var(--radius-card);
+  font-size: var(--label-size);
+  line-height: var(--label-line);
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+  color: var(--text-primary);
+  white-space: nowrap;
+  transition: color var(--dur-micro) var(--ease-out);
+}
+
+.fn.is-rolling .fn__result { color: var(--text-secondary); }
+
+.fn__btn {
+  padding: 0 8px;
+  font-size: var(--caption-size);
+  line-height: var(--caption-line);
+  letter-spacing: var(--caption-track);
+}
+
+/* both icons occupy the same 14px, so the button never changes width
+   when the tick takes over from the arrows */
+.fn__icon {
+  position: relative;
+  flex-shrink: 0;
+  width: 14px;
+  height: 14px;
+}
+
+.fn__icon svg {
+  position: absolute;
+  inset: 0;
+  transition: opacity 140ms var(--ease-out),
+              transform 260ms var(--ease-out);
+}
+
+.fn__icon .fn__done { opacity: 0; transform: scale(0.4); }
+
+.fn.is-done .fn__icon .fn__idle { opacity: 0; transform: scale(0.4) rotate(-90deg); }
+.fn.is-done .fn__icon .fn__done { opacity: 1; transform: none; }
+
+/* the arrows turn only while the characters are churning, which is
+   the one moment the button describes work rather than offering it */
+.fn.is-rolling .fn__icon .fn__idle {
+  animation: lab-spin 620ms linear infinite;
+}
+
+@keyframes lab-spin { to { transform: rotate(360deg); } }
+
+/* ── CARD: PILLS ───────────────────────────────────────────────
+   The same idea as the tabs at the top of the page — one plate that
+   travels rather than a background that swaps — but in ink instead
+   of the accent, because these do not carry page state.
+   ────────────────────────────────────────────────────────────── */
+
+.mini-pills {
+  position: relative;
+  display: flex;
+  gap: 4px;
+}
+
+.mini-pills__thumb {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: var(--pill-w, 76px);
+  height: 100%;
+  border-radius: 20px;
+  background: var(--text-primary);
+  /* width travels too: the three labels are different lengths, so the
+     plate resizes on the way rather than on arrival */
+  transform: translate3d(var(--pill-x, 0px), 0, 0);
+  transition: transform var(--dur-plate) var(--ease-out),
+              width var(--dur-plate) var(--ease-out);
+}
+
+.mini-pill {
+  position: relative;
+  z-index: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  height: 32px;
+  padding: 0 12px;
+  background: none;
+  border: 0;
+  border-radius: 20px;
+  font-family: inherit;
+  font-size: var(--label-size);
+  line-height: var(--label-line);
+  font-weight: 500;
+  color: var(--text-primary);
+  white-space: nowrap;
+  cursor: pointer;
+  /* slower than the plate, so the ink catches up to it rather than
+     racing it there */
+  transition: color var(--dur-plate) var(--ease-out);
+}
+
+.mini-pill svg { display: block; flex-shrink: 0; }
+
+.mini-pill[aria-pressed="true"] { color: var(--base-white); }
+
+@media (hover: hover) and (pointer: fine) {
+  .mini-pill[aria-pressed="false"]:hover { color: var(--text-secondary); }
+}
+
+.mini-pill:focus-visible {
+  outline: 1px solid var(--text-primary);
+  outline-offset: 2px;
+}
+
+/* ── CARD: TILT ────────────────────────────────────────────────
+   The card in the design is three blurred circles under a 30% black
+   wash. Blurring three real circles costs a 100px backdrop filter on
+   every frame of a transform, so the same shape is painted as three
+   radial gradients instead, with the wash folded into their stops.
+   ────────────────────────────────────────────────────────────── */
+
+.tilt {
+  width: calc(276 * var(--u));
+  height: calc(140 * var(--u));
+  /* shallow, so the far edge does not stretch — this is a card being
+     tipped on a desk, not a plane banking */
+  perspective: 700px;
+}
+
+.tilt__card {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  border-radius: calc(8 * var(--u));
+  overflow: hidden;
+  transform-style: preserve-3d;
+  transform: rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg));
+  /* the long curve is the release; tracking swaps it out below */
+  transition: transform 520ms var(--ease-out);
+  background:
+    radial-gradient(115% 145% at 50% -30%, #5b5b5b 0%, rgba(91, 91, 91, 0) 62%),
+    radial-gradient(80% 130% at 10% 135%, #0c0b09 0%, rgba(12, 11, 9, 0) 68%),
+    radial-gradient(80% 130% at 92% 140%, #0c0b09 0%, rgba(12, 11, 9, 0) 68%),
+    #171512;
+  will-change: transform;
+}
+
+/* while the pointer is on the card the transform has to be a direct
+   readout of where it is, so the easing comes off and only enough
+   duration is left to smooth the sampling */
+.tilt.is-live .tilt__card { transition: transform 90ms linear; }
+
+/* the grain in the design, 13% over everything. Generated rather than
+   fetched: a 180px tile of fractal noise costs one data URI and no
+   request. */
+.tilt__card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  opacity: 0.13;
+  pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: calc(180 * var(--u)) calc(180 * var(--u));
+}
+
+/* a highlight that sits where the pointer is. Tilting alone reads as
+   a picture being rotated; a light that stays put while the card
+   turns under it is what makes the surface read as a surface. */
+.tilt__glow {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(
+    calc(200 * var(--u)) circle at var(--mx, 50%) var(--my, 50%),
+    rgba(255, 255, 255, 0.18) 0%,
+    rgba(255, 255, 255, 0) 62%
+  );
+  opacity: 0;
+  transition: opacity 320ms var(--ease-out);
+}
+
+.tilt.is-live .tilt__glow { opacity: 1; }
+
+/* the parallax. The logo sits 40px off the card's own plane, so the
+   perspective carries it further than the card travels — which is the
+   whole difference between a tilt and a tilt with depth. */
+.tilt__logo {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: calc(40 * var(--u));
+  height: calc(40 * var(--u));
+  transform: translate3d(
+    calc(-50% + var(--lx, 0px)),
+    calc(-50% + var(--ly, 0px)),
+    calc(40 * var(--u))
+  );
+  transition: transform 520ms var(--ease-out);
+}
+
+.tilt.is-live .tilt__logo { transition: transform 90ms linear; }
+
+.tilt__logo svg { display: block; width: 100%; height: 100%; }
+
+/* ── CARD: COUPON ──────────────────────────────────────────────
+   The coupon is drawn twice and each copy clipped to one side of the
+   same ragged line, so the two halves compose back into one intact
+   ticket with no seam to hide. That also means the tear needs no
+   JavaScript to exist, only to fire: without scripting the card is a
+   coupon that simply does not come apart.
+
+   The ragged line runs either side of 31.34%, which is where the
+   perforation is — the tear has to start from the dashes, not from
+   the middle of the paper.
+   ────────────────────────────────────────────────────────────── */
+
+/* Two of these are undoing the UA's button styling, and both are the
+   kind that only show up once the design is on screen. A button does
+   not inherit font-family, so every word on the ticket was being set
+   in the UA's own face — wider than Geist, which is what pushed OFF
+   onto a second line. And a button centres its text, so the whole
+   right-hand column was centred rather than ranged left. */
+.coupon {
+  position: relative;
+  width: calc(276 * var(--u));
+  height: calc(128 * var(--u));
+  padding: 0;
+  background: none;
+  border: 0;
+  font: inherit;
+  color: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.coupon:focus-visible {
+  outline: 1px solid var(--text-primary);
+  outline-offset: 6px;
+  border-radius: 4px;
+}
+
+.coupon__half {
+  position: absolute;
+  inset: 0;
+  transition: transform 480ms var(--ease-out),
+              filter 480ms var(--ease-out);
+}
+
+/* the clip lives one level in, so the shadow painted on the half is
+   not cut off by the very edge it exists to describe */
+.coupon__clip {
+  position: absolute;
+  inset: 0;
+}
+
+.coupon__half--left .coupon__clip {
+  clip-path: polygon(0 0, 31.3% 0, 29.6% 9%, 33% 18%, 30.2% 27%, 32.8% 36%, 29.8% 45%, 32.9% 54%, 30.4% 63%, 33.2% 72%, 30% 81%, 32.6% 90%, 30.8% 100%, 0 100%);
+}
+
+.coupon__half--right .coupon__clip {
+  clip-path: polygon(31.3% 0, 100% 0, 100% 100%, 30.8% 100%, 32.6% 90%, 30% 81%, 33.2% 72%, 30.4% 63%, 32.9% 54%, 29.8% 45%, 32.8% 36%, 30.2% 27%, 33% 18%, 29.6% 9%);
+}
+
+/* two units of tension before anything has happened — enough to say
+   the halves are separate objects, not enough to look broken */
+@media (hover: hover) and (pointer: fine) {
+  .coupon:hover .coupon__half--left  { transform: translate3d(calc(-2 * var(--u)), 0, 0); }
+  .coupon:hover .coupon__half--right { transform: translate3d(calc(2 * var(--u)), 0, 0); }
+}
+
+/* Asymmetric on purpose: paper does not come apart evenly. The shadow
+   arrives with the movement, because the halves are off the table for
+   exactly as long as they are apart. Travel is kept inside the stage's
+   24px of side padding, rotation included, so nothing is clipped
+   mid-swing. */
+.coupon.is-torn .coupon__half--left,
+.coupon:hover.is-torn .coupon__half--left {
+  transform: translate3d(calc(-11 * var(--u)), calc(7 * var(--u)), 0) rotate(-5deg);
+}
+
+.coupon.is-torn .coupon__half--right,
+.coupon:hover.is-torn .coupon__half--right {
+  transform: translate3d(calc(10 * var(--u)), calc(-6 * var(--u)), 0) rotate(4deg);
+}
+
+.coupon.is-torn .coupon__half {
+  filter: drop-shadow(0 calc(6 * var(--u)) calc(10 * var(--u)) rgba(24, 24, 27, 0.18));
+}
+
+.coupon__face { position: absolute; inset: 0; }
+
+/* the outline is stroked down the middle of the path, so the path is
+   scaled in by one unit on each side to keep the whole 2px inside the
+   box — a stroke hanging over the edge would be shaved off by the clip */
+.coupon__paper {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.coupon__perf {
+  position: absolute;
+  left: 31.34%;
+  top: 6.25%;
+  width: 0;
+  height: 87.5%;
+  border-left: 1px dashed var(--text-primary);
+  opacity: 0.45;
+}
+
+.coupon__barcode {
+  position: absolute;
+  left: 5.8%;
+  top: 12.5%;
+  display: block;
+  width: 19.93%;
+  height: 75%;
+}
+
+.coupon__copy {
+  position: absolute;
+  left: 40.04%;
+  top: 12.5%;
+  width: 50%;
+}
+
+/* the face is built from spans, because all of it lives inside a
+   <button> and only phrasing content is allowed in there */
+.coupon__copy > span { display: block; }
+
+/* A 36px glyph and a 24px one on one 31.2px line make a line box
+   taller than either, because they are aligned on the baseline and
+   their half-leading differs. Left alone that pushes everything under
+   it down by three pixels, so the block is held at the height the
+   design gives it and the line is allowed to sit proud of it.
+
+   That fixed height is also why this line must never wrap: a second
+   line would overflow the block and land on top of the sentence
+   below it rather than pushing it down. The headline is one line by
+   design, so it is nailed to one line here. */
+.coupon__deal {
+  height: calc(32 * var(--u));
+  white-space: nowrap;
+  font-size: calc(24 * var(--u));
+  line-height: calc(31.2 * var(--u));
+  font-weight: 300;
+  letter-spacing: var(--heading-xl-track);
+  color: var(--text-secondary);
+}
+
+.coupon__deal b {
+  font-size: calc(36 * var(--u));
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.coupon__hint {
+  margin-top: calc(8 * var(--u));
+  font-size: calc(11 * var(--u));
+  line-height: calc(15.4 * var(--u));
+  letter-spacing: var(--caption-track);
+  color: var(--text-secondary);
+}
+
+.coupon__expiry {
+  margin-top: calc(24 * var(--u));
+  font-size: calc(11 * var(--u));
+  line-height: calc(15.4 * var(--u));
+  letter-spacing: var(--caption-track);
+  font-weight: 200;
+  color: var(--text-secondary);
+}
+
 /* ── RESPONSIVE ────────────────────────────────────────────── */
 
 @media (max-width: 860px) {
@@ -1160,6 +1724,20 @@ a.emph:focus-visible {
     /* flush to the box edges here, so rounding it would read as a seam */
     border-radius: 0;
   }
+
+  /* one card per row, still two columns' worth of order */
+  .lab { grid-template-columns: 1fr; }
+
+  /* buying the drawings back the width they need before --u has to
+     start shrinking them */
+  .lab-card__stage { padding: 28px 16px; }
+}
+
+/* the narrowest phones still in use. The pill row is the one toy with
+   no scaling of its own — it is type, not artwork — so it gives up
+   padding instead. */
+@media (max-width: 400px) {
+  .mini-pill { padding: 0 9px; }
 }
 
 /* ── REDUCED MOTION ────────────────────────────────────────── */
@@ -1178,4 +1756,9 @@ a.emph:focus-visible {
 
   /* the surname is filled in outright, so there is nothing to blink for */
   .identity__caret { display: none; }
+
+  /* a shower of paper has no calm version of itself, so it does not
+     run at all here. The button still answers with its press, and the
+     note under the card still says what it would have done. */
+  .confetti { display: none; }
 }

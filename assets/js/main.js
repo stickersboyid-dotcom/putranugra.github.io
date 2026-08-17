@@ -274,6 +274,308 @@
     }, { passive: true });
   }
 
+  /* ── EXPERIMENTS ─────────────────────────────────────────────
+     The five toys under the Experiment tab. Each one is independent
+     and each one is a loop: press it, watch it answer, press it
+     again. Nothing here reaches outside its own card.
+     ────────────────────────────────────────────────────────── */
+
+  /* ── confetti ──────────────────────────────────────────────
+     Pieces go into the stage rather than the card, so the shower is
+     bounded by the white panel. They are cleared two seconds later
+     and the button opens again — the note under the card promises a
+     shower, not a mess that piles up. */
+
+  var confettiBtn = document.querySelector('[data-confetti]');
+  var confettiStage = document.querySelector('[data-confetti-stage]');
+
+  if (confettiBtn && confettiStage) {
+    /* the site's two accent yellows first, then colours that hold
+       their own on both a white page and an ink one — nothing here
+       may be near-black, or half the shower vanishes in dark mode */
+    var confettiInk = ['#ffcc00', '#e3ff45', '#3b82f6', '#22c55e', '#f97316', '#a1a1aa'];
+    var confettiLayer = null;
+    var confettiTimer = null;
+    var confettiBusy = false;
+
+    confettiBtn.addEventListener('click', function () {
+      if (confettiBusy) return;
+      confettiBusy = true;
+
+      if (confettiLayer && confettiLayer.parentNode) {
+        confettiLayer.parentNode.removeChild(confettiLayer);
+      }
+
+      confettiLayer = document.createElement('div');
+      confettiLayer.className = 'confetti';
+      confettiLayer.setAttribute('aria-hidden', 'true');
+
+      /* measured, not assumed: the stage is 100px tall on a desktop
+         column and taller once the cards stack */
+      var fall = confettiStage.clientHeight + 40;
+
+      for (var i = 0; i < 44; i++) {
+        var piece = document.createElement('i');
+        var round = Math.random() < 0.35;
+        var w = round ? 5 + Math.random() * 3 : 4 + Math.random() * 4;
+        var h = round ? w : 6 + Math.random() * 6;
+
+        piece.style.left = (Math.random() * 100).toFixed(2) + '%';
+        piece.style.width = w.toFixed(1) + 'px';
+        piece.style.height = h.toFixed(1) + 'px';
+        piece.style.borderRadius = round ? '50%' : '1px';
+        piece.style.background = confettiInk[(Math.random() * confettiInk.length) | 0];
+        piece.style.setProperty('--fall', fall + 'px');
+        piece.style.setProperty('--sway', (Math.random() * 44 - 22).toFixed(1) + 'px');
+        piece.style.setProperty('--spin', ((Math.random() * 720 - 360) | 0) + 'deg');
+        piece.style.setProperty('--dur', (0.9 + Math.random() * 0.7).toFixed(2) + 's');
+        /* staggered starts are what make it a shower rather than a
+           single sheet of paper crossing the card */
+        piece.style.setProperty('--delay', (Math.random() * 0.35).toFixed(2) + 's');
+
+        confettiLayer.appendChild(piece);
+      }
+
+      confettiStage.appendChild(confettiLayer);
+
+      clearTimeout(confettiTimer);
+      confettiTimer = setTimeout(function () {
+        if (confettiLayer && confettiLayer.parentNode) {
+          confettiLayer.parentNode.removeChild(confettiLayer);
+        }
+        confettiLayer = null;
+        confettiBusy = false;
+      }, 2000);
+    });
+  }
+
+  /* ── randomize ─────────────────────────────────────────────
+     The characters do not all stop at once. They lock left to right,
+     one per frame, which is the difference between a slot machine
+     coming to rest and a string being replaced. */
+
+  var fn = document.querySelector('[data-fn]');
+
+  if (fn) {
+    var fnResult = fn.querySelector('[data-fn-result]');
+    var fnGo = fn.querySelector('[data-fn-go]');
+
+    /* I and O are left out: at 12px they are the two characters
+       nobody can tell from 1 and 0 */
+    var fnLetters = 'ABCDEFGHJKLMNPQRSTUVWXYZ';
+    var fnDigits = '0123456789';
+
+    /* the shape of the code in the design, read straight off it:
+       HC45 - TB84UVX7. Anything that is not L or D is a literal. */
+    var fnMask = 'LLDD - LLDDLLDD';
+
+    var fnPick = function (set) {
+      return set.charAt((Math.random() * set.length) | 0);
+    };
+
+    /* draws the string with the first `locked` slots taken from
+       `settled` and the rest still spinning */
+    var fnDraw = function (settled, locked) {
+      var out = '';
+      var slot = 0;
+
+      for (var i = 0; i < fnMask.length; i++) {
+        var m = fnMask.charAt(i);
+
+        if (m !== 'L' && m !== 'D') { out += m; continue; }
+
+        out += slot < locked ? settled.charAt(i)
+             : m === 'L' ? fnPick(fnLetters)
+             : fnPick(fnDigits);
+        slot++;
+      }
+
+      return out;
+    };
+
+    var fnSlots = fnMask.replace(/[^LD]/g, '').length;
+    var fnRoll = null;
+    var fnRest = null;
+
+    fnGo.addEventListener('click', function () {
+      clearInterval(fnRoll);
+      clearTimeout(fnRest);
+
+      var settled = fnDraw('', 0);
+
+      fn.classList.remove('is-done');
+
+      if (reduceMotion) {
+        fnResult.textContent = settled;
+        fn.classList.add('is-done');
+      } else {
+        fn.classList.add('is-rolling');
+
+        /* five frames of pure churn before anything settles, so the
+           eye reads it as scrambling rather than as typing */
+        var frame = 0;
+
+        fnRoll = setInterval(function () {
+          frame++;
+          var locked = Math.max(0, frame - 5);
+          fnResult.textContent = fnDraw(settled, locked);
+
+          if (locked >= fnSlots) {
+            clearInterval(fnRoll);
+            fn.classList.remove('is-rolling');
+            fn.classList.add('is-done');
+          }
+        }, 45);
+      }
+
+      /* the tick is an answer, not a state — it steps back out so the
+         button reads as offering the next roll rather than reporting
+         the last one */
+      fnRest = setTimeout(function () {
+        fn.classList.remove('is-done');
+      }, 2600);
+    });
+  }
+
+  /* ── pills ─────────────────────────────────────────────────
+     The same travelling plate as the tabs at the top of the page.
+     It is measured rather than declared, because the three labels
+     are different lengths and the plate has to resize on the way. */
+
+  Array.prototype.forEach.call(document.querySelectorAll('[data-mini-pills]'), function (group) {
+    var thumb = group.querySelector('.mini-pills__thumb');
+    var pills = Array.prototype.slice.call(group.querySelectorAll('.mini-pill'));
+
+    if (!pills.length) return;
+
+    var activePill = function () {
+      for (var i = 0; i < pills.length; i++) {
+        if (pills[i].getAttribute('aria-pressed') === 'true') return pills[i];
+      }
+      return pills[0];
+    };
+
+    var place = function (pill, animate) {
+      if (!thumb) return;
+      if (!animate) thumb.style.transition = 'none';
+      thumb.style.setProperty('--pill-w', pill.offsetWidth + 'px');
+      thumb.style.setProperty('--pill-x', pill.offsetLeft + 'px');
+      if (!animate) { void thumb.offsetWidth; thumb.style.transition = ''; }
+    };
+
+    pills.forEach(function (pill) {
+      pill.addEventListener('click', function () {
+        if (pill.getAttribute('aria-pressed') === 'true') return;
+        activePill().setAttribute('aria-pressed', 'false');
+        pill.setAttribute('aria-pressed', 'true');
+        place(pill, true);
+      });
+    });
+
+    place(activePill(), false);
+
+    /* Geist arrives after this script does, and the labels are what
+       the plate is measured against — "Music" is eight pixels wider
+       in Geist than in the fallback. Without this the plate keeps the
+       width it was given before the swap. */
+    if (document.fonts && document.fonts.ready) {
+      document.fonts.ready.then(function () { place(activePill(), false); });
+    }
+
+    /* A hidden panel measures zero, so a visitor who left on Writing
+       and comes back would find the plate parked at the origin. This
+       fires when the panel is revealed as well as when the window
+       changes, which covers both without either being special-cased.
+       The observer is held in a variable so nothing can collect it
+       while the page is still up. */
+    if (window.ResizeObserver) {
+      var pillWatch = new ResizeObserver(function () { place(activePill(), false); });
+      pillWatch.observe(group);
+      group.__pillWatch = pillWatch;
+    } else {
+      window.addEventListener('resize', function () {
+        place(activePill(), false);
+      }, { passive: true });
+    }
+  });
+
+  /* ── tilt ──────────────────────────────────────────────────
+     Rotation from the pointer, and a highlight that stays where the
+     pointer is while the card turns under it. The logo is pushed off
+     the card's own plane in CSS, so the same rotation carries it
+     further than the surface travels — that gap is the parallax. */
+
+  Array.prototype.forEach.call(document.querySelectorAll('[data-tilt]'), function (tilt) {
+    if (reduceMotion || !canHover) return;
+
+    var card = tilt.querySelector('.tilt__card');
+    if (!card) return;
+
+    /* past about 12deg the near corner starts to read as a fold
+       rather than a tip */
+    var maxTilt = 11;
+    var pending = 0;
+
+    var track = function (event) {
+      if (pending) return;
+
+      pending = requestAnimationFrame(function () {
+        pending = 0;
+
+        var box = tilt.getBoundingClientRect();
+        if (!box.width || !box.height) return;
+
+        var px = (event.clientX - box.left) / box.width;
+        var py = (event.clientY - box.top) / box.height;
+        var cx = px - 0.5;
+        var cy = py - 0.5;
+
+        /* the card leans away from the pointer on the vertical axis
+           and towards it on the horizontal, which is how a real card
+           behaves under a finger */
+        card.style.setProperty('--ry', (cx * maxTilt * 2).toFixed(2) + 'deg');
+        card.style.setProperty('--rx', (-cy * maxTilt * 2).toFixed(2) + 'deg');
+        tilt.style.setProperty('--mx', (px * 100).toFixed(1) + '%');
+        tilt.style.setProperty('--my', (py * 100).toFixed(1) + '%');
+        tilt.style.setProperty('--lx', (cx * 14).toFixed(1) + 'px');
+        tilt.style.setProperty('--ly', (cy * 10).toFixed(1) + 'px');
+      });
+    };
+
+    tilt.addEventListener('pointerenter', function () { tilt.classList.add('is-live'); });
+    tilt.addEventListener('pointermove', track);
+
+    tilt.addEventListener('pointerleave', function () {
+      /* the class comes off first, so the reset that follows in the
+         same frame settles on the long curve instead of snapping */
+      tilt.classList.remove('is-live');
+      card.style.setProperty('--rx', '0deg');
+      card.style.setProperty('--ry', '0deg');
+      tilt.style.setProperty('--lx', '0px');
+      tilt.style.setProperty('--ly', '0px');
+    });
+  });
+
+  /* ── coupon ────────────────────────────────────────────────
+     The two halves and the ragged line between them are already in
+     the stylesheet; all that is left is to say when. Two seconds
+     apart, then the paper goes back together. */
+
+  Array.prototype.forEach.call(document.querySelectorAll('[data-coupon]'), function (coupon) {
+    var mend = null;
+
+    coupon.addEventListener('click', function () {
+      if (coupon.classList.contains('is-torn')) return;
+
+      coupon.classList.add('is-torn');
+
+      clearTimeout(mend);
+      mend = setTimeout(function () {
+        coupon.classList.remove('is-torn');
+      }, 2000);
+    });
+  });
+
   /* ── BAR CHART REVEAL ────────────────────────────────────────
      Bars ship at full height. We flatten them only once we know we
      can raise them again, and a timer guarantees that happens even
