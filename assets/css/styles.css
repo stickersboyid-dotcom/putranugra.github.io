@@ -13,14 +13,22 @@
   --bg-muted:       #f4f4f5;
   --bg-subtle:      #fafafa;
 
-  /* The coupon is the one card whose artwork is a sheet of paper, and
-     paper has to sit on the panel rather than disappear into it. On
-     white that is what white already does. On ink it is not: the page
-     ground and the paper would be the same #111, leaving an outline
-     floating in nothing. So dark lifts it to --bg-muted, the same
-     surface the randomize result chip sits on — the two are the only
-     inset panels in the section and they read as one material. */
-  --coupon-paper:   var(--base-white);
+  /* The coupon is a printed object, not a surface of the page, so it
+     keeps its own colour in both themes — the same way a real voucher
+     does not change colour when the lights go out. That also solves
+     the problem it had while it followed the palette: on ink the paper
+     and the page ground were both #111 and the ticket was an outline
+     floating in nothing.
+
+     Fixed paper means fixed ink. If the type kept following the
+     palette it would turn near-white on amber in dark mode, which is
+     unreadable — the same reasoning that pins --on-accent above. These
+     two are the paper's own primary and secondary, holding 12.3:1 and
+     5.3:1 on it, and they are the only colours on the site that never
+     move. */
+  --coupon-paper:    #fcd34d;
+  --coupon-ink:      #18181b;
+  --coupon-ink-soft: #52525b;
 
   --success:    #22c55e;
   --success-bg: #f0fdf4;
@@ -143,7 +151,6 @@
     --border-strong:  #404040;
     --bg-muted:       #1a1a1a;
     --bg-subtle:      #171717;
-    --coupon-paper:   var(--bg-muted);
 
     --border-hover: #525252;
     --btn-hover:    #d4d4d4;
@@ -174,7 +181,6 @@
   --border-strong:  #404040;
   --bg-muted:       #1a1a1a;
   --bg-subtle:      #171717;
-  --coupon-paper:   var(--bg-muted);
 
   --border-hover: #525252;
   --btn-hover:    #d4d4d4;
@@ -1614,7 +1620,7 @@ a.emph:focus-visible {
   top: 6.25%;
   width: 0;
   height: 87.5%;
-  border-left: 1px dashed var(--text-primary);
+  border-left: 1px dashed var(--coupon-ink);
   opacity: 0.45;
 }
 
@@ -1655,13 +1661,13 @@ a.emph:focus-visible {
   line-height: calc(31.2 * var(--u));
   font-weight: 300;
   letter-spacing: var(--heading-xl-track);
-  color: var(--text-secondary);
+  color: var(--coupon-ink-soft);
 }
 
 .coupon__deal b {
   font-size: calc(36 * var(--u));
   font-weight: 700;
-  color: var(--text-primary);
+  color: var(--coupon-ink);
 }
 
 .coupon__hint {
@@ -1669,7 +1675,7 @@ a.emph:focus-visible {
   font-size: calc(11 * var(--u));
   line-height: calc(15.4 * var(--u));
   letter-spacing: var(--caption-track);
-  color: var(--text-secondary);
+  color: var(--coupon-ink-soft);
 }
 
 .coupon__expiry {
@@ -1678,7 +1684,7 @@ a.emph:focus-visible {
   line-height: calc(15.4 * var(--u));
   letter-spacing: var(--caption-track);
   font-weight: 200;
-  color: var(--text-secondary);
+  color: var(--coupon-ink-soft);
 }
 
 /* ── RESPONSIVE ────────────────────────────────────────────── */
