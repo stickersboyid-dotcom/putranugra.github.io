@@ -235,10 +235,10 @@ The paper outline is Figma's boolean path, rotated into place with
 one-unit inset that keeps a centred 2px stroke fully inside the 276×128 box; a
 stroke hanging over the edge would be shaved off by the clip. The barcode is
 the same export rotated `translate(55 0) rotate(90)`. Both take their paint
-from tokens — `stroke` and bars from `var(--text-primary)`, the paper from
-`var(--coupon-paper)` — so the ticket inverts with the theme. See the dark
-mode section for why the paper needs a token of its own rather than
-`var(--base-white)`.
+from `var(--coupon-paper)` and `var(--coupon-ink)` rather than from the page
+palette — the ticket is the one element on the site that looks the same in
+both themes. See the dark mode section for why, and for why its type had to be
+pinned along with it.
 
 The coupon is also the one place a UA button default bit hard. It is a
 `<button>`, and a button neither inherits `font-family` nor leaves
@@ -356,7 +356,6 @@ from one that reads as a hole in the screen.
 | `--border-strong` | `#d1d1d6` | `#404040` |
 | `--bg-muted` | `#f4f4f5` | `#1a1a1a` |
 | `--bg-subtle` (experiment card tray) | `#fafafa` | `#171717` |
-| `--coupon-paper` | `var(--base-white)` | `var(--bg-muted)` |
 | `--border-hover` | `#d4d4d8` | `#525252` |
 | `--btn-hover` | `#3f3f46` | `#d4d4d4` |
 | `--doc-fill` / `--doc-stroke` | `#eff6ff` / `#3b82f6` | `#172554` / `#60a5fa` |
@@ -380,16 +379,26 @@ Two things need their own handling. The confetti's colours are fixed, and none
 of them may be near-black or near-white, or half the shower would vanish in one
 theme or the other.
 
-And the coupon has `--coupon-paper`, the one token that is not simply the
-inverse of its light value. Everywhere else the page ground and a card surface
-are meant to be the same colour; the coupon is a sheet of paper laid *on* the
-panel, and paper that matches the panel is just an outline floating in nothing.
-On white that resolves itself, so the token is `var(--base-white)`. On ink it
-does not — both would be `#111` — so dark lifts it to `var(--bg-muted)`, the
-same surface the randomize result chip sits on, which makes the two inset
-panels in the section read as one material. It clears the stage by only
-1.08:1, which is the point: the 2px outline is what draws the shape, the fill
-only has to stop the paper from vanishing.
+And the coupon opts out of the palette entirely. It is a printed object rather
+than a surface of the page — a real voucher does not change colour when the
+lights go out — so it carries three fixed tokens that appear only in `:root`
+and are never redefined:
+
+| Token | Value | Used for |
+| --- | --- | --- |
+| `--coupon-paper` | `#fcd34d` | the ticket's fill |
+| `--coupon-ink` | `#18181b` | outline, barcode, perforation, `50%` |
+| `--coupon-ink-soft` | `#52525b` | `OFF`, the hint, the expiry |
+
+Fixed paper forces fixed ink, which is the part worth remembering. While the
+type still read from `--text-primary` it turned near-white on amber the moment
+dark mode came on. It is the same reasoning that pins `--on-accent`: once a
+surface stops following the palette, everything sitting on that surface has to
+stop with it. On the amber the two inks hold **12.3:1** and **5.4:1**, and the
+ticket clears the panel behind it by 1.44:1 on white and 13.1:1 on ink.
+
+The one thing still tied to the theme is the focus ring, and correctly so — it
+is drawn outside the ticket, on the page ground.
 
 Resolution order: a stored choice in `localStorage` wins, otherwise
 `prefers-color-scheme` decides. That is why the dark values appear twice in
