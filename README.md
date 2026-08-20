@@ -115,6 +115,20 @@ alpha is what would eat into it. The theme switch shares the gradient but stays
 still, on purpose: one ambient loop on a page is alive, three on one 100x40
 control is the most it will carry.
 
+Experiment and Project each open with a one-line `.section__sub` naming what
+the panel holds — Body/lg in secondary, the same setting as the role line
+under the name, 40px under the pills and 24px above the work. It sits *inside*
+the panel rather than above the pills, so it changes with the tab. Writing has
+none, and so its list starts 50px higher than the other two; the pills do not
+move, only the content under them, and because the swap fades the whole panel
+out and back in, that offset never reads as a jump.
+
+That 24px is a `margin-bottom` and not a gap on the panel, which is worth
+knowing before anyone tidies it. The pre-paint rules above address the panels
+by id, and an id outranks any `display` a class could set — a panel painted as
+a block before `main.js` runs would drop a flex gap and land the subtitle
+flush against the work for one frame. A margin cannot be dropped.
+
 The panels are very different heights, so nothing animates height. The
 outgoing panel fades in 110ms, the swap happens while it is transparent, and
 the incoming panel's children rise in sequence — `[data-stagger]` gets a `--i`
@@ -122,6 +136,11 @@ per child at init, and the CSS reads it as an animation delay. The selector is
 `.tabs__panel.is-entering [data-stagger] > *`, a descendant rather than a
 child, because the Experiment panel puts its `[data-stagger]` on each of its
 two columns so the cards count off within their own column.
+
+The subtitle joins that sequence as step zero and pushes the work back one
+step, so the line naming the panel arrives before the evidence for it. The
+offset is scoped `.tabs__panel.is-entering:has(> .section__sub)`, because
+Writing has no subtitle and has to keep counting from zero.
 
 The chosen tab lives in `sessionStorage`, so opening an article and coming
 back does not drop the reader on Experiment again. It is session-scoped on
