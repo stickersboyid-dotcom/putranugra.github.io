@@ -627,6 +627,22 @@ a.emph:focus-visible {
 
 .tabs__panel[hidden] { display: none; }
 
+/* One line naming what the panel holds, sitting inside the panel rather
+   than above the pills — so it changes with the tab. Body/lg secondary,
+   the same setting as the role line under the name.
+
+   The 24px is a margin rather than a gap on the panel, and deliberately
+   so: the pre-paint rules further up address the panels by id, which
+   outranks any `display` this class could set. A panel painted as a
+   block before main.js runs would drop a flex gap and land the subtitle
+   flush against the work for one frame. A margin cannot be dropped. */
+.section__sub {
+  margin-bottom: var(--block-gap);
+  font-size: var(--body-lg-size);
+  line-height: var(--body-lg-line);
+  color: var(--text-secondary);
+}
+
 /* The panels are wildly different heights, so nothing here animates
    height — the swap happens while the panel is transparent, which is
    the one moment the jump costs nothing to look at. What does animate
@@ -639,6 +655,21 @@ a.emph:focus-visible {
 .tabs__panel.is-entering [data-stagger] > * {
   animation: tab-panel-in var(--dur-plate) var(--ease-out) both;
   animation-delay: calc(var(--i, 0) * 55ms);
+}
+
+/* The subtitle is the first thing to arrive — it says what the panel is,
+   and the work rises in behind it. One element holding still while all
+   of its neighbours move reads as unfinished, so it joins the sequence
+   rather than simply appearing. */
+.tabs__panel.is-entering > .section__sub {
+  animation: tab-panel-in var(--dur-plate) var(--ease-out) both;
+}
+
+/* which pushes the work back one step. Scoped with :has() because
+   Writing has no subtitle and must keep counting from zero — the
+   offset belongs to panels that actually have a line to read first. */
+.tabs__panel.is-entering:has(> .section__sub) [data-stagger] > * {
+  animation-delay: calc((var(--i, 0) + 1) * 55ms);
 }
 
 @keyframes tab-panel-out {
