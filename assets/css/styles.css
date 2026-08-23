@@ -1,17 +1,36 @@
 /* ============================================================
    Nugraha Putra — putranugra.com
-   Tokens mirror the Figma variables 1:1.
+
+   Type and spacing mirror the Figma variables 1:1. Colour no longer
+   does: the light ramp moved from zinc to stone here first, and Figma
+   still holds the zinc values. Reconcile the two before reading any
+   colour off a frame.
    ============================================================ */
 
 :root {
-  /* colour — from Figma variables */
-  --base-white:     #ffffff;
-  --text-primary:   #18181b;
-  --text-secondary: #52525b;
-  --border-default: #e4e4e7;
-  --border-strong:  #d1d1d6;
-  --bg-muted:       #f4f4f5;
-  --bg-subtle:      #fafafa;
+  /* Colour — Tailwind stone, not zinc.
+
+     Zinc carries a slight blue cast. On a page that is mostly empty
+     surface it is that cast, not the brightness, that reads as harsh:
+     blue sits at the end of the spectrum the eye finds sharpest, and a
+     700px column of it in a dark room is a lot of it. Stone is the same
+     ramp one hue over, warm instead of cool, so every step keeps its
+     job and only the temperature moves.
+
+     The top of the ramp is the one custom value. Stone starts at
+     stone-50, which is where --bg-subtle already sits, so the page
+     needs a step above it that is still not pure white. #fdfcfa is
+     that step: 2.6% less light than #ffffff, and warm enough that the
+     cast is gone. Most of the relief here comes from the hue, not the
+     luminance — for the brightness itself the answer is dark mode,
+     which already follows the visitor's OS on its own. */
+  --base-white:     #fdfcfa;   /* warm off-white, one step above stone-50 */
+  --text-primary:   #1c1917;   /* stone-900 */
+  --text-secondary: #57534e;   /* stone-600 */
+  --border-default: #e7e5e4;   /* stone-200 */
+  --border-strong:  #d6d3d1;   /* stone-300 */
+  --bg-muted:       #f5f5f4;   /* stone-100 */
+  --bg-subtle:      #fafaf9;   /* stone-50  */
 
   /* The coupon is a printed object, not a surface of the page, so it
      keeps its own colour in both themes — the same way a real voucher
@@ -27,8 +46,8 @@
      5.3:1 on it, and they are the only colours on the site that never
      move. */
   --coupon-paper:    #fcd34d;
-  --coupon-ink:      #18181b;
-  --coupon-ink-soft: #52525b;
+  --coupon-ink:      #1c1917;
+  --coupon-ink-soft: #57534e;
 
   --success:    #22c55e;
   --success-bg: #f0fdf4;
@@ -37,7 +56,7 @@
   --danger-bg:  #fef2f2;
   --danger-fg:  #991b1b;
 
-  /* review stars are the one warm accent in an otherwise zinc palette */
+  /* the one saturated colour in a palette that is otherwise all neutrals */
   --star:       #f59e0b;
 
   /* the document icon in the writings list is the one blue on the site */
@@ -52,9 +71,9 @@
   --accent-gradient: linear-gradient(164deg, #ffcc00 16%, #e3ff45 83%);
 
   /* label ink for that gradient. Fixed, because the plate under it does
-     not follow the palette either — zinc-600 holds ~5:1 on the darkest
+     not follow the palette either — stone-600 holds ~5:1 on the darkest
      end of the ramp in both themes. */
-  --on-accent: #52525b;
+  --on-accent: #57534e;
 
   /* type — from Figma text styles. Figma stores tracking as a percentage of
      the font size, so these stay in em rather than px. */
@@ -104,8 +123,8 @@
   /* hover states that used to be written as literals inline. They are
      tokens now because dark mode has to move them in the opposite
      direction: a border that lightens on white must darken on ink. */
-  --border-hover: #d4d4d8;
-  --btn-hover:    #3f3f46;
+  --border-hover: #d6d3d1;   /* stone-300 */
+  --btn-hover:    #44403c;   /* stone-700 */
 
   /* article covers are drawn on cream. On a dark page that reads as a
      lightbox, so dark mode knocks them back a little. */
@@ -121,9 +140,12 @@
 }
 
 /* ── DARK ──────────────────────────────────────────────────────
-   The light palette is zinc, which carries a slight blue cast. That
-   cast is invisible on white and turns clinical on ink, so dark drops
-   to a neutral grey instead of mirroring zinc.
+   Dark does not mirror light. It never did: back when light was zinc,
+   dark dropped the blue cast because a cast that is invisible on white
+   turns clinical on ink. Light is stone now, and dark stays neutral for
+   the mirror-image reason — warmth that reads as paper under a lamp
+   reads as nicotine on a dark ground. Both themes are quiet greys; they
+   just get there from opposite sides.
 
    The page also sits at #111 rather than near-black. Two thirds of a
    stop of headroom is the difference between a background that reads
@@ -828,7 +850,7 @@ a.emph:focus-visible {
 .case__scrim {
   position: absolute;
   inset: 0;
-  background: rgba(24, 24, 27, 0.5);
+  background: rgba(28, 25, 23, 0.5);
   opacity: 0;
   pointer-events: none;
   transition: opacity var(--dur-plate) var(--ease-out);
@@ -903,7 +925,7 @@ a.emph:focus-visible {
   padding: 0 6px 8px;
   background: #1a1a1a;
   border-radius: 12px;
-  box-shadow: 0 0 0 1px #2a2a2a, 0 16px 40px rgba(24, 24, 27, 0.28);
+  box-shadow: 0 0 0 1px #2a2a2a, 0 16px 40px rgba(28, 25, 23, 0.28);
 }
 
 .laptop__bar {
@@ -959,7 +981,7 @@ a.emph:focus-visible {
   padding: 8px;
   background: #1a1a1a;
   border-radius: 32px;
-  box-shadow: 0 0 0 1px #333, 0 20px 48px rgba(24, 24, 27, 0.26);
+  box-shadow: 0 0 0 1px #333, 0 20px 48px rgba(28, 25, 23, 0.26);
 }
 
 .phone__screen {
@@ -1026,7 +1048,7 @@ a.emph:focus-visible {
   width: 28px;
   height: 28px;
   border-radius: 50%;
-  background: rgba(24, 24, 27, 0.15);
+  background: rgba(28, 25, 23, 0.15);
   opacity: 0;
   transform: translate(-50%, -50%) scale(0);
   pointer-events: none;
@@ -1629,7 +1651,7 @@ a.emph:focus-visible {
 }
 
 .coupon.is-torn .coupon__half {
-  filter: drop-shadow(0 calc(6 * var(--u)) calc(10 * var(--u)) rgba(24, 24, 27, 0.18));
+  filter: drop-shadow(0 calc(6 * var(--u)) calc(10 * var(--u)) rgba(28, 25, 23, 0.18));
 }
 
 .coupon__face { position: absolute; inset: 0; }
