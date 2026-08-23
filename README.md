@@ -339,15 +339,19 @@ list on the existing article pages as well.**
 
 ## Design tokens
 
-Mirrored 1:1 from the Figma variables, defined at the top of `assets/css/styles.css`:
+Defined at the top of `assets/css/styles.css`. Type and spacing mirror the
+Figma variables 1:1; **colour no longer does.** The light ramp moved from zinc
+to stone in code first, and the Figma file still holds the zinc values — update
+it before reading any colour off a frame, or the next implementation will drag
+the blue cast back in.
 
 | Token | Value |
 | --- | --- |
-| `--text-primary` | `#18181b` |
-| `--text-secondary` | `#52525b` |
-| `--border-default` | `#e4e4e7` |
-| `--base-white` | `#ffffff` |
-| `--bg-subtle` | `#fafafa` |
+| `--text-primary` | `#1c1917` |
+| `--text-secondary` | `#57534e` |
+| `--border-default` | `#e7e5e4` |
+| `--base-white` | `#fdfcfa` |
+| `--bg-subtle` | `#fafaf9` |
 | Heading md | Geist Medium 17 / 23.8, tracking -0.1 |
 | Body lg | Geist Regular 16 / 25.6 |
 | Body sm | Geist Regular 13 / 19.5 |
@@ -360,29 +364,46 @@ block.
 
 ### Dark mode
 
-The light palette is Tailwind's zinc ramp, which carries a slight blue cast.
-That cast is invisible on white and turns clinical on ink, so dark drops to a
-neutral grey rather than mirroring zinc. The page sits at `#111111`, not
+The light palette is Tailwind's **stone** ramp — warm neutrals. It used to be
+zinc, which carries a slight blue cast, and that cast is what made the page
+read as harsh rather than merely bright: blue sits at the end of the spectrum
+the eye finds sharpest, and this layout is mostly empty surface. Stone is the
+same ramp one hue over, so every step kept its job and only the temperature
+moved.
+
+The top of the ramp is the one value that is not a named Tailwind step. Stone
+begins at stone-50, which is where `--bg-subtle` already sat, so the page
+needed a step above it that was still not pure white: `#fdfcfa`, 2.6% less
+light than `#ffffff` and warm enough to lose the cast. Most of the relief comes
+from the hue and not the luminance — for brightness itself the answer is dark
+mode, and nothing at the palette level substitutes for it.
+
+Dark does not mirror light and never did. It stays a neutral grey for the
+mirror image of the reason light is warm: warmth that reads as paper under a
+lamp reads as nicotine on a dark ground. The page sits at `#111111`, not
 near-black: the headroom is what separates a background that reads as unlit
 from one that reads as a hole in the screen.
 
 | Token | Light | Dark |
 | --- | --- | --- |
-| `--base-white` (page + cards) | `#ffffff` | `#111111` |
-| `--text-primary` | `#18181b` | `#ededed` |
-| `--text-secondary` (body copy) | `#52525b` | `#a3a3a3` |
-| `--border-default` | `#e4e4e7` | `#262626` |
-| `--border-strong` | `#d1d1d6` | `#404040` |
-| `--bg-muted` | `#f4f4f5` | `#1a1a1a` |
-| `--bg-subtle` (experiment card tray) | `#fafafa` | `#171717` |
-| `--border-hover` | `#d4d4d8` | `#525252` |
-| `--btn-hover` | `#3f3f46` | `#d4d4d4` |
+| `--base-white` (page + cards) | `#fdfcfa` | `#111111` |
+| `--text-primary` | `#1c1917` | `#ededed` |
+| `--text-secondary` (body copy) | `#57534e` | `#a3a3a3` |
+| `--border-default` | `#e7e5e4` | `#262626` |
+| `--border-strong` | `#d6d3d1` | `#404040` |
+| `--bg-muted` | `#f5f5f4` | `#1a1a1a` |
+| `--bg-subtle` (experiment card tray) | `#fafaf9` | `#171717` |
+| `--border-hover` | `#d6d3d1` | `#525252` |
+| `--btn-hover` | `#44403c` | `#d4d4d4` |
 | `--doc-fill` / `--doc-stroke` | `#eff6ff` / `#3b82f6` | `#172554` / `#60a5fa` |
 | `--cover-brightness` | `1` | `0.88` |
 
-Body copy lands at 7.5:1 against the page in dark and 7.7:1 in light; headings
-at 16.1:1 and 17.7:1. Dark sits a shade below light on purpose — the same
-copy at matched ratios reads harsher on a dark ground than on a light one.
+Body copy lands at 7.5:1 against the page in dark and 7.4:1 in light; headings
+at 16.1:1 and 17.1:1. The stone swap cost light about two hundredths of a
+ratio, which is nothing next to the AA floor of 4.5:1. Dark and light now sit
+within a tenth of each other on body copy, which was not the goal but is a
+fair outcome — the same copy at matched ratios reads harsher on a dark ground
+than on a light one, and dark already had the headroom.
 
 Three things fall out of the existing token usage rather than needing rules of
 their own. Every ink chip on the site — `.cs-back`, `.skip-link`, `.toast`,
@@ -406,14 +427,14 @@ and are never redefined:
 | Token | Value | Used for |
 | --- | --- | --- |
 | `--coupon-paper` | `#fcd34d` | the ticket's fill |
-| `--coupon-ink` | `#18181b` | outline, barcode, perforation, `50%` |
-| `--coupon-ink-soft` | `#52525b` | `OFF`, the hint, the expiry |
+| `--coupon-ink` | `#1c1917` | outline, barcode, perforation, `50%` |
+| `--coupon-ink-soft` | `#57534e` | `OFF`, the hint, the expiry |
 
 Fixed paper forces fixed ink, which is the part worth remembering. While the
 type still read from `--text-primary` it turned near-white on amber the moment
 dark mode came on. It is the same reasoning that pins `--on-accent`: once a
 surface stops following the palette, everything sitting on that surface has to
-stop with it. On the amber the two inks hold **12.3:1** and **5.4:1**, and the
+stop with it. On the amber the two inks hold **12.1:1** and **5.3:1**, and the
 ticket clears the panel behind it by 1.44:1 on white and 13.1:1 on ink.
 
 The one thing still tied to the theme is the focus ring, and correctly so — it
