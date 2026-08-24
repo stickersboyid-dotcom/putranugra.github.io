@@ -642,6 +642,203 @@
     syncSteps();
   }
 
+  /* ── IMAGE LIGHTBOX ──────────────────────────────────────────
+     Artwork sits at column width in the page. Clicking it opens the
+     full export over the page, where the overlay itself scrolls, so a
+     wide diagram can be panned on a phone instead of shrunk again.
+     ────────────────────────────────────────────────────────── */
+
+  var zoomers = document.querySelectorAll('[data-zoom]');
+
+  if (zoomers.length) {
+    var box = null;
+    var boxImg = null;
+    var lastZoomer = null;
+
+    var buildBox = function () {
+      box = document.createElement('div');
+      box.className = 'cs-lightbox';
+      box.setAttribute('role', 'dialog');
+      box.setAttribute('aria-modal', 'true');
+
+      boxImg = document.createElement('img');
+      boxImg.className = 'cs-lightbox__img';
+
+      var close = document.createElement('button');
+      close.className = 'cs-lightbox__close';
+      close.type = 'button';
+      close.setAttribute('aria-label', 'Close');
+      close.innerHTML = '<svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">' +
+        '<path d="M2 2l10 10M12 2L2 12" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>';
+
+      box.appendChild(boxImg);
+      box.appendChild(close);
+      document.body.appendChild(box);
+
+      /* anywhere in the overlay dismisses, the artwork included — on a wide
+         screen there is barely any surround left to aim at */
+      box.addEventListener('click', closeBox);
+      close.addEventListener('click', closeBox);
+    };
+
+    var hideTimer = null;
+
+    var closeBox = function () {
+      if (!box || !box.classList.contains('is-open')) return;
+      box.classList.remove('is-open');
+      document.body.style.overflow = '';
+
+      var hide = function () { box.style.display = 'none'; };
+      if (reduceMotion) hide(); else hideTimer = setTimeout(hide, 250);
+
+      if (lastZoomer) lastZoomer.focus();
+    };
+
+    var openBox = function (zoomer) {
+      var img = zoomer.querySelector('img');
+      if (!img) return;
+
+      if (!box) buildBox();
+
+      /* a reopen inside the fade-out window would otherwise be hidden
+         by the previous close's pending timer */
+      clearTimeout(hideTimer);
+
+      lastZoomer = zoomer;
+      boxImg.src = img.currentSrc || img.src;
+      boxImg.alt = img.alt;
+
+      /* carrying the intrinsic size over reserves the right box before
+         the full-size file decodes, so the overlay does not jump. The
+         markup's own attributes are there even while the thumbnail is
+         still lazy-loading, where naturalWidth would read 0. */
+      var w = img.getAttribute('width') || img.naturalWidth;
+      var h = img.getAttribute('height') || img.naturalHeight;
+      if (w && h) {
+        boxImg.width = w;
+        boxImg.height = h;
+      }
+
+      box.style.display = 'flex';
+      box.scrollTop = 0;
+      box.scrollLeft = 0;
+      document.body.style.overflow = 'hidden';
+
+      /* read a layout property so the browser commits opacity 0 before
+         the class flips it — otherwise there is nothing to fade from */
+      void box.offsetHeight;
+      box.classList.add('is-open');
+    };
+
+    Array.prototype.forEach.call(zoomers, function (zoomer) {
+      zoomer.addEventListener('click', function () { openBox(zoomer); });
+    });
+
+    document.addEventListener('keydown', function (event) {
+      if (event.key === 'Escape') closeBox();
+    });
+  }
+
+  /* ── SECTION JUMP ────────────────────────────────────────────
+     The sticky menu beside "Back to home". It jumps to a section on
+     pick, and it also reads the scroll position back, so the label
+     always names whatever section is currently being read.
+     ────────────────────────────────────────────────────────── */
+
+  var jump = document.querySelector('[data-jump]');
+
+  if (jump) {
+    var jumpBtn = jump.querySelector('[data-jump-btn]');
+    var jumpLabel = jump.querySelector('[data-jump-label]');
+    var jumpItems = Array.prototype.slice.call(jump.querySelectorAll('[data-jump-item]'));
+
+    /* an item whose target is missing would break the spy's index
+       alignment, so the pairs are filtered down together */
+    var jumpPairs = [];
+    jumpItems.forEach(function (item) {
+      var target = document.querySelector(item.getAttribute('href'));
+      if (target) jumpPairs.push({ item: item, target: target });
+    });
+
+    var openJump = function () {
+      jump.classList.add('is-open');
+      jumpBtn.setAttribute('aria-expanded', 'true');
+    };
+
+    var closeJump = function () {
+      jump.classList.remove('is-open');
+      jumpBtn.setAttribute('aria-expanded', 'false');
+    };
+
+    jumpBtn.addEventListener('click', function (event) {
+      event.stopPropagation();
+      if (jump.classList.contains('is-open')) closeJump(); else openJump();
+    });
+
+    jumpPairs.forEach(function (pair) {
+      /* the href does the scrolling; scroll-margin-top on the section
+         keeps the heading clear of the sticky bar */
+      pair.item.addEventListener('click', closeJump);
+    });
+
+    document.addEventListener('click', function (event) {
+      if (!jump.contains(event.target)) closeJump();
+    });
+
+    document.addEventListener('keydown', function (event) {
+      if (event.key === 'Escape' && jump.classList.contains('is-open')) {
+        closeJump();
+        jumpBtn.focus();
+      }
+    });
+
+    var jumpActive = -1;
+
+    var markJump = function (index) {
+      if (index === jumpActive) return;
+      jumpActive = index;
+      jumpPairs.forEach(function (pair, i) {
+        if (i === index) pair.item.setAttribute('aria-current', 'true');
+        else pair.item.removeAttribute('aria-current');
+      });
+      jumpLabel.textContent = jumpPairs[index].item.textContent;
+    };
+
+    var spyJump = function () {
+      /* the reading line sits just under the sticky bar, so a section
+         counts as current the moment its heading tucks behind it */
+      var line = 120;
+      var index = 0;
+
+      for (var i = 0; i < jumpPairs.length; i++) {
+        if (jumpPairs[i].target.getBoundingClientRect().top <= line) index = i;
+      }
+
+      /* the last section is usually too short to ever reach the line
+         on its own once the page bottoms out */
+      var atEnd = window.innerHeight + window.pageYOffset >= document.body.scrollHeight - 2;
+      if (atEnd) index = jumpPairs.length - 1;
+
+      markJump(index);
+    };
+
+    if (jumpPairs.length) {
+      var spyQueued = false;
+      var onScroll = function () {
+        if (spyQueued) return;
+        spyQueued = true;
+        window.requestAnimationFrame(function () {
+          spyQueued = false;
+          spyJump();
+        });
+      };
+
+      window.addEventListener('scroll', onScroll, { passive: true });
+      window.addEventListener('resize', onScroll);
+      spyJump();
+    }
+  }
+
   /* ── CURSOR TOOLTIP ──────────────────────────────────────── */
 
   var tip = document.querySelector('[data-cursor-tip]');

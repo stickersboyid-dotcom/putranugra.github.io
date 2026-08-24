@@ -438,8 +438,10 @@
   text-align: center;
 }
 
-.cs-chart__caption--danger { color: var(--danger); }
-.cs-chart__caption--success { color: var(--success-fg); }
+/* the verdict under a flow sits at the end of the row it judges, not
+   centred like the chart's own title */
+.cs-chart__caption--danger { color: var(--danger); text-align: right; }
+.cs-chart__caption--success { color: var(--success-fg); text-align: right; }
 
 /* ── VERTICAL MINI FLOW (inside a card) ────────────────────── */
 
@@ -880,6 +882,12 @@
   gap: 12px;
 }
 
+/* a device coming off body copy — or off another device — needs more air
+   than the section's 12px, or its label reads as part of the paragraph
+   above it and two mockups run together as one block */
+p + .cs-mockup,
+.cs-mockup + .cs-mockup { margin-top: 12px; }
+
 .cs-mockup__label {
   font-size: var(--body-sm-size);
   line-height: var(--body-sm-line);
@@ -916,4 +924,261 @@
      they overlap and break out of the panel */
   .cs-phones { flex-direction: column; align-items: center; }
   .cs-phones__col { width: 100%; }
+}
+
+/* ── STICKY ACTION BAR ────────────────────────────────────────
+   Back-to-home on the left, the section jump on the right. The
+   bar is what sticks now; the two buttons carry their own opaque
+   plates, so the copy scrolls through the gap between them the
+   way Figma draws it.
+   ────────────────────────────────────────────────────────── */
+
+.cs-actions {
+  position: sticky;
+  top: 24px;
+  z-index: 20;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+/* the button is sticky on its own everywhere else, so the override
+   is scoped to the bar rather than rewritten on .cs-back */
+.cs-actions .cs-back {
+  position: static;
+  align-self: auto;
+}
+
+/* ── SECTION JUMP ──────────────────────────────────────────── */
+
+.cs-jump { position: relative; }
+
+.cs-jump__btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 14px;
+  background: var(--base-white);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-card);
+  font-family: inherit;
+  font-size: var(--heading-md-size);
+  line-height: var(--heading-md-line);
+  letter-spacing: var(--heading-md-track);
+  font-weight: 500;
+  color: var(--text-primary);
+  cursor: pointer;
+  transition: border-color var(--dur-micro) var(--ease-out),
+              background var(--dur-micro) var(--ease-out);
+}
+
+.cs-jump__btn:hover { border-color: var(--border-strong); }
+
+.cs-jump__btn:focus-visible {
+  outline: 1px solid var(--text-primary);
+  outline-offset: 3px;
+}
+
+.cs-jump__chevron {
+  display: flex;
+  color: var(--text-secondary);
+  transition: transform var(--dur-small) var(--ease-out);
+}
+
+.cs-jump__btn[aria-expanded="true"] .cs-jump__chevron { transform: rotate(180deg); }
+
+/* the menu hangs off the button's right edge so it never runs past
+   the 700px column */
+.cs-jump__menu {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  min-width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 6px;
+  background: var(--base-white);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-card);
+  box-shadow: 0 12px 32px rgba(28, 25, 23, 0.10);
+  list-style: none;
+
+  /* hidden state kept paintable, so opening can animate */
+  opacity: 0;
+  transform: translateY(-4px);
+  pointer-events: none;
+  transition: opacity var(--dur-micro) var(--ease-out),
+              transform var(--dur-micro) var(--ease-out);
+}
+
+.cs-jump.is-open .cs-jump__menu {
+  opacity: 1;
+  transform: none;
+  pointer-events: auto;
+}
+
+.cs-jump__item {
+  display: block;
+  padding: 8px 12px;
+  border-radius: 6px;
+  font-size: var(--body-md-size);
+  line-height: var(--body-md-line);
+  font-weight: 400;
+  color: var(--text-secondary);
+  text-decoration: none;
+  white-space: nowrap;
+  transition: background var(--dur-micro) var(--ease-out),
+              color var(--dur-micro) var(--ease-out);
+}
+
+.cs-jump__item:hover {
+  background: var(--bg-muted);
+  color: var(--text-primary);
+}
+
+.cs-jump__item[aria-current="true"] {
+  background: var(--bg-muted);
+  color: var(--text-primary);
+  font-weight: 500;
+}
+
+.cs-jump__item:focus-visible {
+  outline: 1px solid var(--text-primary);
+  outline-offset: -1px;
+}
+
+/* jumping should land the heading clear of the sticky bar above it */
+.cs-section[id] { scroll-margin-top: 88px; }
+
+html { scroll-behavior: smooth; }
+
+/* ── EMPHASISED LINE ──────────────────────────────────────────
+   The conclusions Figma sets in the heavier weight — the ones the
+   surrounding copy is building toward — as opposed to .cs-quote,
+   which is a voice being reported.
+   ────────────────────────────────────────────────────────── */
+
+.cs-quote--strong {
+  font-weight: 500;
+  color: var(--text-primary);
+}
+
+@media (max-width: 720px) {
+  .cs-actions { top: 16px; }
+  .cs-section[id] { scroll-margin-top: 72px; }
+}
+
+/* ── FULL-WIDTH FIGURE ────────────────────────────────────────
+   Exported artwork that already carries its own background and
+   captions, so it only needs the column width and the card frame.
+   Clicking one opens it in the lightbox below.
+   ────────────────────────────────────────────────────────── */
+
+.cs-figure { margin: 0; }
+
+/* the button is only a hit target — it must not add a plate of its own
+   between the figure and the artwork */
+.cs-figure__zoom {
+  display: block;
+  width: 100%;
+  padding: 0;
+  background: none;
+  border: 0;
+  border-radius: var(--radius-card);
+  cursor: zoom-in;
+}
+
+.cs-figure__zoom:focus-visible {
+  outline: 1px solid var(--text-primary);
+  outline-offset: 3px;
+}
+
+.cs-figure img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-card);
+}
+
+/* a heading coming off the hard edge of an image needs more air than the
+   section's 12px, or it reads as belonging to the picture above it */
+.cs-figure + .cs-section__head { margin-top: 12px; }
+
+/* ── LIGHTBOX ─────────────────────────────────────────────────
+   Built by main.js on first use. The overlay is the scroll surface,
+   so artwork wider than the viewport can be panned rather than
+   shrunk back to the size it was already too small at.
+   ────────────────────────────────────────────────────────── */
+
+.cs-lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: flex;
+  padding: 24px;
+  background: rgba(12, 10, 9, 0.88);
+  overflow: auto;
+  cursor: zoom-out;
+  opacity: 0;
+  transition: opacity var(--dur-small) var(--ease-out);
+}
+
+.cs-lightbox.is-open { opacity: 1; }
+
+/* auto margins centre the image without the clipped-overflow bug that
+   justify-content: center causes once it is wider than the overlay.
+   Both maxes are caps, so the intrinsic ratio survives either one:
+   1200px keeps a wide monitor from blowing the artwork up to the full
+   width of the screen, and 100% height keeps it inside the viewport. */
+.cs-lightbox__img {
+  flex: none;
+  max-width: min(100%, 1200px);
+  max-height: 100%;
+  width: auto;
+  height: auto;
+  margin: auto;
+  border-radius: var(--radius-card);
+  cursor: zoom-out;
+}
+
+.cs-lightbox__close {
+  position: fixed;
+  top: 16px;
+  right: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  background: rgba(250, 250, 249, 0.12);
+  border: 1px solid rgba(250, 250, 249, 0.24);
+  border-radius: 50%;
+  color: #fafaf9;
+  cursor: pointer;
+  transition: background var(--dur-micro) var(--ease-out);
+}
+
+.cs-lightbox__close:hover { background: rgba(250, 250, 249, 0.22); }
+
+.cs-lightbox__close:focus-visible {
+  outline: 1px solid #fafaf9;
+  outline-offset: 2px;
+}
+
+/* on a phone, fitting the artwork to the viewport is the size it was already
+   too small at, so it gets a modest floor of roughly twice the screen and the
+   overlay pans. Nowhere near the full-bleed blow-up a wide monitor would give
+   it, but enough that tapping to zoom actually shows something. */
+@media (max-width: 720px) {
+  .cs-lightbox { padding: 12px; }
+
+  .cs-lightbox__img {
+    max-width: none;
+    max-height: none;
+    width: 720px;
+  }
 }

@@ -31,8 +31,28 @@
   <div class="shell shell--case">
     <main class="content" id="main">
 
-      <!-- ── BACK ────────────────────────────────────────────── -->
-      <a class="cs-back" href="../"><span class="cs-back__arrow" aria-hidden="true">&larr;</span>Back to home</a>
+      <!-- ── ACTIONS ─────────────────────────────────────────── -->
+      <div class="cs-actions">
+        <a class="cs-back" href="../"><span class="cs-back__arrow" aria-hidden="true">&larr;</span>Back to home</a>
+
+        <div class="cs-jump" data-jump>
+          <button class="cs-jump__btn" type="button" id="cs-jump-btn"
+                  aria-haspopup="true" aria-expanded="false" aria-controls="cs-jump-menu" data-jump-btn>
+            <span class="cs-jump__text" data-jump-label>Problem</span>
+            <span class="cs-jump__chevron" aria-hidden="true">
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+                <path d="M2.5 4.5 6 8l3.5-3.5" stroke="currentColor" stroke-width="1.3"
+                      stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </span>
+          </button>
+          <ul class="cs-jump__menu" id="cs-jump-menu" role="menu" aria-labelledby="cs-jump-btn" data-jump-menu>
+            <li role="none"><a class="cs-jump__item" role="menuitem" href="#problem"  data-jump-item aria-current="true">Problem</a></li>
+            <li role="none"><a class="cs-jump__item" role="menuitem" href="#solution" data-jump-item>Solution</a></li>
+            <li role="none"><a class="cs-jump__item" role="menuitem" href="#impact"   data-jump-item>Impact</a></li>
+          </ul>
+        </div>
+      </div>
 
       <!-- ── TITLE ───────────────────────────────────────────── -->
       <header class="cs-head">
@@ -53,27 +73,20 @@
           </div>
           <div class="cs-overview__item">
             <dt class="cs-overview__label">Role</dt>
-            <dd class="cs-overview__value">Research, user interviews, product thinking, UX writing, UI design</dd>
+            <dd class="cs-overview__value">Research user interview, product thinking, UX writing, UI design</dd>
           </div>
           <div class="cs-overview__item">
             <dt class="cs-overview__label">Outcome</dt>
-            <dd class="cs-overview__value">Replacement order time became 70% faster than before</dd>
+            <dd class="cs-overview__value">Replacement order time become 70% faster than before</dd>
           </div>
         </dl>
       </section>
 
-      <!-- ── BACKGROUND ──────────────────────────────────────── -->
-      <section class="cs-section" aria-labelledby="bg-head">
-        <h2 class="cs-section__head" id="bg-head">Background</h2>
-        <p>Hangry is a cloud kitchen. One physical outlet running multiple brands, each with its own menu and its own operational identity. By 2024, Hangry had scaled to over 150 outlets across Jakarta.</p>
-        <p>That complexity shows up in operations day to day. This case study is about one module inside Internal Ops Dashboard: the Replacement Order Tool. When a customer complaint qualifies for a food replacement, the CE team needs to act quickly and accurately. Before this product existed, they were doing it through the Hangry App. That&rsquo;s where the problem started.</p>
-      </section>
-
-      <!-- ── RESEARCH & DISCOVERY ────────────────────────────── -->
-      <section class="cs-section" aria-labelledby="research-head">
-        <h2 class="cs-section__head" id="research-head">Research &amp; Discovery</h2>
-        <p>The brief came to me in October 2024. The CE team of ten agents was handling food replacement orders every week across all of Hangry&rsquo;s brands, outlets, and sales channels. Every complaint that qualified for a replacement had to be handled individually.</p>
-        <p>I talked with Regina, the CE team leader. What surprised me most wasn&rsquo;t the volume. It was the time. One replacement order done through the Hangry App took up to ten minutes. This was a pain point for Regina&rsquo;s team.</p>
+      <!-- ── PROBLEM ─────────────────────────────────────────── -->
+      <section class="cs-section" id="problem" aria-labelledby="problem-head">
+        <h2 class="cs-section__head" id="problem-head">How I Found the Real Problem</h2>
+        <p>The brief came to me in October 2024. The CE team with ten agents, was handling food replacement orders every week across all of Hangry&rsquo;s brands, outlets, and sales channels. Every complaint that qualified for a replacement had to be handled individually.</p>
+        <p>I talked and discussed with Regina, the CE team leader. What surprised me most wasn&rsquo;t the volume. It was the time. One replacement order done through the Hangry App took up to ten minutes. This is a pain point for Regina&rsquo;s team.</p>
 
         <div class="cs-cardrow">
           <div class="cs-card cs-card--metric">
@@ -95,17 +108,17 @@
           <div class="cs-card">
             <p class="cs-card__label">PROBLEM 1</p>
             <p class="cs-card__title">Menu Coverage Gap</p>
-            <p class="cs-card__note">The Hangry App only shows menus sold directly to customers. Items exclusive to Grab, Gojek, and Shopee don&rsquo;t exist there. When a menu wasn&rsquo;t available, CE reached out to the outlet directly, disrupting kitchen operations in the process.</p>
+            <p class="cs-card__note">Hangry App only shows menus sold directly to customers. Items exclusive to Grab, Gojek, Shopee, don&rsquo;t exist there. When menu wasn&rsquo;t available, CE reached out to the outlet directly, disrupting kitchen operations in the process.</p>
           </div>
           <div class="cs-card">
             <p class="cs-card__label">PROBLEM 2</p>
             <p class="cs-card__title">Sub-brand Gap</p>
-            <p class="cs-card__note">Hangry&rsquo;s sub-brands only exist on third-party platforms. Some sub-brand items appear under the main brand in the Hangry App, but many don&rsquo;t. Same workaround. Reach out to the outlet directly, same disruption.</p>
+            <p class="cs-card__note">Hangry&rsquo;s sub-brand only exist on third-party platforms. Some sub-brand items appear under the main brand in the Hangry App, but many don&rsquo;t. Same workaround. Reach out to the outlet directly, same disruption.</p>
           </div>
           <div class="cs-card">
             <p class="cs-card__label">PROBLEM 3</p>
             <p class="cs-card__title">Pricing Gap</p>
-            <p class="cs-card__note">The Hangry App shows consumer-facing prices. Every replacement placed through it was charged at full retail. No way to use internal pricing or COGS. Every replacement cost more than it should have.</p>
+            <p class="cs-card__note">Hangry App shows consumer-facing prices. Every replacement placed through it was charged at full retail. No way to use internal pricing or COGS. Every replacement cost more than it should have.</p>
           </div>
           <div class="cs-card">
             <p class="cs-card__label">PROBLEM 4</p>
@@ -115,10 +128,10 @@
         </div>
       </section>
 
-      <!-- ── STRATEGY & DESIGN ───────────────────────────────── -->
-      <section class="cs-section" aria-labelledby="strategy-head">
-        <h2 class="cs-section__head" id="strategy-head">Strategy &amp; Design</h2>
-        <p>The PM&rsquo;s brief came with a proposed direction: a form that CE fills to place a replacement order, with part of it shared with the customer to input their delivery address and location. A stakeholder also suggested extending this into a WhatsApp chatbot.</p>
+      <!-- ── SOLUTION ────────────────────────────────────────── -->
+      <section class="cs-section" id="solution" aria-labelledby="solution-head">
+        <h2 class="cs-section__head" id="solution-head">How I Solved It</h2>
+        <p>The PM&rsquo;s brief came with a proposed direction: a form that CE fills to place a replacement order, with part of it shared to the customer to input their delivery address and location. A stakeholder also suggested extending this into a WhatsApp chatbot.</p>
         <p>I mapped out both flows before we sat down together (me, the PM, and the engineers). Not to commit to either direction, but to have something concrete to pressure-test.</p>
 
         <!-- flow: option 1 -->
@@ -245,10 +258,10 @@
           </table>
         </div>
 
-        <p>Both options failed on the same constraint &mdash; user effort. In both cases, the customer still had to fill part of the form and pin point their own location.</p>
-        <p>These are customers who just had a bad experience. Asking them to do anything extra adds friction to a moment where trust is already thin. We almost pushed through anyway, with CE compensating by handling as much as possible, but something stopped me.</p>
-        <p>I remembered building the location flow for the Hangry App. The pin point feature we used there was powered by a paid mapping service. A fifth constraint had just appeared: it would add another business cost if we continued with this plan.</p>
-        <p>That&rsquo;s when the Google Maps link idea came to mind. Share links already contain latitude and longitude data. CE could simply ask the customer to share their Google Maps location. No form to fill, no pin point to drag, no paid service. After we checked it together, it worked and it was free. That removed every burden listed above.</p>
+        <p>Both option failed on the same constraint &mdash; user effort. In both case, the customer still had to fill part of the form and pin point their own location.</p>
+        <p>These are customers who just had a bad experience. Asking them to do anything extra, adds friction to a moment where trust is already thin. We almost pushed through anyway, with CE compensating by handling as much as possible, but something stopped me.</p>
+        <p>I remembered building the location flow for the Hangry App. The pin point feature we used there was powered by a paid mapping service. A fifth constraint had just appeared, it will added another business cost if we continue with these plan.</p>
+        <p>That&rsquo;s when the Google Maps link idea came up to my mind.. Share links already contain latitude and longitude data. CE could simply ask the customer to share their Google Maps location. No form to fill, no pin point to drag, no paid service. After we checked it together, it worked and it was free. This will removed all the burden from above.</p>
 
         <!-- flow: solution -->
         <figure class="cs-chart">
@@ -283,89 +296,76 @@
           <figcaption class="cs-chart__caption">Handled entirely by CE, no customer input required</figcaption>
         </figure>
 
-        <p>Here&rsquo;s what that translated to in practice: the replacement order form inside Internal Ops Dashboard that CE uses to place orders, and the scheduled order tab added to the POS so outlets can process them.</p>
-        <p>UI screens have been reskinned for confidentiality. Structure and functionality reflect the actual product.</p>
+        <p>Here&rsquo;s what that translated to in practice, the replacement order from inside Internal Ops Dashboard that CE uses to place orders, and the scheduled order tab added to the POS so outlets can process them.</p>
+        <p>UI screens have been reskinned for confidentially. Structure and functionality reflect the actual product.</p>
 
         <!-- ── MOCKUPS ───────────────────────────────────────── -->
-        <div class="cs-mockups">
-
-          <figure class="cs-mockup"
-                  data-mock="deck"
-                  data-dwell="3000,2000,3000,2500"
-                  data-clicks="0:0.931,0.057 2:0.912,0.933 3:0.232,0.148">
-            <figcaption class="cs-mockup__label">Internal Ops Dashboard</figcaption>
-            <span class="laptop">
-              <span class="laptop__bar"><span class="laptop__notch"><span class="laptop__cam"></span></span></span>
-              <span class="laptop__screen" data-screen>
-                <span class="slide is-active"><img src="../assets/img/dashboard/step-1.png" alt="Replacement order list in the Internal Ops Dashboard" loading="lazy" decoding="async"></span>
-                <span class="slide"><img src="../assets/img/dashboard/step-2.png" alt="Replacement order form, address pasted from a Google Maps link" loading="lazy" decoding="async"></span>
-                <span class="slide"><img src="../assets/img/dashboard/step-3.png" alt="Menu selection across every channel and sub-brand at internal pricing" loading="lazy" decoding="async"></span>
-                <span class="slide"><img src="../assets/img/dashboard/step-4.png" alt="Replacement order submitted for approval" loading="lazy" decoding="async"></span>
-                <span class="pointer" data-pointer aria-hidden="true">
-                  <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M2 2L14 7.5L8 9.5L6 15L2 2Z" fill="#18181b" stroke="#fff" stroke-width="1"/></svg>
-                </span>
-                <span class="ripple" data-ripple aria-hidden="true"></span>
+        <figure class="cs-mockup"
+                data-mock="deck"
+                data-dwell="3000,2000,3000,2500"
+                data-clicks="0:0.931,0.057 2:0.912,0.933 3:0.232,0.148">
+          <figcaption class="cs-mockup__label">Internal Ops Dashboard</figcaption>
+          <span class="laptop">
+            <span class="laptop__bar"><span class="laptop__notch"><span class="laptop__cam"></span></span></span>
+            <span class="laptop__screen" data-screen>
+              <span class="slide is-active"><img src="../assets/img/dashboard/step-1.png" alt="Replacement order list in the Internal Ops Dashboard" loading="lazy" decoding="async"></span>
+              <span class="slide"><img src="../assets/img/dashboard/step-2.png" alt="Replacement order form, address pasted from a Google Maps link" loading="lazy" decoding="async"></span>
+              <span class="slide"><img src="../assets/img/dashboard/step-3.png" alt="Menu selection across every channel and sub-brand at internal pricing" loading="lazy" decoding="async"></span>
+              <span class="slide"><img src="../assets/img/dashboard/step-4.png" alt="Replacement order submitted for approval" loading="lazy" decoding="async"></span>
+              <span class="pointer" data-pointer aria-hidden="true">
+                <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M2 2L14 7.5L8 9.5L6 15L2 2Z" fill="#18181b" stroke="#fff" stroke-width="1"/></svg>
               </span>
+              <span class="ripple" data-ripple aria-hidden="true"></span>
             </span>
-          </figure>
+          </span>
+        </figure>
 
-          <figure class="cs-mockup"
-                  data-mock="deck"
-                  data-dwell="3000,2500"
-                  data-clicks="0:0.880,0.360">
-            <figcaption class="cs-mockup__label">POS</figcaption>
-            <span class="laptop">
-              <span class="laptop__bar"><span class="laptop__notch"><span class="laptop__cam"></span></span></span>
-              <span class="laptop__screen" data-screen>
-                <span class="slide is-active"><img src="../assets/img/dashboard/pos-1.png" alt="Scheduled order tab in the outlet POS" loading="lazy" decoding="async"></span>
-                <span class="slide"><img src="../assets/img/dashboard/pos-2.png" alt="Replacement order opened at the outlet POS" loading="lazy" decoding="async"></span>
-                <span class="pointer" data-pointer aria-hidden="true">
-                  <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M2 2L14 7.5L8 9.5L6 15L2 2Z" fill="#18181b" stroke="#fff" stroke-width="1"/></svg>
-                </span>
-                <span class="ripple" data-ripple aria-hidden="true"></span>
+        <figure class="cs-mockup"
+                data-mock="deck"
+                data-dwell="3000,2500"
+                data-clicks="0:0.880,0.360">
+          <figcaption class="cs-mockup__label">POS</figcaption>
+          <span class="laptop">
+            <span class="laptop__bar"><span class="laptop__notch"><span class="laptop__cam"></span></span></span>
+            <span class="laptop__screen" data-screen>
+              <span class="slide is-active"><img src="../assets/img/dashboard/pos-1.png" alt="Scheduled order tab in the outlet POS" loading="lazy" decoding="async"></span>
+              <span class="slide"><img src="../assets/img/dashboard/pos-2.png" alt="Replacement order opened at the outlet POS" loading="lazy" decoding="async"></span>
+              <span class="pointer" data-pointer aria-hidden="true">
+                <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M2 2L14 7.5L8 9.5L6 15L2 2Z" fill="#18181b" stroke="#fff" stroke-width="1"/></svg>
               </span>
+              <span class="ripple" data-ripple aria-hidden="true"></span>
             </span>
-          </figure>
-
-        </div>
+          </span>
+        </figure>
       </section>
 
-      <!-- ── OUTCOME ─────────────────────────────────────────── -->
-      <section class="cs-section" aria-labelledby="outcome-head">
-        <h2 class="cs-section__head" id="outcome-head">Outcome</h2>
-        <p>The module shipped in February 2025. A few weeks later, I checked back in with Regina.</p>
-        <p>The tool was stable, with almost no issues after we cleared up the early bugs. Regina said the centralization meant she could actually see what was happening across the team, something that simply wasn&rsquo;t possible before.</p>
+      <!-- ── IMPACT ──────────────────────────────────────────── -->
+      <section class="cs-section" id="impact" aria-labelledby="impact-head">
+        <h2 class="cs-section__head" id="impact-head">The Impact</h2>
+        <p>The module shipped in February 2025. A few weeks after it, I checked back in with Regina.</p>
+        <p>The tools was stable, almost no issues after we clearing up the early bugs. Regina said: the centralization meant she could actually see what was happening across the team, something that simply wasn&rsquo;t possible before.</p>
         <p>But the number that stuck with me was the time.</p>
 
         <div class="cs-cardrow">
           <div class="cs-card cs-card--metric">
             <p class="cs-card__label">BEFORE</p>
             <p class="cs-card__value">Around 10 min</p>
-            <p class="cs-card__note">Per replacement order via the Hangry App</p>
+            <p class="cs-card__note">Per replacement order via Hangry App</p>
           </div>
           <div class="cs-card cs-card--metric">
             <p class="cs-card__label">AFTER</p>
             <p class="cs-card__value">Around 2-3 min</p>
-            <p class="cs-card__note">Per replacement order via the Replacement Order module</p>
+            <p class="cs-card__note">Per replacement order via Replacement Order Module</p>
           </div>
         </div>
 
         <div class="cs-card cs-card--metric cs-solo">
           <p class="cs-card__label">REPLACEMENT ORDER WORKLOAD</p>
-          <p class="cs-card__title">70% faster than before</p>
-          <p class="cs-card__note">Based on Regina&rsquo;s interview</p>
+          <p class="cs-card__title">70% Faster than before</p>
+          <p class="cs-card__note">Based on Regina&rsquo;s interviewed</p>
         </div>
 
-        <p>The cost side was harder to quantify precisely, but the structural shift was clear: replacement orders were no longer being placed at customer-facing prices. Internal pricing through Internal Ops Dashboard meant every replacement cost less than it would have through the Hangry App.</p>
-      </section>
-
-      <!-- ── LEARNINGS ───────────────────────────────────────── -->
-      <section class="cs-section" aria-labelledby="learnings-head">
-        <h2 class="cs-section__head" id="learnings-head">Learnings</h2>
-        <p class="cs-quote">&ldquo;Good solutions don&rsquo;t always come from thinking harder. Sometimes they come from remembering further.&rdquo;</p>
-        <p>The Google Maps link idea didn&rsquo;t come from a brainstorm. It came from something I already knew from a previous project. Knowing what the right answer looks like in one context helped me see why it was the wrong answer in another.</p>
-        <p class="cs-quote">&ldquo;Sometimes the most important thing you can know about a user isn&rsquo;t what they need. It&rsquo;s how they feel when they need it.&rdquo;</p>
-        <p>The other shift was about emotional context. Asking a disappointed customer to do extra jobs isn&rsquo;t just inconvenient. It adds friction to a moment where trust is already thin. That&rsquo;s not a UX problem, it&rsquo;s a people problem, and it changes what you build.</p>
+        <p>For the cost side was harder to quantify precisely, but the structural shift was clear, replacement orders were no longer being placed at customer-facing prices. Internal pricing through Internal Ops Dashboard meant every cost less than from the Hangry App.</p>
       </section>
 
       <!-- ── FOOTER ──────────────────────────────────────────── -->

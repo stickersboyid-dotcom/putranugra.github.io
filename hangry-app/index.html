@@ -31,8 +31,28 @@
   <div class="shell shell--case">
     <main class="content" id="main">
 
-      <!-- ── BACK ────────────────────────────────────────────── -->
-      <a class="cs-back" href="../"><span class="cs-back__arrow" aria-hidden="true">&larr;</span>Back to home</a>
+      <!-- ── ACTIONS ─────────────────────────────────────────── -->
+      <div class="cs-actions">
+        <a class="cs-back" href="../"><span class="cs-back__arrow" aria-hidden="true">&larr;</span>Back to home</a>
+
+        <div class="cs-jump" data-jump>
+          <button class="cs-jump__btn" type="button" id="cs-jump-btn"
+                  aria-haspopup="true" aria-expanded="false" aria-controls="cs-jump-menu" data-jump-btn>
+            <span class="cs-jump__text" data-jump-label>Problem</span>
+            <span class="cs-jump__chevron" aria-hidden="true">
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+                <path d="M2.5 4.5 6 8l3.5-3.5" stroke="currentColor" stroke-width="1.3"
+                      stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </span>
+          </button>
+          <ul class="cs-jump__menu" id="cs-jump-menu" role="menu" aria-labelledby="cs-jump-btn" data-jump-menu>
+            <li role="none"><a class="cs-jump__item" role="menuitem" href="#problem"  data-jump-item aria-current="true">Problem</a></li>
+            <li role="none"><a class="cs-jump__item" role="menuitem" href="#solution" data-jump-item>Solution</a></li>
+            <li role="none"><a class="cs-jump__item" role="menuitem" href="#impact"   data-jump-item>Impact</a></li>
+          </ul>
+        </div>
+      </div>
 
       <!-- ── TITLE ───────────────────────────────────────────── -->
       <header class="cs-head">
@@ -62,19 +82,12 @@
         </dl>
       </section>
 
-      <!-- ── BACKGROUND ──────────────────────────────────────── -->
-      <section class="cs-section" aria-labelledby="bg-head">
-        <h2 class="cs-section__head" id="bg-head">Background</h2>
-        <p>Hangry App is a cloud kitchen app: one physical outlet, multiple brands. From a single location, users can order from all available brands at once. This is fundamentally different from conventional food apps where one outlet equals one brand, one type of menu.</p>
-        <p>When I joined in 2019, Hangry had only 3 outlets and 3 brands, all in Jakarta. I was the only full-time designer. An existing design was already in place from a part-time designer.</p>
-      </section>
-
-      <!-- ── RESEARCH & DISCOVERY ────────────────────────────── -->
-      <section class="cs-section" aria-labelledby="research-head">
-        <h2 class="cs-section__head" id="research-head">Research &amp; Discovery</h2>
-        <p>I came in knowing three things: Hangry had 3 brands, 3 locations, and a food delivery app. That felt familiar enough. Most food delivery apps in Indonesia follow the same pattern &mdash; GoFood, GrabFood, or F&amp;B brands with their own app. I assumed Hangry was some version of that.</p>
-        <p>So, instead of jumping straight into the existing design, I talked to people first. Stakeholders, C-level, anyone who could tell me what this product was actually supposed to be and where it was going.</p>
-        <p>That&rsquo;s what the picture shifted. Those 3 brands weren&rsquo;t in 3 separate locations. They were all in the same kitchen, the same outlet. One physical space running multiple distinct brands simultaneously.</p>
+      <!-- ── PROBLEM ─────────────────────────────────────────── -->
+      <section class="cs-section" id="problem" aria-labelledby="problem-head">
+        <h2 class="cs-section__head" id="problem-head">How I Found the Real Problem</h2>
+        <p>When I joined in 2019, Hangry had only 3 outlets and 3 brands, all in Jakarta. I was the only full-time designer. An existing design for Hangry App was already in place from a part-time designer.</p>
+        <p>So, instead of jumping straight into the existing design, I talked to people first. Stakeholders, C-level, anyone who could tell me what Hangry was actually supposed to be and where it was going.</p>
+        <p>That&rsquo;s when the picture shifted. Those 3 brands weren&rsquo;t in 3 separate locations. They were all in the same kitchen, the same outlet. One physical space running multiple distinct brands simultaneously.</p>
 
         <div class="cs-cardrow">
           <div class="cs-card cs-card--metric">
@@ -95,7 +108,7 @@
           </div>
         </div>
 
-        <p>Unfortunately, I can&rsquo;t find the existing design file because it no longer accessible, so I can&rsquo;t showing the details. But, now I know what Hangry actually was, the existing design didn&rsquo;t reflect that at all.</p>
+        <p>Now I know what Hangry actually was, the existing design for Hangry App didn&rsquo;t reflect that at all.</p>
         <p>The first problem was identity. The existing design presented Hangry like one restaurant with a wide menu. Scroll through, pick something, then order. That mental model made sense for most food apps. It made no sense for Hangry, where every brand was distinct, had its own name and own personality. Collapsing them into one undifferentiated list meant users would never understand what they were actually using, or why they should care.</p>
         <p>The second problem was access. The existing design used a location-first pattern, so if you were too far from an outlet, you couldn&rsquo;t enter the app at all. For a product trying to build brand awareness in a city where it had only 3 outlets, that meant most of Jakarta hit a wall even before they ever saw a single brand.</p>
 
@@ -115,55 +128,24 @@
         </div>
       </section>
 
-      <!-- ── STRATEGY & DESIGN ───────────────────────────────── -->
-      <section class="cs-section" aria-labelledby="strategy-head">
-        <h2 class="cs-section__head" id="strategy-head">Strategy &amp; Design</h2>
+      <!-- ── SOLUTION ────────────────────────────────────────── -->
+      <section class="cs-section" id="solution" aria-labelledby="solution-head">
+        <h2 class="cs-section__head" id="solution-head">How I Solved It</h2>
+
+        <h3 class="cs-section__head">Problem 1: Identity</h3>
+        <p>The existing design collapsed all brands into one undifferentiatied list, like one restaurant with a wide menu.</p>
+        <p>At the time, Hangry was in the phase of building brand awareness. Each brand had its own name and personality. So, the way we presented the menus should have put more emphasis on and highlighted the individual brands under Hangry. This approach was more effective in representing Hangry as a multi-brand company.</p>
+
+        <figure class="cs-figure">
+          <button class="cs-figure__zoom" type="button" data-zoom aria-label="Zoom in on the existing design versus the new design">
+            <img src="../assets/img/hangry/existing-vs-new-design.png"
+                 alt="Existing design versus new design — the old home screen listed every dish as one long menu, the new one leads with each brand"
+                 width="2100" height="1050" loading="lazy" decoding="async">
+          </button>
+        </figure>
+
+        <h3 class="cs-section__head">Problem 2: Access</h3>
         <p>The existing design blocked users based on distance. If no outlet was within range, users couldn&rsquo;t enter the app at all.</p>
-        <p>For GoFood or GrabFood with their amount of outlets, that makes sense, if nothing can deliver to you there&rsquo;s nothing to show. But Hangry wasn&rsquo;t that. Hangry was a brand story that hadn&rsquo;t been told yet.</p>
-        <p>My background is in copywriting. One thing that gets drilled into you in that world is conversion doesn&rsquo;t start at the moment of purchase. It starts the moment someone becomes aware a brand exist. The sequence is always the same, you can&rsquo;t buy something you&rsquo;ve never heard of.</p>
-
-        <!-- awareness funnel: with and without the block -->
-        <div class="cs-cardrow">
-          <div class="cs-card cs-card--metric">
-            <p class="cs-minilabel">Without the block</p>
-            <div class="cs-vflow">
-              <div class="cs-node cs-node--success">
-                <span class="cs-node__title">Aware of the brand</span>
-                <span class="cs-node__sub">User discovers Hangry exists</span>
-              </div>
-              <div class="cs-node cs-node--success">
-                <span class="cs-node__title">Interested</span>
-                <span class="cs-node__sub">Browses brands, sees menus</span>
-              </div>
-              <div class="cs-node cs-node--success">
-                <span class="cs-node__title">Purchases</span>
-                <span class="cs-node__sub">When outlet is in range</span>
-              </div>
-            </div>
-          </div>
-          <div class="cs-card cs-card--metric">
-            <p class="cs-minilabel">With the block</p>
-            <div class="cs-vflow">
-              <div class="cs-node cs-node--danger">
-                <span class="cs-node__title">Blocked immediately</span>
-                <span class="cs-node__sub">Out of range &mdash; sees nothing</span>
-              </div>
-              <div class="cs-node cs-node--danger">
-                <span class="cs-node__title">No awareness</span>
-              </div>
-              <div class="cs-node cs-node--danger">
-                <span class="cs-node__title">No purchase</span>
-              </div>
-            </div>
-            <p class="cs-minilabel cs-minilabel--danger">No sale &mdash; not today, not ever</p>
-          </div>
-        </div>
-
-        <p>Blocking users who couldn&rsquo;t order didn&rsquo;t just lose a sale. It made sure those users would never have a reason to come back.</p>
-        <p>So I framed it this way:</p>
-        <p class="cs-quote">&ldquo;We might miss a sales opportunity today, but we didn&rsquo;t have to miss a brand awareness opportunity.&rdquo;</p>
-        <p>Those are two different things, and only one of them was actually within our control at that moment.</p>
-        <p>My proposal was straightforward from there. The app still reads location, that part stays. But instead of a hard block, users see available outlets. If nothing&rsquo;s in range, they can still browse every brand, see full menus, understand what Hangry is. They just can&rsquo;t check out.</p>
 
         <!-- flow: existing -->
         <figure class="cs-chart">
@@ -196,6 +178,13 @@
             <p class="cs-chart__caption cs-chart__caption--danger">Dead end &mdash; no brand exposure</p>
           </div>
         </figure>
+
+        <p>For GoFood or GrabFood with their amount of outlets, that makes sense, if nothing can deliver to you there&rsquo;s nothing to show. But Hangry wasn&rsquo;t that. Hangry was a brand story that hadn&rsquo;t been told yet.</p>
+        <p>My background is in copywriting. So, I know that conversion doesn&rsquo;t start at the moment of purchase. It starts the moment someone becomes aware a brand exist. The sequence is always the same, you can&rsquo;t buy something you&rsquo;ve never heard of.</p>
+        <p>Blocking users who couldn&rsquo;t order didn&rsquo;t just lose a sale. It made sure those users would never have a reason to come back.</p>
+        <p>So I framed it this way:</p>
+        <p class="cs-quote">&ldquo;We might miss a sales opportunity today, but we didn&rsquo;t have to miss a brand awareness opportunity.&rdquo;</p>
+        <p>My proposal was straightforward from there. The app still reads location, that part stays. But instead of a hard block, users still can see available outlets. If nothing&rsquo;s in range, they can still browse every brand, see full menus, understand what Hangry is. They just can&rsquo;t check out.</p>
 
         <!-- flow: proposal -->
         <figure class="cs-chart">
@@ -230,47 +219,19 @@
         </figure>
 
         <p>Not being able to order today doesn&rsquo;t meant not being able to order ever. But never knowing the brand exists? That&rsquo;s permanent.</p>
-        <p>Here&rsquo;s what that looked like in practice, the new access flow on the left, and the home UI that answered the identity problem on the right.</p>
 
-        <!-- ── MOCKUP ────────────────────────────────────────── -->
-        <div class="cs-mockups">
-          <div class="cs-phones">
-            <div class="cs-phones__col" data-mock="deck"
-                 data-dwell="1000,1000,2000,2500"
-                 data-clicks="2:0.37,0.32">
-              <p class="cs-phones__label">How I solved Problem 2 &mdash; Access</p>
-              <p class="cs-phones__sub">New flow when the outlet is out of range</p>
-              <div class="phone">
-                <div class="phone__screen" data-screen>
-                  <span class="slide is-active"><img src="../assets/img/hangry/splash.png" alt="Hangry App splash screen" loading="lazy" decoding="async"></span>
-                  <span class="slide"><img src="../assets/img/hangry/searching.png" alt="Searching for a nearby outlet" loading="lazy" decoding="async"></span>
-                  <span class="slide"><img src="../assets/img/hangry/outlet-list.png" alt="Every outlet listed, not just the ones in range" loading="lazy" decoding="async"></span>
-                  <span class="slide"><img src="../assets/img/hangry/home.png" alt="Home screen with each brand shown distinctly" loading="lazy" decoding="async"></span>
-                  <span class="pointer" data-pointer aria-hidden="true">
-                    <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M2 2L14 7.5L8 9.5L6 15L2 2Z" fill="#18181b" stroke="#fff" stroke-width="1"/></svg>
-                  </span>
-                  <span class="ripple" data-ripple aria-hidden="true"></span>
-                </div>
-              </div>
-            </div>
-
-            <div class="cs-phones__col" data-mock="scroller">
-              <p class="cs-phones__label">How I solved Problem 1 &mdash; Identity</p>
-              <p class="cs-phones__sub">Home UI showing each brand distinctly</p>
-              <div class="phone">
-                <div class="phone__screen">
-                  <img src="../assets/img/hangry/home.png" alt="The Hangry home screen, top to bottom" class="scroller" data-scroller loading="lazy" decoding="async">
-                </div>
-              </div>
-            </div>
-          </div>
-          <p class="cs-craft__caption">Final UI &mdash; Hangry App</p>
-        </div>
+        <figure class="cs-figure">
+          <button class="cs-figure__zoom" type="button" data-zoom aria-label="Zoom in on the new access flow">
+            <img src="../assets/img/hangry/problem-2.png"
+                 alt="How I solve access problem with design — splash screen, location tracking, the outlet list when nothing is in range, then the home screen with every brand"
+                 width="2100" height="1050" loading="lazy" decoding="async">
+          </button>
+        </figure>
       </section>
 
-      <!-- ── OUTCOME ─────────────────────────────────────────── -->
-      <section class="cs-section" aria-labelledby="outcome-head">
-        <h2 class="cs-section__head" id="outcome-head">Outcome</h2>
+      <!-- ── IMPACT ──────────────────────────────────────────── -->
+      <section class="cs-section" id="impact" aria-labelledby="impact-head">
+        <h2 class="cs-section__head" id="impact-head">The Impact</h2>
         <p>The first launch went well. Early Google Play reviews came in consistently around: easy to use, smooth, clear choices, seamless from order to pick-up.</p>
 
         <div class="cs-cardrow">
@@ -358,19 +319,6 @@
             <img src="../assets/img/store/app-store.png" alt="Download on the App Store" width="140" height="41">
           </a>
         </p>
-      </section>
-
-      <!-- ── LEARNINGS ───────────────────────────────────────── -->
-      <section class="cs-section" aria-labelledby="learnings-head">
-        <h2 class="cs-section__head" id="learnings-head">Learnings</h2>
-        <p>The obvious lesson was tactical:</p>
-        <p class="cs-quote">&ldquo;Product in the same industry don&rsquo;t share the same user journey.&rdquo;</p>
-        <p>Everything depends on how the business works and what constraints it has at that specific phase.</p>
-        <p>But the deeper shift was in how I think about constraints. Before this project, a product limitation felt like a design problem to solve around. After it, I started seeing constraints differently, not as walls, but as context. The question is no longer:</p>
-        <p class="cs-quote">&ldquo;How do I hide this limitation from the user?&rdquo;</p>
-        <p>But,</p>
-        <p class="cs-quote">&ldquo;Given where this product is right now, what&rsquo;s the most honest and useful experience I can design?&rdquo;</p>
-        <p>That reframe changed how I approached every project after this one.</p>
       </section>
 
       <!-- ── FOOTER ──────────────────────────────────────────── -->

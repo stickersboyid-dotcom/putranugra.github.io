@@ -31,8 +31,28 @@
   <div class="shell shell--case">
     <main class="content" id="main">
 
-      <!-- ── BACK ────────────────────────────────────────────── -->
-      <a class="cs-back" href="../"><span class="cs-back__arrow" aria-hidden="true">&larr;</span>Back to home</a>
+      <!-- ── ACTIONS ─────────────────────────────────────────── -->
+      <div class="cs-actions">
+        <a class="cs-back" href="../"><span class="cs-back__arrow" aria-hidden="true">&larr;</span>Back to home</a>
+
+        <div class="cs-jump" data-jump>
+          <button class="cs-jump__btn" type="button" id="cs-jump-btn"
+                  aria-haspopup="true" aria-expanded="false" aria-controls="cs-jump-menu" data-jump-btn>
+            <span class="cs-jump__text" data-jump-label>Problem</span>
+            <span class="cs-jump__chevron" aria-hidden="true">
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+                <path d="M2.5 4.5 6 8l3.5-3.5" stroke="currentColor" stroke-width="1.3"
+                      stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </span>
+          </button>
+          <ul class="cs-jump__menu" id="cs-jump-menu" role="menu" aria-labelledby="cs-jump-btn" data-jump-menu>
+            <li role="none"><a class="cs-jump__item" role="menuitem" href="#problem"  data-jump-item aria-current="true">Problem</a></li>
+            <li role="none"><a class="cs-jump__item" role="menuitem" href="#solution" data-jump-item>Solution</a></li>
+            <li role="none"><a class="cs-jump__item" role="menuitem" href="#impact"   data-jump-item>Impact</a></li>
+          </ul>
+        </div>
+      </div>
 
       <!-- ── TITLE ───────────────────────────────────────────── -->
       <header class="cs-head">
@@ -62,21 +82,15 @@
         </dl>
       </section>
 
-      <!-- ── BACKGROUND ──────────────────────────────────────── -->
-      <section class="cs-section" aria-labelledby="bg-head">
-        <h2 class="cs-section__head" id="bg-head">Background</h2>
-        <p>Hangry is a multi-brand virtual restaurant, focused on delivery. Hangry has a loyalty program for their customers to collect &ldquo;Hangry Points&rdquo; by scanning the QR code from their purchase bill. Hangry Points can be used as cashback for upcoming purchases or redeemed for merchandise.</p>
-      </section>
-
-      <!-- ── RESEARCH & DISCOVERY ────────────────────────────── -->
-      <section class="cs-section" aria-labelledby="research-head">
-        <h2 class="cs-section__head" id="research-head">Research &amp; Discovery</h2>
+      <!-- ── PROBLEM ─────────────────────────────────────────── -->
+      <section class="cs-section" id="problem" aria-labelledby="problem-head">
+        <h2 class="cs-section__head" id="problem-head">How I Found the Real Problem</h2>
         <p>In April 2021, new loyalty program registrations dropped 30% in a single month, from 4,217 to 2,916 users. Some assumptions arose.</p>
         <p class="cs-quote">&ldquo;Is the program attractive enough to customers?&rdquo;</p>
         <p class="cs-quote">&ldquo;Is the UI confusing?&rdquo;</p>
         <p class="cs-quote">&ldquo;Are the benefits not interesting?&rdquo;</p>
         <p>All reasonable assumptions, but unfortunately all wrong.</p>
-        <p>Before touching anything related to design, I needed to know and understand what&rsquo;s actually wrong in here. So, I coordinated with the Ops &amp; Customer Experience team to reach customers who had bought Hangry product but never joined the loyalty program.</p>
+        <p>Before touching anything related to design, I needed to know and understand what&rsquo;s actually wrong in here. So. I coordinated with the Ops &amp; Customer Experience team to reach customers who had bought Hangry product but never joined the loyalty program.</p>
         <p>We successfully gathered around 10 customers and I asked them one by one via online call with two main things:</p>
         <p class="cs-quote">&ldquo;Did they know the loyalty program existed?&rdquo;</p>
         <p class="cs-quote">&ldquo;Why hadn&rsquo;t they joined?&rdquo;</p>
@@ -84,16 +98,13 @@
         <p class="cs-quote">&ldquo;I know about the program, but I&rsquo;m too lazy to scan the bill because I have to download the app first.&rdquo;</p>
         <p class="cs-quote">&ldquo;I don&rsquo;t wanna download another app, my phone storage is already full.&rdquo;</p>
         <p class="cs-quote">&ldquo;I&rsquo;d like to join the program, but I don&rsquo;t really know what the benefits are. If I have to download the app just to find out, I&rsquo;m not interested.&rdquo;</p>
-        <p>Based on that user interview, the real problem wasn&rsquo;t the program or benefits, and it wasn&rsquo;t even the design. It was a single friction point:</p>
-        <p class="cs-quote">Requirement to download the Hangry App just to participate in the program.</p>
+        <p>Based on that user interview, the real problem was a single friction point:</p>
+        <p class="cs-quote cs-quote--strong">&ldquo;Requirement to download the Hangry App just to participate in the program.&rdquo;</p>
       </section>
 
-      <!-- ── STRATEGY & DESIGN ───────────────────────────────── -->
-      <section class="cs-section" aria-labelledby="strategy-head">
-        <h2 class="cs-section__head" id="strategy-head">Strategy &amp; Design</h2>
-        <p>The interviews made one thing clear:</p>
-        <p class="cs-quote">&ldquo;The app was the barrier.&rdquo;</p>
-        <p>Every user who hadn&rsquo;t joined said some version of the same thing, they didn&rsquo;t want to download anything.</p>
+      <!-- ── SOLUTION ────────────────────────────────────────── -->
+      <section class="cs-section" id="solution" aria-labelledby="solution-head">
+        <h2 class="cs-section__head" id="solution-head">How I Solved It</h2>
 
         <!-- flow: existing user flow -->
         <figure class="cs-chart">
@@ -124,6 +135,8 @@
           <figcaption class="cs-chart__caption">Existing user flow &mdash; Journey to collect point without Hangry App</figcaption>
         </figure>
 
+        <p>The interviews made one thing clear:</p>
+        <p class="cs-quote cs-quote--strong">&ldquo;The app was the barrier.&rdquo;</p>
         <p>So the question shifted:</p>
         <p class="cs-quote">&ldquo;What if users could register without downloading the app at all?&rdquo;</p>
         <p>If that was possible, what was the right way to do it?</p>
@@ -162,9 +175,8 @@
         <p>A landing page covered everything: no download, low tech effort, registration, and point collection in one place.</p>
         <p>But there was another concern that came up.</p>
         <p class="cs-quote">&ldquo;If users could register and collect points without the Hangry App, what reason did they have to download it at all?&rdquo;</p>
-        <p>It was a real tension. The loyalty program was one of the core reasons Hangry built the app. Solving the friction too completely might undermine that.</p>
         <p>So I thought about what the app actually does that a landing page never would?</p>
-        <p class="cs-quote">It is redeeming.</p>
+        <p class="cs-quote cs-quote--strong">&ldquo;It is redeeming.&rdquo;</p>
 
         <div class="cs-cardrow">
           <div class="cs-card cs-card--metric">
@@ -186,31 +198,10 @@
           </div>
         </div>
 
-        <p class="cs-quote">Collect anywhere. Redeem only in the app.</p>
-        <p>The landing page wasn&rsquo;t replacing the app. It was feeding it. Users who arrived with zero points had little reason to download anything. But users who had accumulated points, who could see a real number sitting there, now had something concrete waiting for them. The download felt worth it because there was already something to redeem.</p>
-        <p class="cs-quote">The friction wasn&rsquo;t removed. It was moved to a better place in the journey.</p>
-
-        <!-- flow: what the QR actually points at -->
-        <figure class="cs-chart">
-          <div class="cs-graph cs-graph--panel">
-            <div class="cs-node" style="--c:1;--r:1">
-              <span class="cs-node__title">Scan purchase bill</span>
-              <span class="cs-node__sub">with phone camera</span>
-            </div>
-            <div class="cs-node" style="--c:2;--r:1">
-              <span class="cs-node__title">Read data from QR</span>
-              <span class="cs-node__sub">Including URLs/links</span>
-            </div>
-            <div class="cs-node cs-node--note" style="--c:3;--r:1">
-              <p>In the existing QR code setup, the embedded URL/link directs users to the App/Play Store.</p>
-              <p>I proposed revising the flow so instead of linking directly to the App/Play Store, the QR redirects users to a dedicated landing page first</p>
-            </div>
-
-            <span class="cs-link cs-link--h" style="--c:1;--r:1" aria-hidden="true"></span>
-          </div>
-        </figure>
-
-        <p>Instead of redirecting users to the App/Play store when they scanned their purchase bill QR, they&rsquo;d land on a web page where they could see the benefits, register directly, and collect points, all without download anything.</p>
+        <p class="cs-quote cs-quote--strong">Collect anywhere. Redeem only in the app.</p>
+        <p>The landing page wasn&rsquo;t replacing the app. It was feeding it. Users who arrived with zero points had little reason to download anything. But users who had accumulated points and could see a real number sitting there, now had something concrete waiting for them. The download felt worth it because there was already something to redeem.</p>
+        <p class="cs-quote cs-quote--strong">The friction wasn&rsquo;t removed. It was moved to a better place in the journey.</p>
+        <p>Instead of redirecting users to the App/Play store when they scanned their purchase bill QR, I proposed they&rsquo;d land on a web page where they could see the benefits, register directly, and collect points, all without download anything.</p>
 
         <!-- flow: new user flow -->
         <figure class="cs-chart">
@@ -251,15 +242,12 @@
           <figcaption class="cs-chart__caption">New user flow &mdash; Journey to collect point without Hangry App</figcaption>
         </figure>
 
-        <h3 class="cs-subhead">Crafting</h3>
-        <p>No wireframes. The timeline was tight, and honestly by the time I got to Figma the decisions were already made. The thinking phase did the heavy lifting, crafting was execution.</p>
         <p>The page was mobile-only by design. The entry point was a QR scan on a purchase bill, users were always on their phone.</p>
         <p>I designed base on AIDA concept (Attention, Interest, Desire, Action). I came into design from copywriting. This section is where that background shows.</p>
         <p>I wrote all the copy by myself. The hook was the most important line on the page.</p>
-        <p class="cs-quote">&ldquo;Makin untung, makin mudah! Kini tanpa download aplikasi kamu sudah bisa menikmati keuntungan Hangry Poin.&rdquo;</p>
-        <p>Every user in the interviews said some version of &ldquo;I don&rsquo;t wanna download an app.&rdquo; So that&rsquo;s what the first sentence solved. Not buried and saved for later. Directly in the first line.</p>
+        <p class="cs-quote cs-quote--strong">&ldquo;Makin untung, makin mudah! Kini tanpa download aplikasi kamu sudah bisa menikmati keuntungan Hangry Poin.&rdquo;</p>
         <p>The landing page also had a dedicated section for the Hangry App, framed as:</p>
-        <p class="cs-quote">&ldquo;Mau cashback lebih? Belanja pakai aplikasi Hangry.&rdquo;</p>
+        <p class="cs-quote cs-quote--strong">&ldquo;Mau cashback lebih? Belanja pakai aplikasi Hangry.&rdquo;</p>
         <p>This wasn&rsquo;t upsell for the sake of it, It was the &ldquo;collect anywhere-redeem in app&rdquo; decision showing up in copy form.</p>
 
         <!-- ── MOCKUP ────────────────────────────────────────── -->
@@ -297,9 +285,9 @@
         </div>
       </section>
 
-      <!-- ── OUTCOME ─────────────────────────────────────────── -->
-      <section class="cs-section" aria-labelledby="outcome-head">
-        <h2 class="cs-section__head" id="outcome-head">Outcome</h2>
+      <!-- ── IMPACT ──────────────────────────────────────────── -->
+      <section class="cs-section" id="impact" aria-labelledby="impact-head">
+        <h2 class="cs-section__head" id="impact-head">The Impact</h2>
         <p>The program that was losing users month-over-month reversed course, not because the product changed, but because the barrier to entry was removed.</p>
 
         <figure class="cs-chart cs-chart--data">
@@ -383,16 +371,6 @@
             <span class="cs-badge__value">+76%</span>
           </p>
         </figure>
-      </section>
-
-      <!-- ── LEARNINGS ───────────────────────────────────────── -->
-      <section class="cs-section" aria-labelledby="learnings-head">
-        <h2 class="cs-section__head" id="learnings-head">Learnings</h2>
-        <p class="cs-quote">&ldquo;The most dangerous assumptions aren&rsquo;t the ones that are clearly wrong, but they&rsquo;re the ones that are reasonable&rdquo;</p>
-        <p class="cs-quote">&ldquo;The UI is confusing,&rdquo;</p>
-        <p class="cs-quote">&ldquo;The benefits aren&rsquo;t attractive.&rdquo;</p>
-        <p>Both pointed toward redesign, but both were wrong. The real problem had nothing to do with design at all. Finding it required asking the right people with the right questions, not staring harder at the product.</p>
-        <p>That&rsquo;s the thing about reasonable assumptions, they&rsquo;re the hardest ones to question. Now I question them first.</p>
       </section>
 
       <!-- ── FOOTER ──────────────────────────────────────────── -->
