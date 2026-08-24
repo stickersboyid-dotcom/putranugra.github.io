@@ -20,7 +20,8 @@ Personal site of Nugraha Putra, Product Designer. Plain HTML, CSS, and JavaScrip
 │   └── img/
 │       ├── article/<article-slug>.webp, <article-slug>-og.jpg
 │       ├── dashboard/step-1..4.png, pos-1..2.png
-│       ├── hangry/splash|searching|outlet-list|home.png
+│       ├── hangry/splash|searching|outlet-list|home.png    # homepage case card
+│       ├── hangry/existing-vs-new-design.png, problem-2.png
 │       └── loyalty/landing-page.png
 ├── writings/
 │   └── <article-slug>/index.html
@@ -287,6 +288,59 @@ hangry-app/index.html
 
 All three are built, so every homepage link resolves.
 
+All three follow the same three-part spine, and the section `id`s are what the
+jump menu scrolls to, so they are not optional:
+
+```
+#problem    How I Found the Real Problem
+#solution   How I Solved It
+#impact     The Impact
+```
+
+The header is a sticky `.cs-actions` bar: `.cs-back` on the left, the
+`.cs-jump` menu on the right. The bar is what sticks now, so `.cs-back` is
+overridden back to `position: static` inside it — the standalone sticky
+`.cs-back` still applies on article pages, which have no bar. Wire the menu by
+giving each item a `[data-jump-item]` pointing at a section `id`; `main.js`
+opens and closes it and runs a scroll-spy that renames the button to whichever
+section is currently being read. A section counts as current once its heading
+passes 120px from the top, and `scroll-margin-top` on `.cs-section[id]` keeps
+the heading clear of the bar after a jump. The jump relies on the plain anchor
+href, so `case.css` sets `html { scroll-behavior: smooth }` — that lands on
+article pages too, since they load `case.css` for the back button. The
+reduced-motion block in `styles.css` already flattens it back to instant.
+
+Inside a `.cs-chart`, the `<figcaption>` titles the diagram and is centred; a
+`.cs-chart__caption--danger` or `--success` under the graph is the verdict on it
+and sits at the end of the row instead.
+
+Two prose treatments beyond the plain paragraph: `.cs-quote` is a voice being
+reported (weight 200), `.cs-quote--strong` is a conclusion the copy is building
+toward (weight 500). Figma distinguishes the two, so read the weight off the
+frame rather than guessing from the quote marks — both often carry them.
+
+Exported artwork goes in a `.cs-figure`, which is the full column width with a
+card border and radius. Wrap the `<img>` in a `<button class="cs-figure__zoom"
+data-zoom>` and `main.js` opens it in a lightbox on click, built lazily on first
+use and dismissed by clicking anywhere in the overlay — the artwork included —
+or by the close button or Escape. Export these at 2:1 and @3x;
+`existing-vs-new-design.png` and `problem-2.png` are both 2100x1050 against a
+700x350 frame.
+
+The lightbox sizes the image with two caps, `min(100%, 1200px)` wide and `100%`
+tall, so the intrinsic ratio survives whichever one binds. **The 1200px cap is
+the point** — without it a wide monitor blows a 2100px export up to the full
+width of the screen, which is not a zoom, it is a wall. On a 3440px ultrawide
+that lands at 1200x600 with ~1100px of surround on each side; on a short
+viewport the height cap takes over and the width follows it down. Phones are
+the one exception: below 720px the caps are dropped for a flat 720px and the
+overlay pans, because fitting the artwork to a 375px screen is the size it was
+already too small at.
+
+Spacing is the section's 12px everywhere except where a hard edge needs air:
+`.cs-figure + .cs-section__head`, `p + .cs-mockup`, and `.cs-mockup +
+.cs-mockup` each add another 12px.
+
 A case study page loads `styles.css` then `case.css`, and reuses the laptop and
 slide chrome from the homepage. Its mockups are markup-driven: put `data-mock="deck"`
 on the figure with `data-dwell` (ms per slide) and `data-clicks` (`slide:x,y` ratios)
@@ -295,8 +349,15 @@ and `main.js` runs it. The other two mockup types are `data-mock="scroller"`
 last screen scrolls before looping). Add `data-hover-freeze` only where hovering must hold the
 mockup still, as the homepage boxes do.
 
+Only `internal-ops-dashboard` still drives a `data-mock` deck; `scroller` and
+`tour` now live on the homepage case cards alone. The hangry case study used to
+run a deck and a scroller off `splash|searching|outlet-list|home.png` — it does
+not any more, but **those four files are still in use by the homepage card**,
+so do not delete them.
+
 Other markup hooks `main.js` looks for, all optional per page:
-`[data-scroll-sync]` + `data-stops` with `[data-step]` siblings drives the
+`[data-jump]` drives the sticky section menu; `[data-zoom]` opens the image
+lightbox; `[data-scroll-sync]` + `data-stops` with `[data-step]` siblings drives the
 scroll-synced phone; `.cs-bar` elements animate their fill in on scroll with a 2.5s safety net; `[data-tip]` on any element shows the floating cursor
 tooltip, which needs a `[data-cursor-tip]` div in the page.
 
@@ -481,5 +542,6 @@ it — so `main.js` re-reads the stored choice on `pageshow` as well.
   its value, and the global rule at the end of `styles.css` flattens the tear
   and the pill plate to instant. The tilt is skipped outright, as it is on any
   device without a fine pointer.
-- Screenshots total roughly 3 MB. Converting them to WebP would cut that by
-  about 70% with no visible loss.
+- Screenshots total roughly 5.8 MB, over half of it in `img/hangry/`, where the
+  two @3x case study exports are ~1.6 MB between them. Converting the PNGs to
+  WebP would cut that by about 70% with no visible loss.
