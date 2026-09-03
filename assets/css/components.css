@@ -55,8 +55,10 @@
 }
 
 /* ---------- Tombol panah ---------- */
-/* Default: panah polos tanpa lingkaran.
-   Saat card di-hover: lingkaran putih + border muncul. */
+/* Murni dekoratif — .card--interactive sendiri yang jadi link
+   (lihat di bawah), jadi seluruh box yang bisa diklik, bukan cuma
+   panah ini. Default: polos tanpa lingkaran. Saat card di-hover:
+   lingkaran putih + border muncul. */
 .card__action {
   position: relative;
   flex: none;
@@ -73,18 +75,7 @@
               color var(--dur-base) var(--ease);
 }
 
-/* Perbesar area klik tanpa mengubah tampilan */
-.card__action::after {
-  content: "";
-  position: absolute;
-  inset: -9px;
-  border-radius: inherit;
-}
-
 .card__action svg { display: block; }
-
-/* Interaksi ke box = klik panahnya, bukan area box-nya */
-.card__action[href] { cursor: pointer; }
 
 /* ---------- Tooltip di tombol panah ---------- */
 /* Muncul di bawah tombol supaya tidak terpotong oleh overflow card. */
@@ -110,7 +101,10 @@
               transform var(--dur-fast) var(--ease);
 }
 
-.card__action[data-tooltip]:focus-visible::before {
+/* Card-nya sendiri yang jadi target fokus (dia sekarang <a>),
+   jadi tooltip & lingkaran ikut muncul pas box-nya di-Tab, bukan
+   cuma pas panahnya di-hover. */
+.card--interactive:focus-visible .card__action[data-tooltip]::before {
   opacity: 1;
   transform: translateY(0);
 }
