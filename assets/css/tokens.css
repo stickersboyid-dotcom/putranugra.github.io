@@ -1,0 +1,102 @@
+/* =============================================================
+   tokens.css — design tokens
+   Sumber: Figma "Exploration" (nUlw1ujOzyA5ikqsUj2IFE)
+   Ubah nilai di sini kalau mau ganti warna / spasi / tipografi
+   secara global. Jangan hardcode warna di file lain.
+   ============================================================= */
+
+:root {
+  /* ---------- Color ---------- */
+  --color-bg: #fafafa;            /* background/subtle  — background halaman & navbar */
+  /* Warna box dipakai dengan opacity berbeda, bukan warna berbeda:
+     default 50%, saat hover jadi 100%. Jadi perubahannya halus dan
+     stroke lingkaran tombol panah tetap kelihatan. */
+  --color-surface-rgb: 244 244 245;                     /* background/muted #f4f4f5 */
+  --color-surface: rgb(var(--color-surface-rgb) / 50%); /* box default */
+  --color-surface-hover: rgb(var(--color-surface-rgb)); /* box saat hover */
+  --color-border: #e4e4e7;        /* border/default */
+  --color-text: #52525b;          /* text/secondary     — teks utama */
+  --color-text-muted: #a1a1aa;    /* text/disabled      — label & body sekunder */
+  --color-white: #ffffff;         /* base/white */
+  --color-overlay: rgba(0, 0, 0, 0.5); /* chip caption di box hobbies */
+
+  /* Dipakai di halaman case study: diagram alur, tabel & chart */
+  --color-text-strong: #18181b;   /* text/primary */
+  --color-border-strong: #d4d4d8; /* garis konektor diagram & bar "before" */
+  --color-success: #22c55e;
+  --color-success-bg: #f0fdf4;
+  --color-success-fg: #14532d;
+  --color-danger: #ef4444;
+  --color-danger-bg: #fef2f2;
+  --color-danger-fg: #991b1b;
+
+  /* ---------- Typography ---------- */
+  --font-sans: "Nunito Sans", -apple-system, BlinkMacSystemFont, "Segoe UI",
+    Roboto, Helvetica, Arial, sans-serif;
+
+  /* Font kedua, khusus komponen data di halaman case study
+     (diagram alur, tabel perbandingan, bar chart) — sesuai Figma. */
+  --font-ui: "Geist", var(--font-sans);
+
+  /* Skala tipografi komponen data (Geist) */
+  --fs-ui-xs: 11px; --lh-ui-xs: 15.4px;   /* caption chart */
+  --fs-ui-sm: 12px; --lh-ui-sm: 18px;     /* label node & sel tabel */
+  --fs-ui-md: 13px; --lh-ui-md: 19.5px;   /* judul card & subjudul chart */
+  --fs-ui-lg: 14px; --lh-ui-lg: 22px;     /* bullet card */
+  --fs-ui-title: 20px; --lh-ui-title: 28px; --ls-ui-title: -0.2px;  /* judul problem card & metric solo */
+  --fs-ui-xl: 24px; --lh-ui-xl: 31.2px; --ls-ui-xl: -0.3px;         /* angka besar metric card */
+
+  --fs-xs: 13px;   --lh-xs: 19.5px;                        /* footer */
+  --fs-sm: 15px;   --lh-sm: 22.5px;                        /* label box & subtitle card */
+  --fs-md: 17px;   --lh-md: 23.8px;  --ls-md: -0.017px;    /* navbar, body, judul buku */
+  --fs-lg: 24px;   --lh-lg: 31.2px;  --ls-lg: -0.072px;    /* judul card writing */
+  --fs-prose: 20px; --lh-prose: 30px;                      /* paragraf box about */
+  --fs-xl: 32px;   --lh-xl: 38.4px;  --ls-xl: -0.16px;     /* judul halaman */
+
+  --fw-regular: 400;
+  --fw-medium: 500;
+  --fw-semibold: 600;
+
+  /* ---------- Radius ---------- */
+  --radius-card: 10px;
+  --radius-media: 4px;
+  --radius-chip: 10px;
+  --radius-full: 999px;
+
+  /* ---------- Spacing ---------- */
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-10: 40px;
+  --space-15: 60px;
+
+  /* ---------- Layout ---------- */
+  --page-max: 1440px;      /* lebar frame Figma */
+  --page-pad: 120px;       /* padding kiri/kanan di desktop */
+  --grid-gap: 8px;         /* jarak antar box bento */
+  --navbar-pad-y: 32px;    /* navbar 88px = 32 + 24 (line-height) + 32 */
+
+  /* ---------- Motion ---------- */
+  --dur-fast: 180ms;
+  --dur-base: 300ms;
+  --ease: cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+/* Breakpoint: layar menengah — padding halaman mengecil */
+@media (max-width: 1199px) {
+  :root { --page-pad: 48px; }
+}
+
+@media (max-width: 899px) {
+  :root { --page-pad: 32px; }
+}
+
+@media (max-width: 639px) {
+  :root {
+    --page-pad: 20px;
+    --fs-prose: 17px; --lh-prose: 25.5px;
+    --fs-xl: 28px;   --lh-xl: 34px;
+  }
+}

@@ -1,0 +1,407 @@
+/* =============================================================
+   components.css — bento grid + semua varian box (card)
+   -------------------------------------------------------------
+   Ukuran di dalam card ditulis dalam persen supaya proporsinya
+   tetap sama dengan Figma di semua ukuran layar.
+   Referensi Figma (desktop): card 294x294, padding 24 -> area
+   konten 246x246. Card lebar = 596x294.
+   ============================================================= */
+
+/* ---------- Grid ---------- */
+.bento {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: var(--grid-gap);
+}
+
+/* ---------- Card dasar ---------- */
+.card {
+  position: relative;
+  aspect-ratio: 1 / 1;
+  padding: var(--space-6);
+  border-radius: var(--radius-card);
+  background-color: var(--color-surface);
+  overflow: hidden;
+  transition: background-color var(--dur-base) var(--ease);
+}
+
+.card--wide {
+  grid-column: span 2;
+  aspect-ratio: 596 / 294;
+}
+
+.card__content {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+/* Baris atas: label + tombol panah */
+.card__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  min-height: 23px;
+}
+
+.card__label {
+  font-size: var(--fs-sm);
+  line-height: var(--lh-sm);
+  font-weight: var(--fw-medium);
+  letter-spacing: normal;
+  color: var(--color-text-muted);
+}
+
+/* ---------- Tombol panah ---------- */
+/* Default: panah polos tanpa lingkaran.
+   Saat card di-hover: lingkaran putih + border muncul. */
+.card__action {
+  position: relative;
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 23px;
+  height: 23px;
+  border: 1px solid transparent;
+  border-radius: var(--radius-full);
+  background-color: transparent;
+  color: var(--color-text-muted);
+  transition: background-color var(--dur-base) var(--ease),
+              border-color var(--dur-base) var(--ease),
+              color var(--dur-base) var(--ease);
+}
+
+/* Perbesar area klik tanpa mengubah tampilan */
+.card__action::after {
+  content: "";
+  position: absolute;
+  inset: -9px;
+  border-radius: inherit;
+}
+
+.card__action svg { display: block; }
+
+/* Interaksi ke box = klik panahnya, bukan area box-nya */
+.card__action[href] { cursor: pointer; }
+
+/* ---------- Tooltip di tombol panah ---------- */
+/* Muncul di bawah tombol supaya tidak terpotong oleh overflow card. */
+.card__action[data-tooltip]::before {
+  content: attr(data-tooltip);
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  z-index: 4;
+  padding: 4px 8px;
+  border-radius: 6px;
+  background-color: var(--color-text);
+  color: var(--color-white);
+  font-size: var(--fs-xs);
+  line-height: var(--lh-xs);
+  font-weight: var(--fw-medium);
+  letter-spacing: normal;
+  white-space: nowrap;
+  opacity: 0;
+  transform: translateY(-4px);
+  pointer-events: none;
+  transition: opacity var(--dur-fast) var(--ease),
+              transform var(--dur-fast) var(--ease);
+}
+
+.card__action[data-tooltip]:focus-visible::before {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ---------- Hover state umum ---------- */
+@media (hover: hover) and (pointer: fine) {
+  /* Warnanya sama, yang berubah cuma opacity: 50% -> 100% */
+  .card--interactive:hover,
+  .card--interactive:focus-within,
+  .card--hobby:hover {
+    background-color: var(--color-surface-hover);
+  }
+
+  .card--interactive:hover .card__action,
+  .card--interactive:focus-within .card__action {
+    background-color: var(--color-white);
+    border-color: var(--color-border);
+    color: var(--color-text);
+  }
+
+  .card__action[data-tooltip]:hover::before {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Di perangkat sentuh tidak ada hover — tampilkan state akhirnya.
+   Background box dibiarkan di opacity default supaya seragam
+   dengan box yang memang tidak interaktif (About). */
+@media (hover: none) {
+  .card--interactive .card__action {
+    background-color: var(--color-white);
+    border-color: var(--color-border);
+    color: var(--color-text);
+  }
+}
+
+/* =============================================================
+   Varian: Box About (home)
+   ============================================================= */
+.card--about {
+  grid-column: span 2;
+  grid-row: span 2;
+  aspect-ratio: 1 / 1;
+  padding: var(--space-10);
+}
+
+.about__text {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+  max-width: 516px;
+  font-size: var(--fs-prose);
+  line-height: var(--lh-prose);
+  letter-spacing: -0.072px;
+  color: var(--color-text-muted);
+}
+
+.about__hl { color: var(--color-text); }
+
+a.about__hl {
+  text-decoration: none;
+  box-shadow: inset 0 -1px 0 var(--color-border);
+  transition: box-shadow var(--dur-fast) var(--ease);
+}
+
+a.about__hl:hover { box-shadow: inset 0 -1px 0 var(--color-text); }
+
+/* =============================================================
+   Varian: Box Project — gambar zoom sedikit saat hover
+   ============================================================= */
+/* Kotak gambar selebar area konten; gambar di-fit ke dalamnya
+   (object-fit: contain) sehingga ukuran & posisinya persis
+   seperti di Figma tanpa perlu lebar tetap. */
+.card--project .card__media {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: var(--media-top);
+  height: var(--media-h);
+}
+
+.card--project .card__media img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  transition: transform var(--dur-base) var(--ease);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .card--project:hover .card__media img,
+  .card--project:focus-within .card__media img {
+    transform: scale(1.05);
+  }
+}
+
+/* Posisi & tinggi gambar per project (persen dari area konten 246px) */
+.card--project-hangry-app     { --media-top: 24.797%; --media-h: 75.203%; }
+.card--project-replacement    { --media-top: 18.293%; --media-h: 81.707%; }
+.card--project-hangry-website { --media-top: 18.293%; --media-h: 81.707%; }
+.card--project-loyalty        { --media-top: 20.325%; --media-h: 89.431%; }
+
+/* =============================================================
+   Varian: Box Reading — cover buku rotate -5deg saat hover
+   ============================================================= */
+.card--reading .card__body {
+  display: flex;
+  align-items: flex-end;
+  column-gap: 4.878%;      /* 12 / 246 */
+  height: 73.171%;         /* 180 / 246 */
+  margin-top: auto;        /* menempel ke bawah, sama seperti Figma */
+}
+
+.card__cover {
+  flex: 0 0 48.78%;        /* 120 / 246 */
+  height: 100%;
+  border-radius: var(--radius-media);
+  overflow: hidden;
+  transform: rotate(0deg);
+  transition: transform var(--dur-base) var(--ease);
+}
+
+.card__cover img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .card--reading:hover .card__cover,
+  .card--reading:focus-within .card__cover {
+    transform: rotate(-5deg);
+  }
+}
+
+.card__meta {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.card__book-title {
+  font-size: var(--fs-md);
+  line-height: var(--lh-md);
+  letter-spacing: var(--ls-md);
+  font-weight: var(--fw-semibold);
+  color: var(--color-text);
+}
+
+.card__book-author {
+  font-size: var(--fs-md);
+  line-height: var(--lh-md);
+  letter-spacing: var(--ls-md);
+  font-weight: var(--fw-regular);
+  color: var(--color-text-muted);
+}
+
+/* =============================================================
+   Varian: Box Writing — hanya hover default (bg + lingkaran panah)
+   ============================================================= */
+.card--writing .card__body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  margin-top: auto;
+}
+
+.card__title {
+  font-size: var(--fs-lg);
+  line-height: var(--lh-lg);
+  letter-spacing: var(--ls-lg);
+  font-weight: var(--fw-semibold);
+  color: var(--color-text);
+}
+
+.card__excerpt {
+  font-size: var(--fs-sm);
+  line-height: var(--lh-sm);
+  letter-spacing: normal;
+  font-weight: var(--fw-medium);
+  color: var(--color-text-muted);
+}
+
+/* =============================================================
+   Varian: Box Hobbies
+   Default : foto menutup penuh box.
+   Hover   : foto turun 59px (20.07% dari tingginya) sehingga
+             judul box terlihat, lalu label judul foto muncul.
+   ============================================================= */
+.card--hobby { padding: 0; }
+
+.card--hobby .card__label {
+  position: absolute;
+  top: var(--space-6);
+  left: var(--space-6);
+  z-index: 1;
+}
+
+.hobby__photo {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-bottom-left-radius: var(--radius-card);
+  border-bottom-right-radius: var(--radius-card);
+  transform: translateY(0);
+  transition: transform var(--dur-base) var(--ease);
+}
+
+.hobby__caption {
+  position: absolute;
+  left: var(--space-4);
+  bottom: var(--space-4);
+  z-index: 3;
+  padding: var(--space-2);
+  border-radius: var(--radius-chip);
+  background-color: var(--color-overlay);
+  color: var(--color-white);
+  font-size: var(--fs-sm);
+  line-height: var(--lh-sm);
+  letter-spacing: normal;
+  font-weight: var(--fw-medium);
+  opacity: 0;
+  transform: translateY(6px);
+  transition: opacity var(--dur-base) var(--ease),
+              transform var(--dur-base) var(--ease);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .card--hobby:hover .hobby__photo { transform: translateY(20.068%); }
+  .card--hobby:hover .hobby__caption { opacity: 1; transform: translateY(0); }
+}
+
+@media (hover: none) {
+  .hobby__photo { transform: translateY(20.068%); }
+  .hobby__caption { opacity: 1; transform: translateY(0); }
+}
+
+/* =============================================================
+   Responsive
+   ============================================================= */
+
+/* Tablet — 2 kolom */
+@media (max-width: 899px) {
+  .bento { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+/* Mobile — 1 kolom */
+@media (max-width: 639px) {
+  .bento { grid-template-columns: minmax(0, 1fr); }
+
+  .card { padding: 20px; }
+
+  .card--wide {
+    grid-column: span 1;
+    aspect-ratio: 4 / 3;
+  }
+
+  .card--about {
+    grid-column: span 1;
+    grid-row: auto;
+    aspect-ratio: auto;
+    padding: var(--space-6);
+  }
+
+  .card--hobby { padding: 0; }
+
+  .card--hobby .card__label {
+    top: var(--space-4);
+    left: var(--space-4);
+  }
+}
+
+/* Hormati preferensi pengguna yang mengurangi animasi */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-delay: 0ms !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Canvas confetti di dalam box About (halaman Home).
+   Elemennya dibuat & dibuang oleh assets/js/confetti.js. */
+.about__confetti {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+}

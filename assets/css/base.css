@@ -1,0 +1,264 @@
+/* =============================================================
+   base.css — reset, tipografi dasar, navbar, footer, page header
+   ============================================================= */
+
+/* ---------- Reset ---------- */
+*,
+*::before,
+*::after { box-sizing: border-box; }
+
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  margin: 0;
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-sans);
+  font-size: var(--fs-md);
+  line-height: var(--lh-md);
+  letter-spacing: var(--ls-md);
+  font-weight: var(--fw-regular);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1, h2, h3, h4, p, figure { margin: 0; }
+ul { margin: 0; padding: 0; list-style: none; }
+img { display: block; max-width: 100%; }
+a { color: inherit; text-decoration: none; }
+button { font: inherit; color: inherit; background: none; border: 0; padding: 0; cursor: pointer; }
+
+:focus-visible {
+  outline: 2px solid var(--color-text);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* Skip link — aksesibilitas keyboard */
+.skip-link {
+  position: absolute;
+  left: -9999px;
+  top: 0;
+  z-index: 100;
+  padding: 10px 16px;
+  background: var(--color-white);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-card);
+}
+.skip-link:focus { left: 16px; top: 16px; }
+
+/* ---------- Layout ---------- */
+.container {
+  width: 100%;
+  max-width: var(--page-max);
+  margin-inline: auto;
+  padding-inline: var(--page-pad);
+}
+
+.page {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.main {
+  flex: 1 0 auto;
+  padding-top: var(--space-6); /* jarak 24px dari navbar, sesuai Figma */
+}
+
+/* ---------- Navbar ---------- */
+.navbar {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  background-color: var(--color-bg);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.navbar__inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-6);
+  padding-block: var(--navbar-pad-y);
+}
+
+.navbar__list {
+  display: flex;
+  align-items: center;
+  gap: var(--space-6);
+}
+
+.navbar__link {
+  display: inline-block;
+  color: var(--color-text-muted);
+  font-weight: var(--fw-regular);
+  white-space: nowrap;
+  transition: color var(--dur-fast) var(--ease);
+}
+
+.navbar__link:hover { color: var(--color-text); }
+
+.navbar__link[aria-current="page"] {
+  color: var(--color-text);
+  font-weight: var(--fw-medium);
+}
+
+/* Tombol Email: dipakai untuk copy ke clipboard, tampilannya sama dgn link */
+.navbar__link--button { cursor: pointer; }
+
+/* Feedback kecil setelah email berhasil di-copy */
+.navbar__socials { position: relative; }
+
+.copy-toast {
+  position: absolute;
+  top: calc(100% + 10px);
+  right: 0;
+  padding: 6px 12px;
+  border-radius: var(--radius-card);
+  background: var(--color-text);
+  color: var(--color-white);
+  font-size: var(--fs-sm);
+  line-height: var(--lh-sm);
+  font-weight: var(--fw-medium);
+  letter-spacing: normal;
+  white-space: nowrap;
+  opacity: 0;
+  transform: translateY(-4px);
+  pointer-events: none;
+  transition: opacity var(--dur-fast) var(--ease),
+              transform var(--dur-fast) var(--ease);
+}
+
+.copy-toast.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ---------- Page header (Project / Writing / Reading) ---------- */
+.page-header { padding-top: 0; }
+
+.page-header__title {
+  font-size: var(--fs-xl);
+  line-height: var(--lh-xl);
+  letter-spacing: var(--ls-xl);
+  font-weight: var(--fw-semibold);
+  color: var(--color-text);
+}
+
+.page-header__subtitle {
+  max-width: 596px;
+  margin-top: var(--space-2);
+  color: var(--color-text-muted);
+  font-weight: var(--fw-medium);
+}
+
+/* Jarak header ke grid = 24px (sesuai Figma: 207 -> 231) */
+.page-header + .bento { margin-top: var(--space-6); }
+
+/* ---------- Footer ---------- */
+.footer {
+  flex-shrink: 0;
+  padding-top: var(--space-15);
+  padding-bottom: var(--space-15);
+}
+
+.footer__inner { border-top: 1px solid var(--color-border); }
+
+.footer__content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+  padding-top: var(--space-6);
+  font-size: var(--fs-xs);
+  line-height: var(--lh-xs);
+  letter-spacing: normal;
+  color: var(--color-text);
+}
+
+/* ---------- Responsive navbar ---------- */
+@media (max-width: 639px) {
+  .navbar__inner {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-3);
+    padding-block: var(--space-4);
+  }
+  .navbar__list,
+  .navbar__socials-list { gap: var(--space-4); }
+  .navbar__link { font-size: var(--fs-sm); line-height: var(--lh-sm); }
+  .copy-toast { right: auto; left: 0; }
+}
+
+/* ---------- Utility ---------- */
+/* Terlihat oleh screen reader, tidak terlihat di layar */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* =============================================================
+   Animasi masuk halaman
+   -------------------------------------------------------------
+   Tiap bagian muncul turun dari atas, berurutan dari atas ke
+   bawah. Pakai animation-fill-mode "backwards" supaya kalau
+   animasinya tidak jalan (browser lama, CSS gagal load), konten
+   tetap terlihat normal.
+   ============================================================= */
+
+@keyframes reveal-down {
+  from {
+    opacity: 0;
+    transform: translateY(-14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.navbar__inner,
+.page-header,
+.cs-head,
+.cs-overview,
+.cs-section,
+.bento > *,
+.footer__inner {
+  animation: reveal-down 560ms var(--ease) backwards;
+}
+
+.navbar__inner { animation-delay: 0ms; }
+
+.page-header { animation-delay: 80ms; }
+
+/* Box bento — jeda bertambah mengikuti urutan dari atas ke bawah */
+.bento > *:nth-child(1)  { animation-delay: 160ms; }
+.bento > *:nth-child(2)  { animation-delay: 205ms; }
+.bento > *:nth-child(3)  { animation-delay: 250ms; }
+.bento > *:nth-child(4)  { animation-delay: 295ms; }
+.bento > *:nth-child(5)  { animation-delay: 340ms; }
+.bento > *:nth-child(6)  { animation-delay: 385ms; }
+.bento > *:nth-child(7)  { animation-delay: 430ms; }
+.bento > *:nth-child(8)  { animation-delay: 475ms; }
+.bento > *:nth-child(9)  { animation-delay: 520ms; }
+.bento > *:nth-child(10) { animation-delay: 565ms; }
+.bento > *:nth-child(11) { animation-delay: 610ms; }
+.bento > *:nth-child(12) { animation-delay: 655ms; }
+.bento > *:nth-child(13) { animation-delay: 700ms; }
+.bento > *:nth-child(14) { animation-delay: 745ms; }
+.bento > *:nth-child(15) { animation-delay: 790ms; }
+.bento > *:nth-child(n + 16) { animation-delay: 835ms; }
+
+.cs-head { animation-delay: 140ms; }
+.cs-overview { animation-delay: 200ms; }
+.cs-section { animation-delay: 260ms; }
+
+.footer__inner { animation-delay: 500ms; }

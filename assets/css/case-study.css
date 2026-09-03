@@ -1,0 +1,968 @@
+/* =============================================================
+   case-study.css — halaman detail project (case study)
+   -------------------------------------------------------------
+   Referensi Figma: node 3575-7192 (Loyalty Page).
+   Kolom konten selebar 800px, di tengah frame 1440px.
+
+   Dua keluarga font dipakai di halaman ini, mengikuti Figma:
+   - Nunito Sans -> semua teks naratif (judul, paragraf, kutipan)
+   - Geist       -> komponen data (diagram alur, tabel, chart)
+   ============================================================= */
+
+/* =============================================================
+   Kolom konten
+   ============================================================= */
+/* 800 + (2 x 120) = 1040 -> kolom tulisan tepat 800px di desktop */
+.container--narrow { max-width: 1040px; }
+
+/* =============================================================
+   Navbar khusus halaman detail — isinya cuma tombol kembali
+   ============================================================= */
+.navbar__inner--case { justify-content: flex-start; }
+
+.cs-back {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  color: var(--color-text-muted);
+  font-weight: var(--fw-medium);
+  transition: color var(--dur-fast) var(--ease);
+}
+
+.cs-back:hover { color: var(--color-text); }
+
+.cs-back__arrow {
+  display: inline-block;
+  transition: transform var(--dur-fast) var(--ease);
+}
+
+.cs-back:hover .cs-back__arrow { transform: translateX(-3px); }
+
+/* =============================================================
+   Kepala halaman
+   ============================================================= */
+
+.cs-head__eyebrow {
+  color: var(--color-text-muted);
+  font-weight: var(--fw-medium);
+}
+
+.cs-head__title {
+  margin-top: var(--space-4);
+  font-size: var(--fs-xl);
+  line-height: var(--lh-xl);
+  letter-spacing: var(--ls-xl);
+  font-weight: var(--fw-semibold);
+  color: var(--color-text);
+}
+
+.cs-head__intro {
+  margin-top: var(--space-4);
+  color: var(--color-text-muted);
+  font-weight: var(--fw-medium);
+}
+
+/* =============================================================
+   Ringkasan project — dua garis pembatas, label + nilai
+   ============================================================= */
+.cs-overview {
+  margin: var(--space-10) 0 0;
+  padding: var(--space-6) 0;
+  border-top: 1px solid var(--color-border);
+  border-bottom: 1px solid var(--color-border);
+  display: grid;
+  grid-template-columns: 144px minmax(0, 1fr);
+  gap: var(--space-4) 0;
+}
+
+.cs-overview__label {
+  margin: 0;
+  color: var(--color-text-muted);
+  font-weight: var(--fw-medium);
+  text-transform: uppercase;
+}
+
+.cs-overview__value {
+  margin: 0;
+  color: var(--color-text);
+  font-weight: var(--fw-semibold);
+}
+
+/* =============================================================
+   Section & teks naratif
+   ============================================================= */
+.cs-section { margin-top: var(--space-15); }
+
+.cs-section__head {
+  font-size: 20px;
+  line-height: 28px;
+  letter-spacing: -0.04px;
+  font-weight: var(--fw-semibold);
+  color: var(--color-text);
+}
+
+.cs-section p {
+  color: var(--color-text-muted);
+  font-weight: var(--fw-medium);
+}
+
+/* Jarak antar baris teks 16px; blok komponen (chart/tabel/card) 24px */
+.cs-section > * + * { margin-top: var(--space-4); }
+
+.cs-section > * + .cs-block,
+.cs-section > .cs-block + * { margin-top: var(--space-6); }
+
+/* Kutipan wawancara & asumsi tim */
+.cs-section p.cs-quote { font-style: italic; }
+
+/* Kalimat kesimpulan — ukuran sama, warnanya sepekat judul section.
+   Selectornya harus ikut menyebut .cs-section supaya menang dari
+   aturan warna `.cs-section p` di atas. */
+.cs-section p.cs-statement { color: var(--color-text); }
+
+/* Link keluar di dalam badan tulisan */
+.cs-outlink {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 4px;
+  color: var(--color-text);
+  box-shadow: inset 0 -1px 0 var(--color-border);
+  transition: box-shadow var(--dur-fast) var(--ease);
+}
+
+.cs-outlink:hover { box-shadow: inset 0 -1px 0 var(--color-text); }
+
+.cs-outlink__arrow {
+  transition: transform var(--dur-fast) var(--ease);
+}
+
+.cs-outlink:hover .cs-outlink__arrow { transform: translate(2px, -2px); }
+
+/* =============================================================
+   Panel putih pembungkus komponen data
+   ============================================================= */
+.cs-panel {
+  padding: var(--space-6);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-card);
+  background-color: var(--color-white);
+}
+
+.cs-panel__caption {
+  margin: 0;
+  font-family: var(--font-ui);
+  font-size: var(--fs-ui-xs);
+  line-height: var(--lh-ui-xs);
+  letter-spacing: 0.011px;
+  color: var(--color-text);
+  text-align: center;
+}
+
+/* =============================================================
+   Diagram alur
+   -------------------------------------------------------------
+   Grid 3 kolom (jarak 20px) di atas baris setinggi 60px
+   (jarak 40px), jadi tiap baris berjarak 100px. Semua konektor
+   diposisikan absolut terhadap angka-angka itu, sehingga --colw
+   harus persis sama dengan lebar satu kolom.
+   ============================================================= */
+.cs-flow { display: flex; flex-direction: column; gap: var(--space-10); }
+
+.cs-graph {
+  --colw: calc((100% - 40px) / 3);
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-auto-rows: 60px;
+  column-gap: 20px;
+  row-gap: var(--space-10);
+  font-family: var(--font-ui);
+}
+
+.cs-node {
+  grid-column: var(--c);
+  grid-row: var(--r);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 8px;
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  background-color: var(--color-white);
+  text-align: center;
+}
+
+.cs-node__title,
+.cs-node__sub {
+  font-size: var(--fs-ui-sm);
+  line-height: var(--lh-ui-sm);
+  letter-spacing: normal;
+}
+
+.cs-node__title { font-weight: 500; color: var(--color-text-strong); }
+.cs-node__sub { font-weight: 300; color: var(--color-text); }
+
+.cs-node--danger {
+  background-color: var(--color-danger-bg);
+  border-color: var(--color-danger);
+}
+
+.cs-node--danger .cs-node__title,
+.cs-node--danger .cs-node__sub { color: var(--color-danger-fg); }
+
+.cs-node--success {
+  background-color: var(--color-success-bg);
+  border-color: var(--color-success);
+}
+
+.cs-node--success .cs-node__title,
+.cs-node--success .cs-node__sub { color: var(--color-success-fg); }
+
+/* ---------- Konektor lurus ---------- */
+.cs-link {
+  position: absolute;
+  background-color: var(--color-border-strong);
+}
+
+.cs-link::after {
+  content: "";
+  position: absolute;
+  border: 4px solid transparent;
+}
+
+/* Horizontal: mengisi celah 20px di kanan kolom --c */
+.cs-link--h {
+  height: 1px;
+  width: 20px;
+  left: calc(var(--colw) * var(--c) + 20px * (var(--c) - 1));
+  top: calc(100px * (var(--r) - 1) + 30px);
+}
+
+.cs-link--h::after {
+  left: 100%;
+  top: 50%;
+  margin-left: -4px;
+  transform: translateY(-50%);
+  border-left-color: var(--color-border-strong);
+}
+
+/* Jalur yang sama, panahnya di ujung satunya — dipakai saat sebuah
+   langkah "mereview" balik ke keputusan sebelumnya. */
+.cs-link--hl::after {
+  left: 0;
+  top: 50%;
+  margin-left: -4px;
+  transform: translateY(-50%);
+  border-left-color: transparent;
+  border-right-color: var(--color-border-strong);
+}
+
+/* Vertikal: mengisi celah 40px di bawah baris --r, di tengah kolom --c */
+.cs-link--v {
+  width: 1px;
+  height: 40px;
+  left: calc(var(--colw) * (var(--c) - 0.5) + 20px * (var(--c) - 1));
+  top: calc(100px * (var(--r) - 1) + 60px);
+}
+
+.cs-link--v::after {
+  top: 100%;
+  left: 50%;
+  margin-top: -4px;
+  transform: translateX(-50%);
+  border-top-color: var(--color-border-strong);
+}
+
+/* Satu-satunya panah ke atas: scan bill menuju pengecekan di atasnya */
+.cs-link--vu::after {
+  top: auto;
+  bottom: 100%;
+  margin-top: 0;
+  margin-bottom: -4px;
+  border-top-color: transparent;
+  border-bottom-color: var(--color-border-strong);
+}
+
+/* ---------- Konektor belok ----------
+   Satu elemen per belokan: dua sisi border sebuah kotak plus
+   border-radius, supaya tikungannya membulat seperti konektor
+   Figma. Dua garis lurus terpisah tidak bisa membulatkan sudut. */
+.cs-elbow {
+  position: absolute;
+  border: 0 solid var(--color-border-strong);
+  pointer-events: none;
+}
+
+.cs-elbow::after {
+  content: "";
+  position: absolute;
+  border: 4px solid transparent;
+}
+
+/* Naik dari percabangan baris 2, lalu ke kanan menuju baris 1 */
+.cs-elbow--up {
+  left: calc(var(--colw) * 1.5 + 20px);
+  top: 30px;
+  width: calc(var(--colw) * 0.5 + 20px);
+  height: 70px;
+  border-top-width: 1px;
+  border-left-width: 1px;
+  border-top-left-radius: 8px;
+}
+
+.cs-elbow--up::after {
+  right: -4px;
+  top: -4px;
+  border-left-color: var(--color-border-strong);
+}
+
+/* Turun dari percabangan baris 2, lalu ke kanan menuju baris 3 */
+.cs-elbow--down {
+  left: calc(var(--colw) * 1.5 + 20px);
+  top: 160px;
+  width: calc(var(--colw) * 0.5 + 20px);
+  height: 70px;
+  border-bottom-width: 1px;
+  border-left-width: 1px;
+  border-bottom-left-radius: 8px;
+}
+
+.cs-elbow--down::after {
+  right: -4px;
+  bottom: -4px;
+  border-left-color: var(--color-border-strong);
+}
+
+/* Ke kanan dari percabangan baris 2, lalu turun ke baris 3 kolom 3 */
+.cs-elbow--rd {
+  left: calc(var(--colw) * 2 + 20px);
+  top: 130px;
+  width: calc(var(--colw) * 0.5 + 20px);
+  height: 70px;
+  border-top-width: 1px;
+  border-right-width: 1px;
+  border-top-right-radius: 8px;
+}
+
+.cs-elbow--rd::after {
+  right: -4px;
+  bottom: -4px;
+  border-top-color: var(--color-border-strong);
+}
+
+/* Ke kiri-bawah dari percabangan baris 2, ke kolom sebelah kiri baris 3 */
+.cs-elbow--ld {
+  left: calc(var(--colw) * 0.5);
+  top: 130px;
+  width: calc(var(--colw) * 0.5 + 20px);
+  height: 70px;
+  border-top-width: 1px;
+  border-left-width: 1px;
+  border-top-left-radius: 8px;
+}
+
+.cs-elbow--ld::after {
+  left: -4px;
+  bottom: -4px;
+  border-top-color: var(--color-border-strong);
+}
+
+/* ---------- Label Yes / No pada konektor ---------- */
+.cs-flag {
+  position: absolute;
+  padding: 0 4px;
+  background-color: var(--color-white);
+  font-family: var(--font-ui);
+  font-size: var(--fs-ui-xs);
+  line-height: var(--lh-ui-xs);
+  letter-spacing: 0.011px;
+  color: var(--color-text);
+}
+
+.cs-flag--yes-up   { left: calc(var(--colw) * 1.72 + 20px); top: 12px; }
+.cs-flag--no-down  { left: calc(var(--colw) * 1.74 + 20px); top: 212px; }
+.cs-flag--yes-mid  { left: calc(var(--colw) * 1.5 + 20px); top: 168px; transform: translateX(-50%); }
+.cs-flag--no-right { left: calc(var(--colw) * 2.28 + 20px); top: 114px; }
+.cs-flag--reject   { left: calc(var(--colw) * 0.55); top: 107px; }
+.cs-flag--approve  { left: calc(var(--colw) * 1.5 + 26px); top: 168px; }
+
+/* =============================================================
+   Tabel perbandingan
+   -------------------------------------------------------------
+   Bingkainya ada di pembungkus supaya sudutnya bisa dibulatkan —
+   table dengan border-collapse tidak bisa meng-clip background
+   selnya sendiri.
+   ============================================================= */
+.cs-tablewrap {
+  overflow-x: auto;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-card);
+}
+
+.cs-table {
+  width: 100%;
+  min-width: 640px;
+  border-collapse: collapse;
+  font-family: var(--font-ui);
+  font-size: var(--fs-ui-sm);
+  line-height: var(--lh-ui-sm);
+  letter-spacing: normal;
+}
+
+/* 16px vertikal -> tinggi baris 50px, sama dengan tabel di Figma
+   (frame-nya dikunci 150px untuk 3 baris) */
+.cs-table th,
+.cs-table td {
+  padding: 16px 17px;
+  border-right: 1px solid var(--color-border);
+  border-bottom: 1px solid var(--color-border);
+  text-align: left;
+  font-weight: 500;
+  color: var(--color-text-strong);
+}
+
+.cs-table thead th { background-color: var(--color-surface-hover); }
+.cs-table tbody th,
+.cs-table tbody td { background-color: var(--color-bg); }
+
+.cs-table tr > *:last-child { border-right: 0; }
+.cs-table tbody tr:last-child > * { border-bottom: 0; }
+
+.cs-yes { color: var(--color-success); }
+.cs-no { color: var(--color-danger); }
+
+/* =============================================================
+   Dua card berdampingan
+   ============================================================= */
+.cs-cardrow {
+  display: flex;
+  gap: var(--space-6);
+  align-items: stretch;
+}
+
+.cs-splitcard {
+  flex: 1 1 0;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  padding: var(--space-6);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-card);
+  background-color: var(--color-white);
+  font-family: var(--font-ui);
+  letter-spacing: normal;
+}
+
+.cs-splitcard__label {
+  margin: 0;
+  font-size: var(--fs-ui-md);
+  line-height: var(--lh-ui-md);
+  color: var(--color-text);
+}
+
+.cs-bullets {
+  padding-left: 21px;
+  list-style: disc;
+  font-size: var(--fs-ui-lg);
+  line-height: var(--lh-ui-lg);
+  color: var(--color-text);
+}
+
+/* Judul 20px dipakai bareng oleh problem card & metric card penuh
+   ("70% Faster than before") — beda dari label/note yang 13px. */
+.cs-card__title {
+  margin: 0;
+  font-size: var(--fs-ui-title);
+  line-height: var(--lh-ui-title);
+  letter-spacing: var(--ls-ui-title);
+  font-weight: 500;
+  color: var(--color-text-strong);
+}
+
+/* =============================================================
+   Metric card — label kecil, angka besar, catatan
+   Dipakai untuk pasangan statistik (berdua lewat .cs-cardrow) dan
+   satu kartu penuh lebar untuk highlight (tanpa .cs-cardrow).
+   ============================================================= */
+.cs-metric {
+  flex: 1 1 0;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  padding: var(--space-6);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-card);
+  background-color: var(--color-white);
+  font-family: var(--font-ui);
+  letter-spacing: normal;
+}
+
+.cs-metric__label,
+.cs-metric__note {
+  margin: 0;
+  font-size: var(--fs-ui-md);
+  line-height: var(--lh-ui-md);
+  color: var(--color-text);
+}
+
+.cs-metric__value {
+  margin: 0;
+  font-size: var(--fs-ui-xl);
+  line-height: var(--lh-ui-xl);
+  letter-spacing: var(--ls-ui-xl);
+  font-weight: 500;
+  color: var(--color-text-strong);
+}
+
+/* =============================================================
+   Grid 2 kolom untuk kartu masalah (Problem 1-4)
+   ============================================================= */
+.cs-problem-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-6);
+}
+
+.cs-problemcard {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  padding: var(--space-6);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-card);
+  background-color: var(--color-white);
+  font-family: var(--font-ui);
+  letter-spacing: normal;
+}
+
+.cs-problemcard__label {
+  margin: 0;
+  font-size: var(--fs-ui-md);
+  line-height: var(--lh-ui-md);
+  color: var(--color-text);
+}
+
+.cs-problemcard__note {
+  margin: 0;
+  font-size: var(--fs-ui-md);
+  line-height: var(--lh-ui-md);
+  color: var(--color-text);
+}
+
+/* =============================================================
+   Mockup — telepon yang bisa di-scroll, menyalakan step di sisinya
+   ============================================================= */
+.cs-craft {
+  display: flex;
+  align-items: center;
+  gap: var(--space-8);
+  padding: var(--space-6);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-card);
+  background-color: var(--color-white);
+  font-family: var(--font-ui);
+  letter-spacing: normal;
+}
+
+.cs-craft__steps {
+  flex: 1 1 0;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.cs-craft__step {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 12px 14px;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  transition: background-color var(--dur-fast) var(--ease),
+              border-color var(--dur-fast) var(--ease);
+}
+
+.cs-craft__step.is-active {
+  background-color: var(--color-surface-hover);
+  border-color: var(--color-border);
+}
+
+.cs-craft__num {
+  font-size: var(--fs-ui-xs);
+  line-height: var(--lh-ui-xs);
+  letter-spacing: 0.011px;
+  color: var(--color-text);
+}
+
+.cs-craft__title {
+  font-size: var(--fs-ui-md);
+  line-height: var(--lh-ui-md);
+  font-weight: 500;
+  color: var(--color-text-strong);
+}
+
+.cs-craft__desc {
+  font-size: var(--fs-ui-sm);
+  line-height: var(--lh-ui-sm);
+  color: var(--color-text);
+}
+
+.phone {
+  position: relative;
+  flex: 0 0 auto;
+  width: 236px;
+  height: 480px;
+  padding: 8px;
+  border-radius: 32px;
+  background: #1a1a1a;
+  box-shadow: 0 0 0 1px #333, 0 20px 48px rgba(24, 24, 27, 0.24);
+}
+
+.phone__screen {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow-y: auto;
+  border-radius: 25px;
+  background-color: var(--color-white);
+  scrollbar-width: none;
+}
+
+.phone__screen::-webkit-scrollbar { display: none; }
+.phone__screen img { width: 100%; height: auto; }
+
+/* =============================================================
+   Bar chart
+   ============================================================= */
+.cs-chart {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+  padding: var(--space-6);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-card);
+  background-color: var(--color-white);
+  font-family: var(--font-ui);
+  letter-spacing: normal;
+}
+
+.cs-chart__head {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.cs-chart__title {
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 500;
+  color: var(--color-text-strong);
+}
+
+.cs-chart__sub {
+  font-size: var(--fs-ui-md);
+  line-height: var(--lh-ui-md);
+  color: var(--color-text);
+}
+
+.cs-bars {
+  display: flex;
+  align-items: flex-end;
+  gap: 12px;
+  padding-top: 22px; /* ruang supaya angka bar tertinggi tidak terpotong */
+}
+
+/* Dua bar, tapi lebarnya diambil dari chart enam bar di atasnya
+   supaya kedua chart terbaca dalam skala yang sama. */
+.cs-bars--pair { justify-content: center; }
+.cs-bars--pair .cs-bar { flex: 0 0 calc((100% - 60px) / 6); }
+
+.cs-bar {
+  flex: 1 1 0;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.cs-bar__track {
+  position: relative;
+  width: 100%;
+  height: 200px;
+}
+
+/* Digambar penuh sejak awal. Perataannya (scaleY 0) baru dipasang
+   oleh JS, jadi bar tidak mungkin tertinggal tak terlihat kalau
+   animasinya tidak pernah jalan. */
+.cs-bar__fill {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: var(--h);
+  border-radius: 4px 4px 0 0;
+  background-color: var(--color-border-strong);
+  transform-origin: bottom;
+  transition: transform 700ms var(--ease);
+  transition-delay: calc(var(--i, 0) * 70ms);
+}
+
+.cs-bar__value {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: var(--h);
+  margin-bottom: 6px;
+  text-align: center;
+  transition: opacity var(--dur-base) var(--ease);
+  transition-delay: calc(var(--i, 0) * 70ms + 420ms);
+}
+
+.cs-bar.is-pending .cs-bar__fill { transform: scaleY(0); transition: none; }
+.cs-bar.is-pending .cs-bar__value { opacity: 0; transition: none; }
+
+.cs-bar--after .cs-bar__fill { background-color: var(--color-success); }
+
+.cs-bar__value,
+.cs-bar__label {
+  font-size: var(--fs-ui-xs);
+  line-height: var(--lh-ui-xs);
+  letter-spacing: 0.011px;
+  color: var(--color-text);
+}
+
+.cs-legend { display: flex; gap: 20px; }
+
+.cs-legend__item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: var(--fs-ui-md);
+  line-height: var(--lh-ui-md);
+  color: var(--color-text);
+}
+
+.cs-legend__dot { width: 10px; height: 10px; border-radius: 2px; }
+.cs-legend__dot--before { background-color: var(--color-border-strong); }
+.cs-legend__dot--after { background-color: var(--color-success); }
+
+.cs-badge {
+  align-self: flex-start;
+  display: inline-flex;
+  align-items: baseline;
+  gap: var(--space-3);
+  margin: 0;
+  padding: 14px 20px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-card);
+}
+
+.cs-badge__label {
+  font-size: var(--fs-ui-md);
+  line-height: var(--lh-ui-md);
+  color: var(--color-text);
+}
+
+.cs-badge__value {
+  font-size: var(--fs-xl);
+  line-height: var(--lh-xl);
+  letter-spacing: var(--ls-xl);
+  font-weight: 500;
+  color: var(--color-text-strong);
+}
+
+/* =============================================================
+   Tooltip yang mengikuti kursor (dipakai bar chart)
+   ============================================================= */
+.cursor-tip {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 300;
+  padding: 6px 10px;
+  border-radius: 6px;
+  background-color: var(--color-text);
+  color: var(--color-white);
+  font-family: var(--font-ui);
+  font-size: var(--fs-ui-md);
+  line-height: var(--lh-ui-md);
+  letter-spacing: normal;
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0;
+  transform: translate3d(var(--tip-x, 0px), var(--tip-y, 0px), 0);
+  transition: opacity var(--dur-fast) var(--ease);
+}
+
+.cursor-tip.is-visible { opacity: 1; }
+
+/* =============================================================
+   Mockup laptop — deck slide yang main sendiri
+   -------------------------------------------------------------
+   Dikendalikan lewat markup (lihat assets/js/case-study.js):
+     data-dwell   "3000,2000,3000,2500"        ms tiap slide ditahan
+     data-clicks  "0:0.931,0.057 2:0.912,0.933" slide:x,y (rasio 0-1)
+   Warna bezel laptop sengaja gelap tetap, tidak ikut tema halaman —
+   perangkatnya representasi fisik, bukan bagian palet situs.
+   ============================================================= */
+.cs-mockup {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.cs-mockup__label {
+  font-family: var(--font-ui);
+  font-size: var(--fs-ui-md);
+  line-height: var(--lh-ui-md);
+  letter-spacing: normal;
+  color: var(--color-text);
+}
+
+.laptop {
+  display: block;
+  width: 100%;
+  max-width: 700px;
+  margin-inline: auto;
+  padding: 0 8px 10px;
+  background: #1a1a1a;
+  border-radius: 14px;
+  box-shadow: 0 0 0 1px #2a2a2a, 0 16px 40px rgba(24, 24, 27, 0.28);
+}
+
+.laptop__bar {
+  display: block;
+  position: relative;
+  height: 8px;
+}
+
+.laptop__notch {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 80px;
+  height: 18px;
+  background: #1a1a1a;
+  border-radius: 0 0 12px 12px;
+}
+
+.laptop__cam {
+  width: 5px;
+  height: 5px;
+  margin-top: 6px;
+  background: #333;
+  border-radius: 50%;
+}
+
+.laptop__screen {
+  display: block;
+  position: relative;
+  width: 100%;
+  aspect-ratio: 3024 / 1964;
+  overflow: hidden;
+  border-radius: 6px;
+  background-color: var(--color-white);
+}
+
+.slide {
+  display: block;
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  opacity: 0;
+  transition: opacity 400ms ease;
+}
+
+.slide.is-active { opacity: 1; }
+.slide.no-fade { transition: none; }
+
+.slide img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top;
+}
+
+/* Kursor & efek klik palsu, dipakai untuk mensimulasikan interaksi */
+.pointer {
+  position: absolute;
+  z-index: 3;
+  width: 14px;
+  height: 14px;
+  opacity: 0;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  transition: opacity 200ms ease, transform var(--dur-fast) ease;
+}
+
+.pointer.is-visible { opacity: 1; }
+.pointer.is-pressing { transform: translate(-50%, -50%) scale(0.8); }
+
+.ripple {
+  position: absolute;
+  z-index: 2;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: rgba(24, 24, 27, 0.15);
+  opacity: 0;
+  transform: translate(-50%, -50%) scale(0);
+  pointer-events: none;
+}
+
+.ripple.is-popping { animation: ripple-pop 400ms ease-out forwards; }
+
+@keyframes ripple-pop {
+  from { transform: translate(-50%, -50%) scale(0); opacity: 0.5; }
+  to   { transform: translate(-50%, -50%) scale(2.5); opacity: 0; }
+}
+
+/* =============================================================
+   Responsive
+   ============================================================= */
+@media (max-width: 899px) {
+  .cs-craft { flex-direction: column; align-items: stretch; }
+  .cs-craft .phone { align-self: center; }
+  .cs-cardrow { flex-direction: column; }
+  .cs-problem-grid { grid-template-columns: minmax(0, 1fr); }
+
+  /* Diagram alur punya geometri tetap — biar bisa digeser saja */
+  .cs-flow { overflow-x: auto; }
+  .cs-graph { min-width: 640px; }
+}
+
+@media (max-width: 639px) {
+  .cs-overview {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0;
+  }
+  .cs-overview__label { margin-top: var(--space-4); }
+  .cs-overview__label:first-child { margin-top: 0; }
+  .cs-overview__value { margin-top: 2px; }
+
+  .cs-section { margin-top: var(--space-10); }
+  .cs-bars { gap: 6px; }
+  .cs-bar__track { height: 150px; }
+}
+
+/* =============================================================
+   Jarak antar blok besar
+   ============================================================= */
+/* Ringkasan -> section pertama 40px; antar section 60px */
+.cs-overview + .cs-section { margin-top: var(--space-10); }
+
+/* Mockup: panel + caption di bawahnya */
+.cs-mockup {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
