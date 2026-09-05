@@ -153,6 +153,7 @@ Copy blok `<a class="card card--interactive card--reading">` di `reading/index.h
 | Replacement Order Module | `projects/replacement-order-module.html` (case study) |
 | Loyalty Page | `projects/loyalty-page.html` (case study) |
 | Hangry Website | https://www.ishangry.com/ |
+| Nudge | https://stickersboyme.github.io/nudge/ |
 
 Semua card project sekarang sudah punya link.
 
