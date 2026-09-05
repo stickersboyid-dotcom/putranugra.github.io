@@ -12,9 +12,9 @@ Desain: Figma — [Exploration](https://www.figma.com/design/nUlw1ujOzyA5ikqsUj2
 ```
 .
 ├── index.html                  # Home  — kurasi project, writing, reading + hobbies
-├── project.html                # Project
-├── writing.html                # Writing
-├── reading.html                # Reading
+├── project/index.html          # Project    -> URL bersih: /project/
+├── writing/index.html          # Writing    -> URL bersih: /writing/
+├── reading/index.html          # Reading    -> URL bersih: /reading/
 ├── 404.html                    # Halaman error GitHub Pages
 ├── favicon.ico                 # Favicon 16/32/48 untuk browser lama & bookmark
 ├── robots.txt
@@ -46,6 +46,20 @@ Desain: Figma — [Exploration](https://www.figma.com/design/nUlw1ujOzyA5ikqsUj2
 │
 └── _source/                    # File asli sebelum diolah (HEIC, PDF asli, dll)
 ```
+
+**Kenapa Project/Writing/Reading ada di folder sendiri (bukan `project.html` dkk
+di root)?** Supaya URL-nya bersih tanpa `.html` — `putranugra.com/project/`,
+bukan `putranugra.com/project.html`. Ini murni konvensi hosting statis: server
+mana pun (termasuk GitHub Pages) otomatis menyajikan `index.html` untuk sebuah
+path direktori, tapi tidak pernah otomatis menebak ekstensi `.html` untuk file
+biasa. `index.html` di root situs sendiri sudah otomatis bersih (`/`) karena
+alasan yang sama.
+
+Konsekuensinya: karena ketiga file ini sekarang satu level lebih dalam,
+semua path aset di dalamnya (`assets/...`, `projects/...`, `favicon.ico`)
+ditulis absolut (diawali `/`), bukan relatif. Kalau nambah halaman baru
+dengan pola serupa, ikuti pola yang sama — folder sendiri + path aset
+absolut.
 
 **Kenapa foto hobi di-convert?** File `.HEIC` tidak bisa ditampilkan browser.
 Semua foto di `_source/Hobbies/` sudah di-convert ke `.jpg` (maks 1600px, kualitas 85)
@@ -83,7 +97,7 @@ Lalu buka `http://localhost:5173`.
 ### Menambah tulisan (Writing)
 
 Copy salah satu blok `<a class="card card--interactive card--writing">` di
-`writing.html`. Box ini satu tag `<a>` yang membungkus semua isinya — jadi
+`writing/index.html`. Box ini satu tag `<a>` yang membungkus semua isinya — jadi
 seluruh box jadi area klik, bukan cuma ikon panahnya. Yang perlu diganti:
 
 - `href` pada tag `<a>` pembungkus (bukan pada `.card__action`, itu cuma
@@ -114,7 +128,7 @@ Contoh satu blok lengkap:
 
 ### Menambah buku (Reading)
 
-Copy blok `<a class="card card--interactive card--reading">` di `reading.html`:
+Copy blok `<a class="card card--interactive card--reading">` di `reading/index.html`:
 
 1. Simpan cover buku di `assets/img/reading/` (rasio kira-kira 2:3).
 2. Ganti `src`, `alt`, `width`, `height` pada `<img>`.
@@ -150,7 +164,7 @@ Begitu satu case study siap:
    Halaman itu sudah memakai semua komponen case study, jadi paling gampang
    dipakai sebagai titik awal.
 2. Untuk **project baru** (box belum ada di grid): copy salah satu blok
-   `<a class="card card--interactive card--project">` di `project.html`
+   `<a class="card card--interactive card--project">` di `project/index.html`
    (dan `index.html` kalau mau ditampilkan di Home juga), lalu ganti `href`
    dan `aria-label` pada tag `<a>` pembungkusnya ke `projects/nama-project.html`,
    plus gambar/label di dalamnya.
