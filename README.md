@@ -7,7 +7,7 @@ Personal site of Nugraha Putra — Product Designer.
 ## About
 
 A personal space to showcase selected work, writing, and reading — built as
-a bento-style layout inspired by [Figma](https://www.figma.com/design/nUlw1ujOzyA5ikqsUj2IFE/Exploration).
+a bento-style layout designed at Figma 
 
 - **Home** — a curated mix of projects, writing, reading, and hobbies
 - **Project** — case studies from past product design work
