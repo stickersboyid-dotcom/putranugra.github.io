@@ -207,6 +207,11 @@ a.about__hl:hover { box-shadow: inset 0 -1px 0 var(--color-text); }
 .card--project-hangry-website { --media-top: 18.293%; --media-h: 81.707%; }
 .card--project-loyalty        { --media-top: 20.325%; --media-h: 89.431%; }
 
+/* Nudge sengaja lebih tinggi dari area konten (121%) supaya bagian bawah
+   mockup-nya terpotong tepi bawah card — persis seperti di Figma. Yang
+   memotong adalah `overflow: hidden` milik .card. */
+.card--project-nudge          { --media-top: 35.785%; --media-h: 121.435%; }
+
 /* =============================================================
    Varian: Box Reading — cover buku rotate -5deg saat hover
    ============================================================= */
